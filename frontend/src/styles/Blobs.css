@@ -53,13 +53,14 @@
   position: absolute;
   right: -200px;
   top: 30%;
+  transform: translateY(-50%);
   width: 350px;
   height: 350px;
   background: radial-gradient(circle, rgba(220, 192, 8, 0.619), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
   border: 2px solid rgba(255, 255, 255, 0.2);
-  animation: blobMorph 20s ease-in-out infinite;
+  animation: blobMorphRight 20s ease-in-out infinite;
   animation-delay: 15s;
   z-index: 1;
   pointer-events: none;
@@ -81,6 +82,21 @@
 }
 
 @keyframes blobMorphLeft {
+  0%, 100% {
+    border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+    transform: translateY(-50%) rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 60% 40% 45% 55% / 40% 50% 60% 50%;
+    transform: translateY(-50%) rotate(120deg) scale(1.1);
+  }
+  66% {
+    border-radius: 50% 50% 55% 45% / 60% 40% 50% 60%;
+    transform: translateY(-50%) rotate(240deg) scale(0.95);
+  }
+}
+
+@keyframes blobMorphRight {
   0%, 100% {
     border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
     transform: translateY(-50%) rotate(0deg) scale(1);
