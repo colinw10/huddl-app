@@ -1,7 +1,7 @@
-function Profile () {
+function Profile() {
   return (
     <div>
-      <h1>Profile Page</h1>
+      <h1>Profile</h1>
       <p>User profile will go here</p>
     </div>
   );
