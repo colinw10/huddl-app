@@ -5,6 +5,10 @@ import SignUp from './pages/SignUp';
 import Profile  from './pages/Profile';
 import huddlLogo from './assets/HUDDL.svg';
 import './styles/App.css';
+import './styles/Navigation.css';
+import './styles/Blobs.css';
+import './styles/Logo.css';
+import './styles/Buttons.css';
 
 function App() {
   return (
