@@ -10,11 +10,21 @@ function App() {
   return (
     <BrowserRouter>
     <div className="App">
-      <div className="corner-accent corner-top-left"></div>
-      <div className="corner-accent corner-top-right"></div>
-      <div className="corner-accent corner-bottom-left"></div>
-      <div className="corner-accent corner-bottom-right"></div>
+      <nav className="glass-nav">
+        <div className="nav-logo">HUDDL</div>
+        <div className="nav-links">
+          <a href="/feed">Feed</a>
+          <a href="/profile">Profile</a>
+          <a href="/about">About</a>
+        </div>
+      </nav>
+      <div className="blob-left"></div>
+      <div className="blob-right"></div>
       <img src={huddlLogo} alt="HUDDL Logo" className="huddl-logo" />
+      <div className="auth-buttons">
+        <button className="btn-login">Login</button>
+        <button className="btn-signup">Sign Up</button>
+      </div>
       <Routes>
         <Route path="/feed" element={<Feed/>}/>
          <Route path="/login" element={<Login/>}/>
