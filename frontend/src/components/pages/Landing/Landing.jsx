@@ -1,13 +1,13 @@
-import huddlLogo from '../assets/HUDDL.svg';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Home.css';
+import './Landing.css';
 
-function Home() {
+
+function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="home-container">
-      <img src={huddlLogo} alt="HUDDL Logo" className="huddl-logo" />
+    <div className="landing-container">
+      <h1 className="landing-title">HUDDL</h1>
       <div className="auth-buttons">
         <button className="btn-login" onClick={() => navigate('/login')}>Login</button>
         <button className="btn-signup" onClick={() => navigate('/signup')}>Sign Up</button>
@@ -16,4 +16,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Landing;
