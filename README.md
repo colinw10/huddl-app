@@ -55,3 +55,38 @@ This is the same flow as Express + React. Django handles the backend API, React 
 The frontend uses **Prettier** for consistent code formatting. After running `npm install` in the `frontend/` folder, VS Code will auto-format your code on save.
 
 **Config:** `.prettierrc` enforces 2-space indentation, single quotes, and semicolons across the team.
+
+---
+
+## 🎯 Stretch Goals & Future Features
+
+### Collaborative Thread Building
+
+An innovative commenting system that goes beyond traditional linear threads:
+
+**Concept:** Instead of simple reply chains, users can build "thought webs" where comments connect to multiple previous comments, creating a visual knowledge graph.
+
+**Features:**
+
+- **Quote & Connect**: Select text from any comment to build upon specific ideas
+- **Visual Thread Connections**: Relationship lines show how ideas connect
+- **Multi-parent Replies**: One comment can respond to multiple previous comments
+- **Topic Clustering**: Related ideas automatically group together visually
+- **Highlight Connections**: Hover over comments to see all related thoughts
+
+**Why It's Innovative:**
+
+- Facebook/Twitter use linear comment streams
+- This creates a **conversation map** instead of a list
+- Makes discussions more meaningful and easier to follow
+- Helps surface the most important ideas and connections
+- Encourages thoughtful responses rather than quick reactions
+
+**Technical Implementation:**
+
+- Text selection API to capture quoted content
+- Graph data structure for comment relationships
+- Visual indicators (borders, icons, animations) for connections
+- Smart filtering to show/hide thread branches
+
+This feature transforms social commenting from a stream into a collaborative knowledge-building tool.
