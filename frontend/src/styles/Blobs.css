@@ -3,9 +3,9 @@
   content: '';
   position: absolute;
   bottom: -200px;
-  left: calc(50% - 250px);
-  width: 500px;
-  height: 500px;
+  left: calc(50% - 200px);
+  width: 400px;
+  height: 400px;
   background: radial-gradient(circle, rgba(26, 115, 231, 0.785), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
@@ -21,9 +21,9 @@
   content: '';
   position: absolute;
   top: -200px;
-  left: calc(50% - 250px);
-  width: 500px;
-  height: 500px;
+  left: calc(50% - 200px);
+  width: 400px;
+  height: 400px;
   background: radial-gradient(circle, rgba(220, 8, 188, 0.619), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
@@ -35,7 +35,7 @@
 .blob-left {
   position: absolute;
   left: -200px;
-  top: 30%;
+  top: 50%;
   transform: translateY(-50%);
   width: 350px;
   height: 350px;
@@ -52,7 +52,7 @@
 .blob-right {
   position: absolute;
   right: -200px;
-  top: 30%;
+  top: 50%;
   transform: translateY(-50%);
   width: 350px;
   height: 350px;

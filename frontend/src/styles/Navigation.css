@@ -1,42 +1,44 @@
 .glass-nav {
   position: fixed;
-  top: 1rem;
+  top: .5rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
+  width: 110%;
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.1);
+  padding: .3rem 2rem;
+  background: rgba(60, 58, 58, 0.155);
   backdrop-filter: blur(20px);
   border-radius:50% 40% 55% 45% / 45% 55% 40% 50%;
   z-index: 100;
-  box-shadow: 0 8px 32px rgba(38, 33, 53, 0.249);
+  box-shadow: 0 8px 32px rgba(38, 33, 53, 0.249),
+              0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
 .nav-logo {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: white;
+  color: rgba(255, 255, 255, 0.854);
   letter-spacing: 2px;
   padding-bottom: 5px;
+  margin-left: 4rem;
 }
 
 .nav-links {
   display: flex;
-  gap: 1rem;
-  margin-right: 1rem;
+  gap: 0.25rem;
+  margin-right: 4rem;
 }
 
 .nav-links a {
   font-family: "acme-gothic-extrawide", sans-serif;
   color: white;
   text-decoration: none;
-  font-size: 1rem;
-  padding: 0.5rem 1.5rem;
+  font-size: .8rem;
+  padding: 0.5rem 0.75rem;
   transition: all 0.3s ease;
   background: transparent;
   position: relative;

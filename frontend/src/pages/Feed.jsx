@@ -1,6 +1,20 @@
+import { useState } from 'react';
 import '../styles/Feed.css';
+import '../styles/FeedAdditions.css';
 
 function Feed() {
+  const [showComposerModal, setShowComposerModal] = useState(false);
+
+  const mockStories = [
+    { id: 1, name: "Your Story", avatar: "YS", hasStory: false, isYours: true },
+    { id: 2, name: "Sarah Chen", avatar: "SC", hasStory: true },
+    { id: 3, name: "Mike Torres", avatar: "MT", hasStory: true },
+    { id: 4, name: "Emma Davis", avatar: "ED", hasStory: true },
+    { id: 5, name: "Jason Park", avatar: "JP", hasStory: true },
+    { id: 6, name: "Lisa Anderson", avatar: "LA", hasStory: true },
+    { id: 7, name: "Chris Lee", avatar: "CL", hasStory: true },
+  ];
+
   const mockPosts = [
     {
       id: 1,
@@ -51,7 +65,31 @@ function Feed() {
 
   return (
     <div className="feed-container">
-      <h1 className="feed-title">Your Feed</h1>
+      {/* Composer Section */}
+      <div className="composer-section" onClick={() => setShowComposerModal(true)}>
+        <div className="composer-avatar">YU</div>
+        <div className="composer-input">
+          <span className="composer-placeholder">Share something…</span>
+        </div>
+      </div>
+
+      {/* Stories Section */}
+      <div className="stories-section">
+        <div className="stories-scroll">
+          {mockStories.map(story => (
+            <div key={story.id} className={`story-card ${story.isYours ? 'your-story' : ''}`}>
+              <div className={`story-avatar ${story.hasStory ? 'has-story' : ''}`}>
+                {story.isYours && !story.hasStory && (
+                  <div className="add-story-icon">+</div>
+                )}
+                <span>{story.avatar}</span>
+              </div>
+              <div className="story-name">{story.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="feed-list">
         {mockPosts.map(post => (
           <div key={post.id} className="feed-post">
@@ -78,6 +116,22 @@ function Feed() {
           </div>
         ))}
       </div>
+
+      {/* Composer Modal Scaffold */}
+      {showComposerModal && (
+        <div className="modal-overlay" onClick={() => setShowComposerModal(false)}>
+          <div className="composer-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Create Post</h2>
+              <button className="modal-close" onClick={() => setShowComposerModal(false)}>×</button>
+            </div>
+            <div className="modal-content">
+              <textarea placeholder="What's on your mind?" rows="6"></textarea>
+              <button className="post-button">Post</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
