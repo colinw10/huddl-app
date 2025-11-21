@@ -1,10 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Signup.css';
-import '../../../styles/BackButton.css';
-
-function Signup() {
-  const navigate = useNavigate();
+export default function Signup() {
+  return <div>Signup Page</div>;
+}
   const [formData, setFormData] = useState({
     username: '',
     email: '',

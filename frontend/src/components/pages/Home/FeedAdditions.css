@@ -1,34 +1,4 @@
-/* ===================== Composer Section ===================== */
-/* Composer container and input styles */
-.composer-section {
-  background: rgba(25, 25, 26, 0.25);
-  backdrop-filter: blur(15px);
-  border-radius: 0 !important;
-  clip-path: polygon(
-    14px 0,
-    100% 0,
-    100% calc(100% - 14px),
-    calc(100% - 14px) 100%,
-    0 100%,
-    0 14px
-  );
-  -webkit-clip-path: polygon(
-    14px 0,
-    100% 0,
-    100% calc(100% - 14px),
-    calc(100% - 14px) 100%,
-    0 100%,
-    0 14px
-  );
-  padding: 1.2rem 1.5rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(60, 6, 210, 0.15);
-}
+/* placeholder – empty for team-shell */
 
 /* Composer hover effect */
 .composer-section:hover {

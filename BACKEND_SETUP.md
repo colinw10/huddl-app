@@ -1,158 +1,129 @@
-# Django Backend Setup Guide
+# HUDDL Backend – Quick Setup Guide
 
-## Here is the basic gist of the backend folders and their use
+This backend uses **Django + Django REST Framework**.  
+Follow these steps to get your backend running locally.
 
+---
+
+# 📁 Backend Structure
+
+```
 backend/
-├── manage.py              ← Your command center
-├── huddl/                 ← Project settings/config
-│   ├── settings.py        ← Master config
-│   └── urls.py            ← Main routing
-├── db.sqlite3             ← Your database
-└── venv/                  ← Python packages
-
-This guide will walk you through setting up the Huddl Django backend on your local machine.
-
----
-
-## 1. Clone the Team Repo
-
-**Important:** Clone Colin's repository directly — do not fork it.
-
-```bash
-git clone https://github.com/colinw10/huddl-app.git
-cd huddl-app
+├── manage.py
+├── db.sqlite3
+├── huddl/
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+└── venv/              ← (Python virtual environment folder)
 ```
 
 ---
 
-## 2. Create Your Personal Branch
+# 🚀 1. Activate Virtual Environment
 
-**Never work directly on `main`.** Always create a new branch for your work.
-
-```bash
-git checkout -b yourname-feature
-```
-
-**Rule:** Each feature = new branch + pull request.
-
----
-
-## 3. Backend Folder Setup
-
-Navigate into the backend directory:
+Navigate to backend folder:
 
 ```bash
-mkdir backend
 cd backend
 ```
 
----
-
-## 4. Create Virtual Environment
-
-Set up a Python virtual environment to isolate dependencies:
+Create virtual environment (only once):
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate
 ```
 
-Your terminal prompt should now show `(venv)`.
-
----
-
-## 5. Install Django
-
-Install Django inside your virtual environment:
+Activate it:
 
 ```bash
-pip install django
-django-admin --version
+source venv/bin/activate    # macOS / Linux
 ```
-
-The version output confirms Django installed successfully.
 
 ---
 
-## 6. Create Django Project
-
-Initialize the Django project inside the `backend` folder:
+# 📦 2. Install Dependencies
 
 ```bash
-django-admin startproject huddl .
+pip install django djangorestframework
 ```
-
-**Note:** The dot (`.`) prevents creating nested `huddl/huddl` folders.
 
 ---
 
-## 7. Apply Initial Migrations
-
-Run Django's initial database migrations:
+# 🛠️ 3. Run Migrations
 
 ```bash
 python manage.py migrate
 ```
 
-This initializes Django's built-in tables (users, sessions, etc.).
-
 ---
 
-## 8. Run the Dev Server
-
-Start the development server:
+# ▶️ 4. Start Backend Server
 
 ```bash
 python manage.py runserver
 ```
 
-The server runs at **http://127.0.0.1:8000**
+Backend runs at:
 
-Visit it in your browser to see Django's welcome page.
-
----
-
-## 9. Workflow Rules
-
-✅ **Do:**
-
-- Always work on your personal branch
-- Submit pull requests to `main`
-- Keep commits small and clear
-- Test locally before pushing
-
-❌ **Don't:**
-
-- Never push directly to `main`
-- Don't commit without testing
-
-**Review Process:**
-
-- Team lead (Colin) reviews all PRs
-- PRs must be approved before merging
-- Discuss changes in PR comments
+👉 http://127.0.0.1:8000
 
 ---
 
-## Quick Reference
+# 🌳 5. Backend Apps (To Be Created by Team)
+
+We will create these apps:
+
+```
+users/
+posts/
+friends/
+api/
+```
+
+Each app will follow:
+
+```
+models.py
+views.py
+serializers.py
+urls.py
+```
+
+---
+
+# 🔀 6. Branch Workflow
+
+### ✅ Do:
+
+- Create a feature branch for every backend task
+- Work ONLY in your branch
+- Push to your branch
+- Open a PR into **team-shell**
+
+### ❌ Don't:
+
+- Push to main
+- Modify frontend files
+- Edit Pablo's UI branches
+
+---
+
+# 🧭 Quick Commands
 
 ```bash
-# Activate virtual environment
+# activate env
 source venv/bin/activate
 
-# Run migrations
-python manage.py migrate
-
-# Start dev server
+# run server
 python manage.py runserver
 
-# Create new branch
-git checkout -b yourname-feature
+# run migrations
+python manage.py migrate
 
-# Check current branch
-git branch
+# create branch
+git checkout -b yourname-backend-task
 ```
 
 ---
-
-**Next Steps:** Ready to build the Django app architecture.

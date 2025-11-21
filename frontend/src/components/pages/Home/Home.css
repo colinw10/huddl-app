@@ -1,26 +1,4 @@
-.feed-container {
-  max-width: 100%;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  position: relative;
-  z-index: 10;
-  box-sizing: border-box;
-}
-
-/* Stories Section */
-.stories-section {
-  margin-bottom: 2rem;
-  overflow: visible;
-  position: relative;
-  height: 190px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.stories-section::-webkit-scrollbar {
-  display: none;
-}
+/* placeholder – empty for team-shell */
 
 .stories-scroll {
   display: flex;

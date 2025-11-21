@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import './Home.css';
-import './FeedAdditions.css';
-
-function Home() {
-  const [showComposerModal, setShowComposerModal] = useState(false);
+export default function Home() {
+  return <div>Home Page</div>;
+}
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
   const [commentText, setCommentText] = useState('');
 

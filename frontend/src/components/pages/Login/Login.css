@@ -1,38 +1,4 @@
-/* ============================================
-   ANIMATIONS
-   ============================================ */
-.back-button {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.8);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.back-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(26, 231, 132, 0.5);
-  color: rgba(26, 231, 132, 0.9);
-  transform: translateX(-3px);
-}
-
-.back-button svg {
-  transition: transform 0.3s ease;
-}
-
-.back-button:hover svg {
-  transform: translateX(-3px);
-}
+/* placeholder – empty for team-shell */
 
 @keyframes dark-holographic-shimmer {
   0% {

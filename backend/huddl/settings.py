@@ -28,6 +28,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',  # Serves static files (like express.static())
+    # Third-party apps
+    'rest_framework',
+    # Custom apps
+    'users',
+    'posts',
+    'friends',
+    'api',
 ]
 
 # MIDDLEWARE - Request/response pipeline (exactly like Express app.use() chain)

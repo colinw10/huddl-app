@@ -1,10 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
-import '../../../styles/BackButton.css';
-
-function Login() {
-  const navigate = useNavigate();
+export default function Login() {
+  return <div>Login Page</div>;
+}
   const [formData, setFormData] = useState({
     email: '',
     password: ''
