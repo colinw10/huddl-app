@@ -1,7 +1,56 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './ProfileCard.css';
 
 function ProfileCard({ isFlipped, setIsFlipped, posts }) {
+  // Generate stable wave data points (base activity)
+  const waveData = useMemo(() => {
+    const seed = 12345;
+    let current = seed;
+    const pseudoRandom = () => {
+      current = (current * 1103515245 + 12345) & 0x7fffffff;
+      return (current % 100) / 100;
+    };
+    return Array.from({ length: 52 }).map(() => 20 + pseudoRandom() * 60);
+  }, []);
+
+  // Generate medium activity wave (70% of high activity)
+  const mediumWaveData = useMemo(() => {
+    return waveData.map(value => value * 0.7);
+  }, [waveData]);
+
+  // Generate low activity wave (40% of high activity)
+  const lowWaveData = useMemo(() => {
+    return waveData.map(value => value * 0.4);
+  }, [waveData]);
+
+  // Create smooth wave path with cubic bezier curves
+  const createWavePath = (data) => {
+    const width = 600;
+    const height = 100;
+    const points = data.length;
+    const segmentWidth = width / (points - 1);
+    
+    let path = `M 0,${height - data[0]}`;
+    
+    for (let i = 1; i < points; i++) {
+      const x = i * segmentWidth;
+      const y = height - data[i];
+      const prevX = (i - 1) * segmentWidth;
+      const prevY = height - data[i - 1];
+      
+      // Cubic bezier for smoother curves
+      const cp1x = prevX + segmentWidth * 0.33;
+      const cp1y = prevY;
+      const cp2x = prevX + segmentWidth * 0.67;
+      const cp2y = y;
+      
+      path += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${x},${y}`;
+    }
+    
+    path += ` L ${width},${height} L 0,${height} Z`;
+    return path;
+  };
+
   return (
     <div className="profile-flip-container">
       <div className={`profile-flip-card ${isFlipped ? 'flipped' : ''}`}>
@@ -167,6 +216,175 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
               <div className="analytics-data">
                 <span className="analytics-value">+23%</span>
                 <span className="analytics-label">Growth This Week</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Activity Wave Graph */}
+          <div className="activity-wave">
+            <h3 className="wave-title">Activity Flow</h3>
+            <div className="wave-container">
+              <svg className="wave-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(26, 231, 132, 0.5)" />
+                    <stop offset="40%" stopColor="rgba(26, 115, 231, 0.35)" />
+                    <stop offset="100%" stopColor="rgba(26, 115, 231, 0.1)" />
+                  </linearGradient>
+                  <linearGradient id="mediumWaveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(220, 8, 188, 0.4)" />
+                    <stop offset="40%" stopColor="rgba(220, 8, 188, 0.25)" />
+                    <stop offset="100%" stopColor="rgba(220, 8, 188, 0.08)" />
+                  </linearGradient>
+                  <linearGradient id="lowWaveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(255, 165, 0, 0.3)" />
+                    <stop offset="40%" stopColor="rgba(255, 165, 0, 0.2)" />
+                    <stop offset="100%" stopColor="rgba(255, 165, 0, 0.05)" />
+                  </linearGradient>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(26, 115, 231, 0.6)" />
+                    <stop offset="50%" stopColor="rgba(26, 231, 132, 0.9)" />
+                    <stop offset="100%" stopColor="rgba(26, 115, 231, 0.6)" />
+                  </linearGradient>
+                  <linearGradient id="mediumLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(220, 8, 188, 0.5)" />
+                    <stop offset="50%" stopColor="rgba(220, 8, 188, 0.8)" />
+                    <stop offset="100%" stopColor="rgba(220, 8, 188, 0.5)" />
+                  </linearGradient>
+                  <linearGradient id="lowLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(255, 165, 0, 0.4)" />
+                    <stop offset="50%" stopColor="rgba(255, 165, 0, 0.7)" />
+                    <stop offset="100%" stopColor="rgba(255, 165, 0, 0.4)" />
+                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Grid lines */}
+                <g className="grid-lines">
+                  {[25, 50, 75].map((y) => (
+                    <line
+                      key={y}
+                      x1="0"
+                      y1={y}
+                      x2="600"
+                      y2={y}
+                      stroke="rgba(255, 255, 255, 0.05)"
+                      strokeWidth="1"
+                      strokeDasharray="4,4"
+                    />
+                  ))}
+                </g>
+                
+                {/* Low activity wave (orange) */}
+                <path
+                  d={createWavePath(lowWaveData)}
+                  fill="url(#lowWaveGradient)"
+                  className="wave-fill"
+                  opacity="0.6"
+                />
+                <path
+                  d={createWavePath(lowWaveData).split('L')[0]}
+                  fill="none"
+                  stroke="url(#lowLineGradient)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#glow)"
+                  className="wave-line"
+                  opacity="0.7"
+                />
+                
+                {/* Medium activity wave (pink) */}
+                <path
+                  d={createWavePath(mediumWaveData)}
+                  fill="url(#mediumWaveGradient)"
+                  className="wave-fill"
+                  opacity="0.7"
+                />
+                <path
+                  d={createWavePath(mediumWaveData).split('L')[0]}
+                  fill="none"
+                  stroke="url(#mediumLineGradient)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#glow)"
+                  className="wave-line"
+                  opacity="0.8"
+                />
+                
+                {/* High activity wave (green/blue) */}
+                <path
+                  d={createWavePath(waveData)}
+                  fill="url(#waveGradient)"
+                  className="wave-fill"
+                />
+                <path
+                  d={createWavePath(waveData).split('L')[0]}
+                  fill="none"
+                  stroke="url(#lineGradient)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#glow)"
+                  className="wave-line"
+                />
+                
+                {/* Peak markers */}
+                {waveData.map((value, index) => {
+                  if (value > 65) {
+                    const x = (index * 600) / (waveData.length - 1);
+                    const y = 100 - value;
+                    return (
+                      <g key={index}>
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r="4"
+                          fill="rgba(26, 231, 132, 0.3)"
+                          className="peak-marker-bg"
+                        />
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r="2.5"
+                          fill="rgba(26, 231, 132, 1)"
+                          className="peak-marker"
+                        >
+                          <title>Peak activity: Week {index + 1}</title>
+                        </circle>
+                      </g>
+                    );
+                  }
+                  return null;
+                })}
+              </svg>
+              
+              <div className="wave-timeline">
+                <span>12 months ago</span>
+                <span>6 months ago</span>
+                <span>Today</span>
+              </div>
+              
+              <div className="wave-legend">
+                <div className="legend-item">
+                  <div className="legend-line high"></div>
+                  <span>High Activity</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-line medium"></div>
+                  <span>Medium Activity</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-line low"></div>
+                  <span>Low Activity</span>
+                </div>
               </div>
             </div>
           </div>
