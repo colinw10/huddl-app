@@ -16,7 +16,7 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
   // Generate GitHub-style heatmap data
   const heatmapData = useMemo(() => {
     const random = seededRandom(12345); // Fixed seed for consistency
-    const weeks = 26; // 6 months of weeks
+    const weeks = 52; // Full year of weeks
     const daysPerWeek = 7;
     const data = [];
     
@@ -464,14 +464,6 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
             </div>
             ) : (
             <div className="heatmap-container">
-              <div className="heatmap-months">
-                <span>Jan</span>
-                <span>Feb</span>
-                <span>Mar</span>
-                <span>Apr</span>
-                <span>May</span>
-                <span>Jun</span>
-              </div>
               <div className="heatmap-grid">
                 <div className="heatmap-days">
                   <span>Mon</span>
@@ -482,24 +474,40 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
                   <span></span>
                   <span></span>
                 </div>
-                <div className="heatmap-weeks">
-                  {heatmapData.map((week, weekIndex) => (
-                    <div key={weekIndex} className="heatmap-week">
-                      {week.map((level, dayIndex) => (
-                        <div
-                          key={dayIndex}
-                          className="heatmap-day"
-                          style={{ 
-                            background: getActivityColor(level),
-                            border: level === 0 
-                              ? '1px solid rgba(255, 255, 255, 0.1)' 
-                              : 'none'
-                          }}
-                          title={`Activity level: ${level}`}
-                        />
-                      ))}
-                    </div>
-                  ))}
+                <div className="heatmap-scroll-wrapper">
+                  <div className="heatmap-months">
+                    <span>Jan</span>
+                    <span>Feb</span>
+                    <span>Mar</span>
+                    <span>Apr</span>
+                    <span>May</span>
+                    <span>Jun</span>
+                    <span>Jul</span>
+                    <span>Aug</span>
+                    <span>Sep</span>
+                    <span>Oct</span>
+                    <span>Nov</span>
+                    <span>Dec</span>
+                  </div>
+                  <div className="heatmap-weeks">
+                    {heatmapData.map((week, weekIndex) => (
+                      <div key={weekIndex} className="heatmap-week">
+                        {week.map((level, dayIndex) => (
+                          <div
+                            key={dayIndex}
+                            className="heatmap-day"
+                            style={{ 
+                              background: getActivityColor(level),
+                              border: level === 0 
+                                ? '1px solid rgba(255, 255, 255, 0.1)' 
+                                : 'none'
+                            }}
+                            title={`Activity level: ${level}`}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               <div className="heatmap-legend">

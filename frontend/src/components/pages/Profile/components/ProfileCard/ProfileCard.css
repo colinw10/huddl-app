@@ -89,6 +89,48 @@
   box-sizing: border-box;
   overflow-y: auto;
   opacity: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 234, 76, 0.5) rgba(255, 255, 255, 0.03);
+}
+
+.profile-card-back::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+.profile-card-back::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.profile-card-back::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, 
+    rgba(30, 234, 76, 0.5), 
+    rgba(26, 115, 231, 0.5), 
+    rgba(234, 30, 162, 0.5)
+  ) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+    0 0 10px rgba(30, 234, 76, 0.3),
+    0 0 20px rgba(26, 115, 231, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.profile-card-back::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, 
+    rgba(30, 234, 76, 0.8), 
+    rgba(26, 115, 231, 0.8), 
+    rgba(234, 30, 162, 0.8)
+  ) !important;
+  box-shadow: 
+    0 0 15px rgba(30, 234, 76, 0.5),
+    0 0 30px rgba(26, 115, 231, 0.4),
+    0 0 20px rgba(234, 30, 162, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Front Card Adjustments */
@@ -760,12 +802,13 @@
 /* Heatmap Styles */
 .heatmap-container {
   width: 100%;
-  padding: 20px 28px;
+  padding: 20px;
   background: linear-gradient(135deg, rgba(10, 10, 10, 0.192) 0%, rgba(255, 255, 255, 0.02) 100%);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
 }
 
 .heatmap-header {
@@ -786,14 +829,15 @@
 .heatmap-months {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
-  margin-left: 40px;
-  margin-right: 20px;
-  font-size: 12px;
+  margin-bottom: 8px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 600;
-  letter-spacing: 0.5px;
-  max-width: calc(26 * 19px);
+  letter-spacing: 0.3px;
+}
+
+.heatmap-months span {
+  text-align: left;
 }
 
 .heatmap-grid {
@@ -802,68 +846,104 @@
   align-items: flex-start;
 }
 
+.heatmap-scroll-wrapper {
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 234, 76, 0.5) rgba(255, 255, 255, 0.03);
+}
+
+.heatmap-scroll-wrapper::-webkit-scrollbar {
+  height: 10px !important;
+}
+
+.heatmap-scroll-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.heatmap-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, 
+    rgba(30, 234, 76, 0.5), 
+    rgba(26, 115, 231, 0.5), 
+    rgba(234, 30, 162, 0.5)
+  ) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 
+    0 0 10px rgba(30, 234, 76, 0.3),
+    0 0 20px rgba(26, 115, 231, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+.heatmap-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, 
+    rgba(30, 234, 76, 0.8), 
+    rgba(26, 115, 231, 0.8), 
+    rgba(234, 30, 162, 0.8)
+  ) !important;
+  box-shadow: 
+    0 0 15px rgba(30, 234, 76, 0.5),
+    0 0 30px rgba(26, 115, 231, 0.4),
+    0 0 20px rgba(234, 30, 162, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+}
+
 .heatmap-days {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 11px;
+  gap: 3px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.6);
-  padding-right: 12px;
+  padding-right: 8px;
   font-weight: 600;
+  padding-top: 22px;
 }
 
 .heatmap-days span {
   display: flex;
   align-items: center;
-  height: 15.5px;
+  height: 13px;
 }
 
 .heatmap-weeks {
   display: flex;
-  gap: 4px;
-  flex: 1;
-  overflow-x: auto;
+  gap: 3px;
   padding: 4px 0;
-  scrollbar-width: thin;
   align-items: flex-start;
+  min-width: min-content;
 }
 
-.heatmap-weeks::-webkit-scrollbar {
-  height: 6px;
-}
-
-.heatmap-weeks::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-  margin: 0 4px;
-}
-
-.heatmap-weeks::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, rgba(30, 234, 76, 0.4), rgba(26, 115, 231, 0.4));
-  border-radius: 3px;
-  transition: background 0.3s ease;
-}
-
-.heatmap-weeks::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(90deg, rgba(30, 234, 76, 0.6), rgba(26, 115, 231, 0.6));
+@media (min-width: 768px) {
+  .heatmap-weeks {
+    justify-content: space-between;
+  }
+  
+  .heatmap-scroll-wrapper {
+    overflow: hidden;
+  }
 }
 
 .heatmap-week {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   flex-shrink: 0;
   align-items: center;
 }
 
 .heatmap-day {
-  width: 15px;
-  height: 15px;
-  min-width: 15px;
-  min-height: 15px;
-  max-width: 15px;
-  max-height: 15px;
-  border-radius: 3px;
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  min-height: 10px;
+  max-width: 10px;
+  max-height: 10px;
+  border-radius: 50%;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   position: relative;
@@ -874,8 +954,7 @@
 }
 
 .heatmap-day:hover {
-  transform: scale(1.4);
-  border-radius: 4px;
+  transform: scale(1.5);
   box-shadow: 0 0 16px currentColor,
               0 0 32px currentColor;
   z-index: 100;
@@ -905,9 +984,9 @@
 }
 
 .legend-square {
-  width: 15px;
-  height: 15px;
-  border-radius: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
   transition: all 0.2s ease;
   cursor: pointer;
 }
