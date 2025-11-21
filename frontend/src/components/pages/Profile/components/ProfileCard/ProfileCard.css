@@ -605,7 +605,7 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(26, 115, 231, 0.03) 100%);
   border: 0.5px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  padding: 24px;
+  padding: 32px 28px;
   margin-bottom: 24px;
   overflow: hidden;
   position: relative;
@@ -622,14 +622,63 @@
   pointer-events: none;
 }
 
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
 .wave-title {
   font-size: 16px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 20px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
+  margin: 0;
+  font-family: 'acme-gothic-extrawide', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.toggle-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, rgba(30, 234, 76, 0.2), rgba(26, 115, 231, 0.2));
+  color: rgba(30, 234, 76, 1);
+  border: 1px solid rgba(30, 234, 76, 0.3);
+  box-shadow: 0 0 12px rgba(30, 234, 76, 0.2);
 }
 
 .wave-container {
@@ -642,7 +691,7 @@
 
 .wave-svg {
   width: 100%;
-  height: 120px;
+  height: 180px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   padding: 10px;
@@ -706,6 +755,235 @@
 .peak-marker:hover {
   r: 4;
   filter: drop-shadow(0 0 6px rgba(26, 231, 132, 1));
+}
+
+/* Heatmap Styles */
+.heatmap-container {
+  width: 100%;
+  padding: 20px 28px;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.192) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.heatmap-header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 8px;
+  padding-left: 40px;
+}
+
+.heatmap-month {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'acme-gothic-extrawide', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.heatmap-months {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  margin-left: 40px;
+  margin-right: 20px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  max-width: calc(26 * 19px);
+}
+
+.heatmap-grid {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.heatmap-days {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  padding-right: 12px;
+  font-weight: 600;
+}
+
+.heatmap-days span {
+  display: flex;
+  align-items: center;
+  height: 15.5px;
+}
+
+.heatmap-weeks {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  overflow-x: auto;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  align-items: flex-start;
+}
+
+.heatmap-weeks::-webkit-scrollbar {
+  height: 6px;
+}
+
+.heatmap-weeks::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  margin: 0 4px;
+}
+
+.heatmap-weeks::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(30, 234, 76, 0.4), rgba(26, 115, 231, 0.4));
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.heatmap-weeks::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, rgba(30, 234, 76, 0.6), rgba(26, 115, 231, 0.6));
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.heatmap-day {
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  min-height: 15px;
+  max-width: 15px;
+  max-height: 15px;
+  border-radius: 3px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.heatmap-day:hover {
+  transform: scale(1.4);
+  border-radius: 4px;
+  box-shadow: 0 0 16px currentColor,
+              0 0 32px currentColor;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.legend-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+.legend-squares {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.legend-square {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.legend-square:hover {
+  transform: scale(1.2);
+}
+
+/* Daily Activity Dots */
+.day-dot {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 2px currentColor);
+}
+
+.day-dot:hover {
+  opacity: 1 !important;
+  r: 4;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.day-dot-hover-ring {
+  animation: ringPulse 0.6s ease-out;
+}
+
+@keyframes ringPulse {
+  0% {
+    r: 3;
+    opacity: 1;
+  }
+  100% {
+    r: 10;
+    opacity: 0;
+  }
+}
+
+.day-tooltip {
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.tooltip-content {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 115, 231, 0.15) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+              0 0 12px rgba(30, 234, 76, 0.3);
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(30, 234, 76, 1);
+  margin-bottom: 2px;
+  letter-spacing: 0.5px;
+  font-family: 'acme-gothic-extrawide', sans-serif;
+}
+
+.tooltip-value {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
 }
 
 .wave-timeline {

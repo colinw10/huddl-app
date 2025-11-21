@@ -1,7 +1,48 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import './ProfileCard.css';
 
 function ProfileCard({ isFlipped, setIsFlipped, posts }) {
+  const [viewMode, setViewMode] = useState('wave'); // 'wave' or 'heatmap'
+
+  // Seeded random number generator for consistent data
+  const seededRandom = (seed) => {
+    let value = seed;
+    return () => {
+      value = (value * 9301 + 49297) % 233280;
+      return value / 233280;
+    };
+  };
+
+  // Generate GitHub-style heatmap data
+  const heatmapData = useMemo(() => {
+    const random = seededRandom(12345); // Fixed seed for consistency
+    const weeks = 26; // 6 months of weeks
+    const daysPerWeek = 7;
+    const data = [];
+    
+    for (let week = 0; week < weeks; week++) {
+      const weekData = [];
+      for (let day = 0; day < daysPerWeek; day++) {
+        // Generate random activity level (0-3)
+        const level = Math.floor(random() * 4);
+        weekData.push(level);
+      }
+      data.push(weekData);
+    }
+    
+    return data;
+  }, []);
+
+  const getActivityColor = (level) => {
+    const colors = [
+      'rgba(255, 255, 255, 0.05)', // No activity - very subtle
+      'rgba(30, 149, 234, 0.25)',    // Low - light green
+      'rgba(30, 173, 234, 0.5)',     // Medium - medium green
+      'rgba(30, 227, 234, 1)'        // High - full green glow
+    ];
+    return colors[level];
+  };
+
   // Generate stable wave data points (base activity)
   const waveData = useMemo(() => {
     const seed = 12345;
@@ -23,7 +64,7 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
     return waveData.map(value => value * 0.4);
   }, [waveData]);
 
-  // Create smooth wave path with cubic bezier curves
+  // Create wave path with peaks that get sharper based on activity level
   const createWavePath = (data) => {
     const width = 600;
     const height = 100;
@@ -38,10 +79,16 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
       const prevX = (i - 1) * segmentWidth;
       const prevY = height - data[i - 1];
       
-      // Cubic bezier for smoother curves
-      const cp1x = prevX + segmentWidth * 0.33;
+      // Calculate activity level (0-1 based on height)
+      const activityLevel = data[i] / 80; // Normalize to 0-1
+      
+      // Higher activity = sharper peaks (lower control point distance)
+      // Low activity: 0.4 (smooth), High activity: 0.01 (very sharp)
+      const sharpness = 0.4 - (activityLevel * 0.39);
+      
+      const cp1x = prevX + segmentWidth * sharpness;
       const cp1y = prevY;
-      const cp2x = prevX + segmentWidth * 0.67;
+      const cp2x = prevX + segmentWidth * (1 - sharpness);
       const cp2y = y;
       
       path += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${x},${y}`;
@@ -220,9 +267,36 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
             </div>
           </div>
 
-          {/* Activity Wave Graph */}
+          {/* Activity Visualization */}
           <div className="activity-wave">
-            <h3 className="wave-title">Activity Flow</h3>
+            <div className="activity-header">
+              <h3 className="wave-title">Activity Overview</h3>
+              <div className="view-toggle">
+                <button 
+                  className={`toggle-btn ${viewMode === 'wave' ? 'active' : ''}`}
+                  onClick={() => setViewMode('wave')}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 12h4l3-9 4 18 3-9h4"/>
+                  </svg>
+                  Wave
+                </button>
+                <button 
+                  className={`toggle-btn ${viewMode === 'heatmap' ? 'active' : ''}`}
+                  onClick={() => setViewMode('heatmap')}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                  </svg>
+                  Grid
+                </button>
+              </div>
+            </div>
+            
+            {viewMode === 'wave' ? (
             <div className="wave-container">
               <svg className="wave-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
                 <defs>
@@ -336,6 +410,7 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
                   className="wave-line"
                 />
                 
+                
                 {/* Peak markers */}
                 {waveData.map((value, index) => {
                   if (value > 65) {
@@ -387,6 +462,61 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
                 </div>
               </div>
             </div>
+            ) : (
+            <div className="heatmap-container">
+              <div className="heatmap-months">
+                <span>Jan</span>
+                <span>Feb</span>
+                <span>Mar</span>
+                <span>Apr</span>
+                <span>May</span>
+                <span>Jun</span>
+              </div>
+              <div className="heatmap-grid">
+                <div className="heatmap-days">
+                  <span>Mon</span>
+                  <span></span>
+                  <span>Wed</span>
+                  <span></span>
+                  <span>Fri</span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div className="heatmap-weeks">
+                  {heatmapData.map((week, weekIndex) => (
+                    <div key={weekIndex} className="heatmap-week">
+                      {week.map((level, dayIndex) => (
+                        <div
+                          key={dayIndex}
+                          className="heatmap-day"
+                          style={{ 
+                            background: getActivityColor(level),
+                            border: level === 0 
+                              ? '1px solid rgba(255, 255, 255, 0.1)' 
+                              : 'none'
+                          }}
+                          title={`Activity level: ${level}`}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="heatmap-legend">
+                <span className="legend-label">Less</span>
+                <div className="legend-squares">
+                  {[0, 1, 2, 3].map(level => (
+                    <div
+                      key={level}
+                      className="legend-square"
+                      style={{ background: getActivityColor(level) }}
+                    />
+                  ))}
+                </div>
+                <span className="legend-label">More</span>
+              </div>
+            </div>
+            )}
           </div>
 
           <div className="quick-settings">
