@@ -1,0 +1,1367 @@
+/* ========================================
+   USER PROFILE PAGE - Timeline River Flow
+   Dark theme with HUDDL style
+   Three-column delta visualization
+   ======================================== */
+
+.user-profile-page {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #0e69e877 0%, #02081c9c 100%);
+  color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+  box-sizing: border-box;
+  margin-top: -60px;
+  padding-top: 60px;
+}
+
+.user-profile-page.river-profile {
+  background: linear-gradient(135deg, #00071151 0%, #020a1f9c 100%);
+}
+
+/* ========================================
+   BACKGROUND ACCENT BLOBS
+   ======================================== */
+
+.page-blob-top {
+  position: fixed;
+  top: -150px;
+  right: -150px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(220, 8, 188, 0.259) 0%, transparent 70%);
+  border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  filter: blur(40px);
+  animation: blobFloat 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-blob-bottom {
+  position: fixed;
+  bottom: -200px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(26, 115, 231, 0.15) 0%, transparent 70%);
+  border-radius: 55% 45% 60% 40% / 60% 40% 55% 45%;
+  filter: blur(40px);
+  animation: blobFloat 25s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes blobFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(240deg);
+  }
+}
+
+/* ProfileCard styles moved to components/ProfileCard/ProfileCard.css */
+
+/* ========================================
+   QUICK COMPOSER BUTTONS - Feed Composer Style
+   ======================================== */
+
+.quick-composer-buttons {
+  display: flex;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* View Mode Toggle */
+.view-mode-toggle {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto 24px;
+  padding: 0 20px;
+}
+
+.view-toggle-btn {
+  background: rgba(25, 25, 26, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 0 !important;
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+  -webkit-clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+  padding: 0.7rem 1.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.view-toggle-btn:hover {
+  background: rgba(25, 25, 26, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 16px rgba(26, 115, 231, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.05);
+  border-color: rgba(26, 115, 231, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.view-toggle-btn.active {
+  background: rgba(26, 115, 231, 0.25);
+  border-color: rgba(26, 115, 231, 0.5);
+  color: #ffffff;
+  box-shadow: 
+    0 4px 16px rgba(26, 115, 231, 0.3),
+    0 0 12px rgba(26, 115, 231, 0.2),
+    inset 0 1px 3px rgba(255, 255, 255, 0.1);
+}
+
+.view-toggle-btn.active:hover {
+  background: rgba(26, 115, 231, 0.35);
+}
+
+.view-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.quick-composer-section {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  border-radius: 0 !important;
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+  -webkit-clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-composer-section.thought-composer {
+  background: rgba(26, 115, 231, 0.05);
+  border-color: rgba(26, 115, 231, 0.2);
+}
+
+.quick-composer-section.media-composer {
+  background: rgba(220, 8, 188, 0.05);
+  border-color: rgba(220, 8, 188, 0.2);
+}
+
+.quick-composer-section:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 8px 24px rgba(26, 115, 231, 0.2),
+    0 0 12px rgba(26, 115, 231, 0.15),
+    inset 0 1px 3px rgba(255, 255, 255, 0.08);
+  border-color: rgba(26, 115, 231, 0.3);
+}
+
+.quick-composer-section.thought-composer:hover {
+  background: rgba(26, 115, 231, 0.08);
+  border-color: rgba(26, 115, 231, 0.4);
+}
+
+.quick-composer-section.media-composer:hover {
+  background: rgba(220, 8, 188, 0.08);
+  border-color: rgba(220, 8, 188, 0.4);
+  box-shadow: 
+    0 8px 24px rgba(220, 8, 188, 0.2),
+    0 0 12px rgba(220, 8, 188, 0.15),
+    inset 0 1px 3px rgba(255, 255, 255, 0.08);
+}
+
+.quick-composer-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(220, 8, 188, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(26, 115, 231, 0.3);
+  box-shadow: 
+    0 4px 12px rgba(26, 115, 231, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.quick-composer-avatar svg {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   HOLOGRAPHIC INPUT SHIMMER ANIMATION
+   ============================================ */
+@keyframes dark-holographic-shimmer {
+  0% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      50% 50%,
+      0% 50%;
+  }
+  50% {
+    background-position:
+      0% 50%,
+      100% 100%,
+      100% 100%,
+      100% 50%;
+  }
+  100% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      50% 50%,
+      0% 50%;
+  }
+}
+
+.quick-composer-input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  
+  /* Layered cosmic black background with depth */
+  background:
+    linear-gradient(145deg, #0a0a0a, #000000),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.5), transparent 50%),
+    linear-gradient(
+      45deg,
+      rgba(138, 43, 226, 0.05),
+      rgba(0, 212, 255, 0.05),
+      rgba(138, 43, 226, 0.05)
+    );
+  background-size:
+    100% 100%,
+    150% 150%,
+    150% 150%,
+    200% 200%;
+  background-position:
+    0% 0%,
+    50% 50%,
+    50% 50%,
+    50% 50%;
+  background-blend-mode: overlay, multiply, overlay;
+  
+  /* Cyberpunk border */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  
+  transition: all 0.3s ease;
+  animation: dark-holographic-shimmer 3s ease infinite;
+  
+  /* 3D depth shadows */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+  
+  backdrop-filter: blur(10px);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  -webkit-clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+.quick-composer-section:hover .quick-composer-input {
+  border-color: rgba(0, 212, 255, 0.6);
+  animation: dark-holographic-shimmer 1.5s ease infinite;
+  
+  /* Intensified shimmer on hover */
+  box-shadow:
+    0 0 20px rgba(0, 212, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.quick-composer-placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+  text-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+}
+
+@media (max-width: 768px) {
+  .quick-composer-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .quick-composer-section {
+    padding: 0.7rem 0.9rem;
+  }
+  
+  .quick-composer-avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-composer-section {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .quick-composer-avatar {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+  
+  .quick-composer-placeholder {
+    font-size: 0.85rem;
+  }
+}
+
+/* ComposerModal styles moved to components/ComposerModal/ComposerModal.css */
+
+.profile-display-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+  font-family: "acme-gothic-extrawide", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.profile-handle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+}
+
+.profile-bio {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 12px 0 16px 0;
+}
+
+.profile-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.profile-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.detail-icon {
+  color: rgba(26, 115, 231, 0.8);
+}
+
+.profile-detail-item a {
+  color: rgba(26, 115, 231, 0.9);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.profile-detail-item a:hover {
+  color: rgba(26, 115, 231, 1);
+  text-decoration: underline;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.stat-item:hover {
+  opacity: 0.8;
+}
+
+.stat-count {
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 1);
+  font-size: 15px;
+}
+
+/* ========================================
+   PROFILE TABS - Facebook-style
+   ======================================== */
+
+.profile-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 32px 0 0;
+  width: 100%;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.tab-item {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 16px 20px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  font-family: "acme-gothic-extrawide", sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.tab-item:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-item.active {
+  color: rgba(26, 115, 231, 1);
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(26, 115, 231, 1) 0%, rgba(220, 8, 188, 0.8) 100%);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 0 10px rgba(26, 115, 231, 0.6);
+}
+
+/* ========================================
+   POST COMPOSER - Facebook-style
+   ======================================== */
+
+.post-composer {
+  width: 100%;
+  margin: 24px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.composer-avatar {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(220, 8, 188, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(26, 115, 231, 0.3);
+  box-shadow: 
+    0 4px 12px rgba(26, 115, 231, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.composer-avatar svg {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.composer-input-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============================================
+   HOLOGRAPHIC INPUT SHIMMER ANIMATION
+   ============================================ */
+@keyframes dark-holographic-shimmer {
+  0% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      50% 50%,
+      0% 50%;
+  }
+  50% {
+    background-position:
+      0% 50%,
+      100% 100%,
+      100% 100%,
+      100% 50%;
+  }
+  100% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      50% 50%,
+      0% 50%;
+  }
+}
+
+.composer-input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 16px;
+  
+  /* Layered cosmic black background with depth */
+  background:
+    linear-gradient(145deg, #0a0a0a, #000000),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.5), transparent 50%),
+    linear-gradient(
+      45deg,
+      rgba(138, 43, 226, 0.05),
+      rgba(0, 212, 255, 0.05),
+      rgba(138, 43, 226, 0.05)
+    );
+  background-size:
+    100% 100%,
+    150% 150%,
+    150% 150%,
+    200% 200%;
+  background-position:
+    0% 0%,
+    50% 50%,
+    50% 50%,
+    50% 50%;
+  background-blend-mode: overlay, multiply, overlay;
+  
+  /* Cyberpunk border */
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  
+  color: #ffffff;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+  
+  /* Glowing text effect */
+  text-shadow:
+    0 0 5px rgba(138, 43, 226, 0.5),
+    0 0 10px rgba(0, 212, 255, 0.3),
+    0 0 15px rgba(138, 43, 226, 0.2);
+  
+  /* 3D depth shadows */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+  
+  backdrop-filter: blur(10px);
+  cursor: text !important;
+}
+
+.composer-input:focus {
+  border-color: rgba(0, 212, 255, 0.6);
+  
+  /* Intensified shimmer on focus */
+  box-shadow:
+    0 0 20px rgba(0, 212, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.composer-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  text-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+}
+
+.composer-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.composer-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.composer-action-btn:hover {
+  color: rgba(26, 115, 231, 1);
+}
+
+.composer-action-btn svg {
+  stroke: currentColor;
+  transition: stroke 0.3s ease;
+}
+
+/* ========================================
+   PROFILE FEED
+   ======================================== */
+
+.profile-feed {
+  width: 100%;
+  margin: 24px 0 0;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+/* Post Card */
+
+.post-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.post-card:hover {
+  border-color: rgba(26, 115, 231, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(26, 115, 231, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(220, 8, 188, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(26, 115, 231, 0.3);
+  box-shadow: 
+    0 4px 12px rgba(26, 115, 231, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.avatar svg {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.post-user-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.post-timestamp {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.post-content {
+  margin-bottom: 16px;
+}
+
+.post-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 12px 0;
+}
+
+.post-image {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.1) 0%, rgba(220, 8, 188, 0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.post-footer {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+}
+
+.post-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.post-action-btn:hover {
+  background: rgba(26, 115, 231, 0.1);
+  border-color: rgba(26, 115, 231, 0.4);
+  color: rgba(26, 115, 231, 1);
+}
+
+.post-action-btn svg {
+  stroke: currentColor;
+  transition: all 0.3s ease;
+}
+
+.post-action-btn:hover svg {
+  filter: drop-shadow(0 0 6px rgba(26, 115, 231, 0.6));
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - Mobile First
+   ======================================== */
+
+@media (max-width: 768px) {
+  .profile-header-bg {
+    height: 150px;
+  }
+  
+  .avatar-wrapper {
+    left: 20px;
+    bottom: -50px;
+  }
+  
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-meta {
+    padding: 0 16px;
+  }
+  
+  .profile-display-name {
+    font-size: 20px;
+  }
+  
+  .profile-handle {
+    font-size: 14px;
+  }
+  
+  .profile-tabs {
+    gap: 4px;
+    padding: 0 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .profile-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .tab-item {
+    padding: 14px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  
+  .post-composer {
+    margin: 16px;
+    padding: 16px;
+  }
+  
+  .composer-avatar {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .composer-actions {
+    gap: 8px;
+  }
+  
+  .composer-action-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .composer-action-btn span {
+    display: none;
+  }
+  
+  .profile-feed {
+    padding: 0 16px;
+    gap: 12px;
+  }
+  
+  .post-card {
+    padding: 16px;
+  }
+  
+  .image-placeholder {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .profile-stats {
+    gap: 16px;
+  }
+  
+  .post-footer {
+    gap: 6px;
+  }
+  
+  .post-action-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: calc(50% - 3px);
+  }
+  
+  .post-action-btn span {
+    display: none;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.tab-item:focus-visible,
+.composer-action-btn:focus-visible,
+.post-action-btn:focus-visible {
+  outline: 2px solid rgba(26, 115, 231, 0.8);
+  outline-offset: 2px;
+}
+
+.composer-input:focus-visible {
+  outline: 2px solid rgba(26, 115, 231, 0.8);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   TIMELINE RIVER FLOW LAYOUT
+   ======================================== */
+
+.timeline-river {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* River Column Labels */
+
+.river-labels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+  position: sticky;
+  top: 60px;
+  background: linear-gradient(180deg, #000711 0%, #020a1f 90%, transparent 100%);
+  padding: 20px 0;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.river-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.left-label svg {
+  color: rgba(26, 115, 231, 0.8);
+}
+
+.center-label svg {
+  color: rgba(220, 8, 188, 0.8);
+}
+
+.right-label svg {
+  color: rgba(255, 215, 0, 0.8);
+}
+
+/* River Streams Container */
+
+.river-streams {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Individual River Columns */
+
+.river-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.left-stream {
+  animation: floatInLeft 0.8s ease-out;
+}
+
+.center-stream {
+  animation: floatInCenter 1s ease-out;
+}
+
+.right-stream {
+  animation: floatInRight 1.2s ease-out;
+}
+
+@keyframes floatInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes floatInCenter {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* River Cards - Shared Styles */
+
+.river-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.river-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent-color) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.river-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    0 0 20px var(--accent-glow);
+}
+
+.river-card:hover::before {
+  opacity: 1;
+}
+
+/* Text Cards (Left Column) */
+
+.text-card {
+  --accent-color: rgba(26, 115, 231, 0.8);
+  --accent-glow: rgba(26, 115, 231, 0.2);
+  border-left: 3px solid rgba(26, 115, 231, 0.4);
+}
+
+/* Media Cards (Center Column) */
+
+.media-card {
+  --accent-color: rgba(220, 8, 188, 0.8);
+  --accent-glow: rgba(220, 8, 188, 0.2);
+  border-left: 3px solid rgba(220, 8, 188, 0.4);
+}
+
+.river-card-media {
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.media-placeholder {
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(220, 8, 188, 0.15) 0%, rgba(26, 115, 231, 0.15) 100%);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.media-placeholder svg {
+  opacity: 0.5;
+}
+
+/* Achievement Cards (Right Column) */
+
+.achievement-card {
+  --accent-color: rgba(255, 215, 0, 0.8);
+  --accent-glow: rgba(255, 215, 0, 0.2);
+  border-left: 3px solid rgba(255, 215, 0, 0.4);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.01) 100%);
+}
+
+.achievement-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.achievement-badge svg {
+  color: rgba(255, 215, 0, 0.9);
+}
+
+/* River Card Content */
+
+.river-card-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.3), rgba(220, 8, 188, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.author-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.river-card-content {
+  margin-bottom: 12px;
+}
+
+.river-post-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+}
+
+.river-timestamp {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+}
+
+/* River Card Actions */
+
+.river-card-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.river-action-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.river-action-btn:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.text-card .river-action-btn:hover {
+  color: rgba(26, 115, 231, 0.9);
+}
+
+.media-card .river-action-btn:hover {
+  color: rgba(220, 8, 188, 0.9);
+}
+
+.achievement-card .river-action-btn:hover {
+  color: rgba(255, 215, 0, 0.9);
+}
+
+/* SVG River Flow Lines */
+
+.river-flow-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.flow-line {
+  stroke: url(#riverGradient);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: flowAnimation 3s ease-in forwards;
+}
+
+.flow-line-1 {
+  stroke: rgba(26, 115, 231, 0.4);
+  animation-delay: 0.5s;
+}
+
+.flow-line-2 {
+  stroke: rgba(220, 8, 188, 0.4);
+  animation-delay: 1s;
+}
+
+.flow-line-3 {
+  stroke: rgba(255, 215, 0, 0.4);
+  animation-delay: 1.5s;
+}
+
+@keyframes flowAnimation {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* River Responsive Design */
+
+@media (max-width: 1024px) {
+  .river-streams {
+    gap: 16px;
+  }
+  
+  .river-card {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .river-streams {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .river-labels {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    position: static;
+    background: transparent;
+    padding: 10px 0 20px;
+  }
+  
+  .river-label {
+    justify-content: flex-start;
+  }
+  
+  .left-stream,
+  .center-stream,
+  .right-stream {
+    animation: none;
+  }
+  
+  .river-flow-lines {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .river-card,
+  .river-action-btn,
+  .flow-line {
+    animation: none !important;
+    transition: none !important;
+  }
+}

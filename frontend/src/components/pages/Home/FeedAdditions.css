@@ -58,25 +58,61 @@
 /* Composer input field */
 .composer-input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.911);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* Layered cosmic black background with depth - static effect */
+  background:
+    linear-gradient(145deg, #0a0a0a, #000000),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.5), transparent 50%),
+    linear-gradient(
+      45deg,
+      rgba(138, 43, 226, 0.05),
+      rgba(0, 212, 255, 0.05),
+      rgba(138, 43, 226, 0.05)
+    );
+  background-size:
+    100% 100%,
+    150% 150%,
+    150% 150%,
+    200% 200%;
+  background-position: 0% 50%, 75% 75%, 75% 75%, 50% 50%;
+  background-blend-mode: overlay, multiply, overlay;
+  
+  /* Cyberpunk border */
+  border: 1px solid rgba(0, 212, 255, 0.3);
   border-radius: 0;
   padding: 0.9rem 1.5rem;
   transition: all 0.3s ease;
+  
+  /* 3D depth shadows */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+  
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   -webkit-clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
 }
 
 /* Composer input hover effect */
 .composer-section:hover .composer-input {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(26, 231, 132, 0.3);
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow:
+    0 0 20px rgba(0, 212, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.8),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Composer input placeholder */
 .composer-placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 1rem;
+  
+  /* Glowing text effect */
+  text-shadow:
+    0 0 5px rgba(138, 43, 226, 0.5),
+    0 0 10px rgba(0, 212, 255, 0.3);
 }
 
 /* ===================== Stories Section ===================== */
