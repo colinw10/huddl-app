@@ -7,14 +7,14 @@
   margin: 0 auto 40px;
   padding: 0 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   box-sizing: border-box;
 }
 
 .profile-flip-card {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 550px;
   transform-style: preserve-3d;
 }
 
@@ -165,12 +165,14 @@
   margin-bottom: 0;
   border: none;
   text-align: center;
+  position: relative;
+  z-index: 20;
 }
-
-
 
 .profile-name-section {
   margin-bottom: 16px;
+  position: relative;
+  z-index: 20;
 }
 
 .profile-display-name {
@@ -193,29 +195,54 @@
   justify-content: center;
   gap: 40px;
   margin-top: 16px;
+  position: relative;
+  z-index: 20;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 20;
 }
 
 .stat-item:hover {
   opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+.stat-item svg {
+  color: rgba(26, 115, 231, 0.9);
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 20;
+}
+
+.stat-item:hover svg {
+  color: rgba(26, 231, 132, 0.9);
 }
 
 .stat-count {
   font-weight: 700;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1;
+  position: relative;
+  z-index: 20;
 }
 
 .stat-label {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  position: relative;
+  z-index: 20;
 }
 
 .analytics-link {
