@@ -7,6 +7,26 @@ function Home() {
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
   const [commentText, setCommentText] = useState('');
 
+  // Parallax tilt effect for story cards
+  const handleStoryMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -1; // Max 1 degree
+    const rotateY = ((x - centerX) / centerX) * 1; // Max 1 degree
+    
+    card.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const handleStoryMouseLeave = (e) => {
+    e.currentTarget.style.transform = '';
+  };
+
   const mockStories = [
     { id: 1, name: "Your Story", avatar: "YS", hasStory: false, isYours: true },
     { id: 2, name: "Sarah Chen", avatar: "SC", hasStory: true },
@@ -32,6 +52,30 @@ function Home() {
     },
     {
       id: 2,
+      author: "Sarah Chen",
+      userId: "sarah_chen",
+      content: "Check out this amazing sunset from my evening run! 🌅",
+      timestamp: "2h",
+      createdAt: "2024-01-15T14:25:00Z",
+      likes: 56,
+      isPublic: true,
+      avatar: "SC",
+      type: "media"
+    },
+    {
+      id: 3,
+      author: "Sarah Chen",
+      userId: "sarah_chen",
+      content: "Finally completed my first marathon! 26.2 miles of pure determination 🏃‍♀️🎉",
+      timestamp: "2h",
+      createdAt: "2024-01-15T14:20:00Z",
+      likes: 142,
+      isPublic: true,
+      avatar: "SC",
+      type: "milestones"
+    },
+    {
+      id: 4,
       author: "Mike Torres",
       userId: "mike_torres",
       content: "Anyone up for a pickup basketball game this Saturday?",
@@ -43,7 +87,7 @@ function Home() {
       type: "thoughts"
     },
     {
-      id: 3,
+      id: 5,
       author: "Emma Davis",
       userId: "emma_davis",
       content: "New PR on deadlifts today! Hard work pays off 🎉",
@@ -55,7 +99,7 @@ function Home() {
       type: "milestones"
     },
     {
-      id: 4,
+      id: 6,
       author: "Jason Park",
       userId: "jason_park",
       content: "Looking for running partners in the downtown area. Hit me up!",
@@ -67,7 +111,7 @@ function Home() {
       type: "thoughts"
     },
     {
-      id: 5,
+      id: 7,
       author: "Lisa Anderson",
       userId: "lisa_anderson",
       content: "Yoga session at sunset was exactly what I needed today 🧘‍♀️",
@@ -79,19 +123,7 @@ function Home() {
       type: "media"
     },
     {
-      id: 6,
-      author: "Sarah Chen",
-      userId: "sarah_chen",
-      content: "Check out this amazing sunset from my evening run! 🌅",
-      timestamp: "5h",
-      createdAt: "2024-01-15T11:30:00Z",
-      likes: 56,
-      isPublic: true,
-      avatar: "SC",
-      type: "media"
-    },
-    {
-      id: 7,
+      id: 8,
       author: "Mike Torres",
       userId: "mike_torres",
       content: "Finally hit my goal of running a sub-20 minute 5K! 🏃‍♂️",
@@ -103,7 +135,7 @@ function Home() {
       type: "milestones"
     },
     {
-      id: 8,
+      id: 9,
       author: "Mike Torres",
       userId: "mike_torres",
       content: "Morning motivation: You don't have to be great to start, but you have to start to be great.",
@@ -134,7 +166,12 @@ function Home() {
       <div className="stories-section">
         <div className="stories-scroll">
           {mockStories.map(story => (
-            <div key={story.id} className={`story-card ${story.isYours ? 'your-story' : ''}`}>
+            <div 
+              key={story.id} 
+              className={`story-card ${story.isYours ? 'your-story' : ''}`}
+              onMouseMove={handleStoryMouseMove}
+              onMouseLeave={handleStoryMouseLeave}
+            >
               <div className={`story-avatar ${story.hasStory ? 'has-story' : ''}`}>
                 {story.isYours && !story.hasStory && (
                   <div className="add-story-icon">+</div>

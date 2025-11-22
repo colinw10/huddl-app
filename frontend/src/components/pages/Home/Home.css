@@ -6,6 +6,8 @@
   position: relative;
   z-index: 10;
   box-sizing: border-box;
+  scroll-behavior: smooth;
+  overflow-y: auto;
 }
 
 @media (min-width: 769px) {
@@ -16,6 +18,19 @@
 }
 
 /* Stories Section */
+
+/* Neon Border Pulse Animation */
+@keyframes neonBorderPulse {
+  0%, 100% {
+    opacity: 0.8;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+}
+
 .stories-section {
   margin-bottom: 2rem;
   overflow: visible;
@@ -55,6 +70,8 @@
   padding: 0.75rem;
   box-shadow: 0 4px 16px rgba(6, 42, 201, 0.279),
               inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .story-card::before {
@@ -64,7 +81,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 10px;
+  border-radius: 24px;
   padding: .8px;
   background: linear-gradient(135deg, 
     rgba(26, 231, 132, 0.5),
@@ -77,19 +94,34 @@
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Tighter spacing - connected ribbon effect */
 .story-card + .story-card {
-  margin-left: -50px;
+  margin-left: -53px;
 }
 
 .story-card:hover {
-  transform: translateY(-1px) scale(1);
+  transform: translateY(-4px) rotateY(1deg) rotateX(-0.5deg) scale(1.02);
   z-index: 10;
-  box-shadow: 0 1px 10px rgba(5, 230, 200, 0.999),
-              0 0 16px rgba(26, 115, 231, 0.1),
-              inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  border-color: rgba(10, 127, 191, 0.666);
+  box-shadow: 0 8px 24px rgba(26, 231, 132, 0.4),
+              0 0 32px rgba(26, 115, 231, 0.3),
+              0 0 48px rgba(220, 8, 188, 0.2),
+              inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.story-card:hover::before {
+  padding: 1.2px;
+  background: linear-gradient(135deg, 
+    rgba(26, 231, 132, 0.8),
+    rgba(26, 115, 231, 0.8),
+    rgba(220, 8, 188, 0.8),
+    rgba(26, 231, 132, 0.8)
+  );
+  box-shadow: 0 0 16px rgba(26, 231, 132, 0.6),
+              0 0 32px rgba(26, 115, 231, 0.4);
+  animation: neonBorderPulse 1.5s ease-in-out infinite;
 }
 
 .story-card:hover ~ .story-card {
@@ -113,7 +145,7 @@
   border: 1px solid rgba(26, 115, 231, 0.3);
   box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15),
               inset 0 1px 2px rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   flex-shrink: 0;
 }
 
@@ -222,12 +254,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
 
 .composer-modal {

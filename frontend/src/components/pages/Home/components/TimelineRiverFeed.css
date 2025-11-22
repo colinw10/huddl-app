@@ -3,15 +3,36 @@
 .timeline-river-feed {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: var(--space-lg);
   width: 100%;
-  padding: 20px 0;
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: var(--space-md) 0;
+  position: relative;
+}
+
+/* Scroll shadow - creates depth illusion at top of feed */
+.timeline-river-feed::before {
+  content: '';
+  position: sticky;
+  top: 60px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 100%
+  );
+  z-index: 10;
+  pointer-events: none;
+  margin-bottom: -20px;
 }
 
 .timeline-river-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-sm);
 }
 
 /* River Date Header */

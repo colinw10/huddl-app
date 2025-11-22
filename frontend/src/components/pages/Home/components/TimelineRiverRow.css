@@ -2,8 +2,8 @@
 
 .timeline-river-row {
   display: grid;
-  gap: 20px;
-  margin-bottom: 40px;
+  gap: 12px;
+  margin-bottom: var(--space-lg);
   width: 100%;
 }
 
@@ -21,7 +21,7 @@
 }
 
 /* Mobile: Horizontal Carousel */
-@media (max-width: 1023px) {
+@media (max-width: 649px) {
   .timeline-river-row--carousel {
     position: relative;
     width: 100%;
@@ -108,7 +108,44 @@
 }
 
 /* Desktop: Grid layout */
-@media (max-width: 768px) {
+@media (min-width: 650px) and (max-width: 1200px) {
+  .timeline-river-row--3-col {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0;
+  }
+  
+  .timeline-river-row--3-col .river-column {
+    position: relative;
+    flex: 0 0 auto;
+    margin-left: -80px;
+  }
+  
+  .timeline-river-row--3-col .river-column:first-child {
+    margin-left: 0;
+    z-index: 3;
+  }
+  
+  .timeline-river-row--3-col .river-column:nth-child(2) {
+    z-index: 2;
+  }
+  
+  .timeline-river-row--3-col .river-column:nth-child(3) {
+    z-index: 1;
+  }
+  
+  /* Increase width when stacking */
+  .timeline-river-row--3-col .river-column:nth-child(1) .post--thoughts,
+  .timeline-river-row--3-col .river-column:nth-child(2) .post--media,
+  .timeline-river-row--3-col .river-column:nth-child(3) .post--milestones {
+    max-width: 100%;
+    width: 320px;
+  }
+}
+
+@media (max-width: 649px) {
   .timeline-river-row:not(.timeline-river-row--carousel) {
     grid-template-columns: 1fr !important;
   }
@@ -117,22 +154,89 @@
 .river-column {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: var(--space-sm);
+}
+
+/* ============================================
+   CARD TYPE DIFFERENTIATION
+   Each post type has optimized width
+   ============================================ */
+
+/* Thought posts - narrower for text readability */
+.post--thoughts {
+  width: 100%;
+}
+
+.timeline-river-row--3-col .river-column:nth-child(1) .post--thoughts {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+/* Media posts - wider for visual content */
+.post--media {
+  width: 100%;
+}
+
+.timeline-river-row--3-col .river-column:nth-child(2) .post--media {
+  max-width: 85%;
+  margin: 0 auto;
+}
+
+/* Milestone posts - wider for achievements */
+.post--milestones {
+  width: 100%;
+}
+
+.timeline-river-row--3-col .river-column:nth-child(3) .post--milestones {
+  max-width: 85%;
+  margin: 0 auto;
+}
+
+/* ============================================
+   SINGLE POST CENTERING
+   When only one post exists in the row
+   ============================================ */
+
+.post--single {
+  width: 70%;
+  margin: 0 auto !important;
+  max-width: 700px;
+}
+
+/* Single thought post - even narrower for better text flow */
+.post--thoughts.post--single {
+  width: 65%;
+  max-width: 650px;
+}
+
+/* Single media post - allow more width for images */
+.post--media.post--single {
+  width: 75%;
+  max-width: 750px;
 }
 
 /* River Post Card - Chamfered Clip-Path Glassmorphism */
 
 .river-post-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
-  padding: 20px;
+  padding: var(--space-lg);
   color: #f9f9f9;
-  transition: all 0.3s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Active card - brought to front on click */
+.river-post-card.post--active {
+  z-index: 100 !important;
+  transform: translateY(-4px) scale(1.01);
+  border-color: var(--border-active);
 }
 
 /* Add left border accent for different post types */
@@ -178,31 +282,71 @@
   background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.8) 50%, transparent 100%);
 }
 
+.river-post-card {
+  /* Stagger fade-in animations for smoother timeline */
+  animation-delay: calc(var(--card-index, 0) * 0.05s);
+}
+
 .river-post-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-4px);
-  box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(26, 115, 231, 0.2);
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--glow);
 }
 
-.river-column:nth-child(1) .river-post-card:hover {
-  box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(26, 115, 231, 0.2);
+/* Subtle motion on hover - brings life to UI */
+.river-post-card:hover {
+  transform: translateY(-2px) scale(1.002);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.river-column:nth-child(2) .river-post-card:hover {
-  box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(220, 8, 188, 0.2);
+.river-post-card:active {
+  transform: translateY(-1px) scale(0.998);
+  transition: all 0.1s ease;
 }
 
-.river-column:nth-child(3) .river-post-card:hover {
+/* Type-specific hover glows */
+.post--thoughts:hover {
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(255, 215, 0, 0.2);
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(26, 115, 231, 0.25),
+    0 0 40px rgba(26, 115, 231, 0.1);
+}
+
+.post--media:hover {
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(220, 8, 188, 0.25),
+    0 0 40px rgba(220, 8, 188, 0.1);
+}
+
+.post--milestones:hover {
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(255, 215, 0, 0.25),
+    0 0 40px rgba(255, 215, 0, 0.1);
+}
+
+/* Enhanced glow when card is active (clicked to front) */
+.post--thoughts.post--active {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 35px rgba(26, 115, 231, 0.4),
+    0 0 60px rgba(26, 115, 231, 0.2);
+}
+
+.post--media.post--active {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 35px rgba(220, 8, 188, 0.4),
+    0 0 60px rgba(220, 8, 188, 0.2);
+}
+
+.post--milestones.post--active {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 35px rgba(255, 215, 0, 0.4),
+    0 0 60px rgba(255, 215, 0, 0.2);
 }
 
 .river-post-card:hover::before {
@@ -289,13 +433,23 @@
 /* River Post Content */
 
 .river-post-content {
-  font-family: 'degular', sans-serif;
-  font-size: 20px;
-  line-height: 1.6;
+  font-family: var(--font-main);
+  font-size: var(--font-size-lg);
+  line-height: 1.45;
   color: #e3e7ef;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-sm);
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+/* Thought posts: larger text, tighter padding */
+.river-column:nth-child(1) .river-post-card {
+  padding: 16px 18px;
+}
+
+.river-column:nth-child(1) .river-post-content {
+  font-size: 1.05rem;
+  line-height: 1.45;
 }
 
 /* River Post Likes */
@@ -322,13 +476,13 @@
 }
 
 .river-action-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   padding: 6px 10px;
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -336,14 +490,14 @@
 }
 
 .river-action-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(26, 231, 132, 0.9);
-  filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.5));
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(26, 231, 132, 0.25);
 }
 
 .river-action-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.97);
 }
 
 /* Inline Comment Composer */
@@ -528,9 +682,17 @@
 
 /* Responsive Design */
 
-@media (max-width: 768px) {
+@media (max-width: 649px) {
   .river-post-card {
     padding: 16px;
+  }
+  
+  /* All posts full width on mobile */
+  .post--single,
+  .post--thoughts.post--single,
+  .post--media.post--single {
+    width: 100% !important;
+    max-width: none !important;
   }
 
   .river-author {

@@ -7,10 +7,11 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const [isMobile, setIsMobile] = useState(false);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
+  const [activePostId, setActivePostId] = useState(null); // Track which card is on top
   
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 650);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -56,9 +57,22 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     };
 
     const config = typeConfig[type];
+    
+    // Determine if this is a single post in the row
+    const isSinglePost = (type === 'thoughts' && thoughts.length === 1 && media.length === 0 && milestones.length === 0) ||
+                         (type === 'media' && media.length === 1 && thoughts.length === 0 && milestones.length === 0) ||
+                         (type === 'milestones' && milestones.length === 1 && thoughts.length === 0 && media.length === 0);
+    
+    // Check if this card is currently active (on top)
+    const isActive = activePostId === post.id;
 
     return (
-      <div key={post.id} className="river-post-card">
+      <div 
+        key={post.id} 
+        className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} fade-in hover-lift`}
+        onClick={() => setActivePostId(post.id)}
+        style={{ zIndex: isActive ? 100 : 'auto' }}
+      >
         <div className="river-post-header">
           <div className="river-avatar">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

@@ -1,0 +1,408 @@
+/* ================================================
+   HUDDL UI UTILITIES
+   Reusable component classes and animations
+   ================================================ */
+
+/* ============================================
+   MICRO-ANIMATIONS
+   ============================================ */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(3px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
+  animation-fill-mode: both;
+}
+
+/* Staggered fade-in for lists */
+.fade-in:nth-child(1) { animation-delay: 0.05s; }
+.fade-in:nth-child(2) { animation-delay: 0.1s; }
+.fade-in:nth-child(3) { animation-delay: 0.15s; }
+.fade-in:nth-child(4) { animation-delay: 0.2s; }
+.fade-in:nth-child(5) { animation-delay: 0.25s; }
+.fade-in:nth-child(6) { animation-delay: 0.3s; }
+.fade-in:nth-child(7) { animation-delay: 0.35s; }
+.fade-in:nth-child(8) { animation-delay: 0.4s; }
+
+/* Slide In from Bottom */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp 0.4s ease;
+}
+
+/* Scale In */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease;
+}
+
+/* ============================================
+   UNIFIED BUTTON SYSTEM
+   ============================================ */
+
+/* Base Button - All buttons extend from this */
+.btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: white;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  font-size: var(--font-size-body);
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  outline: none;
+}
+
+.btn:hover {
+  background: var(--surface-hover);
+  box-shadow: var(--glow);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Button Variants */
+.btn-primary {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: rgba(124, 201, 255, 0.1);
+  box-shadow: 0 0 20px rgba(124, 201, 255, 0.3);
+}
+
+.btn-secondary {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.btn-secondary:hover {
+  background: rgba(167, 131, 255, 0.1);
+  box-shadow: 0 0 20px rgba(167, 131, 255, 0.3);
+}
+
+.btn-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-accent:hover {
+  background: rgba(26, 231, 132, 0.1);
+  box-shadow: 0 0 20px rgba(26, 231, 132, 0.3);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.btn-filled {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: 600;
+}
+
+.btn-filled:hover {
+  background: #8dd3ff;
+  border-color: #8dd3ff;
+  box-shadow: var(--glow-strong);
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: 6px 16px;
+  font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: var(--font-size-lg);
+}
+
+.btn-icon {
+  padding: 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================
+   CARD SYSTEM
+   ============================================ */
+
+/* Base Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  transition: var(--transition);
+}
+
+.card-hover {
+  transition: var(--transition);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow);
+  border-color: var(--border-hover);
+}
+
+.card-interactive {
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow);
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+}
+
+.card-interactive:active {
+  transform: scale(0.98);
+}
+
+/* Card Variants */
+.card-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-dark {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container-narrow {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container-wide {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* ============================================
+   GLASSMORPHISM UTILITIES
+   ============================================ */
+
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--border);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.text-secondary {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.text-primary {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(124, 201, 255, 0.4);
+}
+
+/* ============================================
+   SPACING UTILITIES
+   ============================================ */
+
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+.p-xl { padding: var(--space-xl); }
+
+.m-sm { margin: var(--space-sm); }
+.m-md { margin: var(--space-md); }
+.m-lg { margin: var(--space-lg); }
+.m-xl { margin: var(--space-xl); }
+
+/* ============================================
+   INTERACTION STATES
+   ============================================ */
+
+.hover-lift {
+  transition: var(--transition);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-glow {
+  transition: var(--transition);
+}
+
+.hover-glow:hover {
+  box-shadow: var(--glow);
+}
+
+.active-scale {
+  transition: var(--transition);
+}
+
+.active-scale:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   SCROLL EFFECTS
+   ============================================ */
+
+.scroll-shadow-top {
+  position: relative;
+}
+
+.scroll-shadow-top::before {
+  content: '';
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 100%
+  );
+  z-index: 10;
+  pointer-events: none;
+  margin-bottom: -20px;
+}
+
+.scroll-shadow-bottom {
+  position: relative;
+}
+
+.scroll-shadow-bottom::after {
+  content: '';
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 100%
+  );
+  z-index: 10;
+  pointer-events: none;
+  margin-top: -20px;
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .container,
+  .container-narrow,
+  .container-wide {
+    padding: 0 var(--space-md);
+  }
+  
+  .btn {
+    padding: 8px 18px;
+    font-size: var(--font-size-sm);
+  }
+  
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: var(--font-size-md);
+  }
+}

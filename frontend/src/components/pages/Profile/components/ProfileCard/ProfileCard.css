@@ -1235,7 +1235,7 @@
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.875);
 }
 
 .wave-legend .legend-line {
