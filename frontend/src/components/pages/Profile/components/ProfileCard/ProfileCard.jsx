@@ -13,6 +13,20 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
     };
   };
 
+  // Post type breakdown data
+  const postTypeData = useMemo(() => {
+    const random = seededRandom(54321);
+    const thoughts = Math.floor(random() * 30) + 35; // 35-65%
+    const media = Math.floor(random() * 25) + 20;    // 20-45%
+    const milestones = 100 - thoughts - media;       // remainder
+    
+    return [
+      { type: 'Thoughts', percentage: thoughts, color: 'rgba(30, 234, 76, 0.8)' },
+      { type: 'Media', percentage: media, color: 'rgba(26, 115, 231, 0.8)' },
+      { type: 'Milestones', percentage: milestones, color: 'rgba(234, 30, 162, 0.8)' }
+    ];
+  }, []);
+
   // Generate GitHub-style heatmap data
   const heatmapData = useMemo(() => {
     const random = seededRandom(12345); // Fixed seed for consistency
@@ -32,6 +46,37 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
     
     return data;
   }, []);
+
+  // Best posting time analysis from heatmap data
+  const bestPostingTime = useMemo(() => {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    let maxActivity = 0;
+    let peakDay = 0;
+    
+    // Aggregate activity by day of week
+    const dayTotals = [0, 0, 0, 0, 0, 0, 0];
+    heatmapData.forEach(week => {
+      week.forEach((level, dayIndex) => {
+        dayTotals[dayIndex] += level;
+      });
+    });
+    
+    // Find peak day
+    dayTotals.forEach((total, index) => {
+      if (total > maxActivity) {
+        maxActivity = total;
+        peakDay = index;
+      }
+    });
+    
+    // Generate peak hour (seeded for consistency)
+    const random = seededRandom(99999);
+    const peakHour = Math.floor(random() * 5) + 18; // 6PM-10PM range
+    const period = peakHour >= 12 ? 'PM' : 'AM';
+    const displayHour = peakHour > 12 ? peakHour - 12 : peakHour;
+    
+    return `${days[peakDay]} ${displayHour}${period}`;
+  }, [heatmapData]);
 
   const getActivityColor = (level) => {
     const colors = [
@@ -197,6 +242,10 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
                 <span className="stat-count">{posts.length}</span>
                 <span className="stat-label">Posts</span>
               </div>
+              <div className="stat-item engagement-stat">
+                <span className="stat-count">⭐ 12%</span>
+                <span className="stat-label">Engagement</span>
+              </div>
             </div>
           </div>
 
@@ -272,7 +321,13 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
           {/* Activity Visualization */}
           <div className="activity-wave">
             <div className="activity-header">
-              <h3 className="wave-title">Activity Overview</h3>
+              <div className="activity-title-row">
+                <h3 className="wave-title">Activity Overview</h3>
+                <div className="activity-meta">
+                  <span className="post-frequency">Avg. {(posts.length / 52).toFixed(1)} posts/week</span>
+                  <span className="peak-time">🔥 Peak: {bestPostingTime}</span>
+                </div>
+              </div>
               <div className="view-toggle">
                 <button 
                   className={`toggle-btn ${viewMode === 'wave' ? 'active' : ''}`}
@@ -527,6 +582,73 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
               </div>
             </div>
             )}
+
+            {/* Post Type Breakdown */}
+            <div className="post-type-breakdown">
+              <h4 className="breakdown-title">Content Mix</h4>
+              <div className="breakdown-content">
+                <svg width="120" height="120" viewBox="0 0 120 120" className="donut-chart">
+                  <defs>
+                    {postTypeData.map((item, index) => (
+                      <filter key={index} id={`glow-${index}`}>
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    ))}
+                  </defs>
+                  {(() => {
+                    let cumulativePercent = 0;
+                    return postTypeData.map((item, index) => {
+                      const startAngle = (cumulativePercent / 100) * 360 - 90;
+                      const endAngle = ((cumulativePercent + item.percentage) / 100) * 360 - 90;
+                      cumulativePercent += item.percentage;
+                      
+                      const startRad = (startAngle * Math.PI) / 180;
+                      const endRad = (endAngle * Math.PI) / 180;
+                      const outerRadius = 50;
+                      const innerRadius = 35;
+                      
+                      const x1 = 60 + outerRadius * Math.cos(startRad);
+                      const y1 = 60 + outerRadius * Math.sin(startRad);
+                      const x2 = 60 + outerRadius * Math.cos(endRad);
+                      const y2 = 60 + outerRadius * Math.sin(endRad);
+                      const x3 = 60 + innerRadius * Math.cos(endRad);
+                      const y3 = 60 + innerRadius * Math.sin(endRad);
+                      const x4 = 60 + innerRadius * Math.cos(startRad);
+                      const y4 = 60 + innerRadius * Math.sin(startRad);
+                      
+                      const largeArc = item.percentage > 50 ? 1 : 0;
+                      
+                      return (
+                        <path
+                          key={index}
+                          d={`M ${x1} ${y1} A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${x4} ${y4} Z`}
+                          fill={item.color}
+                          filter={`url(#glow-${index})`}
+                          className="donut-segment"
+                        >
+                          <title>{item.type}: {item.percentage}%</title>
+                        </path>
+                      );
+                    });
+                  })()}
+                </svg>
+                <div className="breakdown-legend">
+                  {postTypeData.map((item, index) => (
+                    <div key={index} className="breakdown-legend-item">
+                      <div className="legend-color" style={{ background: item.color }}></div>
+                      <div className="legend-text">
+                        <span className="legend-type">{item.type}</span>
+                        <span className="legend-percent">{item.percentage}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="quick-settings">
