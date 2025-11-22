@@ -1,12 +1,23 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './BottomNav.css';
 
 function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <nav className="bottom-nav">
+    <nav className={`bottom-nav ${isDesktop ? 'left-nav' : ''}`}>
       {location.pathname !== '/home' && (
         <button 
           className={`nav-item ${location.pathname === '/home' ? 'active' : ''}`}

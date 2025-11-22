@@ -40,6 +40,13 @@
   padding-top: 60px;
 }
 
+@media (min-width: 769px) {
+  .user-profile-page {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+  }
+}
+
 .user-profile-page.river-profile {
   background: linear-gradient(135deg, #00071151 0%, #020a1f9c 100%);
 }
@@ -97,7 +104,7 @@
   gap: 12px;
   justify-content: center;
   max-width: 1200px;
-  margin: 0 auto 24px;
+  margin: 90px auto 24px;
   padding: 0 20px;
 }
 
@@ -105,12 +112,12 @@
   background: rgba(25, 25, 26, 0.3);
   backdrop-filter: blur(15px);
   border-radius: 0 !important;
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-  padding: 0.7rem 1.8rem;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  padding: 0.5rem 1.4rem;
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.80rem;
   font-weight: 500;
   transition: all 0.3s ease;
   display: flex;

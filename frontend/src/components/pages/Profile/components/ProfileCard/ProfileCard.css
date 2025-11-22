@@ -15,7 +15,7 @@
 .profile-flip-card {
   position: relative;
   width: 100%;
-  height: 550px;
+  height: 420px;
   transform-style: preserve-3d;
 }
 
@@ -136,8 +136,8 @@
 /* Front Card Adjustments */
 
 .profile-card-front .profile-header {
-  height: 200px;
-  margin-bottom: 60px;
+  height: 140px;
+  margin-bottom: 50px;
   overflow: visible;
   position: relative;
   width: 100%;
@@ -189,13 +189,13 @@
   position: absolute;
   left: 20px;
   transform: translateY(0);
-  bottom: -40px;
+  bottom: -30px;
   z-index: 10;
 }
 
 .profile-card-front .profile-avatar {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(26, 115, 231, 0.3), rgba(220, 8, 188, 0.3));
   display: flex;
@@ -218,7 +218,7 @@
 }
 
 .profile-card-front .profile-meta {
-  padding: 80px 30px 24px 30px;
+  padding: 60px 30px 20px 30px;
   margin-bottom: 0;
   border: none;
   text-align: left;
@@ -304,6 +304,20 @@
   font-weight: 400;
 }
 
+.profile-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+}
+
+.profile-location svg {
+  color: rgba(26, 115, 231, 0.7);
+  flex-shrink: 0;
+}
+
 /* Bio Section */
 .profile-bio {
   margin-bottom: 0;
@@ -351,11 +365,11 @@
 
 .profile-stats {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   margin-top: 0;
   position: relative;
   z-index: 20;
+  flex-wrap: wrap;
 }
 
 .stat-item {
