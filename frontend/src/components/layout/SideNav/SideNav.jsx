@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import './BottomNav.css';
+import './SideNav.css';
 
-function BottomNav() {
+function SideNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
@@ -108,4 +108,4 @@ function BottomNav() {
   );
 }
 
-export default BottomNav;
+export default SideNav;

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import TopBar from './components/layout/TopBar';
-import BottomNav from './components/layout/BottomNav';
+import SideNav from './components/layout/SideNav';
 import Landing from './components/pages/Landing/Landing';
 import Home from './components/pages/Home/Home';
 import Login from './components/pages/Login/Login';
@@ -41,7 +41,7 @@ function AppContent() {
       </div>
 
       {/* Bottom Navigation */}
-      {!isAuthPage && !isLandingPage && <BottomNav />}
+      {!isAuthPage && !isLandingPage && <SideNav />}
     </div>
   );
 }
