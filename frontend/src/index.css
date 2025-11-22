@@ -2,6 +2,8 @@
 
 @import url("https://use.typekit.net/nxn1rxl.css");
 
+@import './styles/design-const.css';
+
 :root {
   font-family: "acme-gothic-extrawide", sans-serif;
   font-weight: 400;

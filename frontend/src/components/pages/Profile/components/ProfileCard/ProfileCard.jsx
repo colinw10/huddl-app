@@ -163,15 +163,23 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
             </div>
           </div>
 
-          {/* Compact Profile Meta */}
+          {/* Two-Column Profile Meta */}
           <div className="profile-meta river-meta">
-            <div className="profile-header-content">
+            {/* LEFT COLUMN */}
+            <div className="profile-left-column">
               <div className="profile-name-section">
                 <h1 className="profile-display-name">Pvblo Cordero</h1>
                 <span className="profile-handle">@pabloPistola</span>
               </div>
 
-              {/* Action Icons - Grouped in Pill */}
+              {/* Bio Section */}
+              <div className="profile-bio">
+                <p> A Sentient Android| 
+                Being Human
+                   </p>
+              </div>
+
+              {/* Action Icons - Below Bio */}
               <div className="profile-actions-pill">
                 <button className="action-icon-btn" title="Share Profile">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -197,54 +205,53 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
               </div>
             </div>
 
-            {/* Bio Section */}
-            <div className="profile-bio">
-              <p>Full-stack developer | Building cool stuff with React & Django 🚀</p>
-            </div>
-
-            {/* Profile Details - Twitter Style */}
-            <div className="profile-details">
-              <div className="profile-detail-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-                <span>San Francisco, CA</span>
+            {/* RIGHT COLUMN */}
+            <div className="profile-right-column">
+              {/* Profile Details - Each on Own Row */}
+              <div className="profile-details">
+                <div className="profile-detail-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>Brookln, NY</span>
+                </div>
+                <div className="profile-detail-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                  </svg>
+                  <a href="https://github.com/pablodcordero" target="_blank" rel="noopener noreferrer">github.com/Cordero080</a>
+                </div>
+                <div className="profile-detail-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span>Joined November 2024</span>
+                </div>
               </div>
-              <div className="profile-detail-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                </svg>
-                <a href="https://github.com/pablodcordero" target="_blank" rel="noopener noreferrer">github.com/pablodcordero</a>
-              </div>
-              <div className="profile-detail-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                  <line x1="16" y1="2" x2="16" y2="6"/>
-                  <line x1="8" y1="2" x2="8" y2="6"/>
-                  <line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                <span>Joined November 2024</span>
-              </div>
-            </div>
-            
-            <div className="profile-stats">
-              <div className="stat-item">
-                <span className="stat-count">-26</span>
-                <span className="stat-label">Following</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-count">0</span>
-                <span className="stat-label">Followers</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-count">{posts.length}</span>
-                <span className="stat-label">Posts</span>
-              </div>
-              <div className="stat-item engagement-stat">
-                <span className="stat-count">⭐ 12%</span>
-                <span className="stat-label">Engagement</span>
+              
+              {/* Stats - Each on Own Row */}
+              <div className="profile-stats">
+                <div className="stat-item">
+                  <span className="stat-count">-26</span>
+                  <span className="stat-label">Following</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-count">0</span>
+                  <span className="stat-label">Followers</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-count">{posts.length}</span>
+                  <span className="stat-label">Posts</span>
+                </div>
+                <div className="stat-item engagement-stat">
+                  <span className="stat-count">⭐ 12%</span>
+                  <span className="stat-label">Engagement</span>
+                </div>
               </div>
             </div>
           </div>
