@@ -120,34 +120,36 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
 
           {/* Compact Profile Meta */}
           <div className="profile-meta river-meta">
-            {/* Action Icons - Twitter Style */}
-            <div className="profile-actions">
-              <button className="action-icon-btn" title="Share Profile">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="18" cy="5" r="3"/>
-                  <circle cx="6" cy="12" r="3"/>
-                  <circle cx="18" cy="19" r="3"/>
-                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                </svg>
-              </button>
-              <button className="action-icon-btn" title="More Options">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="1"/>
-                  <circle cx="19" cy="12" r="1"/>
-                  <circle cx="5" cy="12" r="1"/>
-                </svg>
-              </button>
-              <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-              </button>
-            </div>
+            <div className="profile-header-content">
+              <div className="profile-name-section">
+                <h1 className="profile-display-name">Pvblo Cordero</h1>
+                <span className="profile-handle">@pabloPistola</span>
+              </div>
 
-            <div className="profile-name-section">
-              <h1 className="profile-display-name">Pvblo Cordero</h1>
-              <span className="profile-handle">@pabloPistola</span>
+              {/* Action Icons - Grouped in Pill */}
+              <div className="profile-actions-pill">
+                <button className="action-icon-btn" title="Share Profile">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                  </svg>
+                </button>
+                <button className="action-icon-btn" title="More Options">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="1"/>
+                    <circle cx="19" cy="12" r="1"/>
+                    <circle cx="5" cy="12" r="1"/>
+                  </svg>
+                </button>
+                <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Bio Section */}
