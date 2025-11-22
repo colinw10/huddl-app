@@ -5,6 +5,15 @@
   gap: 12px;
   margin-bottom: var(--space-lg);
   width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll by default */
+}
+
+/* For stacked layouts, allow overflow but don't show scrollbar */
+@media (min-width: 650px) and (max-width: 1200px) {
+  .timeline-river-row--3-col,
+  .timeline-river-row--2-col {
+    overflow-x: clip; /* Allow visual overflow but prevent scrolling */
+  }
 }
 
 /* Adaptive column layouts based on number of post types */
@@ -22,6 +31,10 @@
 
 /* Mobile: Horizontal Carousel */
 @media (max-width: 649px) {
+  .timeline-river-row {
+    overflow-x: hidden; /* Only hide overflow on mobile */
+  }
+  
   .timeline-river-row--carousel {
     position: relative;
     width: 100%;
@@ -115,17 +128,23 @@
     justify-content: center;
     align-items: flex-start;
     gap: 0;
+    max-width: 100%;
+    overflow: visible;
+    padding: 0 60px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
   .timeline-river-row--3-col .river-column {
     position: relative;
     flex: 0 0 auto;
-    margin-left: -80px;
+    margin-left: -120px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
-  .timeline-river-row--3-col .river-column:first-child {
-    margin-left: 0;
+  /* Most recent card (first) on top with highest z-index */
+  .timeline-river-row--3-col .river-column:nth-child(1) {
     z-index: 3;
+    margin-left: 0;
   }
   
   .timeline-river-row--3-col .river-column:nth-child(2) {
@@ -136,12 +155,93 @@
     z-index: 1;
   }
   
-  /* Increase width when stacking */
-  .timeline-river-row--3-col .river-column:nth-child(1) .post--thoughts,
-  .timeline-river-row--3-col .river-column:nth-child(2) .post--media,
-  .timeline-river-row--3-col .river-column:nth-child(3) .post--milestones {
-    max-width: 100%;
-    width: 320px;
+  /* Active column (clicked) - center it on screen */
+  .timeline-river-row--3-col .river-column--active {
+    z-index: 100 !important;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  /* When any column is active, move entire row to bring that card to center */
+  .timeline-river-row--3-col:has(.river-column:nth-child(1).river-column--active) {
+    transform: translateX(0);
+  }
+  
+  .timeline-river-row--3-col:has(.river-column:nth-child(2).river-column--active) {
+    transform: translateX(-120px);
+  }
+  
+  .timeline-river-row--3-col:has(.river-column:nth-child(3).river-column--active) {
+    transform: translateX(-240px);
+  }
+  
+  /* Scale up and elevate the active card */
+  .timeline-river-row--3-col .river-column--active .river-post-card,
+  .timeline-river-row--2-col .river-column--active .river-post-card {
+    transform: scale(1.05) translateY(-8px);
+    box-shadow: 
+      0 16px 48px rgba(0, 0, 0, 0.5),
+      0 0 50px rgba(26, 115, 231, 0.4),
+      0 0 80px rgba(26, 115, 231, 0.2);
+  }
+  
+  /* Dim non-active columns slightly */
+  .timeline-river-row--3-col:has(.river-column--active) .river-column:not(.river-column--active),
+  .timeline-river-row--2-col:has(.river-column--active) .river-column:not(.river-column--active) {
+    opacity: 0.6;
+  }
+  
+  /* Consistent width and font size for all stacked cards */
+  .timeline-river-row--3-col .river-column .river-post-card {
+    width: 280px;
+    max-width: 280px;
+  }
+  
+  /* Ensure consistent font sizes in stacked layout */
+  .timeline-river-row--3-col .river-author {
+    font-size: 14px !important;
+  }
+  
+  .timeline-river-row--3-col .river-post-content {
+    font-size: var(--font-size-lg) !important;
+  }
+  
+  /* 2-column stacking - most recent on top */
+  .timeline-river-row--2-col {
+    padding: 0 60px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .timeline-river-row--2-col .river-column {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    margin-left: -120px;
+  }
+  
+  .timeline-river-row--2-col .river-column:nth-child(1) {
+    z-index: 2;
+    margin-left: 0;
+  }
+  
+  .timeline-river-row--2-col .river-column:nth-child(2) {
+    z-index: 1;
+  }
+  
+  .timeline-river-row--2-col .river-column--active {
+    z-index: 100 !important;
+  }
+  
+  /* Move entire row to center the active card */
+  .timeline-river-row--2-col:has(.river-column:nth-child(1).river-column--active) {
+    transform: translateX(0);
+  }
+  
+  .timeline-river-row--2-col:has(.river-column:nth-child(2).river-column--active) {
+    transform: translateX(-120px);
+  }
+  
+  /* Consistent sizing for 2-column layout too */
+  .timeline-river-row--2-col .river-column .river-post-card {
+    width: 280px;
+    max-width: 280px;
   }
 }
 
@@ -162,34 +262,11 @@
    Each post type has optimized width
    ============================================ */
 
-/* Thought posts - narrower for text readability */
-.post--thoughts {
-  width: 100%;
-}
-
-.timeline-river-row--3-col .river-column:nth-child(1) .post--thoughts {
-  max-width: 80%;
-  margin: 0 auto;
-}
-
-/* Media posts - wider for visual content */
-.post--media {
-  width: 100%;
-}
-
-.timeline-river-row--3-col .river-column:nth-child(2) .post--media {
-  max-width: 85%;
-  margin: 0 auto;
-}
-
-/* Milestone posts - wider for achievements */
+/* Default width for all post types in normal grid */
+.post--thoughts,
+.post--media,
 .post--milestones {
   width: 100%;
-}
-
-.timeline-river-row--3-col .river-column:nth-child(3) .post--milestones {
-  max-width: 85%;
-  margin: 0 auto;
 }
 
 /* ============================================
@@ -225,7 +302,7 @@
   clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
   padding: var(--space-lg);
   color: #f9f9f9;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -680,6 +757,91 @@
   cursor: not-allowed;
 }
 
+/* Desktop Stack Navigation Controls */
+
+.desktop-stack-nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(26, 115, 231, 0.4);
+  border-radius: 50px;
+  padding: 8px 16px;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(26, 115, 231, 0.2);
+  z-index: 200;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.desktop-stack-close {
+  background: rgba(220, 8, 188, 0.15);
+  border: 1px solid rgba(220, 8, 188, 0.4);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(220, 8, 188, 0.9);
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.desktop-stack-close:hover {
+  background: rgba(220, 8, 188, 0.3);
+  border-color: rgba(220, 8, 188, 0.8);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(220, 8, 188, 0.4);
+}
+
+.desktop-stack-btn {
+  background: rgba(26, 115, 231, 0.15);
+  border: 1px solid rgba(26, 115, 231, 0.4);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(26, 231, 132, 0.9);
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.desktop-stack-btn:hover {
+  background: rgba(26, 115, 231, 0.3);
+  border-color: rgba(26, 115, 231, 0.8);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(26, 115, 231, 0.4);
+}
+
+.desktop-stack-btn:active {
+  transform: scale(0.95);
+}
+
 /* Responsive Design */
 
 @media (max-width: 649px) {
@@ -695,12 +857,13 @@
     max-width: none !important;
   }
 
+  /* Keep font sizes consistent and readable */
   .river-author {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .river-post-content {
-    font-size: 14px;
+    font-size: var(--font-size-lg);
   }
 
   .river-action-btn {

@@ -8,6 +8,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
   const [activePostId, setActivePostId] = useState(null); // Track which card is on top
+  const [activeColumnType, setActiveColumnType] = useState(null); // Track which column is active
   
   useEffect(() => {
     const checkMobile = () => {
@@ -237,6 +238,25 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // Calculate number of columns for adaptive layout
   const columnCount = [hasThoughts, hasMedia, hasMilestones].filter(Boolean).length;
   
+  // Desktop navigation handlers
+  const handleNextColumn = () => {
+    const columns = [hasThoughts && 'thoughts', hasMedia && 'media', hasMilestones && 'milestones'].filter(Boolean);
+    const currentIndex = columns.indexOf(activeColumnType);
+    const nextIndex = (currentIndex + 1) % columns.length;
+    setActiveColumnType(columns[nextIndex]);
+  };
+  
+  const handlePrevColumn = () => {
+    const columns = [hasThoughts && 'thoughts', hasMedia && 'media', hasMilestones && 'milestones'].filter(Boolean);
+    const currentIndex = columns.indexOf(activeColumnType);
+    const prevIndex = currentIndex <= 0 ? columns.length - 1 : currentIndex - 1;
+    setActiveColumnType(columns[prevIndex]);
+  };
+  
+  const handleCloseActiveColumn = () => {
+    setActiveColumnType(null);
+  };
+  
   // Build flat array of all posts for mobile carousel
   const allPosts = [];
   if (hasThoughts) allPosts.push(...thoughts.map(p => ({ ...p, type: 'thoughts' })));
@@ -299,18 +319,58 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   return (
     <div className={`timeline-river-row timeline-river-row--${columnCount}-col`}>
       {hasThoughts && (
-        <div className="river-column">
+        <div 
+          className={`river-column ${activeColumnType === 'thoughts' ? 'river-column--active' : ''}`}
+          onClick={() => setActiveColumnType('thoughts')}
+        >
           {thoughts.map(post => renderPostCard(post, 'thoughts'))}
         </div>
       )}
       {hasMedia && (
-        <div className="river-column">
+        <div 
+          className={`river-column ${activeColumnType === 'media' ? 'river-column--active' : ''}`}
+          onClick={() => setActiveColumnType('media')}
+        >
           {media.map(post => renderPostCard(post, 'media'))}
         </div>
       )}
       {hasMilestones && (
-        <div className="river-column">
+        <div 
+          className={`river-column ${activeColumnType === 'milestones' ? 'river-column--active' : ''}`}
+          onClick={() => setActiveColumnType('milestones')}
+        >
           {milestones.map(post => renderPostCard(post, 'milestones'))}
+        </div>
+      )}
+      
+      {/* Desktop navigation controls - only show for stacked 3-col layout when a card is active */}
+      {columnCount === 3 && activeColumnType && (
+        <div className="desktop-stack-nav">
+          <button 
+            className="desktop-stack-close"
+            onClick={handleCloseActiveColumn}
+            title="Close (Esc)"
+          >
+            ×
+          </button>
+          <button 
+            className="desktop-stack-btn desktop-stack-btn--prev"
+            onClick={handlePrevColumn}
+            title="Previous card"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <button 
+            className="desktop-stack-btn desktop-stack-btn--next"
+            onClick={handleNextColumn}
+            title="Next card"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
         </div>
       )}
     </div>

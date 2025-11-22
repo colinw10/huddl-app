@@ -5,11 +5,11 @@ import './SideNav.css';
 function SideNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 480);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth > 768);
+      setIsDesktop(window.innerWidth > 480);
     };
     
     window.addEventListener('resize', handleResize);

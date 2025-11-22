@@ -168,8 +168,11 @@ huddl-app/
         │   └── ui/          # Reusable UI components (future)
         │
         └── styles/          # Global CSS modules
+            ├── design-const.css # Design tokens (colors, spacing, typography)
+            ├── utilities.css    # Utility classes (buttons, cards, animations)
+            ├── theme.css        # Theme system (future)
             ├── App.css
-            ├── Buttons.css      # Button system (organic border-radius, holographic)
+            ├── Buttons.css      # Legacy button styles
             ├── Logo.css
             ├── Blobs.css        # Animated background blobs
             └── BackButton.css
@@ -194,10 +197,12 @@ huddl-app/
 
 ### Styling Deep Dive
 
-1. **`frontend/src/index.css`** - Global reset and base
-2. **`frontend/src/components/pages/Home/Home.css`** - Holographic design patterns (study lines 40-80 for story cards)
-3. **`frontend/src/components/layout/SideNav/SideNav.css`** - Responsive navigation (.left-nav vs .bottom-nav)
-4. **`frontend/src/styles/Buttons.css`** - Button system with organic border-radius
+1. **`frontend/src/styles/design-const.css`** - Unified design tokens (colors, spacing, typography)
+2. **`frontend/src/styles/utilities.css`** - Reusable component classes (buttons, cards, animations)
+3. **`frontend/src/index.css`** - Global reset and base
+4. **`frontend/src/components/pages/Home/Home.css`** - Holographic design patterns (story cards, feed)
+5. **`frontend/src/components/layout/SideNav/SideNav.css`** - Responsive navigation with refined icons
+6. **`frontend/src/components/pages/Home/components/TimelineRiverRow.css`** - Card type differentiation and stacking
 
 ---
 

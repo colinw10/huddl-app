@@ -9,6 +9,7 @@
   margin: 0 auto;
   padding: var(--space-md) 0;
   position: relative;
+  overflow-x: hidden;
 }
 
 /* Scroll shadow - creates depth illusion at top of feed */

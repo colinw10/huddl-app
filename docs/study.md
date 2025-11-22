@@ -8,6 +8,7 @@ Huddl is a social media application built with React (frontend) and Django REST 
 
 - [Visual Identity System](./features/VisualIdentitySystem.md) - Complete design token system and UI utilities
 - [Profile Card Features](./features/ProfileCardFeatures.md) - Flippable card with analytics dashboard
+- [Refactoring Plan](./refactoring/refactor-one.md) - Systematic refactoring strategy
 
 ---
 
@@ -52,7 +53,7 @@ huddl-app/
     └── src/
         ├── main.jsx          # Entry point
         ├── App.jsx           # Root component with routing
-        ├── index.css         # Global styles
+        ├── index.css         # Global styles + imports design tokens
         │
         ├── components/
         │   ├── layout/       # Structural components
@@ -71,10 +72,13 @@ huddl-app/
         │   └── ui/           # Reusable UI components (future)
         │
         └── styles/           # Global CSS utilities
+            ├── design-const.css  # Design tokens system
+            ├── utilities.css     # Utility classes library
+            ├── theme.css         # Theme system (future)
             ├── App.css
             ├── Buttons.css
             ├── Logo.css
-            ├── Blobs.css      # Animated blob backgrounds
+            ├── Blobs.css         # Animated blob backgrounds
             └── BackButton.css
 ```
 
@@ -383,13 +387,37 @@ const [friendRequests, setFriendRequests] = useState([]);
 
 ### Global CSS Files
 
-#### 1. index.css
+#### 1. design-const.css
 
-**Purpose**: CSS reset, base styles, layout utilities  
+**Purpose**: Unified design token system  
+**Key Tokens**:
+
+- Color variables (--primary, --secondary, --accent, --surface, --border)
+- Typography scale (--font-main, --font-size-xs through --font-size-xl)
+- Spacing system (--space-xs through --space-2xl, 8px base)
+- Border radius (--radius-sm, --radius, --radius-lg, --radius-full)
+- Transitions (--transition: 0.18s ease)
+- Glow effects (--glow, --glow-strong)
+
+#### 2. utilities.css
+
+**Purpose**: Reusable component classes and animations  
+**Includes**:
+
+- Button system (.btn with variants: primary, secondary, accent, ghost, filled)
+- Card system (.card, .card-hover, .card-interactive, .card-glass)
+- Micro-animations (.fade-in, .slide-in-up, .scale-in, .hover-lift, .active-scale)
+- Layout utilities (.container, .glass, .text-gradient)
+- Spacing utilities (.gap-_, .p-_, .m-\*)
+- Scroll effects (.scroll-shadow-top, .scroll-shadow-bottom)
+
+#### 3. index.css
+
+**Purpose**: CSS reset, base styles, imports  
 **Key Styles**:
 
-- Body background (likely cosmic gradient)
-- Font family declarations
+- Imports design-const.css and utilities.css
+- Body background and font-family (var(--font-main))
 - Box-sizing reset
 - Base text colors
 

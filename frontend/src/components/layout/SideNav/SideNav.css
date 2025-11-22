@@ -27,7 +27,7 @@
 }
 
 /* Left Sidebar for Desktop */
-@media (min-width: 769px) {
+@media (min-width: 481px) {
   .main-nav.left-nav {
     position: fixed;
     top: 60px;
@@ -210,7 +210,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .main-nav.bottom-nav {
     padding: 0.5rem;
   }
