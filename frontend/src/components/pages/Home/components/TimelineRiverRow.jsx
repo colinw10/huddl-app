@@ -3,15 +3,25 @@ import './TimelineRiverRow.css';
 import MediaLightbox from './MediaLightbox/MediaLightbox';
 
 function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commentText, setCommentText, setActiveCommentPostId }) {
+  // 🔵 Extract data from props
   const { user, thoughts, media, milestones } = rowData;
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  // Which card showing on mobile
   const [isMobile, setIsMobile] = useState(false);
+  // Is screen < 650px?
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
-  const [activePostId, setActivePostId] = useState(null); // Track which card is on top
-  const [activeColumnType, setActiveColumnType] = useState(null); // Track which column is active
-  const [expandedMediaPost, setExpandedMediaPost] = useState(null); // Track expanded media lightbox
+  // 🔵 State for mobile carousel
+  const [activePostId, setActivePostId] = useState(null);  
+  // Which column clicked
   
+  // 🔵 State for desktop column interaction
+  const [activeColumnType, setActiveColumnType] = useState(null); // Track which column is active
+  const [expandedMediaPost, setExpandedMediaPost] = useState(null); 
+  // Which media expanded
+  // Track expanded media lightbox
+  
+  // 🔵 Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 650);
@@ -53,13 +63,15 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   };
   
   const renderPostCard = (post, type) => {
+    // 🔵 Config for each post type (icon, label, color
     const typeConfig = {
       thoughts: { icon: '💭', label: 'Thought', color: 'rgba(30, 234, 76, 0.3)' },
       media: { icon: '📸', label: 'Media', color: 'rgba(26, 115, 231, 0.3)' },
       milestones: { icon: '🎯', label: 'Milestone', color: 'rgba(234, 30, 162, 0.3)' }
     };
 
-    const config = typeConfig[type];
+    const config = typeConfig[type]; // Get config for this type
+  
     
     // Determine if this is a single post in the row
     const isSinglePost = (type === 'thoughts' && thoughts.length === 1 && media.length === 0 && milestones.length === 0) ||
@@ -76,8 +88,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         onClick={() => setActivePostId(post.id)}
         style={{ zIndex: isActive ? 100 : 'auto' }}
       >
+        {/* Header: Avatar + Name + Type Badge */}
         <div className="river-post-header">
-          <div className="river-avatar">
+          <div className="river-avatar"> { /* SVG icon */ }
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
@@ -86,7 +99,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             <div className="river-author">{user.name}</div>
             <div className="river-meta">
               <span className="river-type-badge" style={{ background: config.color }}>
-                {config.icon} {config.label}
+                {config.icon} {config.label}  {/* 💭 Thought */}
               </span>
               <span className="river-timestamp">{post.timestamp}</span>
             </div>
@@ -102,7 +115,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           </svg>
         </div>
 
-        {/* Media image for media posts */}
+       {/* Media Image (only for media posts) */}
         {type === 'media' && post.media_url && (
           <div className="river-post-media" onClick={(e) => {
             e.stopPropagation();
@@ -116,11 +129,12 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             </div>
           </div>
         )}
-
+         {/* Post Content */}
         <p className="river-post-content">{post.content}</p>
-
+         
+         {/* Likes */}
         <div className="river-post-likes">
-          <svg width="18" height="18" viewBox="0 0 24 24">
+          <svg width="18" height="18" viewBox="0 0 24 24">{ /* Heart icon */ }
             <defs>
               <linearGradient id="spectral-heart" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#1ae784" />
@@ -134,7 +148,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           {post.likes}
         </div>
 
-        {/* Post Actions */}
+        {/* Action Buttons */}
+        {/* Post Actions */} 
         <div className="river-post-actions">
           <button 
             className="river-action-btn" 
@@ -175,6 +190,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         </div>
 
         {/* Inline Comment Composer */}
+        {/* Comment Box (only if this post's comment is active) */}
         {activeCommentPostId === post.id && (
           <div className="inline-comment-composer">
             <button 
@@ -246,7 +262,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
       </div>
     );
   };
-
+  // Mobile vs Desktop Rendering
   // Count how many post types exist
   const hasThoughts = thoughts.length > 0;
   const hasMedia = media.length > 0;
@@ -274,13 +290,13 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     setActiveColumnType(null);
   };
   
-  // Build flat array of all posts for mobile carousel
+  // 🔵 Build flat array for mobile
   const allPosts = [];
   if (hasThoughts) allPosts.push(...thoughts.map(p => ({ ...p, type: 'thoughts' })));
   if (hasMedia) allPosts.push(...media.map(p => ({ ...p, type: 'media' })));
   if (hasMilestones) allPosts.push(...milestones.map(p => ({ ...p, type: 'milestones' })));
 
-  // Mobile: Render as horizontal carousel
+  // 🟢 MOBILE: Carousel (swipe through cards)
   if (isMobile && allPosts.length > 1) {
     return (
       <div className="timeline-river-row-wrapper">
@@ -297,6 +313,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               </div>
             ))}
           </div>
+           {/* Prev/Next buttons */}
+           {/* Dot indicators */}
         </div>
         
         <div className="carousel-controls">
@@ -335,6 +353,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   }
 
   // Desktop: Render as adaptive grid
+  // 🟢 DESKTOP: 3 Columns Side-by-Side
   return (
     <div className={`timeline-river-row timeline-river-row--${columnCount}-col`}>
       {hasThoughts && (
@@ -393,7 +412,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         </div>
       )}
 
-      {/* Media Lightbox Modal */}
+       {/* Media Lightbox (fullscreen image view) */}
       <MediaLightbox 
         post={expandedMediaPost}
         onClose={() => setExpandedMediaPost(null)}

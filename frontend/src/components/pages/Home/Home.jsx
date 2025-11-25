@@ -3,28 +3,39 @@ import './Home.css';
 import TimelineRiverFeed from './components/TimelineRiverFeed';
 
 function Home() {
+   // 🔵 State: Component's memory
   const [showComposerModal, setShowComposerModal] = useState(false);
+   // Modal open/closed
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
+  // Which post user is commenting on
   const [commentText, setCommentText] = useState('');
+  // What user typed in comment box
 
   // Parallax tilt effect for story cards
   const handleStoryMouseMove = (e) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const card = e.currentTarget;  // The story card being hovered
+    const rect = card.getBoundingClientRect();// Get card's position/size
     
-    const centerX = rect.width / 2;
+    const x = e.clientX - rect.left;// Mouse Y position relative to card
+    // Mouse X position from LEFT edge of browser window
+
+    const y = e.clientY - rect.top; // Mouse Y position relative to card
+    // Mouse Y position from TOP edge of browser window
+  
+    // Calculate how far mouse is from center
+    const centerX = rect.width / 2; // Find center of card
     const centerY = rect.height / 2;
     
     const rotateX = ((y - centerY) / centerY) * -1; // Max 1 degree
     const rotateY = ((x - centerX) / centerX) * 1; // Max 1 degree
-    
+
+    // Apply 3D rotation based on mouse position
     card.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
   };
 
   const handleStoryMouseLeave = (e) => {
-    e.currentTarget.style.transform = '';
+    e.currentTarget.style.transform = ''; // Reset animation
+  
   };
 
   const mockStories = [
@@ -49,6 +60,7 @@ function Home() {
       isPublic: true,
       avatar: "SC",
       type: "thoughts"
+      // ⚠️ Important: posts have types (thoughts, media, milestones)
     },
     {
       id: 2,
@@ -60,7 +72,7 @@ function Home() {
       likes: 56,
       isPublic: true,
       avatar: "SC",
-      type: "media",
+      type: "media", // ⚠️ Has media_url
       media_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
     },
     {
@@ -152,7 +164,7 @@ function Home() {
 
   return (
     <div className="feed-container">
-      {/* Composer Section */}
+       {/* 🟢 Section 1: Composer (click to open modal) */}
       <div className="composer-section" onClick={() => setShowComposerModal(true)}>
         <div className="composer-avatar">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -164,10 +176,10 @@ function Home() {
         </div>
       </div>
 
-      {/* Stories Section */}
+       {/* 🟢 Section 2: Stories carousel */}
       <div className="stories-section">
         <div className="stories-scroll">
-          {mockStories.map(story => (
+          {mockStories.map(story => ( // 🔵 Loop through stories array
             <div 
               key={story.id} 
               className={`story-card ${story.isYours ? 'your-story' : ''}`}
@@ -188,17 +200,17 @@ function Home() {
         </div>
       </div>
 
-      {/* Timeline River Feed */}
+       {/* 🟢 Section 3: Timeline River Feed (the main posts) */}
       <TimelineRiverFeed
-        posts={mockPosts}
+        posts={mockPosts}// ⚠️ CRITICAL: Passes posts data to child component
         activeCommentPostId={activeCommentPostId}
         setActiveCommentPostId={setActiveCommentPostId}
         commentText={commentText}
         setCommentText={setCommentText}
       />
 
-      {/* Composer Modal Scaffold */}
-      {showComposerModal && (
+    {/* 🟢 Section 4: Composer Modal (when user clicks composer) */}
+      {showComposerModal && ( // 🔵 Only shows if showComposerModal is true
         <div className="modal-overlay" onClick={() => setShowComposerModal(false)}>
           <div className="composer-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">

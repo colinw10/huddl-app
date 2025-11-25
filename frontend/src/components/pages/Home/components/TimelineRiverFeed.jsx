@@ -6,20 +6,23 @@ import './TimelineRiverFeed.css';
 function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText }) {
   // Transform flat posts array into grouped structure
   const groupedAndSortedPosts = useMemo(() => {
+  // 🔵 useMemo: Transform posts ONCE (not on every re-render)
     const grouped = groupPostsByUserAndDay(posts);
-    return sortGroupedPosts(grouped);
-  }, [posts]);
+    // Step 1: Group posts by user + date
+    return sortGroupedPosts(grouped); // Step 2: Sort by newest first
+  }, [posts]); // Only re-run if posts array changes
 
+  // 🔵 Handle comment toggle (open/close comment box)
   const handleCommentClick = (postId) => {
     if (activeCommentPostId === postId) {
-      setActiveCommentPostId(null);
+      setActiveCommentPostId(null);  // Close if already open
       setCommentText('');
     } else {
-      setActiveCommentPostId(postId);
+      setActiveCommentPostId(postId); // Open this post's comment box
       setCommentText('');
     }
   };
-
+// 🔵 Empty state: Show message if no posts
   if (!posts || posts.length === 0) {
     return (
       <div className="timeline-river-empty">
@@ -30,12 +33,14 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
       </div>
     );
   }
-
+// 🟢 Main render: Loop through grouped posts
   return (
     <div className="timeline-river-feed">
       {groupedAndSortedPosts.map(({ date, userId, data }) => (
+        // Loop through each group
+
         <div key={`${date}-${userId}`} className="timeline-river-section">
-          {/* Date Header */}
+          {/* 🎨 Date Header (e.g., "Mon, Jan 15, 2024") */}
           <div className="river-date-header">
             <div className="river-date-badge">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -54,9 +59,9 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
             <div className="river-divider"></div>
           </div>
 
-          {/* Timeline River Row */}
+          {/* 🟢 Timeline River Row (renders 3 columns: thoughts, media, milestones) */}
           <TimelineRiverRow
-            rowData={data}
+            rowData={data} // ⚠️ Passes grouped data to child
             onCommentClick={handleCommentClick}
             activeCommentPostId={activeCommentPostId}
             commentText={commentText}
