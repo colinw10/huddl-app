@@ -71,11 +71,16 @@ TEMPLATES = [
 # WSGI server config (like http.createServer() in Node)
 WSGI_APPLICATION = 'huddl.wsgi.application'
 
-# DATABASE - Connection config (like mongoose.connect() or Sequelize setup)
+# DATABASE - Connection config (PostgreSQL)
+# Connects to your local Postgres server
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # DB type (postgres, mysql, etc.)
-        'NAME': BASE_DIR / 'db.sqlite3',         # DB file path or name
+        'ENGINE': 'django.db.backends.postgresql',  # Use PostgreSQL
+        'NAME': 'huddl_pablo_dev',  # Your personal database
+        'USER': 'pablodcordero',  # Your Mac username
+        'PASSWORD': '',  # No password set
+        'HOST': 'localhost',  # Database on your computer
+        'PORT': '5432',  # Default Postgres port
     }
 }
 

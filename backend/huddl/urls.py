@@ -13,6 +13,8 @@ Examples:
 from django.contrib import admin
 from django.urls import path, include
 
+
+
 # URL patterns - route definitions (like Express app.get/post/etc.)
 urlpatterns = [
     path('admin/', admin.site.urls),  # Built-in admin panel at /admin

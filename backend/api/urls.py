@@ -1,5 +1,7 @@
 from django.urls import path
 
+# API app will handle authentication endpoints (login, signup, etc.)
+# Profile endpoints are in users app
 urlpatterns = [
-    # Add your URL patterns here
+    # Authentication endpoints will go here
 ]
