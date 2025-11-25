@@ -60,7 +60,8 @@ function Home() {
       likes: 56,
       isPublic: true,
       avatar: "SC",
-      type: "media"
+      type: "media",
+      media_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
     },
     {
       id: 3,
@@ -120,7 +121,8 @@ function Home() {
       likes: 31,
       isPublic: false,
       avatar: "LA",
-      type: "media"
+      type: "media",
+      media_url: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80"
     },
     {
       id: 8,

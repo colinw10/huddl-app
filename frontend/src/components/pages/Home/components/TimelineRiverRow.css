@@ -507,6 +507,24 @@
   flex-shrink: 0;
 }
 
+/* River Post Media (for media posts) */
+
+.river-post-media {
+  width: 100%;
+  margin: 12px 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.river-media-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 400px;
+}
+
 /* River Post Content */
 
 .river-post-content {
@@ -869,4 +887,36 @@
   .river-action-btn {
     padding: 5px 8px;
   }
+}
+
+/* Media expand hint icon */
+.media-expand-hint {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.river-post-media {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.river-post-media:hover {
+  transform: scale(1.02);
+}
+
+.river-post-media:hover .media-expand-hint {
+  opacity: 1;
 }
