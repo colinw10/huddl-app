@@ -35,11 +35,18 @@
     overflow-x: hidden; /* Only hide overflow on mobile */
   }
   
+  /* Wrapper for carousel + controls */
+  .timeline-river-row-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: var(--space-lg);
+  }
+  
   .timeline-river-row--carousel {
     position: relative;
     width: 100%;
-    overflow: hidden;
-    margin-bottom: 60px;
+    overflow: hidden; /* Clip the sliding track */
   }
   
   .carousel-track {
@@ -52,15 +59,18 @@
     min-width: 100%;
     flex-shrink: 0;
     padding: 0 10px;
+    box-sizing: border-box;
   }
   
+  /* Controls outside of overflow container */
   .carousel-controls {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-top: 20px;
     padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .carousel-btn {
@@ -200,12 +210,10 @@
   .timeline-river-row--3-col .river-author {
     font-size: 14px !important;
   }
-  
+
   .timeline-river-row--3-col .river-post-content {
-    font-size: var(--font-size-lg) !important;
-  }
-  
-  /* 2-column stacking - most recent on top */
+    font-size: var(--font-size-body) !important;
+  }  /* 2-column stacking - most recent on top */
   .timeline-river-row--2-col {
     padding: 0 60px;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -529,12 +537,13 @@
 
 .river-post-content {
   font-family: var(--font-main);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-body);
   line-height: 1.45;
   color: #e3e7ef;
   margin-bottom: var(--space-sm);
   white-space: pre-wrap;
   word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Thought posts: larger text, tighter padding */
@@ -543,7 +552,7 @@
 }
 
 .river-column:nth-child(1) .river-post-content {
-  font-size: 1.05rem;
+  font-size: var(--font-size-md);
   line-height: 1.45;
 }
 
@@ -798,6 +807,32 @@
   animation: slideUp 0.3s ease;
 }
 
+/* Account for side nav on larger screens */
+@media (min-width: 481px) {
+  .desktop-stack-nav {
+    left: calc(50% + 35px); /* Half of 70px side nav */
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .desktop-stack-nav {
+    left: calc(50% + 25px); /* Half of 50px side nav */
+    gap: 8px;
+    padding: 6px 12px;
+  }
+  
+  .desktop-stack-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .desktop-stack-close {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+  }
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -815,6 +850,7 @@
   border-radius: 50%;
   width: 32px;
   height: 32px;
+  min-width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -825,6 +861,7 @@
   line-height: 1;
   transition: all 0.3s ease;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .desktop-stack-close:hover {
@@ -840,6 +877,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  min-width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -847,6 +885,7 @@
   color: rgba(26, 231, 132, 0.9);
   transition: all 0.3s ease;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .desktop-stack-btn:hover {
@@ -862,9 +901,52 @@
 
 /* Responsive Design */
 
+/* Tablet - make single posts wider */
+@media (max-width: 1024px) {
+  .post--single {
+    width: 90%;
+    max-width: 600px;
+  }
+  
+  .post--thoughts.post--single {
+    width: 85%;
+    max-width: 550px;
+  }
+  
+  .post--media.post--single {
+    width: 95%;
+    max-width: 650px;
+  }
+  
+  .river-post-content {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media (max-width: 768px) {
+  .post--single,
+  .post--thoughts.post--single,
+  .post--media.post--single {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .river-post-card {
+    padding: 14px;
+  }
+  
+  .river-post-content {
+    font-size: var(--font-size-sm);
+  }
+  
+  .river-author {
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 649px) {
   .river-post-card {
-    padding: 16px;
+    padding: 12px;
   }
   
   /* All posts full width on mobile */
@@ -877,15 +959,30 @@
 
   /* Keep font sizes consistent and readable */
   .river-author {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .river-post-content {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xs);
   }
 
   .river-action-btn {
     padding: 5px 8px;
+  }
+  
+  /* Constrain media image height on mobile for better balance */
+  .river-media-image {
+    max-height: 200px;
+  }
+  
+  /* Ensure carousel cards take full width */
+  .carousel-card .post--thoughts,
+  .carousel-card .post--media,
+  .carousel-card .post--milestones,
+  .carousel-card .river-post-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
   }
 }
 

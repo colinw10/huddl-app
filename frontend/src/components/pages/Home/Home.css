@@ -22,8 +22,16 @@
 
 @media (min-width: 481px) {
   .feed-container {
-    margin-left: 80px;
-    width: calc(100% - 80px);
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+}
+
+/* Thinner side nav on smaller tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .feed-container {
+    margin-left: 50px;
+    width: calc(100% - 50px);
   }
 }
 
@@ -278,7 +286,13 @@
 /* Account for side nav on larger screens */
 @media (min-width: 481px) {
   .modal-overlay {
-    padding-left: 80px;
+    padding-left: 70px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .modal-overlay {
+    padding-left: 50px;
   }
 }
 

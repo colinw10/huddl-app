@@ -283,18 +283,20 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // Mobile: Render as horizontal carousel
   if (isMobile && allPosts.length > 1) {
     return (
-      <div 
-        className="timeline-river-row timeline-river-row--carousel"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div className="carousel-track" style={{ transform: `translateX(-${activeCardIndex * 100}%)` }}>
-          {allPosts.map((post) => (
-            <div key={post.id} className="carousel-card">
-              {renderPostCard(post, post.type)}
-            </div>
-          ))}
+      <div className="timeline-river-row-wrapper">
+        <div 
+          className="timeline-river-row timeline-river-row--carousel"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="carousel-track" style={{ transform: `translateX(-${activeCardIndex * 100}%)` }}>
+            {allPosts.map((post) => (
+              <div key={post.id} className="carousel-card">
+                {renderPostCard(post, post.type)}
+              </div>
+            ))}
+          </div>
         </div>
         
         <div className="carousel-controls">
