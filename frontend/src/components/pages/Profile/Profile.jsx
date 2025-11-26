@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Profile.css';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';

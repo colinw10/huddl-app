@@ -36,22 +36,20 @@
   overflow-x: hidden;
   padding-bottom: 80px;
   box-sizing: border-box;
-  margin-top: -48px;
-  padding-top: 48px;
+  padding-top: 0;
 }
 
 @media (max-width: 480px) {
   .user-profile-page {
-    margin-top: -44px;
-    padding-top: 44px;
+    padding-top: 0;
   }
 }
 
 /* Side nav only shows on desktop (769px+) for profile page */
 @media (min-width: 769px) {
   .user-profile-page {
-    margin-left: 80px;
-    width: calc(100% - 80px);
+    margin-left: 56px;
+    width: calc(100% - 56px);
   }
 }
 
@@ -118,11 +116,11 @@
 
 .view-mode-toggle {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   justify-content: center;
   max-width: 1200px;
-  margin: 16px auto 16px;
-  padding: 0 16px;
+  margin: 12px auto 38px;
+  padding: 0 20px;
 }
 
 @media (max-width: 768px) {
