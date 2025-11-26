@@ -131,6 +131,12 @@
 }
 
 /* Desktop: Grid layout */
+/* STACKED CARDS CENTERING:
+   The 3 cards stack with -120px negative margins, causing 240px total overlap.
+   This shifts the visual center to the right. Avoid using padding-left offsets
+   as they can overcorrect. The current flex justify-content: center handles
+   centering adequately. If further adjustment needed, consider transform: translateX
+   on the row rather than padding. */
 @media (min-width: 650px) and (max-width: 1200px) {
   .timeline-river-row--3-col {
     position: relative;
