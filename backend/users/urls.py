@@ -1,11 +1,31 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import ProfileViewSet
-
+from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+# ☝️ Import pre-built JWT views from the library
+# TokenObtainPairView = handles login (checks password, gives tokens)
+# TokenRefreshView = gives new access token when old one expires
+from . import views
+# ☝️ Import OUR views file (users/views.py)
+# The dot (.) means "from this same folder"
+# We'll write signup() and current_user() functions in views.py
 # Router for ViewSets
-router = DefaultRouter()
-router.register(r'profiles', ProfileViewSet, basename='profile')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('signup/', views.signup, name='signup'),
+    path('login/', TokenObtainPairView.as_view(), name='login'),
+
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # ☝️ Creates route: /api/auth/token/refresh/
+    # When called: runs JWT library's built-in token refresh view
+    # What it does: gives new access token when old one expires
+    # Frontend sends: POST with {"refresh": "TOKEN456..."}
+    # Returns: {"access": "NEWTOKEN789..."}
+    # NOTE: .as_view() converts the class into a function Django can call
+
+    path('me/', views.current_user, name='current_user'),
+     # ☝️ Creates route: /api/auth/me/
+    # When called: runs views.current_user function (we'll write this)
+    # What it does: returns info about logged-in user
+    # Frontend sends: GET with Authorization header "Bearer TOKEN123..."
+    # Returns: {"id": 1, "username": "pablo", "email": "pablo@huddl.com", "profile": {...}}
+    # Django checks JWT token to know WHO is logged in
 ]
