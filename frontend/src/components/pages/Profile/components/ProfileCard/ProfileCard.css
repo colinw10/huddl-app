@@ -1,4 +1,16 @@
-/* ProfileCard Component Styles */
+/* ProfileCard Component Styles
+   
+   RESPONSIVE BEHAVIOR:
+   - Desktop: max-width 1200px, centered with padding
+   - Tablet (768px-): Reduced margins
+   - Mobile: Currently minimal changes - needs work for iPhone SE
+   
+   The flip card has a fixed height of 504px which may be too tall
+   for small mobile screens. For iPhone SE (320x568), consider:
+   - Reducing height to ~280-320px
+   - Making content scrollable within the card
+   - Reducing padding and margins
+*/
 @import url("https://use.typekit.net/nxn1rxl.css");
 
 .profile-flip-container {

@@ -1,4 +1,12 @@
-/* Top Bar */
+/* Top Bar
+   
+   RESPONSIVE BEHAVIOR:
+   - Desktop: 60px height, full padding
+   - Mobile (480px-): 44px height, reduced padding and icon sizes
+   
+   The top bar is fixed position and spans full width.
+   On mobile, it should remain within viewport bounds.
+*/
 .top-bar {
   position: fixed;
   top: 0;

@@ -1,6 +1,18 @@
 /* ========================================
    USER PROFILE PAGE - Timeline River Flow
    Dark theme with HUDDL style
+   
+   RESPONSIVE BREAKPOINTS:
+   - Desktop (769px+): Side nav visible, page has left margin
+   - Tablet (481-768px): Full width, bottom nav, extra padding
+   - Mobile (480px-): Full width, bottom nav, minimal padding
+   
+   NOTE: Mobile responsive for iPhone SE was attempted but reverted.
+   The current mobile styles are minimal. Future mobile work should:
+   1. Test on actual device dimensions (320x568 for iPhone SE)
+   2. Make ONE small change at a time and verify
+   3. Avoid fixed pixel widths - use % or vw units
+   4. Ensure bottom nav stays visible (z-index, proper padding)
    ======================================== */
 
 @keyframes dark-holographic-shimmer {

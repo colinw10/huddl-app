@@ -1,4 +1,15 @@
-/* Main Navigation */
+/* Main Navigation
+   
+   RESPONSIVE BEHAVIOR:
+   - Desktop (481px+): Left sidebar (side-nav) with 56px width
+   - Tablet (481-768px): Thinner side nav at 44px
+   - Mobile (480px-): Bottom nav bar (controlled by SideNav.jsx which
+     switches between 'left-nav' and 'bottom-nav' classes based on
+     window.innerWidth > 480)
+   
+   The SideNav.jsx component handles the class switching.
+   This CSS file styles both configurations.
+*/
 
 /* Neon Pulse Animation */
 @keyframes neonPulse {
