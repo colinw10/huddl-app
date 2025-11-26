@@ -18,21 +18,19 @@ function SideNav() {
 
   return (
     <nav className={`main-nav ${isDesktop ? 'left-nav' : 'bottom-nav'}`}>
-      {location.pathname !== '/home' && (
-        <button 
-          className={`nav-item ${location.pathname === '/home' ? 'active' : ''}`}
-          onClick={() => navigate('/home')}
-          title="Home"
-        >
-          <div className="nav-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </div>
-          <span>Home</span>
-        </button>
-      )}
+      <button 
+        className={`nav-item ${location.pathname === '/home' ? 'active' : ''}`}
+        onClick={() => navigate('/home')}
+        title="Home"
+      >
+        <div className="nav-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <span>Home</span>
+      </button>
       <button 
         className={`nav-item ${location.pathname === '/search' ? 'active' : ''}`}
         onClick={() => navigate('/search')}

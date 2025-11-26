@@ -11,7 +11,7 @@ import Friends from './components/pages/Friends/Friends';
 import './styles/App.css';
 import './styles/Blobs.css';
 import './styles/Logo.css';
-import './styles/Buttons.css';
+import './components/pages/Landing/Landing.css';
 
 function AppContent() {
   const location = useLocation();// 🔵 Gets current URL path

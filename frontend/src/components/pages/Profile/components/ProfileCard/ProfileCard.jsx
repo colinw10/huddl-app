@@ -185,31 +185,6 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
                 Being Human
                    </p>
               </div>
-
-              {/* Action Icons - Below Bio */}
-              <div className="profile-actions-pill">
-                <button className="action-icon-btn" title="Share Profile">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="18" cy="5" r="3"/>
-                    <circle cx="6" cy="12" r="3"/>
-                    <circle cx="18" cy="19" r="3"/>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                  </svg>
-                </button>
-                <button className="action-icon-btn" title="More Options">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="1"/>
-                    <circle cx="19" cy="12" r="1"/>
-                    <circle cx="5" cy="12" r="1"/>
-                  </svg>
-                </button>
-                <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                  </svg>
-                </button>
-              </div>
             </div>
 
             {/* RIGHT COLUMN */}
@@ -256,7 +231,30 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
             </div>
           </div>
 
-          {/* Analytics Icon Link - Removed, now in action icons */}
+          {/* Action Icons - Right Side */}
+          <div className="profile-actions-pill">
+            <button className="action-icon-btn" title="Share Profile">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </button>
+            <button className="action-icon-btn" title="More Options">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="1"/>
+                <circle cx="19" cy="12" r="1"/>
+                <circle cx="5" cy="12" r="1"/>
+              </svg>
+            </button>
+            <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Back Side - Private Analytics */}
@@ -680,6 +678,33 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
               </svg>
               <span>Notifications</span>
             </button>
+            
+            {/* Compact 3-column grid for secondary actions */}
+            <div className="settings-grid">
+              <button className="setting-btn setting-btn-compact">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>Saved</span>
+              </button>
+              <button className="setting-btn setting-btn-compact">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span>Activity</span>
+              </button>
+              <button className="setting-btn setting-btn-compact throwback-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18V5l12-2v13"/>
+                  <circle cx="6" cy="18" r="3"/>
+                  <circle cx="18" cy="16" r="3"/>
+                </svg>
+                <span>🎸</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

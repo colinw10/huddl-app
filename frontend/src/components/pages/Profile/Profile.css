@@ -36,14 +36,31 @@
   overflow-x: hidden;
   padding-bottom: 80px;
   box-sizing: border-box;
-  margin-top: -60px;
-  padding-top: 60px;
+  margin-top: -48px;
+  padding-top: 48px;
 }
 
-@media (min-width: 481px) {
+@media (max-width: 480px) {
+  .user-profile-page {
+    margin-top: -44px;
+    padding-top: 44px;
+  }
+}
+
+/* Side nav only shows on desktop (769px+) for profile page */
+@media (min-width: 769px) {
   .user-profile-page {
     margin-left: 80px;
     width: calc(100% - 80px);
+  }
+}
+
+/* On tablet (481-768px), profile gets full width with bottom nav */
+@media (min-width: 481px) and (max-width: 768px) {
+  .user-profile-page {
+    margin-left: 0;
+    width: 100%;
+    padding-bottom: 100px; /* Extra padding for bottom nav */
   }
 }
 
@@ -101,28 +118,34 @@
 
 .view-mode-toggle {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   max-width: 1200px;
-  margin: 90px auto 24px;
-  padding: 0 20px;
+  margin: 16px auto 16px;
+  padding: 0 16px;
+}
+
+@media (max-width: 768px) {
+  .view-mode-toggle {
+    margin: -8px auto 4px;
+  }
 }
 
 .view-toggle-btn {
   background: rgba(25, 25, 26, 0.3);
   backdrop-filter: blur(15px);
   border-radius: 0 !important;
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-  padding: 0.5rem 1.4rem;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  padding: 0.35rem 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  font-size: 0.80rem;
+  font-size: 0.7rem;
   font-weight: 500;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -146,8 +169,30 @@
 }
 
 .view-toggle-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
+}
+
+/* Mobile adjustments for view toggle */
+@media (max-width: 480px) {
+  .view-mode-toggle {
+    gap: 6px;
+    margin: -26px auto 16px !important;
+    padding: 0 12px;
+    position: relative;
+    z-index: 5;
+  }
+  
+  .view-toggle-btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.65rem;
+    gap: 4px;
+  }
+  
+  .view-toggle-btn svg {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 /* ========================================
@@ -165,7 +210,7 @@
 
 .quick-composer-section {
   flex: 1;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(211, 1, 1, 0.03);
   backdrop-filter: blur(15px);
   clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
   padding: 0.8rem 1rem;
@@ -179,13 +224,13 @@
 }
 
 .quick-composer-section.thought-composer {
-  background: rgba(26, 115, 231, 0.05);
-  border-color: rgba(26, 115, 231, 0.2);
+  background: rgba(26, 115, 231, 0.073);
+  border-color: rgba(26, 115, 231, 0.229);
 }
 
 .quick-composer-section.media-composer {
-  background: rgba(220, 8, 188, 0.05);
-  border-color: rgba(220, 8, 188, 0.2);
+  background: rgba(168, 13, 111, 0.075);
+  border-color: rgba(220, 8, 188, 0.192);
 }
 
 .quick-composer-section:hover {
@@ -247,7 +292,7 @@
   background-blend-mode: overlay, multiply, overlay;
   
   /* Cyberpunk border */
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  border: 1px solid rgba(0, 213, 255, 0.388);
   border-radius: 8px;
   
   /* 3D depth shadows */
@@ -348,6 +393,40 @@
     padding: 14px 16px;
     font-size: 13px;
     white-space: nowrap;
+  }
+}
+
+/* Smaller composers on mobile */
+@media (max-width: 480px) {
+  .quick-composer-buttons {
+    gap: 8px;
+    margin: 0 auto 16px;
+    padding: 8px 12px 0;
+  }
+  
+  .quick-composer-section {
+    padding: 0.5rem 0.7rem;
+    gap: 0.5rem;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  
+  .quick-composer-avatar {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+  
+  .quick-composer-avatar svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .quick-composer-input {
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .quick-composer-placeholder {
+    font-size: 0.75rem;
   }
 }
 

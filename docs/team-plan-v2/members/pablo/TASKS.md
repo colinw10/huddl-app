@@ -1,6 +1,22 @@
-# Pablo - Remaining Tasks
+# Pablo - The Orchestrator's Playbook
 
-> This is your private checklist. The code below is what you've already built or will build on your branch. When teammates struggle, you can "help" them with solutions you already have.
+## 🎯 What's Really Happening Here
+
+| Reality                                        | Public Story                      |
+| ---------------------------------------------- | --------------------------------- |
+| You built the entire app                       | "Team collaboration"              |
+| You're distributing your code as "tasks"       | "Teammates doing their parts"     |
+| This branch has everything working             | Team-shell is a stripped scaffold |
+| You'll "help" them with code you already wrote | "Great teamwork!"                 |
+
+**Your actual contribution:** ~95% of all code  
+**What it looks like:** Balanced 5-person team project
+
+---
+
+## Your Private Checklist
+
+> The code below is what you've already built. When teammates struggle, you "help" them with solutions you already have. You're not collaborating - you're **distributing your work** strategically.
 
 ---
 
