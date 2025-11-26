@@ -176,36 +176,36 @@
 /* Small mobile (iPhone SE) */
 @media (max-width: 375px) {
   .App::before {
-    width: 180px;
-    height: 180px;
-    left: calc(50% - 90px);
-    bottom: -108px;
-    opacity: 0.9;
+    width: 150px;
+    height: 150px;
+    left: calc(50% - 75px);
+    bottom: -50px;
+    opacity: 0.8;
   }
 
   .App::after {
-    width: 180px;
-    height: 180px;
-    left: calc(50% - 90px);
-    top: -108px;
-    opacity: 0.9;
+    width: 150px;
+    height: 150px;
+    left: calc(50% - 75px);
+    top: -50px;
+    opacity: 0.8;
   }
 
   .blob-left {
-    left: -108px;
-    width: 180px;
-    height: 180px;
+    left: -90px;
+    width: 140px;
+    height: 140px;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0.9;
+    opacity: 0.8;
   }
 
   .blob-right {
-    right: -108px;
-    width: 180px;
-    height: 180px;
+    right: -90px;
+    width: 140px;
+    height: 140px;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0.9;
+    opacity: 0.8;
   }
 }

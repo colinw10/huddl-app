@@ -508,3 +508,24 @@
     font-size: 14px;
   }
 }
+
+/* MOBILE: iPhone SE (375px) - scale entire card to fit viewport */
+@media (max-width: 390px) {
+  .login-container {
+    padding: 0.5rem;
+    min-height: auto;
+    height: calc(100vh - 100px);
+    overflow: hidden;
+  }
+
+  .login-card {
+    transform: scale(0.78);
+    transform-origin: top center;
+    margin-top: 0.5rem;
+  }
+
+  .back-button {
+    transform: scale(1.2);
+    transform-origin: top left;
+  }
+}
