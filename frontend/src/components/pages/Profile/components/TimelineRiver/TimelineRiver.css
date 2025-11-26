@@ -41,16 +41,40 @@
   transition: all 0.3s ease;
 }
 
+/* Thoughts - Blue outline */
+.left-label {
+  border: 1px solid rgba(26, 115, 231, 0.5);
+  box-shadow: 0 0 8px rgba(26, 115, 231, 0.15),
+              inset 0 0 12px rgba(26, 115, 231, 0.05);
+}
+
 .left-label svg {
   color: rgba(26, 115, 231, 0.8);
+  filter: drop-shadow(0 0 4px rgba(26, 115, 231, 0.5));
+}
+
+/* Media - Magenta outline */
+.center-label {
+  border: 1px solid rgba(220, 8, 188, 0.5);
+  box-shadow: 0 0 8px rgba(220, 8, 188, 0.15),
+              inset 0 0 12px rgba(220, 8, 188, 0.05);
 }
 
 .center-label svg {
   color: rgba(220, 8, 188, 0.8);
+  filter: drop-shadow(0 0 4px rgba(220, 8, 188, 0.5));
+}
+
+/* Milestones - Gold outline */
+.right-label {
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.15),
+              inset 0 0 12px rgba(255, 215, 0, 0.05);
 }
 
 .right-label svg {
   color: rgba(255, 215, 0, 0.8);
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
 }
 
 /* River Streams Container */

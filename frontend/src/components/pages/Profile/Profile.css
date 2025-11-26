@@ -46,7 +46,7 @@
   color: #ffffff;
   position: relative;
   overflow-x: hidden;
-  padding-bottom: 80px;
+  padding-bottom: 80px; /* MOBILE: ensure enough space for bottom nav (~56px) */
   box-sizing: border-box;
   padding-top: 0;
 }

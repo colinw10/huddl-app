@@ -165,7 +165,7 @@
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2),
               0 -1px 40px rgba(26, 115, 231, 0.15),
               inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  z-index: 100;
+  z-index: 100; /* MOBILE: increase to 1000 to stay above content */
 }
 
 /* Shared Base Styles */
@@ -183,7 +183,7 @@
   padding: 0.5rem 1rem;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(0, 212, 255, 0.7); /* Neon cyan base */
   cursor: pointer;
   transition: all 0.18s ease;
   border-radius: 12px;
@@ -205,16 +205,18 @@
 }
 
 .nav-item:hover .nav-icon {
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 0 12px rgba(120, 180, 255, 0.25);
+  background: rgba(0, 212, 255, 0.08);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.3),
+              0 0 4px rgba(138, 43, 226, 0.2);
 }
 
 .nav-item.active .nav-icon {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(26, 231, 132, 0.1);
+  box-shadow: 0 0 8px rgba(26, 231, 132, 0.3);
 }
 
 .nav-item:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(220, 120, 255, 0.95); /* Neon magenta on hover */
   background: transparent;
   transform: translateY(-2px);
 }
@@ -227,13 +229,41 @@
 
 .nav-item svg {
   transition: all 0.18s ease;
-  filter: drop-shadow(0 0 0 transparent);
+  filter: drop-shadow(0 0 2px rgba(0, 212, 255, 0.3));
 }
 
 .nav-item:hover svg {
   transform: scale(1.1);
-  filter: drop-shadow(0 0 8px rgba(120, 180, 255, 0.4));
 }
+
+/* Each nav icon gets a unique neon color on hover */
+.nav-item:nth-child(1):hover { color: #00d4ff; } /* Home - Cyan */
+.nav-item:nth-child(1):hover svg { filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6)); }
+.nav-item:nth-child(1):hover .nav-icon { box-shadow: 0 0 12px rgba(0, 212, 255, 0.4); }
+
+.nav-item:nth-child(2):hover { color: #ff6b9d; } /* Search - Pink */
+.nav-item:nth-child(2):hover svg { filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.6)); }
+.nav-item:nth-child(2):hover .nav-icon { box-shadow: 0 0 12px rgba(255, 107, 157, 0.4); }
+
+.nav-item:nth-child(3):hover { color: #a855f7; } /* Messages - Purple */
+.nav-item:nth-child(3):hover svg { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)); }
+.nav-item:nth-child(3):hover .nav-icon { box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); }
+
+.nav-item:nth-child(4):hover { color: #fbbf24; } /* Notifications - Amber */
+.nav-item:nth-child(4):hover svg { filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6)); }
+.nav-item:nth-child(4):hover .nav-icon { box-shadow: 0 0 12px rgba(251, 191, 36, 0.4); }
+
+.nav-item:nth-child(5):hover { color: #34d399; } /* Friends - Emerald */
+.nav-item:nth-child(5):hover svg { filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.6)); }
+.nav-item:nth-child(5):hover .nav-icon { box-shadow: 0 0 12px rgba(52, 211, 153, 0.4); }
+
+.nav-item:nth-child(6):hover { color: #f472b6; } /* Profile - Rose */
+.nav-item:nth-child(6):hover svg { filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6)); }
+.nav-item:nth-child(6):hover .nav-icon { box-shadow: 0 0 12px rgba(244, 114, 182, 0.4); }
+
+.nav-item:nth-child(7):hover { color: #60a5fa; } /* About - Blue */
+.nav-item:nth-child(7):hover svg { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6)); }
+.nav-item:nth-child(7):hover .nav-icon { box-shadow: 0 0 12px rgba(96, 165, 250, 0.4); }
 
 .nav-item.active svg {
   filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.8));

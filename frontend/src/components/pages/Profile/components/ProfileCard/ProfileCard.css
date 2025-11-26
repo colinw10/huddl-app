@@ -18,7 +18,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 20px auto 40px;
-  padding: 0 20px;
+  padding: 0 20px; /* MOBILE: reduce to 0 4px to prevent horizontal overflow */
   position: relative;
   overflow: visible;
   box-sizing: border-box;
@@ -33,7 +33,7 @@
 .profile-flip-card {
   position: relative;
   width: 100%;
-  height: 504px;
+  height: 504px; /* MOBILE: reduce to ~280px so bottom nav visible on iPhone SE */
   transform-style: preserve-3d;
 }
 
@@ -167,7 +167,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(90deg, rgba(26, 115, 231, 0.5) 0%, rgba(220, 8, 188, 0.45) 100%);
+  background: linear-gradient(90deg, rgba(0, 212, 255, 0.45) 0%, rgba(26, 115, 231, 0.5) 50%, rgba(220, 8, 188, 0.45) 100%);
   border-radius: 24px 24px 0 0;
   mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
@@ -189,8 +189,9 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(26, 115, 231, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(220, 8, 188, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 10% 30%, rgba(0, 212, 255, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(26, 115, 231, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 90% 70%, rgba(220, 8, 188, 0.12) 0%, transparent 40%);
   animation: headerShimmer 15s ease-in-out infinite;
 }
 
@@ -1579,6 +1580,30 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* Thoughts - Green outline */
+.breakdown-legend-item:nth-child(1) .legend-type {
+  border: 1px solid rgba(30, 234, 76, 0.5);
+  padding: 2px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(30, 234, 76, 0.2);
+}
+
+/* Media - Blue outline */
+.breakdown-legend-item:nth-child(2) .legend-type {
+  border: 1px solid rgba(26, 115, 231, 0.5);
+  padding: 2px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(26, 115, 231, 0.2);
+}
+
+/* Milestones - Magenta outline */
+.breakdown-legend-item:nth-child(3) .legend-type {
+  border: 1px solid rgba(234, 30, 162, 0.5);
+  padding: 2px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 6px rgba(234, 30, 162, 0.2);
 }
 
 .legend-color {
