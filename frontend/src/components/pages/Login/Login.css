@@ -85,13 +85,17 @@
 
 .login-container {
   width: 100%;
-  min-height: calc(100vh - 130px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
   position: relative;
   overflow: hidden;
+  margin-top: -60px;
+  margin-bottom: -80px;
+  padding-top: calc(2rem + 60px);
+  padding-bottom: calc(2rem + 80px);
 }
 
 /* Ambient gradient background overlay */
@@ -477,7 +481,7 @@
     max-width: 100%;
     padding: 36px 28px;
     border-radius: 20px;
-    transform: scale(1);
+    transform: scale(0.85);
   }
 
   .login-title {
@@ -509,23 +513,27 @@
   }
 }
 
-/* MOBILE: iPhone SE (375px) - scale entire card to fit viewport */
+/* MOBILE: iPhone SE (375px) - scale card smaller to fit viewport */
 @media (max-width: 390px) {
   .login-container {
-    padding: 0.5rem;
     min-height: auto;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 110px);
+    max-height: calc(100vh - 110px);
+    margin-top: -50px;
+    margin-bottom: -60px;
     overflow: hidden;
+    padding: 1rem;
+    padding-top: 3.8rem;
   }
 
   .login-card {
-    transform: scale(0.78);
+    transform: scale(0.68);
     transform-origin: top center;
-    margin-top: 0.5rem;
+    margin-top: 3rem;
   }
 
   .back-button {
-    transform: scale(1.2);
+    transform: scale(1.25);
     transform-origin: top left;
   }
 }

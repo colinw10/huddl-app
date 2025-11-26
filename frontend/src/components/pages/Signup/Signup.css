@@ -105,13 +105,16 @@
 
 .signup-container {
   width: 100%;
-  min-height: calc(100vh - 130px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
   position: relative;
   overflow: hidden;
+  /* Counteract .main-content padding */
+  margin-top: -60px;
+  margin-bottom: -80px;
 }
 
 /* Ambient gradient background overlay */
@@ -547,7 +550,9 @@
 @media (max-width: 480px) {
   .signup-container {
     padding: 1rem;
-    min-height: calc(100vh - 110px);
+    min-height: 100vh;
+    margin-top: -50px;
+    margin-bottom: -60px;
   }
 
   .signup-card {
@@ -582,5 +587,24 @@
   .btn-submit {
     padding: 16px;
     font-size: 14px;
+  }
+}
+
+/* iPhone SE */
+@media (max-width: 390px) {
+  .signup-container {
+    height: calc(100vh - 110px);
+    padding-top: 2rem;
+    margin-top: -50px;
+    margin-bottom: -60px;
+  }
+
+  .signup-card {
+    transform: scale(0.62);
+    margin-top: 0;
+  }
+
+  .back-button .back-text {
+    display: none;
   }
 }
