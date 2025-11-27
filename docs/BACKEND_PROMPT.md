@@ -219,12 +219,37 @@ const createPost = async (content, type) => {
 
 ---
 
-Please help me build this backend step-by-step, starting with:
+# Backend Progress Checklist (as of Nov 27, 2025)
 
-1. Models (with proper relationships)
-2. Serializers (with nested data)
-3. Views (with authentication & permissions)
-4. URL routing
-5. CORS configuration
+## What’s Left (Backend)
 
-Let me know if you need any clarification on the frontend requirements!
+- [ ] posts/views.py: `post_list`, `post_detail`
+- [ ] posts/models.py: Post model (finalize/verify)
+- [ ] friends/views.py: `friend_list`, `send_request`, `accept_request`, `decline_request`, `remove_friend`
+- [ ] friends/models.py: FriendRequest model (finalize/verify)
+
+## What’s Left (Frontend)
+
+- [ ] apiClient.js: API calls for posts, friends, auth
+- [ ] Auth context/state
+- [ ] Posts context/state
+- [ ] Friends context/state
+- [ ] Wire up Login/Signup
+- [ ] Wire up Feed
+
+## Completed
+
+- [x] backend/huddl/urls.py - Main router done, forwards to users, posts, friends
+- [x] backend/users/urls.py - Auth routes done (signup, login, token/refresh, me)
+- [x] backend/users/views.py - signup() and current_user() functions done
+- [x] backend/posts/urls.py - Post routes done (post_list, post_detail)
+- [x] backend/huddl/settings.py - JWT and CORS configured
+- [x] Test server and endpoints (server running, JWT endpoints visible, CORS enabled for React frontend)
+
+---
+
+# The above checklist reflects all that is left to complete the backend and frontend integration for Huddl. Once these are checked off, the core app will be functional!
+
+---
+
+# (Original prompt continues below)
