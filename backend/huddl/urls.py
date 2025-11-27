@@ -27,6 +27,9 @@ urlpatterns = [
     # What: Creates route: http://127.0.0.1:8000/api/auth/
     # Does: Forwards ALL requests starting with /api/auth/ to the file users/urls.py
 
+# When React calls /api/posts/, this line(in each route, actually) catches it.
+# The include() part says: "Strip off api/posts/ and forward the rest to posts/urls.py"
+
     path('api/posts/', include('posts.urls')),
     # What: Creates route: http://127.0.0.1:8000/api/posts/
     # Does: Forwards ALL requests starting with /api/posts/ to posts/urls.py

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'rest_framework',
     'rest_framework_simplejwt',  # JWT authentication
+    'corsheaders',  # <-- Added for CORS
     # Custom apps
     'users',
     'posts',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
 # MIDDLEWARE - Request/response pipeline (exactly like Express app.use() chain)
 # Executes top-to-bottom on requests, bottom-to-top on responses
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # <-- Added for CORS (must be first)
     'django.middleware.security.SecurityMiddleware',      # Security headers (helmet in Express)
     'django.contrib.sessions.middleware.SessionMiddleware',  # Session handling (express-session)
     'django.middleware.common.CommonMiddleware',           # Common HTTP features
@@ -112,3 +114,6 @@ STATIC_URL = 'static/'
 
 # Default ID field type for models (like MongoDB ObjectId or auto-increment in SQL)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS - Allow React frontend to talk to Django
+CORS_ALLOW_ALL_ORIGINS = True  # For development only
