@@ -92,3 +92,18 @@
     height: 16px;
   }
 }
+
+/* Narrow desktop (min browser width with side nav) - shorter top bar */
+@media (min-width: 481px) and (max-width: 600px) {
+  .top-bar {
+    height: 44px;
+  }
+  
+  .top-bar-logo {
+    margin-bottom: 0;
+  }
+  
+  .top-bar-icons {
+    padding-bottom: 0;
+  }
+}

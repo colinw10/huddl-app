@@ -30,10 +30,18 @@
   }
 }
 
+/* Narrow desktop (min browser width with side nav) - shift card left to compensate */
+@media (min-width: 481px) and (max-width: 600px) {
+  .profile-flip-container {
+    margin: 8px 0 0 -5px;
+  }
+}
+
 .profile-flip-card {
   position: relative;
   width: 100%;
   height: 504px; /* MOBILE: reduce to ~280px so bottom nav visible on iPhone SE */
+  max-height: calc(100vh - 180px); /* Don't overlap with nav bars */
   transform-style: preserve-3d;
 }
 
@@ -261,11 +269,11 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(16, 1, 39, 0.114);
   backdrop-filter: blur(10px);
   padding: 5px;
   border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(7, 109, 211, 0.191);
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.2),
     inset 0 1px 2px rgba(255, 255, 255, 0.1);
@@ -280,8 +288,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 45, 213, 0.078);
+  border: 1px solid rgba(65, 212, 232, 0.563);
   color: rgba(255, 255, 255, 0.85);
   display: flex;
   align-items: center;
@@ -290,17 +298,46 @@
   transition: all 0.3s ease;
 }
 
-.action-icon-btn:hover {
-  background: rgba(26, 115, 231, 0.25);
-  border-color: rgba(26, 115, 231, 0.4);
+/* Share button - Cyan */
+.action-icon-btn.share-btn {
+  border-color: rgba(0, 212, 255, 0.4);
+  color: rgba(0, 212, 255, 0.9);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
+}
+
+.action-icon-btn.share-btn:hover {
+  background: rgba(0, 212, 255, 0.25);
+  border-color: rgba(0, 212, 255, 0.6);
   transform: scale(1.08);
-  box-shadow: 0 0 12px rgba(26, 115, 231, 0.3);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+}
+
+/* More button - Magenta */
+.action-icon-btn.more-btn {
+  border-color: rgba(220, 8, 188, 0.4);
+  color: rgba(220, 8, 188, 0.9);
+  box-shadow: 0 0 8px rgba(220, 8, 188, 0.2);
+}
+
+.action-icon-btn.more-btn:hover {
+  background: rgba(220, 8, 188, 0.25);
+  border-color: rgba(220, 8, 188, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(220, 8, 188, 0.5);
+}
+
+/* Analytics button - Green */
+.action-icon-btn.analytics-btn {
+  border-color: rgba(30, 234, 76, 0.4);
+  color: rgba(30, 234, 76, 0.9);
+  box-shadow: 0 0 8px rgba(30, 234, 76, 0.2);
 }
 
 .action-icon-btn.analytics-btn:hover {
   background: rgba(26, 231, 132, 0.25);
-  border-color: rgba(26, 231, 132, 0.4);
-  box-shadow: 0 0 12px rgba(26, 231, 132, 0.3);
+  border-color: rgba(26, 231, 132, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(26, 231, 132, 0.5);
 }
 
 .profile-name-section {

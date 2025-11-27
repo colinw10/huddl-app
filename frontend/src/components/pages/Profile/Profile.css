@@ -57,16 +57,16 @@
   }
 }
 
-/* Side nav only shows on desktop (769px+) for profile page */
-@media (min-width: 769px) {
+/* Side nav shows on desktop (481px+) so profile needs left margin */
+@media (min-width: 481px) {
   .user-profile-page {
     margin-left: 56px;
     width: calc(100% - 56px);
   }
 }
 
-/* On tablet (481-768px), profile gets full width with bottom nav */
-@media (min-width: 481px) and (max-width: 768px) {
+/* On mobile (480px-), profile gets full width with bottom nav */
+@media (max-width: 480px) {
   .user-profile-page {
     margin-left: 0;
     width: 100%;
@@ -138,6 +138,13 @@
 @media (max-width: 768px) {
   .view-mode-toggle {
     margin: -8px auto 4px;
+  }
+}
+
+/* Narrow desktop (min browser width with side nav) - push toggle buttons down */
+@media (min-width: 481px) and (max-width: 600px) {
+  .view-mode-toggle {
+    margin: 30px auto 38px;
   }
 }
 
@@ -216,6 +223,13 @@
   margin: 0 auto 30px;
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+/* Narrow desktop (min browser width with side nav) - move composers up */
+@media (min-width: 481px) and (max-width: 600px) {
+  .quick-composer-buttons {
+    margin-top: -20px;
+  }
 }
 
 .quick-composer-section {

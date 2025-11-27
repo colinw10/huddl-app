@@ -42,9 +42,9 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
           </div>
 
           <textarea 
-            className="composer-textarea"
+            className={`composer-textarea ${composerType === 'media' ? 'media-mode' : ''}`}
             placeholder={composerType === 'thought' ? "What's on your mind?" : "Add a caption to your media..."}
-            rows="6"
+            rows={composerType === 'media' ? 2 : 6}
             autoFocus
           />
 
@@ -104,7 +104,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
             </button>
           </div>
           <button className="composer-post-btn">
-            Post to {composerType === 'thought' ? 'Thoughts' : 'Media'}
+            Post Thoughts
           </button>
         </div>
       </div>

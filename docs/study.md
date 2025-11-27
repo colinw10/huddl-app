@@ -1132,3 +1132,490 @@ This architecture is designed for:
 - Ask "What happens when...?" questions
 
 Good luck with your studies! 🚀
+
+---
+
+## 🎯 QUICK REFERENCE: STATE + HANDLERS BY COMPONENT
+
+### This section follows your study strategy: 4 things per component
+
+---
+
+### 📍 App.jsx (Root)
+
+#### 1. STATE
+
+```javascript
+// No useState - uses hook instead
+const location = useLocation(); // Gets current URL: { pathname: "/home" }
+```
+
+#### 2. HANDLERS
+
+```javascript
+// No handlers - just computed logic
+const isAuthPage =
+  location.pathname === "/login" || location.pathname === "/signup";
+const isLandingPage = location.pathname === "/";
+```
+
+#### 3. WHAT IT RENDERS
+
+- TopBar (if NOT landing/auth page)
+- Routes → correct page component
+- SideNav (if NOT landing/auth page)
+- Decorative blobs (always)
+
+#### 4. WHY IT MATTERS
+
+Controls what shows based on URL. Auth pages get clean look (no nav).
+
+---
+
+### 🏠 Landing.jsx
+
+#### 1. STATE
+
+```javascript
+// NONE - stateless component
+```
+
+#### 2. HANDLERS
+
+```javascript
+const navigate = useNavigate();  // Router function to change URL
+
+// Inline handlers:
+onClick={() => navigate('/login')}   // Changes URL → Login renders
+onClick={() => navigate('/signup')}  // Changes URL → Signup renders
+```
+
+#### 3. WHAT IT RENDERS
+
+- HUDDL title
+- Login button
+- Signup button
+
+#### 4. WHY IT MATTERS
+
+Entry point. Clicking buttons triggers route change → App re-renders → new page shows.
+
+---
+
+### 🔐 Login.jsx
+
+#### 1. STATE
+
+```javascript
+const [formData, setFormData] = useState({
+  email: "", // Bound to email input
+  password: "", // Bound to password input
+});
+
+const [errors, setErrors] = useState({});
+// Example: { email: 'Invalid email', password: 'Too short' }
+
+const [isLoading, setIsLoading] = useState(false);
+// true = spinner showing, button disabled
+```
+
+#### 2. HANDLERS
+
+```javascript
+// Handler 1: Every keystroke
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value, // Update just this field
+  }));
+  // Also clear error for this field
+  if (errors[name]) {
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  }
+};
+
+// Handler 2: Validation
+const validateForm = () => {
+  const newErrors = {};
+  if (!formData.email) newErrors.email = "Required";
+  if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Invalid";
+  if (formData.password.length < 6) newErrors.password = "Too short";
+  return newErrors;
+};
+
+// Handler 3: Form submit
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const newErrors = validateForm();
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return; // STOP HERE
+  }
+
+  setIsLoading(true);
+  await fakeApiCall(); // TODO: real API
+  navigate("/feed"); // Success!
+  setIsLoading(false);
+};
+```
+
+#### 3. WHAT IT RENDERS
+
+- Back button → navigate('/')
+- Email input → onChange={handleChange}
+- Password input → onChange={handleChange}
+- Error messages (conditional)
+- Submit button → onSubmit={handleSubmit}
+- Link to Signup
+
+#### 4. WHY IT MATTERS
+
+Controlled form pattern. Each input is tied to state. Validation before submit.
+
+---
+
+### 📝 Signup.jsx
+
+#### 1. STATE
+
+```javascript
+const [formData, setFormData] = useState({
+  username: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+});
+const [errors, setErrors] = useState({});
+const [isLoading, setIsLoading] = useState(false);
+```
+
+#### 2. HANDLERS
+
+Same as Login, plus:
+
+```javascript
+// Extra validation
+if (formData.password !== formData.confirmPassword) {
+  newErrors.confirmPassword = "Passwords do not match";
+}
+```
+
+#### 3. WHAT IT RENDERS
+
+Same as Login with extra fields
+
+#### 4. WHY IT MATTERS
+
+Same controlled form pattern with more fields.
+
+---
+
+### 🏡 Home.jsx (Main Feed)
+
+#### 1. STATE
+
+```javascript
+const [showComposerModal, setShowComposerModal] = useState(false);
+// true = modal visible
+
+const [activeCommentPostId, setActiveCommentPostId] = useState(null);
+// null = no comment open, 5 = post #5's comment box open
+
+const [commentText, setCommentText] = useState("");
+// What user types in comment box
+```
+
+#### 2. HANDLERS
+
+```javascript
+// Handler 1: 3D tilt on story cards
+const handleStoryMouseMove = (e) => {
+  const card = e.currentTarget;
+  const rect = card.getBoundingClientRect();
+
+  const x = e.clientX - rect.left; // Mouse X relative to card
+  const y = e.clientY - rect.top; // Mouse Y relative to card
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
+  const rotateX = ((y - centerY) / centerY) * -1; // Max 1 degree
+  const rotateY = ((x - centerX) / centerX) * 1;
+
+  card.style.transform = `translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+};
+
+// Handler 2: Reset tilt
+const handleStoryMouseLeave = (e) => {
+  e.currentTarget.style.transform = "";
+};
+```
+
+#### 3. WHAT IT RENDERS
+
+```
+Composer Section → onClick={() => setShowComposerModal(true)}
+Stories Carousel → onMouseMove={handleStoryMouseMove}
+TimelineRiverFeed → receives state as props!
+Composer Modal → {showComposerModal && <Modal />}
+```
+
+#### 4. WHY IT MATTERS
+
+- **Props drilling**: Passes state DOWN to TimelineRiverFeed
+- **Lifting state up**: Comment state lives here, shared with children
+- **Conditional rendering**: Modal only shows when state is true
+
+---
+
+### 📊 TimelineRiverFeed.jsx
+
+#### 1. STATE
+
+```javascript
+// No useState! Gets everything from props
+```
+
+#### 2. HANDLERS
+
+```javascript
+// Handler: Toggle comment box
+const handleCommentClick = (postId) => {
+  if (activeCommentPostId === postId) {
+    setActiveCommentPostId(null); // Close if already open
+    setCommentText("");
+  } else {
+    setActiveCommentPostId(postId); // Open this one
+    setCommentText("");
+  }
+};
+```
+
+#### 3. PROPS IT RECEIVES
+
+```javascript
+function TimelineRiverFeed({
+  posts,                     // ← DATA (array of posts)
+  activeCommentPostId,       // ← STATE (from Home)
+  setActiveCommentPostId,    // ← HANDLER (to update Home's state)
+  commentText,               // ← STATE (from Home)
+  setCommentText             // ← HANDLER (to update Home's state)
+})
+```
+
+#### 4. WHAT IT RENDERS
+
+- Groups posts by user + date (useMemo for performance)
+- Date headers
+- TimelineRiverRow for each group
+
+#### 5. WHY IT MATTERS
+
+**Data transformation layer**. Takes flat array, outputs grouped structure.
+
+---
+
+### 🎴 TimelineRiverRow.jsx
+
+#### 1. STATE
+
+```javascript
+const [activeCardIndex, setActiveCardIndex] = useState(0);
+// Mobile carousel: which card is showing
+
+const [isMobile, setIsMobile] = useState(false);
+// Screen < 650px?
+
+const [touchStartX, setTouchStartX] = useState(0);
+const [touchEndX, setTouchEndX] = useState(0);
+// Swipe tracking
+
+const [activePostId, setActivePostId] = useState(null);
+// Which post card clicked (z-index to front)
+
+const [activeColumnType, setActiveColumnType] = useState(null);
+// Desktop: 'thoughts' | 'media' | 'milestones'
+
+const [expandedMediaPost, setExpandedMediaPost] = useState(null);
+// Which media is in lightbox
+```
+
+#### 2. HANDLERS
+
+```javascript
+// Handler 1: Mobile detection
+useEffect(() => {
+  const checkMobile = () => setIsMobile(window.innerWidth < 650);
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+  return () => window.removeEventListener("resize", checkMobile);
+}, []);
+
+// Handler 2-4: Touch swipe
+const handleTouchStart = (e) => setTouchStartX(e.targetTouches[0].clientX);
+const handleTouchMove = (e) => setTouchEndX(e.targetTouches[0].clientX);
+const handleTouchEnd = () => {
+  const distance = touchStartX - touchEndX;
+  if (distance > 50) setActiveCardIndex((prev) => prev + 1); // Swipe left
+  if (distance < -50) setActiveCardIndex((prev) => prev - 1); // Swipe right
+};
+
+// Handler 5-7: Desktop column navigation
+const handleNextColumn = () => {
+  /* cycle through columns */
+};
+const handlePrevColumn = () => {
+  /* cycle backward */
+};
+const handleCloseActiveColumn = () => setActiveColumnType(null);
+```
+
+#### 3. WHAT IT RENDERS
+
+**MOBILE** (isMobile && posts > 1):
+
+- Carousel with swipe gestures
+- Dot indicators
+- Prev/Next buttons
+
+**DESKTOP**:
+
+- 3 columns side by side (thoughts | media | milestones)
+- Click column to activate
+- Navigation controls when active
+
+#### 4. WHY IT MATTERS
+
+**Responsive behavior with state**. Different render based on `isMobile`.
+
+---
+
+### 👤 Profile.jsx
+
+#### 1. STATE
+
+```javascript
+const [isFlipped, setIsFlipped] = useState(false);
+// Profile card: front or back?
+
+const [showComposer, setShowComposer] = useState(false);
+// Composer modal open?
+
+const [composerType, setComposerType] = useState('thought');
+// 'thought' or 'media'
+
+const [viewMode, setViewMode] = useState('timeline');
+// 'timeline' (your posts) or 'feed' (friends' posts)
+
+const [posts] = useState([...]);      // Your posts (mock data)
+const [feedPosts] = useState([...]);  // Friends' posts (mock data)
+```
+
+#### 2. HANDLERS
+
+```javascript
+// Inline handlers in JSX:
+onClick={() => setViewMode('timeline')}  // Switch view
+onClick={() => setViewMode('feed')}
+onClick={() => { setComposerType('thought'); setShowComposer(true); }}
+onClick={() => { setComposerType('media'); setShowComposer(true); }}
+```
+
+#### 3. WHAT IT RENDERS
+
+- ProfileCard → passes isFlipped, setIsFlipped
+- View toggle buttons
+- Quick composer buttons
+- ComposerModal
+- TimelineRiver → passes posts categorized by type
+
+#### 4. WHY IT MATTERS
+
+**Multiple independent states** controlling different UI pieces.
+
+---
+
+### 🧭 SideNav.jsx
+
+#### 1. STATE
+
+```javascript
+const [isDesktop, setIsDesktop] = useState(window.innerWidth > 480);
+// true = left sidebar, false = bottom bar
+```
+
+#### 2. HANDLERS
+
+```javascript
+useEffect(() => {
+  const handleResize = () => setIsDesktop(window.innerWidth > 480);
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+// Navigation (inline):
+onClick={() => navigate('/home')}
+onClick={() => navigate('/profile')}
+// etc.
+```
+
+#### 3. WHAT IT RENDERS
+
+```javascript
+<nav className={`main-nav ${isDesktop ? "left-nav" : "bottom-nav"}`}>
+  {/* Nav buttons with active state */}
+  className={`nav-item ${location.pathname === "/home" ? "active" : ""}`}
+</nav>
+```
+
+#### 4. WHY IT MATTERS
+
+**Responsive with JavaScript state** + **active page detection**.
+
+---
+
+## 🔄 DATA FLOW CHEAT SHEET
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         HOME.jsx                            │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ STATE:                                                  │ │
+│  │ • showComposerModal (boolean)                          │ │
+│  │ • activeCommentPostId (number|null)                    │ │
+│  │ • commentText (string)                                 │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                           │                                 │
+│            PASSES STATE + HANDLERS AS PROPS                 │
+│                           ▼                                 │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │              TimelineRiverFeed                          │ │
+│  │  props: { posts, activeCommentPostId,                   │ │
+│  │          setActiveCommentPostId, commentText,           │ │
+│  │          setCommentText }                               │ │
+│  │                                                         │ │
+│  │  Groups posts → renders TimelineRiverRow               │ │
+│  └──────────────────────┬─────────────────────────────────┘ │
+│                         │                                   │
+│                         ▼                                   │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │              TimelineRiverRow                           │ │
+│  │  Has its OWN state:                                     │ │
+│  │  • activeCardIndex                                      │ │
+│  │  • isMobile                                             │ │
+│  │  • touchStart/touchEnd                                  │ │
+│  │                                                         │ │
+│  │  ALSO uses props from parent:                           │ │
+│  │  • activeCommentPostId                                  │ │
+│  │  • onCommentClick → calls parent's handler              │ │
+│  └────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Key Patterns:
+
+1. **State flows DOWN** → parent passes to child via props
+2. **Events flow UP** → child calls handler functions from parent
+3. **Each component can have its OWN state** for local concerns
+4. **Shared state lives in closest common ancestor**
