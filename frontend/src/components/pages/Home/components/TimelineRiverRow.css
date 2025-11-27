@@ -806,12 +806,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(10, 10, 10, 0.942);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(26, 115, 231, 0.4);
   border-radius: 50px;
-  padding: 8px 16px;
+  padding: 6px 12px;
   box-shadow: 
     0 8px 24px rgba(0, 0, 0, 0.5),
     0 0 30px rgba(26, 115, 231, 0.2);
@@ -860,9 +860,9 @@
   background: rgba(220, 8, 188, 0.15);
   border: 1px solid rgba(220, 8, 188, 0.4);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -887,9 +887,9 @@
   background: rgba(26, 115, 231, 0.15);
   border: 1px solid rgba(26, 115, 231, 0.4);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
