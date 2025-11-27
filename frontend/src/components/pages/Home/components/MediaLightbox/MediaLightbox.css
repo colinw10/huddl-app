@@ -654,3 +654,42 @@
     height: 14px;
   }
 }
+
+/* Narrow desktop (min browser width with side nav) - ensure lightbox stays visible */
+@media (min-width: 481px) and (max-width: 600px) {
+  .media-lightbox-overlay {
+    display: flex !important;
+    padding: 10px;
+  }
+  
+  .media-lightbox-content {
+    flex-direction: column;
+    height: auto;
+    max-height: 90vh;
+    gap: 10px;
+  }
+  
+  .media-lightbox-image-container {
+    height: 40vh;
+    min-height: 200px;
+  }
+  
+  .media-lightbox-image {
+    max-height: 40vh;
+  }
+  
+  .media-lightbox-info {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    max-height: 45vh;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  .media-lightbox-close {
+    top: 10px;
+    right: 10px;
+    z-index: 1000001;
+  }
+}

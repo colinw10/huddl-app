@@ -348,6 +348,14 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             </svg>
           </button>
         </div>
+        
+        {/* Media Lightbox (fullscreen image view) - also needed in mobile */}
+        <MediaLightbox 
+          post={expandedMediaPost}
+          onClose={() => setExpandedMediaPost(null)}
+          commentText={commentText}
+          setCommentText={setCommentText}
+        />
       </div>
     );
   }

@@ -151,7 +151,7 @@ function Home() {
       isPublic: false,
       avatar: "LA",
       type: "media",
-      media_url: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80"
+      media_url: "https://publish.purewow.net/wp-content/uploads/sites/2/2021/03/advanced-yoga-poses-visvamitrasana.jpg?fit=680%2C400"
     },
     {
       id: 8,
