@@ -1,0 +1,66 @@
+// ================================================
+// HUDDL CSS RESET
+// Base styles and normalization
+// ================================================
+// 🔵 PABLO - UI Architect
+// These are foundational styles that reset browser
+// defaults and set up the base for our design system.
+// ================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-main);
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+// Remove default button styles
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+// Remove default link styles
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// Remove list styles
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Remove default input styles
+input,
+textarea,
+select {
+  font-family: inherit;
+}

@@ -1,0 +1,44 @@
+// ================================================
+// HUDDL MAIN STYLESHEET
+// Single entry point - imports all partials
+// ================================================
+// 🔵 PABLO - UI Architect
+// This file controls the global styling cascade.
+// Import order matters!
+
+// ============================================
+// FOUNDATION
+// Core variables, mixins, and resets
+// ============================================
+@import 'variables';    // Design tokens: colors, spacing, shadows, etc.
+@import 'mixins';       // Reusable Sass mixins
+@import 'reset';        // CSS reset and base styles
+@import 'typography';   // Font imports and text styles
+
+// ============================================
+// THEME
+// Light/dark mode support
+// ============================================
+@import 'theme';        // Theme variables (placeholder for light mode merge)
+
+// ============================================
+// LAYOUT
+// App shell and structural styles
+// ============================================
+@import 'layout';       // .App, .main-content, containers
+@import 'blobs';        // Background blob decorations
+
+// ============================================
+// COMPONENT SYSTEMS
+// Reusable UI patterns
+// ============================================
+@import 'buttons';      // Button variants and states
+@import 'cards';        // Card components
+@import 'glass';        // Glassmorphism utilities
+
+// ============================================
+// UTILITIES
+// Animations and helper classes
+// ============================================
+@import 'animations';   // Keyframes and animation classes
+@import 'utilities';    // Spacing, text, layout helpers
