@@ -1083,16 +1083,37 @@
    LIGHT MODE OVERRIDES
    ============================================ */
 [data-theme="light"] {
-  /* River post cards */
+  /* River post cards - override dark pseudo-elements */
   .river-post-card {
     background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+  }
+
+  .river-post-card::before {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 115, 231, 0.25) 0%,
+      rgba(26, 231, 132, 0.15) 50%,
+      rgba(26, 115, 231, 0.25) 100%
+    ) !important;
+  }
+
+  .river-post-card::after {
+    background: #ffffff !important;
   }
 
   .river-post-card:hover {
     background: #ffffff !important;
-    border-color: rgba(0, 0, 0, 0.15) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .river-post-card:hover::before {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 115, 231, 0.4) 0%,
+      rgba(26, 231, 132, 0.25) 50%,
+      rgba(26, 115, 231, 0.4) 100%
+    ) !important;
   }
 
   /* Post type-specific borders */
@@ -1119,8 +1140,13 @@
     color: rgba(0, 0, 0, 0.6) !important;
   }
 
+  .river-avatar svg {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
   .river-author {
     color: #000000 !important;
+    text-shadow: none !important;
   }
 
   .river-time {
@@ -1129,6 +1155,10 @@
 
   /* Post content */
   .river-post-text {
+    color: #000000 !important;
+  }
+
+  .river-post-content {
     color: #000000 !important;
   }
 

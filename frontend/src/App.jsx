@@ -2,6 +2,7 @@
 // App.jsx - Main routing and layout structure
 
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 // Layout components
 import TopBar from './components/layout/TopBar';
 import SideNav from './components/layout/SideNav';
@@ -17,6 +18,13 @@ import Friends from './components/pages/Friends';
 
 function AppContent() {
   const location = useLocation();// 🔵 Gets current URL path
+
+  // 🔵 Initialize theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.dataset.theme = savedTheme;
+  }, []);
+
   // 🔵 Logic: Should we show nav bars?
   const isAuthPage = location.pathname === '/login' ||
   // "Is this a login or signup page?"

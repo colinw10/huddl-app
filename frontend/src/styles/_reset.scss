@@ -105,3 +105,34 @@ select {
     display: none;
   }
 }
+
+// ============================================
+// LIGHT MODE - Root element overrides
+// ============================================
+[data-theme="light"] {
+  background: #e8eaed !important;
+  color: #000000 !important;
+
+  body {
+    background: #e8eaed !important;
+    color: #000000 !important;
+  }
+
+  #root {
+    background: #e8eaed !important;
+    color: #000000 !important;
+  }
+
+  // Light mode scrollbar
+  * {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+}

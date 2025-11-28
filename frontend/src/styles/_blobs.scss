@@ -230,3 +230,28 @@
     opacity: 0.8;
   }
 }
+
+// ============================================
+// LIGHT MODE - Softer, more subtle blobs
+// ============================================
+[data-theme="light"] {
+  .App::before {
+    background: radial-gradient(circle, rgba(26, 115, 231, 0.15), rgba(255, 255, 255, 0.05) 50%, transparent 70%) !important;
+    opacity: 0.6 !important;
+  }
+
+  .App::after {
+    background: radial-gradient(circle, rgba(220, 8, 188, 0.12), rgba(255, 255, 255, 0.05) 50%, transparent 70%) !important;
+    opacity: 0.6 !important;
+  }
+
+  .blob-left {
+    background: radial-gradient(circle, rgba(26, 231, 132, 0.15), rgba(255, 255, 255, 0.05) 50%, transparent 70%) !important;
+    opacity: 0.5 !important;
+  }
+
+  .blob-right {
+    background: radial-gradient(circle, rgba(220, 192, 8, 0.12), rgba(255, 255, 255, 0.05) 50%, transparent 70%) !important;
+    opacity: 0.5 !important;
+  }
+}

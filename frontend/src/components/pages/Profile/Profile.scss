@@ -491,49 +491,93 @@
    ============================================ */
 [data-theme="light"] {
   .user-profile-page {
-    background: #f5f5f7 !important;
+    background: transparent !important;
     color: #000000 !important;
   }
 
   .user-profile-page.river-profile {
-    background: #f5f5f7 !important;
+    background: transparent !important;
   }
 
-  /* Background blobs - subtle in light mode */
-  .page-blob-top,
+  /* Background blobs - keep vibrant like dark mode! */
+  .page-blob-top {
+    background: radial-gradient(circle, rgba(220, 8, 188, 0.2) 0%, transparent 70%) !important;
+    opacity: 0.6 !important;
+  }
+
   .page-blob-bottom {
-    opacity: 0.3 !important;
+    background: radial-gradient(circle, rgba(26, 115, 231, 0.15) 0%, transparent 70%) !important;
+    opacity: 0.6 !important;
   }
 
-  /* Quick composer on profile */
-  .quick-composer-section {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-  }
-
-  .quick-composer-buttons button {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  /* View mode toggle */
+  .view-toggle-btn {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
     color: rgba(0, 0, 0, 0.7) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
   }
 
-  .quick-composer-buttons button:hover {
-    background: rgba(26, 115, 231, 0.1) !important;
-    border-color: rgba(26, 115, 231, 0.3) !important;
-    color: #1a73e7 !important;
+  .view-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(0, 0, 0, 0.25) !important;
   }
 
-  .quick-composer-buttons button.active {
-    background: rgba(26, 115, 231, 0.15) !important;
+  .view-toggle-btn.active {
+    background: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Quick composer sections - TWO TONES like dark mode! */
+  /* Thought composer - blue tint */
+  .quick-composer-section.thought-composer {
+    background: rgba(26, 115, 231, 0.08) !important;
+    border: 1px solid rgba(26, 115, 231, 0.25) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .quick-composer-section.thought-composer:hover {
+    background: rgba(26, 115, 231, 0.12) !important;
     border-color: rgba(26, 115, 231, 0.4) !important;
-    color: #1a73e7 !important;
   }
 
+  /* Media composer - magenta tint */
+  .quick-composer-section.media-composer {
+    background: rgba(220, 8, 188, 0.06) !important;
+    border: 1px solid rgba(220, 8, 188, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .quick-composer-section.media-composer:hover {
+    background: rgba(220, 8, 188, 0.1) !important;
+    border-color: rgba(220, 8, 188, 0.4) !important;
+  }
+
+  /* Quick composer avatar - gradient like dark mode */
   .quick-composer-avatar {
-    background: rgba(26, 115, 231, 0.1) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.15), rgba(220, 8, 188, 0.15)) !important;
+    border: 1px solid rgba(26, 115, 231, 0.25) !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+  }
+
+  .quick-composer-avatar svg {
+    color: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  /* Quick composer input - KEEP black holographic signature style */
+  .quick-composer-input {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 40%),
+      linear-gradient(145deg, #12121a, #000000),
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.5), transparent 50%),
+      linear-gradient(45deg, rgba(138, 43, 226, 0.08), rgba(0, 212, 255, 0.08), rgba(138, 43, 226, 0.08)) !important;
+    border: 1px solid rgba(0, 213, 255, 0.4) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 2px 6px rgba(255, 255, 255, 0.35), inset 0 -2px 4px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .quick-composer-placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+    text-shadow: 0 0 5px rgba(138, 43, 226, 0.5), 0 0 10px rgba(0, 212, 255, 0.3) !important;
   }
 }

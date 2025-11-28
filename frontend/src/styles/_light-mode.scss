@@ -13,9 +13,14 @@
   // BASE STYLES
   // ============================================
   
-  // Soften the grey background
-  background: #f5f5f7 !important;
+  // Grey background matching light-mode branch
+  background: #e8eaed !important;
   color: #000000 !important;
+
+  .App {
+    background: #e8eaed !important;
+    color: #000000 !important;
+  }
 
   // ============================================
   // BUTTONS
