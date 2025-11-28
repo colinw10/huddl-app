@@ -1,3 +1,6 @@
+# 🟢 COLIN - Posts Backend Lead
+# models.py - Database structure for posts
+
 from django.db import models
 from django.contrib.auth.models import User
 

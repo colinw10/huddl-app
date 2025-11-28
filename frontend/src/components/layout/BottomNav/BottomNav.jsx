@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI Architect
+// BottomNav.jsx - Bottom navigation for mobile
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './BottomNav.css';

@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI Architect
+// Landing.jsx - Welcome/landing page
+
 import { useNavigate } from 'react-router-dom';
 import './Landing.css';
 

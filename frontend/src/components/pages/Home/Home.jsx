@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟢 COLIN + 🟠 TITO - API Logic
+// Home.jsx - Timeline river feed page
+
 import { useState } from 'react';
 import './Home.css';
 import TimelineRiverFeed from './components/TimelineRiverFeed';

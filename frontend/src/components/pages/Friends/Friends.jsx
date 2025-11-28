@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟣 CRYSTAL - API Logic  
+// Friends.jsx - Friends list and requests page
+
 function Friends() {
   return (
     <div className="page-container">

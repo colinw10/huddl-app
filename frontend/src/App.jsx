@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI Architect
+// App.jsx - Main routing and layout structure
+
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import TopBar from './components/layout/TopBar';
 import SideNav from './components/layout/SideNav';

@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟡 NATALIA - API Logic
+// Signup.jsx - User registration page
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';

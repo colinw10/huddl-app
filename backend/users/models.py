@@ -1,3 +1,6 @@
+# 🟡 NATALIA - Auth & Users Lead
+# models.py - Extended user profile data
+
 from django.db import models
 # models = Django's tools for creating database tables
 from django.contrib.auth.models import User

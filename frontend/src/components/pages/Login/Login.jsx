@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟡 NATALIA - API Logic
+// Login.jsx - User login page
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';

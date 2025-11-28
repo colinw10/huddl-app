@@ -1,3 +1,6 @@
+# 🟡 NATALIA - Auth & Users Lead
+# urls.py - URL routing for authentication endpoints
+
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # ☝️ Import pre-built JWT views from the library

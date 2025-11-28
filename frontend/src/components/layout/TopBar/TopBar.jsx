@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI Architect
+// TopBar.jsx - Top navigation bar component
+
 import './TopBar.css';
 
 function TopBar() {

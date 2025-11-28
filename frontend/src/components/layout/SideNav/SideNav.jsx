@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI Architect
+// SideNav.jsx - Side navigation component
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './SideNav.css';

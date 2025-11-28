@@ -1,3 +1,6 @@
+# 🟡 NATALIA - Auth & Users Lead
+# serializers.py - Data conversion between Django models and JSON
+
 from rest_framework import serializers
 from rest_framework import serializers
 from django.contrib.auth.models import User

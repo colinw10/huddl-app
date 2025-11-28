@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
+// 🟣 CRYSTAL - Friends System Lead
+// About.jsx - About page
+
 function About() {
   const navigate = useNavigate();
 

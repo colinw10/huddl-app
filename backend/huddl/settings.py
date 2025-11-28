@@ -1,3 +1,6 @@
+# 🟠 TITO - Infrastructure Lead
+# settings.py - Django configuration (CORS setup is critical!)
+
 """
 settings.py - Django's config file (like Express app.js config section)
 
