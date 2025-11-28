@@ -3,7 +3,7 @@
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import './BottomNav.css';
+import './BottomNav.scss';
 
 function BottomNav() {
   const navigate = useNavigate();

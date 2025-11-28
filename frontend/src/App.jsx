@@ -11,10 +11,7 @@ import SignUp from './components/pages/Signup/Signup';
 import Profile  from './components/pages/Profile';
 import About from './components/pages/About/About';
 import Friends from './components/pages/Friends/Friends';
-import './styles/App.css';
-import './styles/Blobs.css';
-import './styles/Logo.css';
-import './components/pages/Landing/Landing.css';
+// Global styles now imported via main.scss in main.jsx
 
 function AppContent() {
   const location = useLocation();// 🔵 Gets current URL path

@@ -2,7 +2,7 @@
 // TopBar.jsx - Top navigation bar component
 
 import { useState } from 'react';
-import './TopBar.css';
+import './TopBar.scss';
 import MessageModal from './MessageModal/MessageModal';
 
 function TopBar() {

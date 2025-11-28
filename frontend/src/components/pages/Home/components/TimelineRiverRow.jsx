@@ -2,7 +2,7 @@
 // TimelineRiverRow.jsx - Single row in timeline showing one user's posts across 3 columns
 
 import { useState, useEffect } from 'react';
-import './TimelineRiverRow.css';
+import './TimelineRiverRow.scss';
 import MediaLightbox from './MediaLightbox/MediaLightbox';
 
 function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commentText, setCommentText, setActiveCommentPostId }) {

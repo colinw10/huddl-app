@@ -4,7 +4,7 @@
 import { useMemo } from 'react';
 import { groupPostsByUserAndDay, sortGroupedPosts } from '../utils/groupPosts';
 import TimelineRiverRow from './TimelineRiverRow';
-import './TimelineRiverFeed.css';
+import './TimelineRiverFeed.scss';
 
 function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText }) {
   // Transform flat posts array into grouped structure

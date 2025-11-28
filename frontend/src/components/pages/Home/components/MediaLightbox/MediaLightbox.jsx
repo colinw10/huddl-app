@@ -2,7 +2,7 @@
 // MediaLightbox.jsx - Fullscreen media viewer modal
 
 import { createPortal } from 'react-dom';
-import './MediaLightbox.css';
+import './MediaLightbox.scss';
 
 function MediaLightbox({ post, onClose, commentText, setCommentText }) {
   if (!post) return null;

@@ -3,8 +3,8 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Signup.css';
-import '../../../styles/BackButton.css';
+import './Signup.scss';
+// BackButton styles now in main.scss
 
 function Signup() {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // 🔵 PABLO - UI/Styling | 🟡 NATALIA - API Logic
 // Profile.jsx - User profile page with timeline
 
-import './Profile.css';
+import './Profile.scss';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
 import TimelineRiver from './components/TimelineRiver';

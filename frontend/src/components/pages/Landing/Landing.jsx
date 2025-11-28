@@ -2,7 +2,7 @@
 // Landing.jsx - Welcome/landing page
 
 import { useNavigate } from 'react-router-dom';
-import './Landing.css';
+import './Landing.scss';
 
 
 function Landing() {

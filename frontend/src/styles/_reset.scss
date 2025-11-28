@@ -64,3 +64,44 @@ textarea,
 select {
   font-family: inherit;
 }
+
+// ================================================
+// CUSTOM SCROLLBAR STYLING
+// Hide scrollbars by default, show only when needed
+// ================================================
+
+// Hide scrollbars globally but allow scrolling
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Completely hide scrollbars on cards and feed items
+.river-post-card,
+.river-column,
+.timeline-river-row {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -2,7 +2,7 @@
 // Home.jsx - Timeline river feed page
 
 import { useState } from 'react';
-import './Home.css';
+import './Home.scss';
 import TimelineRiverFeed from './components/TimelineRiverFeed';
 
 function Home() {

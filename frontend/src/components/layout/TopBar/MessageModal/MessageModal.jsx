@@ -2,7 +2,7 @@
 // MessageModal.jsx - Full-screen messaging modal with blurred backdrop
 
 import { useState } from 'react';
-import './MessageModal.css';
+import './MessageModal.scss';
 
 function MessageModal({ onClose }) {
   const [messageText, setMessageText] = useState('');

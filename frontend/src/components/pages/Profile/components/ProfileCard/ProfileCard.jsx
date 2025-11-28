@@ -2,7 +2,7 @@
 // ProfileCard.jsx - User profile card with flip animation
 
 import React, { useMemo, useState } from 'react';
-import './ProfileCard.css';
+import './ProfileCard.scss';
 
 function ProfileCard({ isFlipped, setIsFlipped, posts }) {
   const [viewMode, setViewMode] = useState('wave'); // 'wave' or 'heatmap'

@@ -2,7 +2,7 @@
 // ComposerModal.jsx - Modal for creating new posts
 
 import React from 'react';
-import './ComposerModal.css';
+import './ComposerModal.scss';
 
 function ComposerModal({ showComposer, setShowComposer, composerType, setComposerType }) {
   if (!showComposer) return null;

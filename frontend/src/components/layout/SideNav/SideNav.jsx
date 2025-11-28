@@ -3,7 +3,7 @@
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import './SideNav.css';
+import './SideNav.scss';
 
 function SideNav() {
   const navigate = useNavigate();
