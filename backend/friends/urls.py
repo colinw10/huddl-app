@@ -1,3 +1,6 @@
+# 🟣 CRYSTAL - Friends System Lead
+# urls.py - URL routing for friends API endpoints
+
 from django.urls import path
 from . import views
 

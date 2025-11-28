@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI Architect
+// TimelineRiverRow.jsx - Single row in timeline showing one user's posts across 3 columns
+
 import { useState, useEffect } from 'react';
 import './TimelineRiverRow.css';
 import MediaLightbox from './MediaLightbox/MediaLightbox';

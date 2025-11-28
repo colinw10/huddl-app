@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟢 COLIN - Post Creation Logic
+// ComposerModal.jsx - Modal for creating new posts
+
 import React from 'react';
 import './ComposerModal.css';
 

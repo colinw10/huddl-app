@@ -1,3 +1,6 @@
+# 🟢 COLIN - Posts Backend Lead
+# urls.py - URL routing for posts API endpoints
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views

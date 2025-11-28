@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟡 NATALIA - User Data Logic
+// ProfileCard.jsx - User profile card with flip animation
+
 import React, { useMemo, useState } from 'react';
 import './ProfileCard.css';
 

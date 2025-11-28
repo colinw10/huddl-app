@@ -27,11 +27,11 @@ function Profile() {
 
   // Sample feed posts from friends
   const [feedPosts] = useState([
-    { id: 101, author: 'Sarah Chen', avatar: 'SC', content: 'Just finished an amazing workout! 💪', timestamp: '1h ago', type: 'text' },
-    { id: 102, author: 'Mike Torres', avatar: 'MT', content: 'Beach day with the crew 🏖️', timestamp: '2h ago', type: 'media', hasImage: true },
-    { id: 103, author: 'Emma Davis', avatar: 'ED', content: 'New PR on deadlifts! 🎉', timestamp: '3h ago', type: 'achievement', milestone: true },
-    { id: 104, author: 'Jason Park', avatar: 'JP', content: 'Coffee and code ☕', timestamp: '5h ago', type: 'text' },
-    { id: 105, author: 'Lisa Anderson', avatar: 'LA', content: 'Sunset yoga session 🧘‍♀️', timestamp: '6h ago', type: 'media', hasImage: true },
+    { id: 101, author: 'Pablo Cordero', avatar: 'PC', content: 'Just finished an amazing workout! 💪', timestamp: '1h ago', type: 'text' },
+    { id: 102, author: 'Colin Weir', avatar: 'CW', content: 'Beach day with the crew 🏖️', timestamp: '2h ago', type: 'media', hasImage: true },
+    { id: 103, author: 'Tito', avatar: 'T', content: 'New PR on deadlifts! 🎉', timestamp: '3h ago', type: 'achievement', milestone: true },
+    { id: 104, author: 'Crystal Ruiz', avatar: 'CR', content: 'Coffee and code ☕', timestamp: '5h ago', type: 'text' },
+    { id: 105, author: 'Arthur Bernier', avatar: 'AB', content: 'Sunset yoga session 🧘‍♀️', timestamp: '6h ago', type: 'media', hasImage: true },
   ]);
 
   // Categorize posts into river columns

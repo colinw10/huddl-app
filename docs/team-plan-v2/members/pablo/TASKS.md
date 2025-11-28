@@ -360,6 +360,17 @@ export default LoadingSpinner;
 
 ---
 
+## NEXT STEPS: Backend Agenda
+
+- [ ] Create `apiClient.js` (base HTTP client, token handling)
+- [ ] Create `authService.js` (login, signup, logout, token refresh)
+- [ ] Create `postsService.js` (CRUD for posts)
+- [ ] Create `friendsService.js` (friend requests, accept/decline, list)
+- [ ] Integrate all services with frontend pages
+- [ ] Test all endpoints with real data
+
+---
+
 ## Fallback Plan
 
 If teammates don't deliver by Week 3:

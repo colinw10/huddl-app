@@ -56,6 +56,30 @@
   border-radius: 50%;
 }
 
+/* Search icon - secondary purple */
+.icon-search {
+  color: var(--secondary, #a783ff);
+}
+
+.icon-search:hover {
+  color: #c4a8ff;
+  background: rgba(167, 131, 255, 0.15);
+  box-shadow: 0 0 15px rgba(167, 131, 255, 0.4);
+  transform: scale(1.1);
+}
+
+/* Messages icon - accent green */
+.icon-messages {
+  color: var(--accent, #1ae784);
+}
+
+.icon-messages:hover {
+  color: #4fffaa;
+  background: rgba(26, 231, 132, 0.15);
+  box-shadow: 0 0 15px rgba(26, 231, 132, 0.4);
+  transform: scale(1.1);
+}
+
 .icon-placeholder:hover {
   color: #1a73e7;
   background: rgba(26, 115, 231, 0.1);

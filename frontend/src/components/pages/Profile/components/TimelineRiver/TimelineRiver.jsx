@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟡 NATALIA - User Posts Data
+// TimelineRiver.jsx - Profile timeline showing user's posts in river format
+
 import React from 'react';
 import './TimelineRiver.css';
 

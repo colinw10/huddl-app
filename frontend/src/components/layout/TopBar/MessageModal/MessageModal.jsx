@@ -1,9 +1,22 @@
 // 🔵 PABLO - UI Architect
 // MessageModal.jsx - Full-screen messaging modal with blurred backdrop
 
+import { useState } from 'react';
 import './MessageModal.css';
 
 function MessageModal({ onClose }) {
+  const [messageText, setMessageText] = useState('');
+  
+  // Calculate charge level (0-4) based on message length
+  const getChargeLevel = () => {
+    const len = messageText.length;
+    if (len === 0) return 0;
+    if (len < 10) return 1;
+    if (len < 30) return 2;
+    if (len < 60) return 3;
+    return 4; // Fully charged
+  };
+  
   return (
     <div className="message-modal-overlay" onClick={onClose}>
       <div className="message-modal" onClick={(e) => e.stopPropagation()}>
@@ -30,23 +43,66 @@ function MessageModal({ onClose }) {
               />
             </div>
             <div className="conversations-list">
-              {/* TODO: Map through conversations */}
-              <div className="conversation-item">
-                <div className="conversation-avatar">SC</div>
+              {/* Conversations */}
+              <div className="conversation-item active">
+                <img 
+                  src="https://ustoa.com/blog/wp-content/uploads/2019/07/northern-lights2-1024x678.jpg" 
+                  alt="Pablo Cordero" 
+                  className="conversation-avatar-img"
+                />
                 <div className="conversation-info">
-                  <span className="conversation-name">Sarah Chen</span>
+                  <span className="conversation-name">Pablo Cordero</span>
                   <span className="conversation-preview">Hey! Are you coming to...</span>
                 </div>
                 <span className="conversation-time">2m</span>
               </div>
-              {/* Placeholder items */}
               <div className="conversation-item">
-                <div className="conversation-avatar">JD</div>
+                <div className="conversation-avatar"><span className="initial-1">A</span><span className="initial-2">B</span></div>
                 <div className="conversation-info">
-                  <span className="conversation-name">John Doe</span>
+                  <span className="conversation-name">Arthur Bernier</span>
                   <span className="conversation-preview">That sounds great!</span>
                 </div>
                 <span className="conversation-time">1h</span>
+              </div>
+              <div className="conversation-item">
+                <div className="conversation-avatar"><span className="initial-1">J</span><span className="initial-2">M</span></div>
+                <div className="conversation-info">
+                  <span className="conversation-name">Joshua Miller</span>
+                  <span className="conversation-preview">See you there!</span>
+                </div>
+                <span className="conversation-time">3h</span>
+              </div>
+              <div className="conversation-item">
+                <div className="conversation-avatar"><span className="initial-1">N</span><span className="initial-2">P</span></div>
+                <div className="conversation-info">
+                  <span className="conversation-name">Natalia P</span>
+                  <span className="conversation-preview">Can't wait 🎉</span>
+                </div>
+                <span className="conversation-time">5h</span>
+              </div>
+              <div className="conversation-item">
+                <div className="conversation-avatar"><span className="initial-1">C</span><span className="initial-2">W</span></div>
+                <div className="conversation-info">
+                  <span className="conversation-name">Colin Weir</span>
+                  <span className="conversation-preview">Let's build something cool</span>
+                </div>
+                <span className="conversation-time">1d</span>
+              </div>
+              <div className="conversation-item">
+                <div className="conversation-avatar"><span className="initial-1">T</span></div>
+                <div className="conversation-info">
+                  <span className="conversation-name">Tito</span>
+                  <span className="conversation-preview">🔥🔥🔥</span>
+                </div>
+                <span className="conversation-time">2d</span>
+              </div>
+              <div className="conversation-item">
+                <div className="conversation-avatar"><span className="initial-1">C</span><span className="initial-2">R</span></div>
+                <div className="conversation-info">
+                  <span className="conversation-name">Crystal Ruiz</span>
+                  <span className="conversation-preview">Thanks for the help!</span>
+                </div>
+                <span className="conversation-time">3d</span>
               </div>
             </div>
           </div>
@@ -55,12 +111,16 @@ function MessageModal({ onClose }) {
           <div className="message-chat">
             <div className="chat-header">
               <div className="chat-user-info">
-                <div className="chat-avatar">SC</div>
-                <span className="chat-username">Sarah Chen</span>
+                <img 
+                  src="https://ustoa.com/blog/wp-content/uploads/2019/07/northern-lights2-1024x678.jpg" 
+                  alt="Pablo Cordero" 
+                  className="chat-avatar-img"
+                />
+                <span className="chat-username">Pablo Cordero</span>
               </div>
             </div>
             <div className="chat-messages">
-              {/* TODO: Map through messages */}
+              {/* Messages */}
               <div className="chat-message received">
                 <p>Hey! Are you coming to the meetup tonight?</p>
                 <span className="message-time">2:30 PM</span>
@@ -75,9 +135,11 @@ function MessageModal({ onClose }) {
                 placeholder="Type a message..." 
                 className="chat-textarea"
                 rows="1"
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
               />
-              <button className="chat-send-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <button className={`chat-send-btn charge-${getChargeLevel()}`}>
+                <svg className="send-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                 </svg>
               </button>

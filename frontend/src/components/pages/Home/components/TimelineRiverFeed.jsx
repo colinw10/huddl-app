@@ -1,3 +1,6 @@
+// 🔵 PABLO - UI/Styling | 🟢 COLIN + 🟠 TITO - Posts Data Logic
+// TimelineRiverFeed.jsx - Main timeline feed with 3-column river layout
+
 import { useMemo } from 'react';
 import { groupPostsByUserAndDay, sortGroupedPosts } from '../utils/groupPosts';
 import TimelineRiverRow from './TimelineRiverRow';
