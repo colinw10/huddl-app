@@ -1,34 +1,27 @@
 // ================================================
-// HUDDL THEME
+// HUDDL THEME CONFIGURATION
 // Light/Dark mode support
 // ================================================
 // 🔵 PABLO - UI Architect
 // 
-// NOTE: This file is intentionally minimal.
-// Full theme implementation will be added when
-// the light-mode branch is merged into this branch.
+// Theme is controlled by data-theme attribute on <html>:
+//   - data-theme="dark"  → Default (uses _variables.scss)
+//   - data-theme="light" → Light mode (uses _light-mode.scss)
 //
-// The theme will be controlled by CSS variables
-// that get swapped based on a data-theme attribute
-// or a .light-mode / .dark-mode class on <body>.
+// Toggle theme in JS:
+//   document.documentElement.dataset.theme = 'light';
+//   localStorage.setItem('theme', 'light');
+//
+// Initialize on page load:
+//   const saved = localStorage.getItem('theme') || 'dark';
+//   document.documentElement.dataset.theme = saved;
 // ================================================
 
 // Default: Dark mode (current app state)
-// All dark mode variables are already in _variables.scss
+// All dark mode variables are defined in _variables.scss
+// Light mode overrides are in _light-mode.scss
 
-// ================================================
-// LIGHT MODE OVERRIDES (placeholder for merge)
-// ================================================
-// 
-// After merging light-mode branch, add overrides here:
-//
-// [data-theme="light"],
-// .light-mode {
-//   --surface: rgba(0, 0, 0, 0.02);
-//   --surface-hover: rgba(0, 0, 0, 0.06);
-//   --border: rgba(0, 0, 0, 0.08);
-//   --border-hover: rgba(0, 0, 0, 0.15);
-//   // ... other light mode overrides
-// }
-//
-// ================================================
+// This file can be extended for:
+// - System preference detection (prefers-color-scheme)
+// - Additional theme variants
+// - Theme transition animations

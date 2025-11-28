@@ -19,7 +19,8 @@
 // THEME
 // Light/dark mode support
 // ============================================
-@use 'theme';             // Theme variables (placeholder for light mode merge)
+@use 'theme';             // Theme configuration and setup
+@use 'light-mode';        // Light mode overrides (data-theme="light")
 
 // ============================================
 // LAYOUT

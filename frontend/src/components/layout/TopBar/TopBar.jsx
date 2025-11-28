@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import './TopBar.scss';
 import MessageModal from './MessageModal/MessageModal';
+import { ThemeToggle } from '../../ui/ThemeToggle';
 
 function TopBar() {
   const [showMessages, setShowMessages] = useState(false);
@@ -13,6 +14,7 @@ function TopBar() {
       <div className="top-bar">
         <div className="top-bar-logo">HUDDL</div>
         <div className="top-bar-icons">
+          <ThemeToggle />
           <div className="icon-placeholder icon-search" title="Search">
             {/* Targeting reticle */}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
