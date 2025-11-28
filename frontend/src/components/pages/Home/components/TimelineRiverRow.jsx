@@ -66,11 +66,11 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   };
   
   const renderPostCard = (post, type) => {
-    // 🔵 Config for each post type (icon, label, color
+    // 🔵 Config for each post type (label, color)
     const typeConfig = {
-      thoughts: { icon: '💭', label: 'Thought', color: 'rgba(30, 234, 76, 0.3)' },
-      media: { icon: '📸', label: 'Media', color: 'rgba(26, 115, 231, 0.3)' },
-      milestones: { icon: '🎯', label: 'Milestone', color: 'rgba(234, 30, 162, 0.3)' }
+      thoughts: { label: 'Thought', color: 'rgba(79, 255, 255, 0.15)', borderColor: 'rgba(79, 255, 255, 0.4)', textColor: '#4fffff' },
+      media: { label: 'Media', color: 'rgba(167, 131, 255, 0.15)', borderColor: 'rgba(167, 131, 255, 0.4)', textColor: '#c9a8ff' },
+      milestones: { label: 'Milestone', color: 'rgba(26, 231, 132, 0.15)', borderColor: 'rgba(26, 231, 132, 0.4)', textColor: '#1ae784' }
     };
 
     const config = typeConfig[type]; // Get config for this type
@@ -101,8 +101,29 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           <div className="river-post-info">
             <div className="river-author">{user.name}</div>
             <div className="river-meta">
-              <span className="river-type-badge" style={{ background: config.color }}>
-                {config.icon} {config.label}  {/* 💭 Thought */}
+              <span className="river-type-badge" style={{ 
+                background: config.color, 
+                borderColor: config.borderColor,
+                color: config.textColor 
+              }}>
+                {type === 'thoughts' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                )}
+                {type === 'media' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                )}
+                {type === 'milestones' && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                )}
+                {config.label}
               </span>
               <span className="river-timestamp">{post.timestamp}</span>
             </div>

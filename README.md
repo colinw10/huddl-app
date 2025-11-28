@@ -50,6 +50,35 @@ React updates the UI
 
 This is the same flow as Express + React. Django handles the backend API, React handles the UI.
 
+## 🎨 Visual Identity & Theme System
+
+Huddl features a **dual-theme design system** with distinct visual identities:
+
+### Dark Mode (Default)
+
+The primary experience - a **cyberpunk-inspired holographic UI**:
+
+- **Color Palette**: Cyan (#4fffff), Purple (#c9a8ff), Green accent (#1ae784)
+- **Holographic Elements**: Layered gradients, glowing accents, clip-path cut corners
+- **Custom Iconography**:
+  - Hexagon hub (Home) - represents the network center
+  - Targeting reticle (Search) - precision finding
+  - Connected nodes (Friends) - network graph visualization
+  - Broadcast waves (Notifications) - signal pulses
+  - Hexagon avatar frame (Profile) - consistent identity
+- **Micro-interactions**: Energy-charge send button, gradient dividers, alternating hover colors
+- **Depth System**: Layered backgrounds with ambient corner glows
+
+### Light Mode (Toggle)
+
+A clean, accessible alternative:
+
+- Classic, universally-recognized icons
+- High contrast for readability
+- Familiar UI patterns for casual users
+
+**Design Philosophy**: Dark mode is the "premium" immersive experience that showcases the app's unique identity. Light mode provides accessibility and familiarity. Users see the best of Huddl first, with the option to switch.
+
 ## Code Formatting
 
 The frontend uses **Prettier** for consistent code formatting. After running `npm install` in the `frontend/` folder, VS Code will auto-format your code on save.

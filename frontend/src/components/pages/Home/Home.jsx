@@ -223,12 +223,15 @@ function Home() {
               onMouseLeave={handleStoryMouseLeave}
             >
               <div className={`story-avatar ${story.hasStory ? 'has-story' : ''}`}>
-                {story.isYours && !story.hasStory && (
+                {story.isYours ? (
+                  // Your Story - show + icon
                   <div className="add-story-icon">+</div>
+                ) : (
+                  // Other stories - show person icon
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
                 )}
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
               </div>
               <div className="story-name">{story.name}</div>
             </div>
