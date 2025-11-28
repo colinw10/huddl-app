@@ -2,15 +2,17 @@
 // App.jsx - Main routing and layout structure
 
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+// Layout components
 import TopBar from './components/layout/TopBar';
 import SideNav from './components/layout/SideNav';
-import Landing from './components/pages/Landing/Landing';
-import Home from './components/pages/Home/Home';
-import Login from './components/pages/Login/Login';
-import SignUp from './components/pages/Signup/Signup';
-import Profile  from './components/pages/Profile';
-import About from './components/pages/About/About';
-import Friends from './components/pages/Friends/Friends';
+// Page components
+import Landing from './components/pages/Landing';
+import Home from './components/pages/Home';
+import Login from './components/pages/Login';
+import SignUp from './components/pages/Signup';
+import Profile from './components/pages/Profile';
+import About from './components/pages/About';
+import Friends from './components/pages/Friends';
 // Global styles now imported via main.scss in main.jsx
 
 function AppContent() {
