@@ -14,9 +14,14 @@ function TopBar() {
         <div className="top-bar-logo">HUDDL</div>
         <div className="top-bar-icons">
           <div className="icon-placeholder icon-search" title="Search">
+            {/* Targeting reticle */}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
+              <circle cx="12" cy="12" r="8"/>
+              <circle cx="12" cy="12" r="3"/>
+              <line x1="12" y1="2" x2="12" y2="6"/>
+              <line x1="12" y1="18" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="6" y2="12"/>
+              <line x1="18" y1="12" x2="22" y2="12"/>
             </svg>
           </div>
           <div 
