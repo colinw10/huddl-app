@@ -693,3 +693,114 @@
     z-index: 1000001;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .media-lightbox-overlay {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+
+  .media-lightbox-content {
+    background: transparent !important;
+  }
+
+  .media-lightbox-close {
+    background: rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    color: #000000 !important;
+  }
+
+  .media-lightbox-close:hover {
+    background: rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .media-lightbox-image {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .media-lightbox-info {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .media-lightbox-author {
+    color: #000000 !important;
+  }
+
+  .media-lightbox-timestamp {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .media-lightbox-caption {
+    color: #000000 !important;
+  }
+
+  .media-action-btn {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+  }
+
+  .media-action-btn:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .media-action-btn svg {
+    stroke: #000000 !important;
+  }
+
+  .media-lightbox-comments {
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .lightbox-comments-header {
+    color: #000000 !important;
+  }
+
+  .lightbox-comment-composer {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .lightbox-comment-input {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    color: #000000 !important;
+  }
+
+  .lightbox-comment-input::placeholder {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .lightbox-comment-input:focus {
+    border-color: rgba(26, 115, 231, 0.5) !important;
+  }
+
+  .comment-composer-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .lightbox-comment-author {
+    color: #000000 !important;
+  }
+
+  .lightbox-comment-text {
+    color: #000000 !important;
+  }
+
+  .lightbox-comment-meta {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .lightbox-comment-submit-btn {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.8)) !important;
+    border: none !important;
+    color: #ffffff !important;
+  }
+}

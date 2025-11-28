@@ -530,3 +530,100 @@
     letter-spacing: 1px;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .composer-modal-overlay {
+    background: rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .composer-modal-content {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .composer-modal-header {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.05), rgba(26, 231, 132, 0.05)) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .composer-modal-title {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .composer-close-btn {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .composer-close-btn:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+    color: #ff6b6b !important;
+  }
+
+  .type-toggle-btn {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .type-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .type-toggle-btn.active {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+  }
+
+  .composer-avatar-small {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(26, 231, 132, 0.2)) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .composer-user-name {
+    color: #000000 !important;
+  }
+
+  .composer-privacy {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .composer-post-btn {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.8)) !important;
+    border: none !important;
+    color: #ffffff !important;
+  }
+
+  .composer-post-btn:hover:not(:disabled) {
+    box-shadow: 0 4px 16px rgba(26, 115, 231, 0.3) !important;
+  }
+
+  .composer-post-btn:disabled {
+    background: rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .composer-toolbar {
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .toolbar-btn {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .toolbar-btn:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #1a73e7 !important;
+  }
+
+  .char-counter {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+}

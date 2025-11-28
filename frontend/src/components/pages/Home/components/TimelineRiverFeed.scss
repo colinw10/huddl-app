@@ -122,3 +122,46 @@
     height: 14px;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .timeline-river-feed::before {
+    background: linear-gradient(
+      180deg,
+      rgba(245, 245, 247, 0.8) 0%,
+      transparent 100%
+    ) !important;
+  }
+
+  .river-date-badge {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .river-date-badge svg {
+    color: #1a73e7 !important;
+    filter: none !important;
+  }
+
+  .river-divider {
+    background: linear-gradient(
+      90deg,
+      rgba(26, 115, 231, 0.3) 0%,
+      rgba(26, 231, 132, 0.2) 50%,
+      transparent 100%
+    ) !important;
+  }
+
+  .timeline-river-empty {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .timeline-river-empty svg {
+    opacity: 0.3 !important;
+    color: rgba(0, 0, 0, 0.3) !important;
+  }
+}
