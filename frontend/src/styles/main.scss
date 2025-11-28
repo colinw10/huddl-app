@@ -10,35 +10,35 @@
 // FOUNDATION
 // Core variables, mixins, and resets
 // ============================================
-@import 'variables';    // Design tokens: colors, spacing, shadows, etc.
-@import 'mixins';       // Reusable Sass mixins
-@import 'reset';        // CSS reset and base styles
-@import 'typography';   // Font imports and text styles
+@use 'variables' as *;    // Design tokens: colors, spacing, shadows, etc.
+@use 'mixins' as *;       // Reusable Sass mixins
+@use 'reset';             // CSS reset and base styles
+@use 'typography';        // Font imports and text styles
 
 // ============================================
 // THEME
 // Light/dark mode support
 // ============================================
-@import 'theme';        // Theme variables (placeholder for light mode merge)
+@use 'theme';             // Theme variables (placeholder for light mode merge)
 
 // ============================================
 // LAYOUT
 // App shell and structural styles
 // ============================================
-@import 'layout';       // .App, .main-content, containers
-@import 'blobs';        // Background blob decorations
+@use 'layout';            // .App, .main-content, containers
+@use 'blobs';             // Background blob decorations
 
 // ============================================
 // COMPONENT SYSTEMS
 // Reusable UI patterns
 // ============================================
-@import 'buttons';      // Button variants and states
-@import 'cards';        // Card components
-@import 'glass';        // Glassmorphism utilities
+@use 'buttons';           // Button variants and states
+@use 'cards';             // Card components
+@use 'glass';             // Glassmorphism utilities
 
 // ============================================
 // UTILITIES
 // Animations and helper classes
 // ============================================
-@import 'animations';   // Keyframes and animation classes
-@import 'utilities';    // Spacing, text, layout helpers
+@use 'animations';        // Keyframes and animation classes
+@use 'utilities';         // Spacing, text, layout helpers

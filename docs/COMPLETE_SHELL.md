@@ -37,6 +37,7 @@ ComponentName/
 ```
 
 ### Benefits:
+
 - **Isolation** - Changes to one component don't affect others
 - **Discoverability** - Easy to find all files related to a feature
 - **Scalability** - Add more files (tests, utils) without restructuring
@@ -99,27 +100,25 @@ When creating new components, use this template:
 // 🔵 PABLO - UI Architect | 🟡 [TEAMMATE] - [RESPONSIBILITY]
 // ComponentName.jsx - [Brief description]
 
-import React from 'react';
-import './ComponentName.scss';
+import React from "react";
+import "./ComponentName.scss";
 
 function ComponentName() {
   // ============================================
   // STATE
   // [Teammate]: Add your state here
   // ============================================
-  
+
   // ============================================
   // HANDLERS
   // [Teammate]: Add your event handlers here
   // ============================================
-  
+
   // ============================================
   // RENDER
   // ============================================
   return (
-    <div className="component-name">
-      {/* [Teammate]: Build your UI here */}
-    </div>
+    <div className="component-name">{/* [Teammate]: Build your UI here */}</div>
   );
 }
 
@@ -141,24 +140,24 @@ export default ComponentName;
   // LAYOUT
   // [Teammate]: Define structure here
   // ============================================
-  
+
   // ============================================
   // TYPOGRAPHY
   // Use variables: var(--font-size-body), etc.
   // ============================================
-  
+
   // ============================================
   // COLORS & EFFECTS
   // Use variables: var(--primary), var(--glow), etc.
   // ============================================
-  
+
   // ============================================
   // RESPONSIVE
   // ============================================
   @media (max-width: 768px) {
     // Tablet styles
   }
-  
+
   @media (max-width: 480px) {
     // Mobile styles
   }
@@ -191,16 +190,16 @@ export default ComponentName;
 
 ### Available Tokens
 
-| Category | Examples |
-|----------|----------|
-| Colors | `--primary`, `--secondary`, `--accent`, `--color-cyan`, `--color-magenta` |
-| Surfaces | `--surface`, `--surface-hover`, `--surface-active` |
-| Borders | `--border`, `--border-hover`, `--border-active` |
-| Spacing | `--space-xs`, `--space-sm`, `--space-md`, `--space-lg`, `--space-xl` |
-| Radius | `--radius-sm`, `--radius`, `--radius-lg`, `--radius-full` |
-| Typography | `--font-main`, `--font-display`, `--font-size-body` |
-| Effects | `--glow`, `--glow-strong`, `--shadow-md` |
-| Transitions | `--transition`, `--transition-slow` |
+| Category    | Examples                                                                  |
+| ----------- | ------------------------------------------------------------------------- |
+| Colors      | `--primary`, `--secondary`, `--accent`, `--color-cyan`, `--color-magenta` |
+| Surfaces    | `--surface`, `--surface-hover`, `--surface-active`                        |
+| Borders     | `--border`, `--border-hover`, `--border-active`                           |
+| Spacing     | `--space-xs`, `--space-sm`, `--space-md`, `--space-lg`, `--space-xl`      |
+| Radius      | `--radius-sm`, `--radius`, `--radius-lg`, `--radius-full`                 |
+| Typography  | `--font-main`, `--font-display`, `--font-size-body`                       |
+| Effects     | `--glow`, `--glow-strong`, `--shadow-md`                                  |
+| Transitions | `--transition`, `--transition-slow`                                       |
 
 ---
 
@@ -239,6 +238,7 @@ The theming system is ready for the light mode merge. After merging:
 ### Step 1: Understand the Component
 
 Read the comment header to understand:
+
 - What the component does
 - Who owns which part (UI vs API logic)
 
@@ -307,23 +307,23 @@ After teammates complete their components, the architect (Pablo) will:
 
 ```jsx
 // Layout components
-import TopBar from './components/layout/TopBar';
+import TopBar from "./components/layout/TopBar";
 
 // Page components
-import Home from './components/pages/Home';
+import Home from "./components/pages/Home";
 
 // UI components
-import Button from './components/ui/Button';
+import Button from "./components/ui/Button";
 ```
 
 ### File Naming
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Components | PascalCase | `ProfileCard.jsx` |
-| Styles | Match component | `ProfileCard.scss` |
-| Utilities | camelCase | `groupPosts.js` |
-| Constants | SCREAMING_SNAKE | `API_ENDPOINTS.js` |
+| Type       | Convention      | Example            |
+| ---------- | --------------- | ------------------ |
+| Components | PascalCase      | `ProfileCard.jsx`  |
+| Styles     | Match component | `ProfileCard.scss` |
+| Utilities  | camelCase       | `groupPosts.js`    |
+| Constants  | SCREAMING_SNAKE | `API_ENDPOINTS.js` |
 
 ### Git Workflow
 

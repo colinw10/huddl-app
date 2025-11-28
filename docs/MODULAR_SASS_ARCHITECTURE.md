@@ -58,26 +58,26 @@ This is the single entry point that imports all partials in the correct order:
 
 ```scss
 // Foundation (load first)
-@import 'variables';
-@import 'mixins';
-@import 'reset';
-@import 'typography';
+@import "variables";
+@import "mixins";
+@import "reset";
+@import "typography";
 
 // Theme
-@import 'theme';
+@import "theme";
 
 // Layout
-@import 'layout';
-@import 'blobs';
+@import "layout";
+@import "blobs";
 
 // Components
-@import 'buttons';
-@import 'cards';
-@import 'glass';
+@import "buttons";
+@import "cards";
+@import "glass";
 
 // Utilities (load last)
-@import 'animations';
-@import 'utilities';
+@import "animations";
+@import "utilities";
 ```
 
 ### Order Matters!
@@ -105,12 +105,12 @@ All design values are stored as CSS custom properties in `_variables.scss`:
   --primary: #7cc9ff;
   --secondary: #a783ff;
   --accent: #1ae784;
-  
+
   // Brand colors
   --color-cyan: #1a73e7;
   --color-magenta: #dc08bc;
   --color-aqua: #1ae784;
-  
+
   // Surfaces
   --surface: rgba(255, 255, 255, 0.02);
   --surface-hover: rgba(255, 255, 255, 0.06);
@@ -133,9 +133,9 @@ All design values are stored as CSS custom properties in `_variables.scss`:
 
 ```scss
 :root {
-  --font-main: 'degular', sans-serif;
-  --font-display: 'acme-gothic-extrawide', sans-serif;
-  
+  --font-main: "degular", sans-serif;
+  --font-display: "acme-gothic-extrawide", sans-serif;
+
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-body: 0.95rem;
@@ -154,21 +154,27 @@ Reusable patterns in `_mixins.scss`:
 
 ```scss
 @mixin mobile {
-  @media (max-width: 480px) { @content; }
+  @media (max-width: 480px) {
+    @content;
+  }
 }
 
 @mixin tablet {
-  @media (max-width: 768px) { @content; }
+  @media (max-width: 768px) {
+    @content;
+  }
 }
 
 @mixin desktop {
-  @media (min-width: 1024px) { @content; }
+  @media (min-width: 1024px) {
+    @content;
+  }
 }
 
 // Usage
 .component {
   padding: var(--space-lg);
-  
+
   @include mobile {
     padding: var(--space-sm);
   }
@@ -211,11 +217,15 @@ Reusable patterns in `_mixins.scss`:
 ```scss
 @mixin hover-lift($distance: -2px) {
   transition: var(--transition);
-  &:hover { transform: translateY($distance); }
+  &:hover {
+    transform: translateY($distance);
+  }
 }
 
 @mixin active-scale($scale: 0.97) {
-  &:active { transform: scale($scale); }
+  &:active {
+    transform: scale($scale);
+  }
 }
 ```
 
@@ -270,16 +280,22 @@ We use **BEM-inspired** naming with component prefixes:
 
 ```scss
 // Block
-.profile-card { }
+.profile-card {
+}
 
 // Elements (children)
-.profile-card__header { }
-.profile-card__avatar { }
-.profile-card__name { }
+.profile-card__header {
+}
+.profile-card__avatar {
+}
+.profile-card__name {
+}
 
 // Modifiers (variations)
-.profile-card--flipped { }
-.profile-card--compact { }
+.profile-card--flipped {
+}
+.profile-card--compact {
+}
 ```
 
 ### Component-Scoped Names
@@ -288,12 +304,16 @@ Each component uses its name as prefix to avoid conflicts:
 
 ```scss
 // ProfileCard.scss
-.profile-card { }
-.profile-card__header { }
+.profile-card {
+}
+.profile-card__header {
+}
 
 // TimelineRiver.scss
-.timeline-river { }
-.timeline-river__row { }
+.timeline-river {
+}
+.timeline-river__row {
+}
 ```
 
 ---
@@ -305,15 +325,15 @@ Each component uses its name as prefix to avoid conflicts:
 ```scss
 .card {
   padding: var(--space-lg);
-  
+
   &__header {
     display: flex;
   }
-  
+
   &__title {
     font-size: var(--font-size-lg);
   }
-  
+
   &:hover {
     transform: translateY(-2px);
   }
@@ -360,14 +380,14 @@ When creating new component styles, use this template:
   // ============================================
   display: flex;
   flex-direction: column;
-  
+
   // ============================================
   // SPACING
   // Use spacing variables
   // ============================================
   padding: var(--space-lg);
   gap: var(--space-md);
-  
+
   // ============================================
   // VISUAL STYLE
   // Colors, borders, effects
@@ -375,7 +395,7 @@ When creating new component styles, use this template:
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  
+
   // ============================================
   // TYPOGRAPHY
   // Font styles for text content
@@ -383,18 +403,18 @@ When creating new component styles, use this template:
   font-family: var(--font-main);
   font-size: var(--font-size-body);
   color: var(--text-primary);
-  
+
   // ============================================
   // INTERACTIVE STATES
   // Hover, focus, active
   // ============================================
   transition: var(--transition);
-  
+
   &:hover {
     background: var(--surface-hover);
     box-shadow: var(--glow);
   }
-  
+
   // ============================================
   // CHILD ELEMENTS
   // Nested components
@@ -402,11 +422,11 @@ When creating new component styles, use this template:
   &__header {
     @include flex-between;
   }
-  
+
   &__content {
     flex: 1;
   }
-  
+
   // ============================================
   // MODIFIERS
   // Variations of the component
@@ -414,11 +434,11 @@ When creating new component styles, use this template:
   &--active {
     border-color: var(--primary);
   }
-  
+
   &--compact {
     padding: var(--space-sm);
   }
-  
+
   // ============================================
   // RESPONSIVE
   // Mobile-first adjustments
@@ -426,7 +446,7 @@ When creating new component styles, use this template:
   @include tablet {
     padding: var(--space-md);
   }
-  
+
   @include mobile {
     padding: var(--space-sm);
   }
@@ -447,7 +467,7 @@ Component SCSS files can use global variables and mixins automatically because `
   // These work because _variables.scss is loaded globally
   background: var(--surface);
   padding: var(--space-lg);
-  
+
   // Mixins work too
   @include glass-effect;
   @include hover-lift;
@@ -460,10 +480,11 @@ Since we use Vite with Sass, all partials are available globally. Don't do this:
 
 ```scss
 // ❌ DON'T DO THIS
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@import "../../styles/variables";
+@import "../../styles/mixins";
 
-.component { }
+.component {
+}
 ```
 
 Just write your styles - variables and mixins are already available.
@@ -474,43 +495,43 @@ Just write your styles - variables and mixins are already available.
 
 ### Color Palette
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--primary` | `#7cc9ff` | Primary actions, links |
-| `--secondary` | `#a783ff` | Secondary actions |
-| `--accent` | `#1ae784` | Success, highlights |
-| `--color-cyan` | `#1a73e7` | Brand cyan |
-| `--color-magenta` | `#dc08bc` | Brand magenta |
-| `--color-aqua` | `#1ae784` | Brand aqua |
+| Token             | Value     | Usage                  |
+| ----------------- | --------- | ---------------------- |
+| `--primary`       | `#7cc9ff` | Primary actions, links |
+| `--secondary`     | `#a783ff` | Secondary actions      |
+| `--accent`        | `#1ae784` | Success, highlights    |
+| `--color-cyan`    | `#1a73e7` | Brand cyan             |
+| `--color-magenta` | `#dc08bc` | Brand magenta          |
+| `--color-aqua`    | `#1ae784` | Brand aqua             |
 
 ### Spacing Scale
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-xs` | `4px` | Tiny gaps |
-| `--space-sm` | `8px` | Small gaps |
+| Token        | Value  | Usage           |
+| ------------ | ------ | --------------- |
+| `--space-xs` | `4px`  | Tiny gaps       |
+| `--space-sm` | `8px`  | Small gaps      |
 | `--space-md` | `16px` | Default spacing |
 | `--space-lg` | `24px` | Section spacing |
-| `--space-xl` | `32px` | Large spacing |
+| `--space-xl` | `32px` | Large spacing   |
 
 ### Border Radius
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `6px` | Subtle rounding |
-| `--radius` | `18px` | Default cards |
-| `--radius-lg` | `24px` | Large cards |
-| `--radius-full` | `999px` | Pills, circles |
+| Token           | Value   | Usage           |
+| --------------- | ------- | --------------- |
+| `--radius-sm`   | `6px`   | Subtle rounding |
+| `--radius`      | `18px`  | Default cards   |
+| `--radius-lg`   | `24px`  | Large cards     |
+| `--radius-full` | `999px` | Pills, circles  |
 
 ### Shadows & Glows
 
-| Token | Usage |
-|-------|-------|
-| `--glow` | Subtle hover glow |
-| `--glow-strong` | Prominent glow |
-| `--shadow-sm` | Subtle depth |
-| `--shadow-md` | Card shadows |
-| `--shadow-lg` | Elevated elements |
+| Token           | Usage             |
+| --------------- | ----------------- |
+| `--glow`        | Subtle hover glow |
+| `--glow-strong` | Prominent glow    |
+| `--shadow-sm`   | Subtle depth      |
+| `--shadow-md`   | Card shadows      |
+| `--shadow-lg`   | Elevated elements |
 
 ---
 
@@ -558,11 +579,13 @@ var(--transition)       // Default transition
 var(--radius)           // Default border-radius
 
 // Mixins
-@include mobile { }     // < 480px
-@include tablet { }     // < 768px
-@include glass-effect;  // Glassmorphism
-@include hover-lift;    // Lift on hover
-@include flex-center;   // Center content
+@include mobile {
+} // < 480px
+@include tablet {
+} // < 768px
+@include glass-effect; // Glassmorphism
+@include hover-lift; // Lift on hover
+@include flex-center; // Center content
 ```
 
 ---
