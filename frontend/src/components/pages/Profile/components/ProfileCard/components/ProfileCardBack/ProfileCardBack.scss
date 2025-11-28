@@ -112,3 +112,49 @@
     height: 36px;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .analytics-title {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .flip-trigger-back {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .flip-trigger-back:hover {
+    background: rgba(26, 115, 231, 0.2) !important;
+    border-color: rgba(26, 115, 231, 0.5) !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.2) !important;
+  }
+
+  .analytics-card {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .analytics-card:hover {
+    background: rgba(26, 115, 231, 0.05) !important;
+    border-color: rgba(26, 115, 231, 0.2) !important;
+  }
+
+  .analytics-icon {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.15), rgba(26, 231, 132, 0.15)) !important;
+    color: #1a73e7 !important;
+  }
+
+  .analytics-value {
+    color: #000000 !important;
+  }
+
+  .analytics-label {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+}

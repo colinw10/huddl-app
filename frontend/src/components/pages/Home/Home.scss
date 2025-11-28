@@ -602,3 +602,90 @@
   }
 }
 
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .feed-container {
+    background: transparent !important;
+  }
+
+  /* Stories */
+  .story-card::before {
+    background: linear-gradient(135deg, 
+      rgba(26, 115, 231, 0.4),
+      rgba(26, 231, 132, 0.4),
+      rgba(220, 8, 188, 0.4)
+    ) !important;
+  }
+
+  .story-card::after {
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  .story-card:hover::before {
+    background: linear-gradient(135deg, 
+      rgba(26, 115, 231, 0.6),
+      rgba(26, 231, 132, 0.6),
+      rgba(220, 8, 188, 0.6)
+    ) !important;
+  }
+
+  .story-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .story-avatar {
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    background: rgba(26, 115, 231, 0.1) !important;
+  }
+
+  .story-username {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  /* Quick Composer */
+  .quick-composer {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .quick-composer-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Composer Modal */
+  .composer-modal {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .modal-header h3 {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .modal-close {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .modal-close:hover {
+    color: #000000 !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .post-button {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.9)) !important;
+    border: none !important;
+    color: #ffffff !important;
+  }
+
+  .post-button:hover {
+    box-shadow: 0 4px 16px rgba(26, 115, 231, 0.3) !important;
+  }
+}

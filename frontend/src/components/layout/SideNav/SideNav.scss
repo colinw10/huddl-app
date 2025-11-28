@@ -312,3 +312,70 @@
     display: none;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .main-nav {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) saturate(150%);
+  }
+
+  .main-nav.left-nav {
+    border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .main-nav.bottom-nav {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-item {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .nav-item:hover {
+    color: #1a73e7 !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .nav-item.active {
+    color: #1a73e7 !important;
+    border-left-color: #1a73e7 !important;
+  }
+
+  .nav-item svg {
+    filter: none !important;
+  }
+
+  .nav-item:hover svg {
+    filter: drop-shadow(0 0 4px rgba(26, 115, 231, 0.4)) !important;
+  }
+
+  .nav-icon {
+    background: transparent !important;
+  }
+
+  .nav-item:hover .nav-icon {
+    background: rgba(26, 115, 231, 0.08) !important;
+    box-shadow: none !important;
+  }
+
+  .nav-item.active .nav-icon {
+    background: rgba(26, 115, 231, 0.1) !important;
+  }
+
+  /* Neon indicator bar - subtle in light mode */
+  @media (min-width: 481px) {
+    .main-nav.left-nav .nav-item::before {
+      background: linear-gradient(180deg, 
+        rgba(26, 115, 231, 0.8),
+        rgba(26, 231, 132, 0.8)
+      ) !important;
+      box-shadow: none !important;
+    }
+  }
+}

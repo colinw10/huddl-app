@@ -224,3 +224,45 @@
 .setting-btn.throwback-btn:hover svg {
   filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.7));
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .quick-settings-grid {
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .setting-btn {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    text-shadow: none !important;
+  }
+
+  .setting-btn:hover {
+    background: rgba(26, 115, 231, 0.08) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15) !important;
+  }
+
+  .setting-btn svg {
+    filter: none !important;
+  }
+
+  .setting-btn:hover svg {
+    filter: drop-shadow(0 0 4px rgba(26, 115, 231, 0.4)) !important;
+  }
+
+  /* Keep themed buttons with their colors in light mode */
+  .setting-btn.throwback-btn {
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 215, 0, 0.1)) !important;
+    border: 1px solid rgba(255, 105, 180, 0.3) !important;
+  }
+
+  .setting-btn.throwback-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 215, 0, 0.2)) !important;
+    border-color: rgba(255, 105, 180, 0.5) !important;
+  }
+}

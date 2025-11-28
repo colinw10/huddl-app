@@ -131,3 +131,48 @@
     padding-bottom: 0;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .top-bar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .top-bar-logo {
+    color: #000000 !important;
+  }
+
+  .icon-placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .icon-search {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .icon-search:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.1) !important;
+    box-shadow: 0 0 10px rgba(26, 115, 231, 0.2) !important;
+  }
+
+  .icon-messages {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .icon-messages:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.1) !important;
+    box-shadow: 0 0 10px rgba(26, 115, 231, 0.2) !important;
+  }
+
+  .icon-placeholder:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.1) !important;
+    box-shadow: 0 0 10px rgba(26, 115, 231, 0.2) !important;
+  }
+}

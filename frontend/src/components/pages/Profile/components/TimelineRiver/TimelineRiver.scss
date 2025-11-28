@@ -437,3 +437,93 @@
     transition: none !important;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .timeline-river-container {
+    background: transparent !important;
+  }
+
+  /* River labels */
+  .river-labels {
+    background: linear-gradient(180deg, #f5f5f7 0%, #f5f5f7 90%, transparent 100%) !important;
+  }
+
+  .river-label {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .river-label span {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  /* River cards */
+  .river-card {
+    background: #ffffff !important;
+  }
+
+  .river-card::before {
+    background: linear-gradient(
+      135deg,
+      var(--accent-color, rgba(26, 115, 231, 0.3)) 0%,
+      rgba(26, 231, 132, 0.2) 50%,
+      var(--accent-color, rgba(26, 115, 231, 0.3)) 100%
+    ) !important;
+  }
+
+  .river-card::after {
+    background: #ffffff !important;
+  }
+
+  .river-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /* Card content */
+  .river-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .river-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .river-author {
+    color: #000000 !important;
+  }
+
+  .river-time {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .river-content {
+    color: #000000 !important;
+  }
+
+  .river-actions {
+    border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .river-action-btn {
+    color: rgba(0, 0, 0, 0.5) !important;
+    background: transparent !important;
+  }
+
+  .river-action-btn:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.08) !important;
+  }
+
+  /* Flow lines - subtle in light mode */
+  .flow-line {
+    opacity: 0.3 !important;
+  }
+}

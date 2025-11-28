@@ -171,3 +171,41 @@
     padding-bottom: 12px;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .profile-card-front,
+  .profile-card-back {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(20px);
+  }
+
+  .profile-card-back {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 247, 0.95) 100%) !important;
+    scrollbar-color: rgba(26, 115, 231, 0.4) rgba(0, 0, 0, 0.05);
+  }
+
+  .profile-card-back::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .profile-card-back::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, 
+      rgba(26, 115, 231, 0.5), 
+      rgba(26, 231, 132, 0.5)
+    ) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: none !important;
+  }
+
+  .profile-card-back::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, 
+      rgba(26, 115, 231, 0.7), 
+      rgba(26, 231, 132, 0.7)
+    ) !important;
+  }
+}

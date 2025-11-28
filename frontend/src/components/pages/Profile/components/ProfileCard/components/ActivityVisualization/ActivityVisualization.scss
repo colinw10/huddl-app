@@ -468,3 +468,94 @@
 .legend-square:hover {
   transform: scale(1.2);
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .activity-section {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .activity-section:hover {
+    border-color: rgba(26, 115, 231, 0.2) !important;
+  }
+
+  .activity-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .section-title {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .section-subtitle {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .viz-toggle-btn {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .viz-toggle-btn.active {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+  }
+
+  .viz-toggle-btn:hover {
+    background: rgba(26, 115, 231, 0.08) !important;
+    border-color: rgba(26, 115, 231, 0.2) !important;
+  }
+
+  /* Wave visualization */
+  .wave-container {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .wave-gradient-bg {
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 115, 231, 0.05) 0%,
+      rgba(26, 231, 132, 0.03) 50%,
+      transparent 100%
+    ) !important;
+  }
+
+  .wave-grid-lines line,
+  .wave-reference-line {
+    stroke: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .wave-grid-labels text {
+    fill: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .wave-legend-item text {
+    fill: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  /* Heatmap */
+  .heatmap-container {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .heatmap-month-label,
+  .heatmap-weekday-label {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .heatmap-legend {
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .legend-label {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+}

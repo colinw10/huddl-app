@@ -485,3 +485,55 @@
   outline: 2px solid rgba(26, 115, 231, 0.8);
   outline-offset: 2px;
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .user-profile-page {
+    background: #f5f5f7 !important;
+    color: #000000 !important;
+  }
+
+  .user-profile-page.river-profile {
+    background: #f5f5f7 !important;
+  }
+
+  /* Background blobs - subtle in light mode */
+  .page-blob-top,
+  .page-blob-bottom {
+    opacity: 0.3 !important;
+  }
+
+  /* Quick composer on profile */
+  .quick-composer-section {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .quick-composer-buttons button {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .quick-composer-buttons button:hover {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+  }
+
+  .quick-composer-buttons button.active {
+    background: rgba(26, 115, 231, 0.15) !important;
+    border-color: rgba(26, 115, 231, 0.4) !important;
+    color: #1a73e7 !important;
+  }
+
+  .quick-composer-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+}

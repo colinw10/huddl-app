@@ -243,3 +243,41 @@
     font-size: 0.5rem;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .landing-title {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .landing-subtitle {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .btn-login {
+    background: rgba(26, 115, 231, 0.1) !important;
+    color: #1a73e7 !important;
+    border-color: rgba(26, 115, 231, 0.4) !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15) !important;
+  }
+
+  .btn-login:hover {
+    background: rgba(26, 115, 231, 0.2) !important;
+    box-shadow: 0 8px 24px rgba(26, 115, 231, 0.25) !important;
+  }
+
+  .btn-signup {
+    background: #1a73e7 !important;
+    color: #ffffff !important;
+    border-color: #1a73e7 !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.3) !important;
+  }
+
+  .btn-signup:hover {
+    background: #1557b0 !important;
+    box-shadow: 0 8px 24px rgba(26, 115, 231, 0.4) !important;
+  }
+}

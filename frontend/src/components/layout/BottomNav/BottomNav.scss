@@ -127,3 +127,37 @@
     padding: 0.5rem;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .main-nav {
+    background: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .main-nav.bottom-nav {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .main-nav.left-nav {
+    border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .nav-item {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .nav-item:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.08) !important;
+  }
+
+  .nav-item.active {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.1) !important;
+  }
+}

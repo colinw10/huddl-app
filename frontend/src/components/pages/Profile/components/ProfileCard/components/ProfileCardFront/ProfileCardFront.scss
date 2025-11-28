@@ -410,3 +410,103 @@
     right: 12px;
   }
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .profile-card-front .profile-header-bg {
+    background: linear-gradient(90deg, rgba(26, 115, 231, 0.3) 0%, rgba(26, 231, 132, 0.25) 50%, rgba(220, 8, 188, 0.3) 100%) !important;
+  }
+
+  .profile-card-front .profile-header-bg::after {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .profile-card-front .profile-avatar {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(26, 231, 132, 0.2)) !important;
+    border: 2px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .profile-card-front .profile-avatar svg {
+    color: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .profile-card-front .profile-meta {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .profile-name {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .profile-username {
+    color: rgba(0, 0, 0, 0.5) !important;
+    text-shadow: none !important;
+  }
+
+  .profile-bio,
+  .profile-bio p {
+    color: rgba(0, 0, 0, 0.8) !important;
+    text-shadow: none !important;
+  }
+
+  .profile-detail-item {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .profile-detail-item svg {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .profile-stats {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .stat-item {
+    color: #000000 !important;
+  }
+
+  .stat-count {
+    color: #000000 !important;
+    text-shadow: none !important;
+  }
+
+  .stat-label {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .profile-actions-pill {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .action-icon-btn {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .action-icon-btn:hover {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+  }
+
+  .flip-btn {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .flip-btn:hover {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+  }
+}

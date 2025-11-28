@@ -1078,3 +1078,152 @@
 .river-post-media:hover .media-expand-hint {
   opacity: 1;
 }
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  /* River post cards */
+  .river-post-card {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .river-post-card:hover {
+    background: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Post type-specific borders */
+  .post--thoughts {
+    border-left: 3px solid rgba(26, 115, 231, 0.5) !important;
+  }
+
+  .post--media {
+    border-left: 3px solid rgba(26, 231, 132, 0.5) !important;
+  }
+
+  .post--milestones {
+    border-left: 3px solid rgba(220, 8, 188, 0.5) !important;
+  }
+
+  /* Card header */
+  .river-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .river-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .river-author {
+    color: #000000 !important;
+  }
+
+  .river-time {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Post content */
+  .river-post-text {
+    color: #000000 !important;
+  }
+
+  /* Actions */
+  .river-actions {
+    border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .river-action-btn {
+    color: rgba(0, 0, 0, 0.5) !important;
+    background: transparent !important;
+  }
+
+  .river-action-btn:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.08) !important;
+  }
+
+  /* Column headers */
+  .river-type-header {
+    color: rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .type-icon {
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Date badge */
+  .river-date-badge {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .river-date-badge svg {
+    color: #1a73e7 !important;
+  }
+
+  /* Carousel controls */
+  .carousel-btn {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .carousel-btn:hover:not(:disabled) {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15) !important;
+  }
+
+  .carousel-btn:disabled {
+    background: rgba(0, 0, 0, 0.02) !important;
+    color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .carousel-indicator {
+    background: rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .carousel-indicator--active {
+    background: linear-gradient(135deg, #1a73e7, #1ae784) !important;
+  }
+
+  /* Desktop stack navigation */
+  .desktop-stack-btn {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .desktop-stack-btn:hover {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: #1a73e7 !important;
+  }
+
+  .desktop-stack-close {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(220, 8, 188, 0.3) !important;
+    color: rgba(220, 8, 188, 0.8) !important;
+  }
+
+  .desktop-stack-close:hover {
+    background: rgba(220, 8, 188, 0.1) !important;
+  }
+
+  /* Media expand hint */
+  .media-expand-hint {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+  }
+}
