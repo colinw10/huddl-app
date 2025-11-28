@@ -68,8 +68,25 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.message-modal-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(26, 231, 132, 0.3) 20%,
+    rgba(0, 212, 255, 0.2) 50%,
+    rgba(26, 231, 132, 0.3) 80%,
+    transparent 100%
+  );
 }
 
 .message-modal-title {
@@ -79,6 +96,9 @@
   color: var(--accent, #1ae784);
   letter-spacing: 1px;
   margin: 0;
+  text-shadow:
+    0 0 10px rgba(26, 231, 132, 0.5),
+    0 0 20px rgba(26, 231, 132, 0.3);
 }
 
 .message-modal-close {
@@ -115,10 +135,28 @@
 /* Left: Conversations List */
 .message-conversations {
   width: 320px;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   background: rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+/* Vertical gradient divider */
+.message-conversations::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  right: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.25) 20%,
+    rgba(167, 131, 255, 0.2) 50%,
+    rgba(0, 212, 255, 0.25) 80%,
+    transparent 100%
+  );
 }
 
 .conversations-header {
@@ -239,16 +277,60 @@
   padding: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+}
+
+/* Subtle gradient divider line */
+.conversation-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.2) 20%,
+    rgba(167, 131, 255, 0.15) 50%,
+    rgba(0, 212, 255, 0.2) 80%,
+    transparent 100%
+  );
+}
+
+.conversation-item:last-child::after {
+  display: none;
 }
 
 .conversation-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.conversation-item:hover::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.35) 20%,
+    rgba(167, 131, 255, 0.25) 50%,
+    rgba(0, 212, 255, 0.35) 80%,
+    transparent 100%
+  );
 }
 
 .conversation-item.active {
-  background: rgba(26, 231, 132, 0.1);
-  border-left: 3px solid var(--accent, #1ae784);
+  background: rgba(26, 231, 132, 0.08);
+  border-left: 2px solid var(--accent, #1ae784);
+}
+
+.conversation-item.active::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(26, 231, 132, 0.25) 20%,
+    rgba(26, 231, 132, 0.15) 50%,
+    rgba(26, 231, 132, 0.25) 80%,
+    transparent 100%
+  );
 }
 
 .conversation-avatar {
@@ -305,22 +387,50 @@
 
 .conversation-name {
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   font-size: 0.9rem;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+/* Alternating cyberpunk colors on hover */
+.conversation-item:nth-child(odd):hover .conversation-name {
+  color: #4fffff;
+  text-shadow: 
+    0 0 8px rgba(79, 255, 255, 0.6),
+    0 0 16px rgba(0, 212, 255, 0.4);
+}
+
+.conversation-item:nth-child(even):hover .conversation-name {
+  color: #c9a8ff;
+  text-shadow: 
+    0 0 8px rgba(201, 168, 255, 0.6),
+    0 0 16px rgba(167, 131, 255, 0.4);
+}
+
+.conversation-item.active .conversation-name {
+  color: #1ae784;
+  text-shadow: 0 0 12px rgba(26, 231, 132, 0.5);
 }
 
 .conversation-preview {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.45);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .conversation-time {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.7rem;
+  color: rgba(79, 255, 255, 0.5);
   flex-shrink: 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.conversation-item.active .conversation-time {
+  color: rgba(26, 231, 132, 0.7);
 }
 
 /* Right: Chat View */
@@ -365,10 +475,26 @@
 
 .chat-header {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
+}
+
+.chat-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.25) 20%,
+    rgba(167, 131, 255, 0.15) 50%,
+    rgba(0, 212, 255, 0.25) 80%,
+    transparent 100%
+  );
 }
 
 .chat-user-info {
@@ -421,7 +547,11 @@
 
 .chat-username {
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: #4fffff;
+  text-shadow:
+    0 0 8px rgba(79, 255, 255, 0.5),
+    0 0 16px rgba(0, 212, 255, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .chat-messages {
@@ -537,10 +667,26 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 1;
+}
+
+.chat-composer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.25) 20%,
+    rgba(167, 131, 255, 0.15) 50%,
+    rgba(0, 212, 255, 0.25) 80%,
+    transparent 100%
+  );
 }
 
 .chat-textarea {
