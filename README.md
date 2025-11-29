@@ -3,7 +3,7 @@
 **Due:** January 24, 2026  
 **Branch:** `team-shell`
 
-> **Note:** Hey, Equipo. These are suggested tasks and assignments. If anyone wants to swap roles, take on different work, or has ideas to improve the workflow, let's discuss it! I'm also willing to help anyone in any area if necessary, so... feel free.
+> **Note:** Hey All. These are suggested tasks and assignments. If anyone wants to swap roles, take on different work, or has ideas to improve the workflow, let's discuss it. I'm also willing to help anyone in any area if necessary, so... feel free.
 
 ---
 
@@ -94,6 +94,22 @@ huddl-app/
 └── frontend/src/
     ├── App.jsx                         ← PABLO: Router + Shell integration
     ├── main.jsx                        ✓ Entry point
+    │
+    ├── styles/                         # SCSS Architecture - PABLO ✓
+    │   ├── main.scss                   ✓ Main entry point
+    │   ├── _variables.scss             ✓ Theme colors, spacing, breakpoints
+    │   ├── _mixins.scss                ✓ Reusable SCSS mixins
+    │   ├── _glass.scss                 ✓ Glassmorphism effects
+    │   ├── _blobs.scss                 ✓ Animated background blobs
+    │   ├── _buttons.scss               ✓ Button styles
+    │   ├── _cards.scss                 ✓ Card styles
+    │   ├── _light-mode.scss            ✓ Light theme overrides
+    │   ├── _animations.scss            ✓ Keyframe animations
+    │   ├── _typography.scss            ✓ Font styles
+    │   ├── _layout.scss                ✓ Layout utilities
+    │   ├── _reset.scss                 ✓ CSS reset
+    │   ├── _theme.scss                 ✓ Theme setup
+    │   └── _utilities.scss             ✓ Utility classes
     │
     ├── contexts/                       # Global State - PABLO
     │   ├── index.js                    ← Barrel export

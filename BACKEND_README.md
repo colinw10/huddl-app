@@ -132,7 +132,7 @@ from .models import Post
 
 class PostSerializer(serializers.ModelSerializer):
     author_username = serializers.CharField(source='author.username', read_only=True)
-    
+
     class Meta:
         model = Post
         fields = ['id', 'author', 'author_username', 'type', 'content', 'created_at']
@@ -181,13 +181,13 @@ def signup(request):
     username = request.data.get('username')
     email = request.data.get('email')
     password = request.data.get('password')
-    
+
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username taken'}, status=400)
-    
+
     user = User.objects.create_user(username=username, email=email, password=password)
     Profile.objects.create(user=user)
-    
+
     return Response({'message': 'User created'}, status=201)
 ```
 
@@ -229,13 +229,13 @@ python3 manage.py migrate
 
 After Week 1, suggested tasks:
 
-| Person  | Week 2 Task                                       |
-| ------- | ------------------------------------------------- |
-| Colin   | Post views + postsService.js + Home page logic    |
-| Natalia | Auth views + authService.js + Login/Signup forms  |
-| Crystal | Friendship serializers + views                    |
-| Tito    | Utility helpers (with Pablo)                      |
-| Pablo   | AuthContext + protected routes + integration      |
+| Person  | Week 2 Task                                      |
+| ------- | ------------------------------------------------ |
+| Colin   | Post views + postsService.js + Home page logic   |
+| Natalia | Auth views + authService.js + Login/Signup forms |
+| Crystal | Friendship serializers + views                   |
+| Tito    | Utility helpers (with Pablo)                     |
+| Pablo   | AuthContext + protected routes + integration     |
 
 > These are suggestions — if you want to swap or take on more, let's talk!
 
