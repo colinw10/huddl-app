@@ -22,30 +22,36 @@ Server runs at: **http://localhost:8000**
 
 ```
 backend/
-├── huddl/              # Project config (Tito + Pablo)
-│   ├── settings.py     # CORS, JWT, database config
-│   └── urls.py         # Main router
+├── huddl/                            # Project config - PABLO + TITO
+│   ├── settings.py                   ← CORS, JWT, database config
+│   └── urls.py                       ← Main router
 │
-├── posts/              # Posts app (Colin)
-│   ├── models.py       # Post model (exists)
-│   ├── admin.py        # Register in admin
-│   ├── serializers.py  # Convert to JSON (Week 1-2)
-│   ├── views.py        # API endpoints
-│   └── urls.py         # /api/posts/ routes
+├── api/                              # Core API - TITO
+│   ├── models.py                     ← Message, Notification models
+│   ├── serializers.py                ← MessageSerializer, NotificationSerializer
+│   ├── views.py                      ← MessageViewSet, NotificationViewSet
+│   └── urls.py                       ← /api/messages/, /api/notifications/
 │
-├── users/              # Users app (Natalia)
-│   ├── models.py       # Profile model (exists)
-│   ├── admin.py        # Register in admin
-│   ├── serializers.py  # Convert to JSON
-│   ├── views.py        # Auth endpoints (Week 1-2)
-│   └── urls.py         # /api/auth/ routes
+├── posts/                            # Posts app - COLIN
+│   ├── models.py                     ← Post model (with post_type)
+│   ├── admin.py                      ← Register in admin
+│   ├── serializers.py                ← PostSerializer (like_count, is_liked)
+│   ├── views.py                      ← PostViewSet (feed, like, unlike)
+│   └── urls.py                       ← /api/posts/ routes
 │
-└── friends/            # Friends app (Crystal)
-    ├── models.py       # Friendship model
-    ├── admin.py        # Register in admin
-    ├── serializers.py  # Convert to JSON
-    ├── views.py        # Friends endpoints
-    └── urls.py         # /api/friends/ routes
+├── users/                            # Users app - NATALIA
+│   ├── models.py                     ← Profile model
+│   ├── admin.py                      ← Register in admin
+│   ├── serializers.py                ← UserSerializer, SignupSerializer, LoginSerializer
+│   ├── views.py                      ← signup, login, current_user endpoints
+│   └── urls.py                       ← /api/auth/ routes + token refresh
+│
+└── friends/                          # Friends app - CRYSTAL
+    ├── models.py                     ← FriendRequest, Friendship models
+    ├── admin.py                      ← Register in admin
+    ├── serializers.py                ← FriendRequestSerializer, FriendSerializer
+    ├── views.py                      ← FriendViewSet (list, send_request, accept, decline)
+    └── urls.py                       ← /api/friends/ routes
 ```
 
 ---

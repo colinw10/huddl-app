@@ -29,25 +29,25 @@ npm run dev
 
 ## Team Roles
 
-| Person      | Role              | Main Files                                                        |
-| ----------- | ----------------- | ----------------------------------------------------------------- |
-| **Colin**   | Posts API         | `backend/posts/`, connects to Home feed                           |
-| **Natalia** | Auth & Users      | `backend/users/`, `frontend/src/services/authService.js`          |
-| **Crystal** | Friends System    | `backend/friends/`, `frontend/src/components/pages/Friends/`      |
-| **Tito**    | Infrastructure    | `backend/huddl/settings.py`, `frontend/src/services/apiClient.js` |
-| **Pablo**   | Full-stack + Lead | Backend auth, frontend architecture, integration                  |
+| Person      | Role                | Main Files                                                              |
+| ----------- | ------------------- | ----------------------------------------------------------------------- |
+| **Pablo**   | Architecture & Lead | `App.jsx`, `layout/`, `contexts/`, `apiClient.js`, theming, integration |
+| **Colin**   | Home/Feed           | `pages/Home/`, `backend/posts/`                                         |
+| **Natalia** | Auth & Landing      | `pages/Login/`, `pages/Signup/`, `pages/Landing/`, `backend/users/`     |
+| **Crystal** | Profile & Friends   | `pages/Profile/`, `pages/Friends/`, `backend/friends/`                  |
+| **Tito**    | Messaging & API     | `ui/MessageModal/`, `backend/api/` (messages, notifications)            |
 
 ---
 
 ## Week 1 Tasks (This Week)
 
-| Person      | Task                                       | File to Create/Edit          |
-| ----------- | ------------------------------------------ | ---------------------------- |
-| **Tito**    | CORS config (with Pablo)                   | `backend/huddl/settings.py`  |
-| **Pablo**   | JWT auth setup + help Tito                 | `backend/huddl/settings.py`  |
-| **Colin**   | Register Post in admin + start serializer  | `backend/posts/admin.py`     |
-| **Natalia** | Register Profile in admin + auth views     | `backend/users/admin.py`     |
-| **Crystal** | Create Friendship model                    | `backend/friends/models.py`  |
+| Person      | Task                                      | File to Create/Edit         |
+| ----------- | ----------------------------------------- | --------------------------- |
+| **Tito**    | CORS config (with Pablo)                  | `backend/huddl/settings.py` |
+| **Pablo**   | JWT auth setup + help Tito                | `backend/huddl/settings.py` |
+| **Colin**   | Register Post in admin + start serializer | `backend/posts/admin.py`    |
+| **Natalia** | Register Profile in admin + auth views    | `backend/users/admin.py`    |
+| **Crystal** | Create Friendship model                   | `backend/friends/models.py` |
 
 **⚠️ Tito + Pablo go first!** Without CORS, frontend can't reach backend.
 
@@ -60,50 +60,93 @@ npm run dev
 ```
 huddl-app/
 ├── backend/
-│   ├── huddl/
-│   │   ├── settings.py      ← TITO + PABLO: CORS + JWT
-│   │   └── urls.py          ✓ Done
-│   ├── posts/
-│   │   ├── models.py        ✓ Post model exists
-│   │   ├── admin.py         ← COLIN: Register Post
-│   │   ├── serializers.py   ○ Week 2
-│   │   ├── views.py         ○ Week 2
-│   │   └── urls.py          ○ Week 2
-│   ├── users/
-│   │   ├── models.py        ✓ Profile model exists
-│   │   ├── admin.py         ← NATALIA: Register Profile
-│   │   ├── serializers.py   ○ Week 2
-│   │   ├── views.py         ○ Week 2
-│   │   └── urls.py          ○ Week 2
-│   └── friends/
-│       ├── models.py        ← CRYSTAL: Create Friendship
-│       ├── admin.py         ○ Week 2
-│       ├── serializers.py   ○ Week 2
-│       ├── views.py         ○ Week 2
-│       └── urls.py          ○ Week 2
+│   ├── huddl/                          # Project config
+│   │   ├── settings.py                 ← TITO + PABLO: CORS + JWT
+│   │   └── urls.py                     ✓ Done
+│   │
+│   ├── api/                            # Core API - TITO
+│   │   ├── models.py                   ← Message, Notification models
+│   │   ├── serializers.py              ← MessageSerializer, NotificationSerializer
+│   │   ├── views.py                    ← MessageViewSet, NotificationViewSet
+│   │   └── urls.py                     ← /api/messages/, /api/notifications/
+│   │
+│   ├── posts/                          # Posts API - COLIN
+│   │   ├── models.py                   ✓ Post model exists
+│   │   ├── admin.py                    ← Register Post
+│   │   ├── serializers.py              ← PostSerializer (with like_count, is_liked)
+│   │   ├── views.py                    ← PostViewSet (feed, like, unlike)
+│   │   └── urls.py                     ← /api/posts/ routes
+│   │
+│   ├── users/                          # Auth API - NATALIA
+│   │   ├── models.py                   ✓ Profile model exists
+│   │   ├── admin.py                    ← Register Profile
+│   │   ├── serializers.py              ← UserSerializer, SignupSerializer, LoginSerializer
+│   │   ├── views.py                    ← signup, login, current_user endpoints
+│   │   └── urls.py                     ← /api/auth/ routes
+│   │
+│   └── friends/                        # Friends API - CRYSTAL
+│       ├── models.py                   ← FriendRequest, Friendship models
+│       ├── admin.py                    ← Register models
+│       ├── serializers.py              ← FriendRequestSerializer, FriendSerializer
+│       ├── views.py                    ← FriendViewSet (list, send_request, accept, decline)
+│       └── urls.py                     ← /api/friends/ routes
 │
-└── frontend/
-    └── src/
-        ├── App.jsx                    ✓ Router setup
-        ├── main.jsx                   ✓ Entry point
-        ├── context/
-        │   └── AuthContext.jsx        ○ Week 2 (Pablo)
-        ├── services/                  ○ Week 2 (Natalia + Colin)
-        ├── utils/                     ○ Week 2 (Tito + Pablo)
-        └── components/
-            ├── layout/
-            │   ├── TopBar/            ✓ Structure ready
-            │   ├── SideNav/           ✓ Structure ready
-            │   └── BottomNav/         ✓ Structure ready
-            └── pages/
-                ├── Home/              ○ Week 2 (Colin)
-                ├── Profile/           ○ Week 2 (Pablo)
-                ├── Friends/           ○ Week 2 (Crystal)
-                ├── Login/             ○ Week 2 (Natalia)
-                └── Signup/            ○ Week 2 (Natalia)
+└── frontend/src/
+    ├── App.jsx                         ← PABLO: Router + Shell integration
+    ├── main.jsx                        ✓ Entry point
+    │
+    ├── contexts/                       # Global State - PABLO
+    │   ├── index.js                    ← Barrel export
+    │   ├── ThemeContext.jsx            ← Dark/light mode toggle
+    │   └── AuthContext.jsx             ← User auth state (with NATALIA)
+    │
+    ├── services/                       # API Layer
+    │   └── apiClient.js                ← PABLO: Axios client with interceptors
+    │
+    ├── components/
+    │   ├── layout/                     # Shell Layout - PABLO
+    │   │   ├── Shell/                  ← Main layout wrapper
+    │   │   ├── TopBar/                 ← Header with logo, search, user menu
+    │   │   ├── SideNav/                ← Desktop sidebar navigation
+    │   │   └── BottomNav/              ← Mobile bottom navigation
+    │   │
+    │   ├── ui/                         # Shared Components
+    │   │   └── MessageModal/           ← TITO: Direct messaging modal
+    │   │
+    │   └── pages/
+    │       ├── Home/                   # Feed Page - COLIN
+    │       │   ├── Home.jsx            ← Main feed container
+    │       │   ├── Home.scss           ← Feed styles
+    │       │   ├── components/
+    │       │   │   ├── TimelineRiverFeed.jsx  ← 3-column river layout
+    │       │   │   └── TimelineRiverRow.jsx   ← Individual post display
+    │       │   └── utils/
+    │       │       └── groupPosts.js   ← Post clustering by time
+    │       │
+    │       ├── Profile/                # Profile Page - CRYSTAL
+    │       │   ├── Profile.jsx         ← User profile container
+    │       │   ├── Profile.scss        ← Profile styles
+    │       │   └── components/
+    │       │       └── ProfileCard/    ← Flip card component
+    │       │
+    │       ├── Friends/                # Friends Page - CRYSTAL
+    │       │   ├── Friends.jsx         ← Friends list & requests
+    │       │   └── Friends.scss        ← Friends styles
+    │       │
+    │       ├── Login/                  # Login Page - NATALIA
+    │       │   ├── Login.jsx           ← Login form
+    │       │   └── Login.scss          ← Login styles
+    │       │
+    │       ├── Signup/                 # Signup Page - NATALIA
+    │       │   ├── Signup.jsx          ← Registration form
+    │       │   └── Signup.scss         ← Signup styles
+    │       │
+    │       └── Landing/                # Landing Page - NATALIA
+    │           ├── Landing.jsx         ← Hero, features, CTAs
+    │           └── Landing.scss        ← Landing styles
 ```
 
-**Legend:** ✓ Done | ← This week | ○ Future
+**Legend:** ✓ Done | ← Assigned (placeholder ready)
 
 ---
 

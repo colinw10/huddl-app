@@ -20,28 +20,86 @@ App runs at: **http://localhost:5173**
 
 ```
 frontend/src/
-├── main.jsx              # Entry point
-├── App.jsx               # Router + layout
-├── index.css             # Global styles
+├── main.jsx                          # Entry point
+├── App.jsx                           ← PABLO: Router + Shell layout
+├── index.css                         # Global styles
 │
-├── services/             # API calls (Week 2)
-│   ├── apiClient.js      ← Tito
-│   ├── authService.js    ← Natalia
-│   ├── postsService.js   ← Tito
-│   └── friendsService.js ← Crystal
+├── contexts/                         # Global State - PABLO
+│   ├── index.js                      ← Barrel export
+│   ├── ThemeContext.jsx              ← Dark/light mode toggle
+│   └── AuthContext.jsx               ← User auth state (with NATALIA)
 │
-├── utils/                # Helpers (Week 3)
-│   ├── formatters.js     ← Tito
-│   └── validators.js     ← Tito
+├── services/                         # API Layer
+│   └── apiClient.js                  ← PABLO: Axios with auth interceptors
 │
-└── components/
-    ├── layout/           # TopBar, SideNav, BottomNav
-    └── pages/            # Page components
-        ├── Home/         # Feed page
-        ├── Profile/      # User profile
-        ├── Friends/      # Friends list
-        ├── Login/        # Login form
-        └── Signup/       # Signup form
+├── components/
+│   ├── layout/                       # Shell Layout - PABLO
+│   │   ├── Shell/                    ← Main layout wrapper
+│   │   │   ├── Shell.jsx
+│   │   │   ├── Shell.scss
+│   │   │   └── index.js
+│   │   ├── TopBar/                   ← Header with logo, search, user menu
+│   │   │   ├── TopBar.jsx
+│   │   │   ├── TopBar.scss
+│   │   │   └── index.js
+│   │   ├── SideNav/                  ← Desktop sidebar navigation
+│   │   │   ├── SideNav.jsx
+│   │   │   ├── SideNav.scss
+│   │   │   └── index.js
+│   │   └── BottomNav/                ← Mobile bottom navigation
+│   │       ├── BottomNav.jsx
+│   │       ├── BottomNav.scss
+│   │       └── index.js
+│   │
+│   ├── ui/                           # Shared Components
+│   │   └── MessageModal/             ← TITO: Direct messaging
+│   │       ├── MessageModal.jsx
+│   │       ├── MessageModal.scss
+│   │       └── index.js
+│   │
+│   └── pages/
+│       ├── Home/                     # Feed Page - COLIN
+│       │   ├── Home.jsx              ← Main feed container
+│       │   ├── Home.scss
+│       │   ├── index.js
+│       │   ├── components/
+│       │   │   ├── TimelineRiverFeed.jsx
+│       │   │   ├── TimelineRiverFeed.scss
+│       │   │   ├── TimelineRiverRow.jsx
+│       │   │   ├── TimelineRiverRow.scss
+│       │   │   └── index.js
+│       │   └── utils/
+│       │       └── groupPosts.js     ← Post clustering utility
+│       │
+│       ├── Profile/                  # Profile Page - CRYSTAL
+│       │   ├── Profile.jsx           ← User profile container
+│       │   ├── Profile.scss
+│       │   ├── index.js
+│       │   └── components/
+│       │       └── ProfileCard/      ← Flip card component
+│       │           ├── ProfileCard.jsx
+│       │           ├── ProfileCard.scss
+│       │           └── index.js
+│       │
+│       ├── Friends/                  # Friends Page - CRYSTAL
+│       │   ├── Friends.jsx           ← Friends list & requests
+│       │   ├── Friends.scss
+│       │   └── index.js
+│       │
+│       ├── Login/                    # Login Page - NATALIA
+│       │   ├── Login.jsx             ← Login form + validation
+│       │   ├── Login.scss
+│       │   └── index.js
+│       │
+│       ├── Signup/                   # Signup Page - NATALIA
+│       │   ├── Signup.jsx            ← Registration form
+│       │   ├── Signup.scss
+│       │   └── index.js
+│       │
+│       └── Landing/                  # Landing Page - NATALIA
+│           ├── Landing.jsx           ← Hero, features, CTAs
+│           ├── Landing.scss
+│           └── index.js
 ```
 
 ---

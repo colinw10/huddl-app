@@ -19,15 +19,15 @@
  * =============================================================================
  */
 
-import axios from 'axios';
+import axios from "axios";
 
 // TODO: Pablo - Move to environment variable
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = "http://localhost:8000/api";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -35,7 +35,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // TODO: Pablo - Get token from localStorage or context
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -53,17 +53,17 @@ apiClient.interceptors.response.use(
     // TODO: Pablo - Handle 401 (token refresh or redirect to login)
     if (error.response?.status === 401) {
       // Token expired or invalid
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       // TODO: Redirect to login
       // window.location.href = '/login';
     }
-    
+
     // TODO: Pablo - Handle network errors
     if (!error.response) {
-      console.error('Network error:', error.message);
+      console.error("Network error:", error.message);
     }
-    
+
     return Promise.reject(error);
   }
 );
