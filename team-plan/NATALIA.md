@@ -101,8 +101,8 @@ Pablo has already created a complete styling system. **You don't need to write c
 At the **top** of any `.scss` file (like `Login.scss`), add:
 
 ```scss
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 ```
 
 This gives you access to all the design system variables and mixins.
@@ -111,52 +111,52 @@ This gives you access to all the design system variables and mixins.
 
 ```scss
 // Example for Login.scss
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: var(--space-lg);           // 24px padding
-  
+  padding: var(--space-lg); // 24px padding
+
   &__card {
-    @include glass-card;              // Glassmorphism effect (one line!)
-    padding: var(--space-xl);         // 32px padding
+    @include glass-card; // Glassmorphism effect (one line!)
+    padding: var(--space-xl); // 32px padding
     border-radius: var(--radius-lg);
     max-width: 400px;
     width: 100%;
   }
-  
+
   &__title {
-    color: var(--text-primary);       // Main text color
-    font-size: var(--font-size-xl);   // 24px
+    color: var(--text-primary); // Main text color
+    font-size: var(--font-size-xl); // 24px
     margin-bottom: var(--space-lg);
   }
-  
+
   &__input {
     width: 100%;
     padding: var(--space-sm) var(--space-md);
-    background: var(--surface);        // Semi-transparent bg
+    background: var(--surface); // Semi-transparent bg
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     color: var(--text-primary);
     margin-bottom: var(--space-md);
-    
+
     &:focus {
-      border-color: var(--primary);    // Blue border on focus
+      border-color: var(--primary); // Blue border on focus
       outline: none;
     }
   }
-  
+
   &__button {
-    @include button-primary;           // Pre-styled primary button
+    @include button-primary; // Pre-styled primary button
     width: 100%;
   }
-  
+
   &__error {
-    color: var(--error);               // Red error text
+    color: var(--error); // Red error text
     font-size: var(--font-size-sm);
   }
 }
@@ -164,15 +164,15 @@ This gives you access to all the design system variables and mixins.
 
 ### Quick Reference
 
-| What You Need | What to Write |
-|---------------|---------------|
-| Glass card effect | `@include glass-card;` |
-| Primary button | `@include button-primary;` |
-| Secondary button | `@include button-secondary;` |
-| Error color | `color: var(--error);` |
-| Input background | `background: var(--surface);` |
-| Input border | `border: 1px solid var(--border);` |
-| Focus state | `border-color: var(--primary);` |
+| What You Need     | What to Write                      |
+| ----------------- | ---------------------------------- |
+| Glass card effect | `@include glass-card;`             |
+| Primary button    | `@include button-primary;`         |
+| Secondary button  | `@include button-secondary;`       |
+| Error color       | `color: var(--error);`             |
+| Input background  | `background: var(--surface);`      |
+| Input border      | `border: 1px solid var(--border);` |
+| Focus state       | `border-color: var(--primary);`    |
 
 ### Questions?
 

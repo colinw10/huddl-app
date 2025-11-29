@@ -108,8 +108,8 @@ Pablo has already created a complete styling system. **You don't need to write c
 At the **top** of `MessageModal.scss`, add:
 
 ```scss
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 ```
 
 **Note:** Your path is shorter (`../../` instead of `../../../`) because MessageModal is in `ui/` not `pages/`.
@@ -118,8 +118,8 @@ At the **top** of `MessageModal.scss`, add:
 
 ```scss
 // Example for MessageModal.scss
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 
 .message-modal {
   position: fixed;
@@ -127,23 +127,23 @@ At the **top** of `MessageModal.scss`, add:
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  
+
   &__overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
   }
-  
+
   &__content {
-    @include glass-card;              // Glassmorphism effect (one line!)
+    @include glass-card; // Glassmorphism effect (one line!)
     padding: var(--space-lg);
     border-radius: var(--radius-lg);
     max-width: 500px;
     width: 90vw;
     max-height: 80vh;
   }
-  
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -152,30 +152,30 @@ At the **top** of `MessageModal.scss`, add:
     padding-bottom: var(--space-sm);
     border-bottom: 1px solid var(--border);
   }
-  
+
   &__title {
     color: var(--text-primary);
     font-size: var(--font-size-lg);
   }
-  
+
   &__close {
     @include button-secondary;
     padding: var(--space-xs);
   }
-  
+
   &__messages {
     overflow-y: auto;
     max-height: 400px;
     padding: var(--space-md) 0;
   }
-  
+
   &__input-area {
     display: flex;
     gap: var(--space-sm);
     padding-top: var(--space-md);
     border-top: 1px solid var(--border);
   }
-  
+
   &__input {
     flex: 1;
     padding: var(--space-sm) var(--space-md);
@@ -183,13 +183,13 @@ At the **top** of `MessageModal.scss`, add:
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     color: var(--text-primary);
-    
+
     &:focus {
       border-color: var(--primary);
       outline: none;
     }
   }
-  
+
   &__send {
     @include button-primary;
   }
@@ -200,13 +200,13 @@ At the **top** of `MessageModal.scss`, add:
   border-radius: var(--radius-md);
   margin-bottom: var(--space-sm);
   max-width: 80%;
-  
+
   &--sent {
     background: var(--primary);
     color: white;
     margin-left: auto;
   }
-  
+
   &--received {
     background: var(--surface);
     color: var(--text-primary);
@@ -216,14 +216,14 @@ At the **top** of `MessageModal.scss`, add:
 
 ### Quick Reference
 
-| What You Need | What to Write |
-|---------------|---------------|
-| Glass card effect | `@include glass-card;` |
-| Primary button | `@include button-primary;` |
-| Modal overlay | `backdrop-filter: blur(4px);` |
-| Input background | `background: var(--surface);` |
-| Border color | `border: 1px solid var(--border);` |
-| Focus state | `border-color: var(--primary);` |
+| What You Need     | What to Write                      |
+| ----------------- | ---------------------------------- |
+| Glass card effect | `@include glass-card;`             |
+| Primary button    | `@include button-primary;`         |
+| Modal overlay     | `backdrop-filter: blur(4px);`      |
+| Input background  | `background: var(--surface);`      |
+| Border color      | `border: 1px solid var(--border);` |
+| Focus state       | `border-color: var(--primary);`    |
 
 ### Questions?
 

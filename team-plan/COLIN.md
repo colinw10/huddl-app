@@ -95,8 +95,8 @@ Pablo has already created a complete styling system. **You don't need to write c
 At the **top** of any `.scss` file (like `Home.scss`), add:
 
 ```scss
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 ```
 
 This gives you access to all the design system variables and mixins.
@@ -105,49 +105,49 @@ This gives you access to all the design system variables and mixins.
 
 ```scss
 // Example for Home.scss
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .home {
-  padding: var(--space-lg);           // Use spacing (24px)
-  
+  padding: var(--space-lg); // Use spacing (24px)
+
   &__feed {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);             // Gap between posts (16px)
+    gap: var(--space-md); // Gap between posts (16px)
   }
 }
 
 .post-card {
-  @include glass-card;                // Glassmorphism effect (one line!)
+  @include glass-card; // Glassmorphism effect (one line!)
   padding: var(--space-md);
   border-radius: var(--radius-lg);
-  
+
   &__title {
-    color: var(--text-primary);       // Main text color
-    font-size: var(--font-size-lg);   // 18px
+    color: var(--text-primary); // Main text color
+    font-size: var(--font-size-lg); // 18px
   }
-  
+
   &__content {
-    color: var(--text-secondary);     // Muted text color
+    color: var(--text-secondary); // Muted text color
   }
-  
+
   &__like-button {
-    @include button-secondary;        // Pre-styled button
+    @include button-secondary; // Pre-styled button
   }
 }
 ```
 
 ### Quick Reference
 
-| What You Need | What to Write |
-|---------------|---------------|
-| Glass card effect | `@include glass-card;` |
-| Primary button | `@include button-primary;` |
-| Main text color | `color: var(--text-primary);` |
-| Muted text | `color: var(--text-secondary);` |
-| Padding/margin | `var(--space-sm)`, `var(--space-md)`, `var(--space-lg)` |
-| Rounded corners | `border-radius: var(--radius-md);` |
+| What You Need     | What to Write                                           |
+| ----------------- | ------------------------------------------------------- |
+| Glass card effect | `@include glass-card;`                                  |
+| Primary button    | `@include button-primary;`                              |
+| Main text color   | `color: var(--text-primary);`                           |
+| Muted text        | `color: var(--text-secondary);`                         |
+| Padding/margin    | `var(--space-sm)`, `var(--space-md)`, `var(--space-lg)` |
+| Rounded corners   | `border-radius: var(--radius-md);`                      |
 
 ### Questions?
 

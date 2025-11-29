@@ -114,31 +114,31 @@ I've created a complete SCSS design system in `frontend/src/styles/`. This inclu
 
 ```scss
 // At the TOP of your .scss file, add these imports:
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 // Now you can use the design system:
 .my-component {
   // Use CSS variables for colors
-  background: var(--surface);        // Semi-transparent background
-  color: var(--text-primary);        // Main text color
-  border: 1px solid var(--border);   // Subtle border
-  
+  background: var(--surface); // Semi-transparent background
+  color: var(--text-primary); // Main text color
+  border: 1px solid var(--border); // Subtle border
+
   // Use spacing variables
-  padding: var(--space-md);          // 16px padding
-  margin-bottom: var(--space-lg);    // 24px margin
-  border-radius: var(--radius-md);   // Rounded corners
-  
+  padding: var(--space-md); // 16px padding
+  margin-bottom: var(--space-lg); // 24px margin
+  border-radius: var(--radius-md); // Rounded corners
+
   // Use mixins (pre-made style recipes)
-  @include glass-card;               // Adds glassmorphism effect
+  @include glass-card; // Adds glassmorphism effect
 }
 
 .my-button {
-  @include button-primary;           // Styled primary button
+  @include button-primary; // Styled primary button
 }
 
 .my-secondary-button {
-  @include button-secondary;         // Styled secondary button
+  @include button-secondary; // Styled secondary button
 }
 ```
 
@@ -152,23 +152,23 @@ CSS variables (like `var(--primary)`) are named values. Instead of remembering `
 
 ### Available Colors (Most Common)
 
-| Variable | What It's For |
-|----------|---------------|
-| `var(--primary)` | Primary brand color (blue) |
-| `var(--secondary)` | Secondary color (purple) |
-| `var(--accent)` | Accent/success color (green) |
-| `var(--text-primary)` | Main text |
-| `var(--text-secondary)` | Subtle/muted text |
-| `var(--surface)` | Card/component backgrounds |
-| `var(--border)` | Subtle borders |
-| `var(--error)` | Error states (red) |
+| Variable                | What It's For                |
+| ----------------------- | ---------------------------- |
+| `var(--primary)`        | Primary brand color (blue)   |
+| `var(--secondary)`      | Secondary color (purple)     |
+| `var(--accent)`         | Accent/success color (green) |
+| `var(--text-primary)`   | Main text                    |
+| `var(--text-secondary)` | Subtle/muted text            |
+| `var(--surface)`        | Card/component backgrounds   |
+| `var(--border)`         | Subtle borders               |
+| `var(--error)`          | Error states (red)           |
 
 ### Available Spacing
 
-| Variable | Size |
-|----------|------|
-| `var(--space-xs)` | 4px |
-| `var(--space-sm)` | 8px |
+| Variable          | Size |
+| ----------------- | ---- |
+| `var(--space-xs)` | 4px  |
+| `var(--space-sm)` | 8px  |
 | `var(--space-md)` | 16px |
 | `var(--space-lg)` | 24px |
 | `var(--space-xl)` | 32px |
