@@ -1,6 +1,7 @@
 # Tito - Messaging & Infrastructure
 
 ## Role
+
 Direct messaging system, notifications, and backend infrastructure support.
 
 ---
@@ -8,30 +9,34 @@ Direct messaging system, notifications, and backend infrastructure support.
 ## Assigned Files
 
 ### Frontend - Messaging
-| File | Status | Description |
-|------|--------|-------------|
-| `src/components/ui/MessageModal/MessageModal.jsx` | ← | Direct messaging modal |
-| `src/components/ui/MessageModal/MessageModal.scss` | ← | Modal styles |
-| `src/components/ui/MessageModal/index.js` | ← | Barrel export |
+
+| File                                               | Status | Description            |
+| -------------------------------------------------- | ------ | ---------------------- |
+| `src/components/ui/MessageModal/MessageModal.jsx`  | ←      | Direct messaging modal |
+| `src/components/ui/MessageModal/MessageModal.scss` | ←      | Modal styles           |
+| `src/components/ui/MessageModal/index.js`          | ←      | Barrel export          |
 
 ### Backend - API (Messages & Notifications)
-| File | Status | Description |
-|------|--------|-------------|
-| `backend/api/models.py` | ← | Message, Notification models |
-| `backend/api/serializers.py` | ← | MessageSerializer, NotificationSerializer |
-| `backend/api/views.py` | ← | MessageViewSet, NotificationViewSet |
-| `backend/api/urls.py` | ← | /api/messages/, /api/notifications/ |
+
+| File                         | Status | Description                               |
+| ---------------------------- | ------ | ----------------------------------------- |
+| `backend/api/models.py`      | ←      | Message, Notification models              |
+| `backend/api/serializers.py` | ←      | MessageSerializer, NotificationSerializer |
+| `backend/api/views.py`       | ←      | MessageViewSet, NotificationViewSet       |
+| `backend/api/urls.py`        | ←      | /api/messages/, /api/notifications/       |
 
 ### Backend - Config (with Pablo)
-| File | Status | Description |
-|------|--------|-------------|
-| `backend/huddl/settings.py` | ← | CORS configuration |
+
+| File                        | Status | Description        |
+| --------------------------- | ------ | ------------------ |
+| `backend/huddl/settings.py` | ←      | CORS configuration |
 
 ---
 
 ## Tasks
 
 ### Week 1
+
 - [ ] Configure CORS in settings.py (with Pablo):
   - Install django-cors-headers
   - Add to INSTALLED_APPS
@@ -40,6 +45,7 @@ Direct messaging system, notifications, and backend infrastructure support.
 - [ ] Test frontend can reach backend
 
 ### Week 2
+
 - [ ] Create Message model:
   - sender (ForeignKey to User)
   - recipient (ForeignKey to User)
@@ -63,6 +69,7 @@ Direct messaging system, notifications, and backend infrastructure support.
   - mark_read() - Mark as read
 
 ### Week 3
+
 - [ ] Implement MessageModal.jsx:
   - Conversation list sidebar
   - Message thread display
@@ -72,6 +79,7 @@ Direct messaging system, notifications, and backend infrastructure support.
 - [ ] Integrate with Friends list (message a friend)
 
 ### Week 4-5
+
 - [ ] Add notification badges (stretch)
 - [ ] Polish modal animations
 - [ ] Bug fixes and testing
@@ -92,6 +100,7 @@ POST   /api/notifications/:id/mark_read/ → Mark as read
 ---
 
 ## Notes
+
 - Use Pablo's styles: `@use '../../styles/variables' as *;`
 - MessageModal is a shared UI component (can be opened from anywhere)
 - CORS must be configured FIRST before any frontend API calls work
