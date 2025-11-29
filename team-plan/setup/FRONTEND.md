@@ -49,8 +49,8 @@ frontend/src/
 Import Pablo's styles in your SCSS files:
 
 ```scss
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 ```
 
 ---

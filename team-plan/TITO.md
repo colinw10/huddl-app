@@ -99,9 +99,140 @@ POST   /api/notifications/:id/mark_read/ → Mark as read
 
 ---
 
+## Using Pablo's Styles (Important!)
+
+Pablo has already created a complete styling system. **You don't need to write colors, spacing, or effects from scratch.** Just import and use them.
+
+### Step 1: Add Imports to Your SCSS File
+
+At the **top** of `MessageModal.scss`, add:
+
+```scss
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+```
+
+**Note:** Your path is shorter (`../../` instead of `../../../`) because MessageModal is in `ui/` not `pages/`.
+
+### Step 2: Use the Design System
+
+```scss
+// Example for MessageModal.scss
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.message-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  &__content {
+    @include glass-card;              // Glassmorphism effect (one line!)
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    max-width: 500px;
+    width: 90vw;
+    max-height: 80vh;
+  }
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  &__title {
+    color: var(--text-primary);
+    font-size: var(--font-size-lg);
+  }
+  
+  &__close {
+    @include button-secondary;
+    padding: var(--space-xs);
+  }
+  
+  &__messages {
+    overflow-y: auto;
+    max-height: 400px;
+    padding: var(--space-md) 0;
+  }
+  
+  &__input-area {
+    display: flex;
+    gap: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+  }
+  
+  &__input {
+    flex: 1;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    
+    &:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+  }
+  
+  &__send {
+    @include button-primary;
+  }
+}
+
+.message-bubble {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  max-width: 80%;
+  
+  &--sent {
+    background: var(--primary);
+    color: white;
+    margin-left: auto;
+  }
+  
+  &--received {
+    background: var(--surface);
+    color: var(--text-primary);
+  }
+}
+```
+
+### Quick Reference
+
+| What You Need | What to Write |
+|---------------|---------------|
+| Glass card effect | `@include glass-card;` |
+| Primary button | `@include button-primary;` |
+| Modal overlay | `backdrop-filter: blur(4px);` |
+| Input background | `background: var(--surface);` |
+| Border color | `border: 1px solid var(--border);` |
+| Focus state | `border-color: var(--primary);` |
+
+### Questions?
+
+Check `frontend/src/styles/_variables.scss` for all available variables, or ask Pablo!
+
+---
+
 ## Notes
 
-- Use Pablo's styles: `@use '../../styles/variables' as *;`
 - MessageModal is a shared UI component (can be opened from anywhere)
 - CORS must be configured FIRST before any frontend API calls work
 - Coordinate with Pablo on settings.py changes

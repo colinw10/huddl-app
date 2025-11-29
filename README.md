@@ -27,23 +27,23 @@ npm run dev
 
 ## Team
 
-| Person      | Area              | See Tasks                              |
-| ----------- | ----------------- | -------------------------------------- |
-| **Pablo**   | Architecture      | [team-plan/PABLO.md](team-plan/PABLO.md) |
-| **Colin**   | Home/Feed         | [team-plan/COLIN.md](team-plan/COLIN.md) |
+| Person      | Area              | See Tasks                                    |
+| ----------- | ----------------- | -------------------------------------------- |
+| **Pablo**   | Architecture      | [team-plan/PABLO.md](team-plan/PABLO.md)     |
+| **Colin**   | Home/Feed         | [team-plan/COLIN.md](team-plan/COLIN.md)     |
 | **Natalia** | Auth & Landing    | [team-plan/NATALIA.md](team-plan/NATALIA.md) |
 | **Crystal** | Profile & Friends | [team-plan/CRYSTAL.md](team-plan/CRYSTAL.md) |
-| **Tito**    | Messaging         | [team-plan/TITO.md](team-plan/TITO.md) |
+| **Tito**    | Messaging         | [team-plan/TITO.md](team-plan/TITO.md)       |
 
 ---
 
 ## Documentation
 
-| Doc | Description |
-|-----|-------------|
-| [team-plan/](team-plan/) | Individual task files |
+| Doc                                                        | Description                |
+| ---------------------------------------------------------- | -------------------------- |
+| [team-plan/](team-plan/)                                   | Individual task files      |
 | [team-plan/setup/FRONTEND.md](team-plan/setup/FRONTEND.md) | Frontend setup & structure |
-| [team-plan/setup/BACKEND.md](team-plan/setup/BACKEND.md) | Backend setup & structure |
+| [team-plan/setup/BACKEND.md](team-plan/setup/BACKEND.md)   | Backend setup & structure  |
 
 ---
 

@@ -108,9 +108,101 @@ DELETE /api/friends/:id/          → Remove friend
 
 ---
 
+## Using Pablo's Styles (Important!)
+
+Pablo has already created a complete styling system. **You don't need to write colors, spacing, or effects from scratch.** Just import and use them.
+
+### Step 1: Add Imports to Your SCSS File
+
+At the **top** of any `.scss` file (like `Profile.scss` or `Friends.scss`), add:
+
+```scss
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+```
+
+This gives you access to all the design system variables and mixins.
+
+### Step 2: Use the Design System
+
+```scss
+// Example for Profile.scss
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.profile {
+  padding: var(--space-lg);           // 24px padding
+  
+  &__header {
+    display: flex;
+    gap: var(--space-md);             // 16px gap
+    margin-bottom: var(--space-xl);
+  }
+}
+
+.profile-card {
+  @include glass-card;                // Glassmorphism effect (one line!)
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  
+  // For the flip effect
+  perspective: 1000px;
+  
+  &__front, &__back {
+    backface-visibility: hidden;
+  }
+  
+  &__name {
+    color: var(--text-primary);
+    font-size: var(--font-size-xl);   // 24px
+  }
+  
+  &__bio {
+    color: var(--text-secondary);     // Muted text
+  }
+  
+  &__action-button {
+    @include button-primary;
+  }
+}
+
+.friend-card {
+  @include glass-card;
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  
+  &__accept {
+    @include button-primary;
+  }
+  
+  &__decline {
+    @include button-secondary;
+  }
+}
+```
+
+### Quick Reference
+
+| What You Need | What to Write |
+|---------------|---------------|
+| Glass card effect | `@include glass-card;` |
+| Primary button | `@include button-primary;` |
+| Secondary button | `@include button-secondary;` |
+| Main text color | `color: var(--text-primary);` |
+| Muted text | `color: var(--text-secondary);` |
+| Avatar border | `border: 2px solid var(--primary);` |
+| Card padding | `padding: var(--space-lg);` |
+
+### Questions?
+
+Check `frontend/src/styles/_variables.scss` for all available variables, or ask Pablo!
+
+---
+
 ## Notes
 
-- Use Pablo's styles: `@use '../../../styles/variables' as *;`
-- ProfileCard has a flip animation (front/back)
+- ProfileCard has a flip animation (front/back) - ask Pablo for help with the CSS transform
 - Prevent duplicate friend requests (unique_together)
 - Friendship is bidirectional (both users are friends)
