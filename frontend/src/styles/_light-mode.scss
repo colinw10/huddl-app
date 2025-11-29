@@ -27,7 +27,7 @@
   // ============================================
   
   .btn,
-  button:not(.nav-link):not(.composer-btn):not(.type-btn) {
+  button:not(.nav-link):not(.composer-btn):not(.type-btn):not(.btn-login):not(.btn-signup):not(.theme-toggle):not(.footer-link):not(.btn-submit):not(.back-button) {
     background: rgba(0, 0, 0, 0.06) !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     color: #000000 !important;
@@ -148,11 +148,10 @@
 
   // ============================================
   // INPUTS & FORMS
-  // Excludes: composer inputs (black holographic style)
+  // Generic white inputs for light mode
+  // Component-specific overrides (form-input, composers) handled separately
   // ============================================
   
-  input:not(.composer-input):not(.quick-composer-input):not(.comment-input):not(.conversations-search),
-  textarea:not(.chat-textarea):not(.composer-input):not(.quick-composer-input):not(.comment-input),
   select {
     background: rgba(255, 255, 255, 0.9) !important;
     border: 1px solid rgba(0, 0, 0, 0.15) !important;
@@ -165,6 +164,20 @@
     &:focus {
       border-color: var(--color-cyan) !important;
       box-shadow: 0 0 0 3px rgba(26, 115, 231, 0.15) !important;
+    }
+  }
+
+  // ============================================
+  // FORM-INPUT (Login/Signup) - Keep dark holographic
+  // Must override the root color: #000000
+  // ============================================
+  .form-input,
+  input.form-input,
+  textarea.form-input {
+    color: #ffffff !important;
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3) !important;
     }
   }
 
@@ -445,8 +458,8 @@
     border: 1px solid rgba(0, 0, 0, 0.15) !important;
     color: #000000 !important;
     
-    // Exclude black holographic composers from wildcard
-    *:not(.composer-input):not(.quick-composer-input):not(.chat-textarea):not(.comment-input):not(.conversations-search):not(.composer-placeholder):not(.quick-composer-placeholder) {
+    // Exclude black holographic composers AND form-inputs from wildcard
+    *:not(.composer-input):not(.quick-composer-input):not(.chat-textarea):not(.comment-input):not(.conversations-search):not(.composer-placeholder):not(.quick-composer-placeholder):not(.form-input) {
       color: #000000 !important;
     }
   }
@@ -663,10 +676,6 @@
   .landing-page,
   .auth-container {
     background: transparent !important;
-    
-    * {
-      color: #000000 !important;
-    }
   }
 
   .login-card,
@@ -680,18 +689,6 @@
   .signup-title,
   .auth-title {
     color: #000000 !important;
-  }
-
-  .login-input,
-  .signup-input,
-  .auth-input {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
-    color: #000000 !important;
-    
-    &:focus {
-      border-color: var(--color-cyan) !important;
-    }
   }
 
   // ============================================

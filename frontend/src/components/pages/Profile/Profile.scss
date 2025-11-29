@@ -45,10 +45,11 @@
   background: linear-gradient(135deg, #0e69e877 0%, #02081c9c 100%);
   color: #ffffff;
   position: relative;
-  overflow-x: hidden;
-  padding-bottom: 80px; /* MOBILE: ensure enough space for bottom nav (~56px) */
+  overflow: hidden;
+  padding-bottom: 200px; /* Extended to cover blobs at bottom */
   box-sizing: border-box;
   padding-top: 0;
+  z-index: 1; /* Above App blobs */
 }
 
 @media (max-width: 480px) {
@@ -97,7 +98,7 @@
 }
 
 .page-blob-bottom {
-  position: fixed;
+  position: absolute;
   bottom: -200px;
   left: -150px;
   width: 500px;
@@ -499,16 +500,7 @@
     background: transparent !important;
   }
 
-  /* Background blobs - keep vibrant like dark mode! */
-  .page-blob-top {
-    background: radial-gradient(circle, rgba(220, 8, 188, 0.2) 0%, transparent 70%) !important;
-    opacity: 0.6 !important;
-  }
-
-  .page-blob-bottom {
-    background: radial-gradient(circle, rgba(26, 115, 231, 0.15) 0%, transparent 70%) !important;
-    opacity: 0.6 !important;
-  }
+  /* Background blobs - NO overrides, keep vibrant like dark mode! */
 
   /* View mode toggle */
   .view-toggle-btn {

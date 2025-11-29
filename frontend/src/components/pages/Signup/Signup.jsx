@@ -90,10 +90,21 @@ function Signup() {
     <div className="signup-container">
       <div className="signup-card">
         <button onClick={() => navigate('/')} className="back-button" title="Back to Home">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          <svg width="44" height="44" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2L25.5 8.5V19.5L14 26L2.5 19.5V8.5L14 2Z" stroke="url(#hex-gradient-signup)" strokeWidth="1.5" fill="none"/>
+            <path d="M16 10L11 14L16 18" stroke="url(#arrow-gradient-signup)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <defs>
+              <linearGradient id="hex-gradient-signup" x1="0" y1="0" x2="28" y2="28">
+                <stop offset="0%" stopColor="#6366f1" stopOpacity="0.7"/>
+                <stop offset="50%" stopColor="#a855f7" stopOpacity="0.5"/>
+                <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.7"/>
+              </linearGradient>
+              <linearGradient id="arrow-gradient-signup" x1="10" y1="10" x2="18" y2="18">
+                <stop offset="0%" stopColor="#6366f1"/>
+                <stop offset="100%" stopColor="#a855f7"/>
+              </linearGradient>
+            </defs>
           </svg>
-          Back
         </button>
         <div className="signup-header">
           <h1 className="signup-title">

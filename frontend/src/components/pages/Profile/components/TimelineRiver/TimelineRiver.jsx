@@ -144,32 +144,6 @@ function TimelineRiver({
             </div>
           ))}
         </div>
-
-        {/* SVG River Flow Lines */}
-        <svg className="river-flow-lines" xmlns="http://www.w3.org/2000/svg">
-          {/* Flowing lines connecting the streams - will animate */}
-          <path 
-            className="flow-line flow-line-1" 
-            d="M 33% 0 Q 50% 100 33% 200" 
-            fill="none" 
-            strokeWidth="2"
-            opacity="0.3"
-          />
-          <path 
-            className="flow-line flow-line-2" 
-            d="M 67% 50 Q 50% 150 67% 250" 
-            fill="none" 
-            strokeWidth="2"
-            opacity="0.3"
-          />
-          <path 
-            className="flow-line flow-line-3" 
-            d="M 33% 150 Q 50% 250 67% 350" 
-            fill="none" 
-            strokeWidth="2"
-            opacity="0.3"
-          />
-        </svg>
       </div>
     </div>
   );

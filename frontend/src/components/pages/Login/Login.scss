@@ -7,31 +7,27 @@
   left: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.8);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  border: none;
+  padding: 0.4rem;
   cursor: pointer;
-  font-size: 0.9rem;
   transition: all 0.3s ease;
   z-index: 10;
+  filter: drop-shadow(0 0 8px rgba(26, 115, 231, 0.3));
 }
 
 .back-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(26, 231, 132, 0.5);
-  color: rgba(26, 231, 132, 0.9);
-  transform: translateX(-3px);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 15px rgba(26, 115, 231, 0.6)) drop-shadow(0 0 25px rgba(220, 8, 188, 0.4));
 }
 
 .back-button svg {
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.back-button:hover svg {
-  transform: translateX(-3px);
+.back-button:hover svg path:last-of-type {
+  stroke-width: 3;
 }
 
 @keyframes dark-holographic-shimmer {
@@ -557,8 +553,10 @@
   }
 
   .login-title {
-    color: #000000 !important;
-    text-shadow: none !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+    text-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.1),
+      0 2px 4px rgba(26, 115, 231, 0.08) !important;
   }
 
   .login-title::after {
@@ -573,20 +571,7 @@
     color: rgba(0, 0, 0, 0.7) !important;
   }
 
-  .form-input {
-    background: rgba(0, 0, 0, 0.03) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: #000000 !important;
-  }
-
-  .form-input::placeholder {
-    color: rgba(0, 0, 0, 0.4) !important;
-  }
-
-  .form-input:focus {
-    border-color: rgba(26, 115, 231, 0.5) !important;
-    box-shadow: 0 0 0 3px rgba(26, 115, 231, 0.1) !important;
-  }
+  /* NO FORM-INPUT OVERRIDE - use dark mode holographic style */
 
   .form-options label {
     color: rgba(0, 0, 0, 0.7) !important;
@@ -598,13 +583,20 @@
 
   .btn-submit {
     background: linear-gradient(135deg, #1a73e7, #1ae784) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box !important;
     color: #ffffff !important;
-    border: none !important;
+    border: 2px solid rgba(26, 115, 231, 0.3) !important;
     box-shadow: 0 4px 16px rgba(26, 115, 231, 0.25) !important;
+    transition: all 0.3s ease !important;
   }
 
   .btn-submit:hover {
-    box-shadow: 0 6px 24px rgba(26, 115, 231, 0.35) !important;
+    background: #ffffff !important;
+    background-clip: padding-box !important;
+    color: #1a73e7 !important;
+    border: 2px solid #1a73e7 !important;
+    box-shadow: 0 6px 24px rgba(26, 115, 231, 0.4) !important;
   }
 
   .signup-link {
@@ -612,17 +604,6 @@
   }
 
   .signup-link a {
-    color: #1a73e7 !important;
-  }
-
-  .back-button {
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
-  }
-
-  .back-button:hover {
-    background: rgba(26, 115, 231, 0.1) !important;
-    border-color: rgba(26, 115, 231, 0.3) !important;
     color: #1a73e7 !important;
   }
 

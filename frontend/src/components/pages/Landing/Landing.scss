@@ -257,27 +257,32 @@
     color: rgba(0, 0, 0, 0.6) !important;
   }
 
+  /* Login button - ghost/outline style (like dark mode but inverted) */
   .btn-login {
-    background: rgba(26, 115, 231, 0.1) !important;
-    color: #1a73e7 !important;
-    border-color: rgba(26, 115, 231, 0.4) !important;
-    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #000000 !important;
+    border: 2px solid rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   }
 
   .btn-login:hover {
-    background: rgba(26, 115, 231, 0.2) !important;
-    box-shadow: 0 8px 24px rgba(26, 115, 231, 0.25) !important;
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(26, 115, 231, 0.5) !important;
+    box-shadow: 0 8px 24px rgba(26, 115, 231, 0.2) !important;
   }
 
+  /* Signup button - filled cyan/blue style */
   .btn-signup {
-    background: #1a73e7 !important;
+    background: linear-gradient(135deg, #1a73e7, #1ae784) !important;
     color: #ffffff !important;
-    border-color: #1a73e7 !important;
-    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.3) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.3),
+                0 8px 20px rgba(26, 231, 132, 0.2) !important;
   }
 
   .btn-signup:hover {
-    background: #1557b0 !important;
-    box-shadow: 0 8px 24px rgba(26, 115, 231, 0.4) !important;
+    background: linear-gradient(135deg, #1557b0, #15c96e) !important;
+    box-shadow: 0 8px 24px rgba(26, 115, 231, 0.4),
+                0 15px 35px rgba(26, 231, 132, 0.3) !important;
   }
 }
