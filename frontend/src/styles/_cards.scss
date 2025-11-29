@@ -1,0 +1,65 @@
+// ================================================
+// HUDDL CARD SYSTEM
+// Card components and variants
+// ================================================
+// 🔵 PABLO - UI Architect
+// Use .card as base, then add modifiers.
+// Example: <div class="card card-hover">
+// ================================================
+
+// ============================================
+// BASE CARD
+// ============================================
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  transition: var(--transition);
+}
+
+// ============================================
+// CARD MODIFIERS
+// ============================================
+
+.card-hover {
+  transition: var(--transition);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow);
+    border-color: var(--border-hover);
+  }
+}
+
+.card-interactive {
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow);
+    border-color: var(--border-hover);
+    background: var(--surface-hover);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// ============================================
+// CARD VARIANTS
+// ============================================
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-dark {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}

@@ -1,0 +1,238 @@
+// ================================================
+// HUDDL BACKGROUND BLOBS
+// Organic animated background decorations
+// ================================================
+// 🔵 PABLO - UI Architect
+// These create the spectral glassmorphic atmosphere.
+// ================================================
+
+// Large organic blob cutout-bottom
+.App::before {
+  content: '';
+  position: absolute;
+  bottom: -200px;
+  left: calc(50% - 200px);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(26, 115, 231, 0.785), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(125, 211, 198, 0.226);
+  animation: blobMorph 20s ease-in-out infinite;
+  animation-delay: 10s;
+  z-index: 0;
+  pointer-events: none;
+}
+
+// Large organic blob cutout on top
+.App::after {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: calc(50% - 200px);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(220, 8, 188, 0.619), rgba(255, 200, 245, 0.15) 50%, transparent 70%);
+  border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(235, 176, 176, 0.146);
+  animation: blobMorph 20s ease-in-out infinite;
+  z-index: 1;
+}
+
+.blob-left {
+  position: absolute;
+  left: -200px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(26, 231, 132, 0.785), rgba(255, 255, 255, 0.05) 50%, transparent 70%); 
+  border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(185, 216, 200, 0.204);
+  animation: blobMorphLeft 20s ease-in-out infinite;
+  animation-delay: 5s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.blob-right {
+  position: absolute;
+  right: -200px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(220, 192, 8, 0.619), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(196, 191, 134, 0.155);
+  animation: blobMorphRight 20s ease-in-out infinite;
+  animation-delay: 15s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+// ============================================
+// BLOB ANIMATIONS
+// ============================================
+
+
+@keyframes blobMorph {
+  0%, 100% {
+    border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 60% 40% 45% 55% / 40% 50% 60% 50%;
+    transform: rotate(120deg) scale(1.1);
+  }
+  66% {
+    border-radius: 50% 50% 55% 45% / 60% 40% 50% 60%;
+    transform: rotate(240deg) scale(0.95);
+  }
+}
+
+@keyframes blobMorphLeft {
+  0%, 100% {
+    border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+    transform: translateY(-50%) rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 60% 40% 45% 55% / 40% 50% 60% 50%;
+    transform: translateY(-50%) rotate(120deg) scale(1.1);
+  }
+  66% {
+    border-radius: 50% 50% 55% 45% / 60% 40% 50% 60%;
+    transform: translateY(-50%) rotate(240deg) scale(0.95);
+  }
+}
+
+@keyframes blobMorphRight {
+  0%, 100% {
+    border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
+    transform: translateY(-50%) rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 60% 40% 45% 55% / 40% 50% 60% 50%;
+    transform: translateY(-50%) rotate(120deg) scale(1.1);
+  }
+  66% {
+    border-radius: 50% 50% 55% 45% / 60% 40% 50% 60%;
+    transform: translateY(-50%) rotate(240deg) scale(0.95);
+  }
+}
+
+// ============================================
+// RESPONSIVE - Tablet
+// ============================================
+
+@media (max-width: 768px) {
+  .App::before {
+    width: 300px;
+    height: 300px;
+    left: calc(50% - 150px);
+    bottom: -200px;
+  }
+
+  .App::after {
+    width: 300px;
+    height: 300px;
+    left: calc(50% - 150px);
+    top: -200px;
+  }
+
+  .blob-left {
+    width: 200px;
+    height: 200px;
+    left: -120px;
+  }
+
+  .blob-right {
+    width: 200px;
+    height: 200px;
+    right: -120px;
+  }
+}
+
+// ============================================
+// RESPONSIVE - Mobile
+// ============================================
+
+@media (max-width: 480px) {
+  .App::before {
+    width: 200px;
+    height: 200px;
+    left: calc(50% - 100px);
+    bottom: -150px;
+  }
+
+  .App::after {
+    width: 200px;
+    height: 200px;
+    left: calc(50% - 100px);
+    top: -150px;
+  }
+
+  .blob-left {
+    left: -100px;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .blob-right {
+    right: -100px;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+// ============================================
+// RESPONSIVE - Small mobile (iPhone SE)
+// ============================================
+
+@media (max-width: 390px) {
+  .App::before {
+    width: 150px;
+    height: 150px;
+    left: calc(50% - 75px);
+    bottom: -100px;
+    opacity: 0.8;
+  }
+
+  .App::after {
+    width: 150px;
+    height: 150px;
+    left: calc(50% - 75px);
+    top: -100px;
+    opacity: 0.8;
+  }
+
+  .blob-left {
+    left: -90px;
+    width: 140px;
+    height: 140px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+  }
+
+  .blob-right {
+    right: -90px;
+    width: 140px;
+    height: 140px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+  }
+}
+
+// ============================================
+// LIGHT MODE - Keep blobs vibrant!
+// No overrides needed - blobs stay colorful
+// ============================================
