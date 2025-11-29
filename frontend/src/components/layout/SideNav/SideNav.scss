@@ -1,0 +1,78 @@
+/**
+ * =============================================================================
+ * SIDE NAV STYLES
+ * =============================================================================
+ *
+ * File: frontend/src/components/layout/SideNav/SideNav.scss
+ * Assigned to: PABLO
+ * Responsibility: Side navigation styling
+ *
+ * TODO:
+ * - [ ] Apply glassmorphism effect
+ * - [ ] Style nav items with hover states
+ * - [ ] Style active link indicator
+ * - [ ] Add smooth transitions
+ * - [ ] Handle collapsed state (icons only)
+ * - [ ] Hide on mobile breakpoint
+ *
+ * Status: PLACEHOLDER
+ * =============================================================================
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.sidenav {
+  width: 240px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  
+  // TODO: Pablo - Apply glassmorphism
+  // @include glass-card;
+  
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  &__item {
+    margin-bottom: 0.5rem;
+  }
+  
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &--active {
+      background: var(--primary-color, #7c3aed);
+      color: white;
+    }
+  }
+  
+  &__icon {
+    font-size: 1.25rem;
+  }
+  
+  &__label {
+    font-weight: 500;
+  }
+}
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .sidenav {
+    display: none;
+  }
+}

@@ -1,0 +1,71 @@
+/**
+ * =============================================================================
+ * SHELL LAYOUT STYLES
+ * =============================================================================
+ *
+ * File: frontend/src/components/layout/Shell/Shell.scss
+ * Assigned to: PABLO
+ * Responsibility: Shell layout styling with responsive breakpoints
+ *
+ * TODO:
+ * - [ ] Create responsive grid layout
+ * - [ ] Style background blob animations
+ * - [ ] Handle nav visibility at breakpoints
+ * - [ ] Apply glassmorphism to shell elements
+ * - [ ] Add smooth transitions for layout changes
+ * - [ ] Support dark/light theme variables
+ *
+ * Status: PLACEHOLDER
+ * =============================================================================
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  
+  &__blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+    
+    // TODO: Pablo - Add blob elements and animations
+  }
+  
+  &__layout {
+    display: flex;
+    flex: 1;
+    
+    // TODO: Pablo - Desktop: sidebar + content
+    // TODO: Pablo - Mobile: full width content
+  }
+  
+  &__content {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    
+    // TODO: Pablo - Add proper spacing for nav elements
+  }
+}
+
+/* TODO: Pablo - Responsive breakpoints */
+@media (max-width: 768px) {
+  .shell {
+    // Mobile layout adjustments
+  }
+}
+
+@media (min-width: 769px) {
+  .shell {
+    // Desktop layout with sidebar
+  }
+}

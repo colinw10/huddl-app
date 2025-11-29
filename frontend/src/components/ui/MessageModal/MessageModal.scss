@@ -1,0 +1,162 @@
+/**
+ * =============================================================================
+ * MESSAGE MODAL STYLES
+ * =============================================================================
+ *
+ * File: frontend/src/components/ui/MessageModal/MessageModal.scss
+ * Assigned to: TITO
+ * Responsibility: Styling for the direct messaging modal
+ *
+ * TODO:
+ * - [ ] Apply glassmorphism to modal container
+ * - [ ] Style modal overlay with backdrop blur
+ * - [ ] Create responsive layout for mobile
+ * - [ ] Style message bubbles (sent vs received)
+ * - [ ] Add smooth open/close animations
+ * - [ ] Style input area with focus states
+ * - [ ] Match overall app theme (dark/light mode support)
+ * - [ ] Add scrollable message history area
+ *
+ * Status: PLACEHOLDER
+ * =============================================================================
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+/* TODO: Tito - Modal overlay */
+.message-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+  // TODO: Add backdrop blur
+  // backdrop-filter: blur(4px);
+}
+
+/* TODO: Tito - Modal container */
+.message-modal {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  
+  // TODO: Add glassmorphism
+  // @include glass-card;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+  }
+  
+  &__close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+    padding: 0.25rem 0.5rem;
+    
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  
+  &__history {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    min-height: 200px;
+    
+    .placeholder-text {
+      text-align: center;
+      opacity: 0.5;
+      font-style: italic;
+    }
+  }
+  
+  &__input {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.2);
+      color: inherit;
+      resize: vertical;
+      font-family: inherit;
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color, #7c3aed);
+      }
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    
+    .char-count {
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+    
+    .btn-send {
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      background: var(--primary-color, #7c3aed);
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+      
+      &:hover:not(:disabled) {
+        opacity: 0.9;
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* TODO: Tito - Message bubble styles */
+// .message-bubble {
+//   &--sent { }
+//   &--received { }
+// }
+
+/* TODO: Tito - Responsive styles */
+@media (max-width: 768px) {
+  .message-modal {
+    width: 95%;
+    max-height: 90vh;
+  }
+}

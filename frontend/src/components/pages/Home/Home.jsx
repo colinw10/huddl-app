@@ -1,27 +1,43 @@
 /**
- * HOME PAGE (Main Feed)
+ * =============================================================================
+ * HOME PAGE - Main Feed with Post Clustering
+ * =============================================================================
  * 
- * Purpose: User's main feed - shows posts from all friends
- * Owner: Tito (State Management & Frontend Logic)
- * Status: PLACEHOLDER - needs implementation
+ * File: frontend/src/components/pages/Home/Home.jsx
+ * Assigned to: COLIN
+ * Responsibility: Feed page with timeline river, post clustering, filters
  * 
  * TODO:
- * - Fetch posts from Colin's API (GET /api/posts/feed/)
- * - Display list of posts (author, content, timestamp, likes)
- * - Add post composer at top (create new post)
- * - Implement like/unlike functionality
- * - Add comment functionality (optional stretch goal)
- * - Handle loading states and errors
- * - Infinite scroll or pagination (optional)
- * - NO STYLING - Pablo handles that
+ * - [ ] Build page layout with TimelineRiverFeed component
+ * - [ ] Integrate with posts API (GET /api/posts/feed/)
+ * - [ ] Implement post clustering by time/type using groupPosts utility
+ * - [ ] Add filter controls (all, thoughts, media, milestones)
+ * - [ ] Handle loading states and empty states
+ * - [ ] Implement infinite scroll or pagination
+ * - [ ] Add pull-to-refresh functionality
+ * - [ ] Wire up like/comment actions
+ * 
+ * Status: PLACEHOLDER
+ * =============================================================================
  */
 
-export default function Home() {
-  // TODO: Add state for posts array, loading, error
-  // TODO: useEffect to fetch posts on mount
-  // TODO: Create handleCreatePost function
-  // TODO: Create handleLikePost function
-  // TODO: Map over posts to display them
+import React from 'react';
+import './Home.scss';
+
+function Home() {
+  // TODO: Colin - Add state for posts, loading, error, filters
+  // TODO: Colin - useEffect to fetch posts from API
+  // TODO: Colin - Implement groupPosts for clustering
+  // TODO: Colin - Add filter change handlers
   
-  return <div>Home Placeholder</div>;
+  return (
+    <div className="home-page">
+      <h1>Home Feed</h1>
+      <p>Colin: Build the feed with TimelineRiverFeed component</p>
+      {/* TODO: Add TimelineRiverFeed component */}
+      {/* TODO: Add filter controls */}
+    </div>
+  );
 }
+
+export default Home;

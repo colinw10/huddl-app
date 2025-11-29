@@ -1,0 +1,73 @@
+/**
+ * =============================================================================
+ * BOTTOM NAV STYLES
+ * =============================================================================
+ *
+ * File: frontend/src/components/layout/BottomNav/BottomNav.scss
+ * Assigned to: PABLO
+ * Responsibility: Bottom navigation styling for mobile
+ *
+ * TODO:
+ * - [ ] Apply glassmorphism effect
+ * - [ ] Fixed positioning at bottom
+ * - [ ] Style nav items with icons
+ * - [ ] Active state styling
+ * - [ ] Safe area inset for notched phones
+ * - [ ] Only visible on mobile
+ *
+ * Status: PLACEHOLDER
+ * =============================================================================
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.bottomnav {
+  display: none; /* Hidden by default, show on mobile */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0.5rem 0;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  
+  // TODO: Pablo - Apply glassmorphism
+  // @include glass-card;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    
+    &--active {
+      opacity: 1;
+      color: var(--primary-color, #7c3aed);
+    }
+  }
+  
+  &__icon {
+    font-size: 1.5rem;
+  }
+  
+  &__label {
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+}
+
+/* Show only on mobile */
+@media (max-width: 768px) {
+  .bottomnav {
+    display: flex;
+    justify-content: space-around;
+  }
+}

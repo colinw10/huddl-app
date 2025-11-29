@@ -1,0 +1,59 @@
+/**
+ * =============================================================================
+ * TOP BAR STYLES
+ * =============================================================================
+ *
+ * File: frontend/src/components/layout/TopBar/TopBar.scss
+ * Assigned to: PABLO
+ * Responsibility: Top bar styling with glassmorphism
+ *
+ * TODO:
+ * - [ ] Apply glassmorphism effect
+ * - [ ] Style logo and branding
+ * - [ ] Style search input
+ * - [ ] Style action buttons
+ * - [ ] Make responsive
+ * - [ ] Add sticky positioning
+ *
+ * Status: PLACEHOLDER
+ * =============================================================================
+ */
+
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
+  // TODO: Pablo - Apply glassmorphism
+  // @include glass-card;
+  
+  &__logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    
+    // TODO: Pablo - Add gradient text effect
+  }
+  
+  &__search {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 2rem;
+    
+    // TODO: Pablo - Style search input
+  }
+  
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    // TODO: Pablo - Style action buttons
+  }
+}

@@ -1,0 +1,41 @@
+/**
+ * =============================================================================
+ * LANDING PAGE STYLES
+ * =============================================================================
+ * 
+ * File: frontend/src/components/pages/Landing/Landing.scss
+ * Assigned to: NATALIA (structure) + PABLO (design polish)
+ * Responsibility: Landing page layout and sections
+ * 
+ * Status: PLACEHOLDER
+ * =============================================================================
+ */
+
+.landing-page {
+  min-height: 100vh;
+  
+  .hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    /* TODO: Natalia - Hero layout */
+    /* TODO: Pablo - Gradient background, animations */
+  }
+  
+  .features {
+    padding: 60px 20px;
+    
+    /* TODO: Natalia - Feature cards grid */
+  }
+  
+  .cta {
+    padding: 40px 20px;
+    text-align: center;
+    
+    /* TODO: Natalia - CTA button layout */
+  }
+}

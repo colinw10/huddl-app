@@ -11,7 +11,7 @@
  * - Add contact information
  * - Add version number
  * - Keep it simple
- * - NO STYLING - Pablo handles that
+ * - NO STYLING for now (we can do this if we have time)
  */
 
 export default function About() {
