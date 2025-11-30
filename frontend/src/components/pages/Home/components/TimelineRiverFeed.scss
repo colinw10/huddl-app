@@ -128,11 +128,28 @@
    ============================================ */
 [data-theme="light"] {
   .timeline-river-feed::before {
+    height: 30px !important;
+    margin-bottom: -30px !important;
     background: linear-gradient(
       180deg,
-      rgba(245, 245, 247, 0.8) 0%,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.05) 60%,
       transparent 100%
     ) !important;
+  }
+
+  .timeline-river-feed {
+    align-items: center;
+  }
+
+  .timeline-river-section {
+    width: 100%;
+    max-width: 1150px;
+    align-items: center;
+  }
+
+  .timeline-river-row {
+    justify-content: center;
   }
 
   .river-date-badge {

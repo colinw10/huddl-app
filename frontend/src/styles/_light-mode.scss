@@ -1,23 +1,12 @@
-[data-theme="light"] {
 /* ================================================
    HUDDL LIGHT MODE
    Light theme overrides - blobs keep original colors
    ================================================ */
 
 /* ============================================
-   MAIN APP BACKGROUND
+   DESIGN TOKEN OVERRIDES - Must be on :root level
    ============================================ */
-
-.App {
-  background: #e8eaed !important;
-  color: #000000 !important;
-}
-
-/* ============================================
-   DESIGN TOKEN OVERRIDES
-   ============================================ */
-
-:root {
+html[data-theme="light"] {
   /* Surface & Backgrounds - Light glass effect */
   --surface: rgba(255, 255, 255, 0.7);
   --surface-hover: rgba(255, 255, 255, 0.85);
@@ -46,6 +35,16 @@
     radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.03), transparent 50%);
   --holographic-border: rgba(0, 0, 0, 0.15);
   --holographic-border-hover: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] {
+/* ============================================
+   MAIN APP BACKGROUND
+   ============================================ */
+
+.App {
+  background: #e8eaed !important;
+  color: #000000 !important;
 }
 
 /* ============================================
@@ -108,6 +107,24 @@ a {
 .bio-text {
   color: rgba(0, 0, 0, 0.8) !important;
 }
+
+/* Profile Tabs */
+  .profile-tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .tab-item {
+    color: rgba(30, 30, 60, 0.6) !important;
+  }
+
+  .tab-item:hover {
+    color: rgba(30, 30, 60, 0.9) !important;
+    background: rgba(0, 0, 0, 0.03) !important;
+  }
+
+  .tab-item.active {
+    color: rgba(26, 115, 231, 1) !important;
+  }
 
 /* Profile Card */
 .profile-card,
@@ -344,6 +361,19 @@ select:focus {
 }
 
 /* ============================================
+   TIMELINE RIVER FEED - Grey canopy shadow
+   ============================================ */
+
+.timeline-river-feed::before {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.08) 30%,
+    transparent 100%
+  ) !important;
+}
+
+/* ============================================
    TIMELINE RIVER CARDS
    ============================================ */
 
@@ -406,17 +436,14 @@ select:focus {
   font-weight: 400 !important;
 }
 
-/* Center the 3-col stacked cards properly - shift left to compensate for stack */
+/* Center the 3-col stacked cards properly */
 @media (min-width: 650px) and (max-width: 1200px) {
   .timeline-river-row--3-col {
     justify-content: center !important;
-    padding-left: 0 !important;
-    padding-right: 120px !important;
   }
   
   .timeline-river-row--2-col {
-    padding-left: 0 !important;
-    padding-right: 60px !important;
+    justify-content: center !important;
   }
 }
 

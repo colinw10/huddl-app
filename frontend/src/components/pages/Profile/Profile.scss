@@ -381,3 +381,46 @@
   outline: 2px solid rgba(26, 115, 231, 0.8);
   outline-offset: 2px;
 }
+
+/* ========================================
+   DARK MODE OVERRIDES
+   ======================================== */
+html:not([data-theme="light"]) {
+  .profile-tabs {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .tab-item {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .tab-item:hover {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .tab-item.active {
+    color: rgba(26, 115, 231, 1);
+  }
+
+  .view-toggle-btn {
+    background: rgba(20, 25, 35, 0.8);
+    color: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .view-toggle-btn:hover {
+    background: rgba(30, 35, 50, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .view-toggle-btn.active {
+    background: rgba(26, 115, 231, 0.25);
+    color: #4da3ff;
+  }
+
+  .view-toggle-btn.feed-btn.active {
+    background: rgba(167, 131, 255, 0.25);
+    color: #b89fff;
+  }
+}

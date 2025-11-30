@@ -11,12 +11,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  width: 100vw;
   height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.6rem; /* MOBILE: reduce padding to prevent overflow */
+  padding: 0 1.6rem;
   background: rgba(8, 11, 17, 0.815);
   backdrop-filter: blur(30px) saturate(180%);
   border-bottom: 1px solid rgba(26, 115, 231, 0.2);

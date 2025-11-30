@@ -15,6 +15,7 @@
 
 html {
   overflow-x: hidden;
+  overflow-y: overlay; /* Scrollbar floats over content instead of taking space */
 }
 
 body {
@@ -22,6 +23,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: overlay; /* Scrollbar floats over content instead of taking space */
   font-family: var(--font-main);
 }
 
