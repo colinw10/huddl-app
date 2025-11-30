@@ -1,50 +1,141 @@
 // ================================================
 // THEME TOGGLE COMPONENT
-// Sun/Moon button for switching themes
+// Power/Energy Core - glowing orb toggle
 // ================================================
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes core-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .theme-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  background: transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   
   &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   
   &:active {
     transform: scale(0.95);
   }
-  
-  svg {
-    transition: transform 0.3s ease;
+
+  // Power Core SVG
+  .power-core {
+    transition: all 0.4s ease;
   }
-  
-  &:hover svg {
-    transform: rotate(15deg);
+
+  // Dark mode (dim glow) - cyan/magenta spectral
+  .core-ring {
+    stroke: rgba(124, 201, 255, 0.3);
+    transition: all 0.4s ease;
+  }
+
+  .core-orb {
+    opacity: 0.7;
+    transition: all 0.4s ease;
+  }
+
+  .core-center {
+    stop-color: #7cc9ff;
+  }
+
+  .core-mid {
+    stop-color: rgba(167, 131, 255, 0.6);
+  }
+
+  .core-edge {
+    stop-color: rgba(26, 115, 231, 0.2);
+  }
+
+  .core-spark {
+    fill: rgba(255, 255, 255, 0.5);
+    transition: all 0.4s ease;
+  }
+
+  &:hover {
+    .core-ring {
+      stroke: rgba(124, 201, 255, 0.6);
+      animation: core-spin 8s linear infinite;
+    }
+    .core-orb {
+      opacity: 0.9;
+    }
+    .core-spark {
+      fill: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  // Light mode (bright pulsing glow) - full power!
+  &--active {
+    .core-ring {
+      stroke: rgba(26, 231, 132, 0.8);
+      stroke-width: 2;
+    }
+
+    .core-orb {
+      opacity: 1;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .core-center {
+      stop-color: #1ae784;
+    }
+
+    .core-mid {
+      stop-color: rgba(124, 201, 255, 0.8);
+    }
+
+    .core-edge {
+      stop-color: rgba(167, 131, 255, 0.4);
+    }
+
+    .core-spark {
+      fill: #ffffff;
+      filter: drop-shadow(0 0 4px rgba(26, 231, 132, 0.8));
+    }
+
+    &:hover {
+      .core-ring {
+        stroke: #1ae784;
+        animation: core-spin 4s linear infinite;
+      }
+    }
   }
 }
 
-// Light mode overrides
+// Light mode document-level overrides
 [data-theme="light"] {
   .theme-toggle {
-    background: rgba(0, 0, 0, 0.06);
-    color: rgba(0, 0, 0, 0.7);
-    
-    &:hover {
-      background: rgba(0, 0, 0, 0.1);
-      color: #000000;
+    .core-ring {
+      stroke: rgba(26, 231, 132, 0.8);
+    }
+    .core-spark {
+      filter: drop-shadow(0 0 6px rgba(26, 231, 132, 1));
     }
   }
 }
