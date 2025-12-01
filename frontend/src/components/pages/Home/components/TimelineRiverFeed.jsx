@@ -39,6 +39,8 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
 // 🟢 Main render: Loop through grouped posts
   return (
     <div className="timeline-river-feed">
+      {/* Canopy shadow overlay */}
+      <div className="timeline-canopy"></div>
       {groupedAndSortedPosts.map(({ date, userId, data }) => (
         // Loop through each group
 

@@ -12,13 +12,13 @@
   overflow-x: hidden;
 }
 
-/* Scroll shadow - creates depth illusion at top of feed */
-.timeline-river-feed::before {
-  content: '';
+/* Canopy shadow - actual element */
+.timeline-canopy {
   position: sticky;
   top: 60px;
   left: 0;
   right: 0;
+  width: 100%;
   height: 20px;
   background: linear-gradient(
     180deg,
@@ -127,15 +127,14 @@
    LIGHT MODE OVERRIDES
    ============================================ */
 [data-theme="light"] {
-  .timeline-river-feed::before {
-    height: 30px !important;
-    margin-bottom: -30px !important;
+  .timeline-canopy {
+    height: 20px;
     background: linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0.15) 0%,
-      rgba(0, 0, 0, 0.05) 60%,
+      rgba(0, 0, 0, 0.4) 0%,
       transparent 100%
-    ) !important;
+    );
+    margin-bottom: -20px;
   }
 
   .timeline-river-feed {

@@ -362,16 +362,8 @@ select:focus {
 
 /* ============================================
    TIMELINE RIVER FEED - Grey canopy shadow
+   Defined in TimelineRiverFeed.scss
    ============================================ */
-
-.timeline-river-feed::before {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.08) 30%,
-    transparent 100%
-  ) !important;
-}
 
 /* ============================================
    TIMELINE RIVER CARDS
