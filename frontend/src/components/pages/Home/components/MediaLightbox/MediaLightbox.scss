@@ -250,9 +250,9 @@
   
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   
-  color: white;
+  color: #ffffff;
   font-family: var(--font-main);
-  font-size: 14px;
+  font-size: 18px;
   resize: vertical;
   min-height: 40px;
   max-height: 200px;
@@ -393,9 +393,9 @@
 
 .lightbox-comment-text {
   font-family: var(--font-main);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.85);
+  color: #ffffff;
 }
 
 .lightbox-comment-meta {

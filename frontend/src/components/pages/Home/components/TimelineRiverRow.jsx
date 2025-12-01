@@ -2,6 +2,7 @@
 // TimelineRiverRow.jsx - Single row in timeline showing one user's posts across 3 columns
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import './TimelineRiverRow.scss';
 import MediaLightbox from './MediaLightbox/MediaLightbox';
 
@@ -23,6 +24,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const [expandedMediaPost, setExpandedMediaPost] = useState(null); 
   // Which media expanded
   // Track expanded media lightbox
+  const [isComposerExpanded, setIsComposerExpanded] = useState(false);
+  // Track if comment composer is in fullscreen expanded mode
   
   // 🔵 Check if mobile on mount and resize
   useEffect(() => {
@@ -213,31 +216,19 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           </button>
         </div>
 
-        {/* Inline Comment Composer */}
-        {/* Comment Box (only if this post's comment is active) */}
-        {activeCommentPostId === post.id && (
+        {/* Inline Comment Composer - only shown when NOT expanded */}
+        {activeCommentPostId === post.id && !isComposerExpanded && (
           <div className="inline-comment-composer">
-            <button 
-              className="close-comment-btn"
-              onClick={() => {
-                setActiveCommentPostId(null);
-                setCommentText('');
-              }}
-              title="Close (Esc)"
-            >
-              ×
-            </button>
-            <div className="comment-composer-avatar">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-            </div>
             <div className="comment-input-wrapper">
               <textarea
                 className="comment-input"
                 placeholder="Share your thoughts..."
                 value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
+                onChange={(e) => {
+                  setCommentText(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = e.target.scrollHeight + 'px';
+                }}
                 rows={1}
                 autoFocus
                 onKeyDown={(e) => {
@@ -247,6 +238,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       console.log('Comment posted:', commentText);
                       setCommentText('');
                       setActiveCommentPostId(null);
+                      e.target.style.height = 'auto';
                     }
                   }
                   if (e.key === 'Escape') {
@@ -255,15 +247,124 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                   }
                 }}
               />
-              <div className="comment-actions">
-                <button className="comment-emoji-btn" title="Add emoji">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                    <line x1="9" y1="9" x2="9.01" y2="9"/>
-                    <line x1="15" y1="9" x2="15.01" y2="9"/>
-                  </svg>
-                </button>
+              {/* Expand button - inside input, bottom right */}
+              <button 
+                className="expand-composer-btn"
+                onClick={() => setIsComposerExpanded(true)}
+                title="Expand"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 3 21 3 21 9"/>
+                  <polyline points="9 21 3 21 3 15"/>
+                  <line x1="21" y1="3" x2="14" y2="10"/>
+                  <line x1="3" y1="21" x2="10" y2="14"/>
+                </svg>
+              </button>
+            </div>
+            <button 
+              className="comment-submit-btn"
+              disabled={!commentText.trim()}
+              onClick={() => {
+                if (commentText.trim()) {
+                  console.log('Comment posted:', commentText);
+                  setCommentText('');
+                  setActiveCommentPostId(null);
+                }
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Expanded Composer Modal - rendered via portal */}
+        {activeCommentPostId === post.id && isComposerExpanded && createPortal(
+          <div className="expanded-composer-overlay">
+            <div 
+              className="composer-backdrop"
+              onClick={() => setIsComposerExpanded(false)}
+            />
+            <div className="expanded-composer-modal">
+              {/* Original Post Context - what they're replying to */}
+              <div className="reply-context">
+                <img 
+                  src={user.avatar} 
+                  alt={user.display_name}
+                  className="reply-context-avatar"
+                />
+                <div className="reply-context-body">
+                  <div className="reply-context-header">
+                    <span className="reply-context-name">{user.display_name}</span>
+                    <span className="reply-context-handle">@{user.username}</span>
+                    <span className="reply-context-dot">·</span>
+                    <span className="reply-context-time">{post.timestamp}</span>
+                    <span className={`reply-context-type reply-context-type--${type}`}>
+                      {type === 'thoughts' && '💭'}
+                      {type === 'media' && '📸'}
+                      {type === 'milestones' && '🏆'}
+                    </span>
+                  </div>
+                  
+                  {/* Post content */}
+                  <p className="reply-context-content">{post.content}</p>
+                  
+                  {/* Media preview if applicable */}
+                  {type === 'media' && post.media_url && (
+                    <div className="reply-context-media">
+                      <img src={post.media_url} alt="Post media" />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Reply divider */}
+              <div className="reply-divider">
+                <span className="reply-divider-line"></span>
+                <span className="reply-divider-text">Replying</span>
+                <span className="reply-divider-line"></span>
+              </div>
+
+              {/* Comment input area */}
+              <div className="modal-comment-area">
+                <div className="comment-input-wrapper">
+                  <textarea
+                    className="comment-input"
+                    placeholder="Share your thoughts..."
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    rows={4}
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (commentText.trim()) {
+                          console.log('Comment posted:', commentText);
+                          setCommentText('');
+                          setActiveCommentPostId(null);
+                          setIsComposerExpanded(false);
+                        }
+                      }
+                      if (e.key === 'Escape') {
+                        setIsComposerExpanded(false);
+                      }
+                    }}
+                  />
+                  {/* Minimize button - inside textarea */}
+                  <button 
+                    className="minimize-composer-btn"
+                    onClick={() => setIsComposerExpanded(false)}
+                    title="Minimize"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="4 14 10 14 10 20"/>
+                      <polyline points="20 10 14 10 14 4"/>
+                      <line x1="14" y1="10" x2="21" y2="3"/>
+                      <line x1="3" y1="21" x2="10" y2="14"/>
+                    </svg>
+                  </button>
+                </div>
                 <button 
                   className="comment-submit-btn"
                   disabled={!commentText.trim()}
@@ -272,16 +373,18 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       console.log('Comment posted:', commentText);
                       setCommentText('');
                       setActiveCommentPostId(null);
+                      setIsComposerExpanded(false);
                     }
                   }}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
                 </button>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     );

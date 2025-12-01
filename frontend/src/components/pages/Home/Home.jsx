@@ -12,6 +12,9 @@ function Home() {
   const [showComposerModal, setShowComposerModal] = useState(false);
   //↑ variable (boolean)   ↑ function to change it   ↑ starts closed (false)
 
+  // STATE: Inline composer text
+  const [composerText, setComposerText] = useState('');
+
     // STATE 2: Tracks WHICH post has its comment box open (null = none open)
     // (Which post's comment box is open?)
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
@@ -198,18 +201,31 @@ function Home() {
   return (
     <div className="feed-container">
        {/* 🟢 Section 1: Composer (click to open modal) */}
-      <div className="composer-section" onClick={() => setShowComposerModal(true)}>
-        {/* //      ↑ EVENT    ↑ INLINE HANDLER that changes state
-        // When user clicks this div → showComposerModal becomes true */}
+      <div className="composer-section">
         <div className="composer-avatar">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>
         </div>
-         {/* Fake input that looks real */}
-        <div className="composer-input">
-          <span className="composer-placeholder">Share something…</span>
-        </div>
+        <textarea
+          className="composer-input"
+          placeholder="Share something…"
+          value={composerText}
+          onChange={(e) => setComposerText(e.target.value)}
+          rows={1}
+        />
+        <button 
+          className="composer-expand-btn"
+          onClick={() => setShowComposerModal(true)}
+          title="Expand"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 3 21 3 21 9"/>
+            <polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/>
+            <line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </button>
       </div>
 
        {/* 🟢 Section 2: Stories carousel */}
