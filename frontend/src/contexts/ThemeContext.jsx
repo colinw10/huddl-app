@@ -29,10 +29,7 @@ export const ThemeProvider = ({ children }) => {
     const saved = localStorage.getItem('theme');
     if (saved) return saved;
     
-    // Then check system preference
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light';
-    }
+    // Default to dark mode (ignore system preference)
     return 'dark';
   });
 
