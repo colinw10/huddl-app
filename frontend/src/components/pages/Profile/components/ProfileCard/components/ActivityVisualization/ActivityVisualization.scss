@@ -37,7 +37,7 @@
 .activity-title-row {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: var(--space-md);
   flex: 1;
 }
 
@@ -53,7 +53,7 @@
 .activity-meta {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-lg);
   margin-left: auto;
 }
 
@@ -91,9 +91,9 @@
 /* View Toggle */
 .view-toggle {
   display: flex;
-  gap: 8px;
+  gap: var(--space-sm);
   background: rgba(0, 0, 0, 0.3);
-  padding: 4px;
+  padding: var(--space-xs);
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -101,7 +101,7 @@
 .toggle-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   padding: 10px 16px;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -146,7 +146,7 @@
 .wave-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-lg);
   position: relative;
   z-index: 1;
 }
@@ -156,7 +156,7 @@
   height: 180px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
-  padding: 10px;
+  padding: var(--space-md);
   box-sizing: border-box;
 }
 
@@ -240,14 +240,14 @@
 .wave-legend {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: var(--space-xl);
   margin-top: 8px;
 }
 
 .wave-legend .legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
   font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.875);
 }
@@ -276,7 +276,7 @@
 /* Heatmap Styles */
 .heatmap-container {
   width: 100%;
-  padding: 20px;
+  padding: var(--space-xl);
   background: linear-gradient(135deg, rgba(10, 10, 10, 0.192) 0%, rgba(255, 255, 255, 0.02) 100%);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
@@ -316,7 +316,7 @@
 
 .heatmap-grid {
   display: flex;
-  gap: 12px;
+  gap: var(--space-md);
   align-items: flex-start;
 }
 
@@ -439,7 +439,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  gap: var(--space-sm);
   margin-top: 20px;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -453,7 +453,7 @@
 
 .legend-squares {
   display: flex;
-  gap: 4px;
+  gap: var(--space-xs);
   align-items: center;
 }
 

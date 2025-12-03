@@ -115,7 +115,7 @@
 .profile-actions-pill {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-md);
   background: rgba(16, 1, 39, 0.114);
   backdrop-filter: blur(10px);
   padding: 5px;
@@ -194,7 +194,7 @@
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-xs);
 }
 
 .profile-display-name {
@@ -215,7 +215,7 @@
 .profile-location {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.7);
   margin-top: 4px;
@@ -243,7 +243,7 @@
 .profile-details {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-md);
   margin-bottom: 0;
   margin-top: 38px;
 }
@@ -251,7 +251,7 @@
 .profile-detail-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.7);
 }
@@ -275,7 +275,7 @@
 /* Stats */
 .profile-stats {
   display: flex;
-  gap: 20px;
+  gap: var(--space-xl);
   margin-top: 16px;
   position: relative;
   z-index: 20;
@@ -284,7 +284,7 @@
 
 .stat-item {
   display: flex;
-  gap: 6px;
+  gap: var(--space-sm);
   align-items: baseline;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -385,7 +385,7 @@
   }
   
   .profile-details {
-    gap: 4px;
+    gap: var(--space-xs);
     margin-top: 8px;
   }
   
@@ -394,7 +394,7 @@
   }
   
   .profile-stats {
-    gap: 8px;
+    gap: var(--space-sm);
   }
   
   .stat-count {

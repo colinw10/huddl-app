@@ -14,7 +14,7 @@
 .river-labels {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: var(--space-xl);
   margin-bottom: 30px;
   position: sticky;
   top: 60px;
@@ -28,13 +28,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-sm);
   font-size: var(--font-size-sm);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-secondary);
-  padding: 12px;
+  padding: var(--space-md);
   border-radius: 12px;
   background: var(--bg-glass);
   border: 1px solid var(--border-default);
@@ -82,7 +82,7 @@
 .river-streams {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: var(--space-xl);
   position: relative;
   min-height: 100vh;
   box-sizing: border-box;
@@ -95,7 +95,7 @@
 .river-column {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-2xl);
   position: relative;
   min-width: 0;
   box-sizing: border-box;
@@ -151,7 +151,7 @@
 .river-card {
   background: var(--bg-glass);
   backdrop-filter: blur(10px);
-  padding: 16px;
+  padding: var(--space-lg);
   transition: all 0.3s ease;
   position: relative;
   overflow: visible;
@@ -264,7 +264,7 @@
 .river-card-author {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-md);
   margin-bottom: 12px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -311,7 +311,7 @@
 
 .river-card-actions {
   display: flex;
-  gap: 12px;
+  gap: var(--space-md);
   padding-top: 12px;
   border-top: 1px solid var(--border-subtle);
 }
@@ -321,12 +321,12 @@
   border: none;
   color: var(--text-secondary);
   cursor: pointer;
-  padding: 6px;
+  padding: var(--space-sm);
   border-radius: 8px;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-xs);
 }
 
 .river-action-btn:hover {
@@ -392,23 +392,23 @@
 
 @media (max-width: 1024px) {
   .river-streams {
-    gap: 16px;
+    gap: var(--space-lg);
   }
   
   .river-card {
-    padding: 14px;
+    padding: var(--space-lg);
   }
 }
 
 @media (max-width: 768px) {
   .river-streams {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: var(--space-xl);
   }
   
   .river-labels {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: var(--space-md);
     position: static;
     background: transparent;
     padding: 10px 0 20px;

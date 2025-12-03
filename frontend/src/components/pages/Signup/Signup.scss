@@ -183,7 +183,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: var(--space-lg);
 }
 
 /* Animated title words */
@@ -239,13 +239,13 @@
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-xl);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .form-label {
@@ -403,7 +403,7 @@
    ============================================ */
 .btn-submit {
   width: 100%;
-  padding: 18px;
+  padding: var(--space-xl);
   font-family: "acme-gothic-extrawide", sans-serif;
   font-size: var(--font-size-md);
   font-weight: 600;
@@ -526,7 +526,7 @@
 
   .signup-title {
     font-size: 32px;
-    gap: 12px;
+    gap: var(--space-md);
   }
 
   .title-separator {
@@ -560,7 +560,7 @@
 
   .signup-title {
     font-size: 28px;
-    gap: 10px;
+    gap: var(--space-md);
   }
 
   .title-separator {
@@ -572,7 +572,7 @@
   }
 
   .signup-form {
-    gap: 18px;
+    gap: var(--space-xl);
   }
 
   .form-input {
@@ -581,7 +581,7 @@
   }
 
   .btn-submit {
-    padding: 16px;
+    padding: var(--space-lg);
     font-size: var(--font-size-sm);
   }
 }

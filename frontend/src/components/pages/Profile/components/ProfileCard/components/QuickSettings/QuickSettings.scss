@@ -6,12 +6,12 @@
   background: rgba(101, 126, 170, 0.148);
   border: 1px solid rgba(46, 169, 169, 0.365);
   border-radius: 16px;
-  padding: 20px;
+  padding: var(--space-xl);
 }
 
 @media (max-width: 480px) {
   .quick-settings {
-    padding: 14px;
+    padding: var(--space-lg);
     border-radius: 12px;
   }
 }
@@ -58,7 +58,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-lg);
   margin-bottom: 10px;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -76,7 +76,7 @@
   .setting-btn {
     padding: 12px 14px;
     font-size: var(--font-size-sm);
-    gap: 10px;
+    gap: var(--space-md);
     border-radius: 12px;
     margin-bottom: 8px;
   }
@@ -126,7 +126,7 @@
 .settings-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: var(--space-sm);
   margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -135,7 +135,7 @@
 .setting-btn.setting-btn-compact {
   width: 100%;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-sm);
   padding: 12px 8px;
   text-align: center;
   justify-content: center;
@@ -155,14 +155,14 @@
 /* Mobile responsive for compact grid */
 @media (max-width: 480px) {
   .settings-grid {
-    gap: 6px;
+    gap: var(--space-sm);
     margin-top: 10px;
     padding-top: 10px;
   }
   
   .setting-btn.setting-btn-compact {
     padding: 10px 6px;
-    gap: 4px;
+    gap: var(--space-xs);
     border-radius: 10px;
   }
   

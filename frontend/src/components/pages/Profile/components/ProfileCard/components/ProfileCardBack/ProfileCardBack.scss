@@ -47,7 +47,7 @@
 .analytics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: var(--space-lg);
   margin-bottom: 24px;
 }
 
@@ -55,10 +55,10 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 16px;
+  padding: var(--space-lg);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-md);
   transition: all 0.3s ease;
 }
 

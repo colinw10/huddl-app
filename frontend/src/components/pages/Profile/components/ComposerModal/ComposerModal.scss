@@ -161,7 +161,7 @@
 .composer-avatar-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-md);
   margin-bottom: 16px;
 }
 
@@ -181,7 +181,7 @@
 .composer-user-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-xs);
 }
 
 .composer-user-name {
@@ -195,7 +195,7 @@
   color: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-xs);
 }
 
 .composer-textarea {
@@ -309,9 +309,9 @@
 
 .composer-type-toggle {
   display: flex;
-  gap: 8px;
+  gap: var(--space-sm);
   background: rgba(0, 0, 0, 0.3);
-  padding: 6px;
+  padding: var(--space-sm);
   border-radius: 12px;
   margin-top: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -330,7 +330,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-sm);
   transition: all 0.3s ease;
 }
 
@@ -356,14 +356,14 @@
 
 .composer-actions-left {
   display: flex;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .composer-icon-btn {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  padding: 10px;
+  padding: var(--space-md);
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   display: flex;
@@ -478,7 +478,7 @@
   }
   
   .composer-icon-btn {
-    padding: 8px;
+    padding: var(--space-sm);
   }
 }
 
