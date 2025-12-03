@@ -133,7 +133,7 @@
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1.5rem;
+  font-size: var(--font-size-xl);
   cursor: pointer;
   width: 36px;
   height: 36px;
@@ -185,13 +185,13 @@
 }
 
 .composer-user-name {
-  font-size: 15px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.95);
 }
 
 .composer-privacy {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
@@ -296,14 +296,14 @@
 }
 
 .media-upload-placeholder p {
-  font-size: 16px;
+  font-size: var(--font-size-md);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 4px;
 }
 
 .media-upload-placeholder span {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -324,7 +324,7 @@
   color: rgba(255, 255, 255, 0.6);
   padding: 10px 16px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -382,7 +382,7 @@
 .composer-post-btn {
   padding: 18px 32px;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -425,17 +425,17 @@
   }
   
   .composer-modal-title {
-    font-size: 1.5rem;
+    font-size: var(--font-size-xl);
   }
   
   .composer-textarea {
     min-height: 100px;
-    font-size: 0.9rem;
+    font-size: var(--font-size-body);
   }
   
   .composer-post-btn {
     padding: 14px 24px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -456,13 +456,13 @@
   }
   
   .composer-modal-title {
-    font-size: 1.25rem;
+    font-size: var(--font-size-title);
   }
   
   .composer-close-btn {
     width: 32px;
     height: 32px;
-    font-size: 1.25rem;
+    font-size: var(--font-size-title);
   }
   
   .composer-textarea {
@@ -473,7 +473,7 @@
   
   .composer-post-btn {
     padding: 12px 20px;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     letter-spacing: 1px;
   }
   
@@ -500,7 +500,7 @@
   
   .composer-textarea {
     min-height: 80px;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
   }
 }
 
@@ -526,7 +526,7 @@
   
   .composer-post-btn {
     padding: 12px 20px;
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     letter-spacing: 1px;
   }
 }

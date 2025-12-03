@@ -42,7 +42,7 @@
 }
 
 .wave-title {
-  font-size: 16px;
+  font-size: var(--font-size-md);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
@@ -58,14 +58,14 @@
 }
 
 .post-frequency {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.5);
   font-weight: 500;
   font-family: 'sweet-square-pro', monospace;
 }
 
 .peak-time {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: rgba(255, 215, 0, 1);
   font-weight: 600;
   padding: 4px 10px;
@@ -106,7 +106,7 @@
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   cursor: pointer;
   border-radius: 6px;
@@ -223,7 +223,7 @@
 .wave-timeline {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.6);
   padding: 0 12px;
   font-weight: 500;
@@ -248,7 +248,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.875);
 }
 
@@ -293,7 +293,7 @@
 }
 
 .heatmap-month {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
   font-family: 'acme-gothic-extrawide', sans-serif;
@@ -304,7 +304,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.6);
   font-weight: 600;
   letter-spacing: 0.3px;
@@ -371,7 +371,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.6);
   padding-right: 8px;
   font-weight: 600;
@@ -446,7 +446,7 @@
 }
 
 .legend-label {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.6);
   font-weight: 600;
 }

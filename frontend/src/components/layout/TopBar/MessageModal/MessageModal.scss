@@ -91,7 +91,7 @@
 
 .message-modal-title {
   font-family: var(--font-display, 'acme-gothic-extrawide', sans-serif);
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   font-weight: 600;
   color: var(--accent, #1ae784);
   letter-spacing: 1px;
@@ -169,7 +169,7 @@
   max-width: 280px;
   padding: 10px 14px;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   box-sizing: border-box;
   
   /* Layered cosmic black background with depth */
@@ -342,7 +342,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   flex-shrink: 0;
   box-shadow:
@@ -388,7 +388,7 @@
 .conversation-name {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
-  font-size: 0.9rem;
+  font-size: var(--font-size-body);
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
 }
@@ -414,7 +414,7 @@
 }
 
 .conversation-preview {
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.45);
   white-space: nowrap;
   overflow: hidden;
@@ -422,7 +422,7 @@
 }
 
 .conversation-time {
-  font-size: 0.7rem;
+  font-size: var(--font-size-xs);
   color: rgba(79, 255, 255, 0.5);
   flex-shrink: 0;
   font-weight: 500;
@@ -512,7 +512,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   box-shadow:
     0 0 10px rgba(0, 212, 255, 0.15),
@@ -569,7 +569,7 @@
   max-width: 75%;
   padding: 0.75rem 1rem;
   position: relative;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   line-height: 1.5;
   
   /* 3D depth shadows */
@@ -584,7 +584,7 @@
 }
 
 .chat-message .message-time {
-  font-size: 0.65rem;
+  font-size: var(--font-size-xs);
   margin-top: 0.4rem;
   display: block;
   opacity: 0.6;
@@ -694,7 +694,7 @@
   min-height: 38px;
   max-height: 100px;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   padding: 10px 14px;
   resize: none;
   

@@ -13,7 +13,7 @@
 }
 
 .breakdown-title {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   margin: 0 0 16px 0;
@@ -94,13 +94,13 @@
 }
 
 .legend-type {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
 }
 
 .legend-percent {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.6);
   font-family: 'sweet-square-pro', monospace;
   font-weight: 600;

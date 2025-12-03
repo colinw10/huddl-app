@@ -204,7 +204,7 @@
 
 .media-lightbox-author {
   font-family: 'sweet-square-pro', sans-serif;
-  font-size: 15px;
+  font-size: var(--font-size-body);
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
@@ -212,7 +212,7 @@
 
 .media-lightbox-timestamp {
   font-family: var(--font-main);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(79, 255, 255, 0.6);
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -244,7 +244,7 @@
   border-radius: 8px;
   color: rgba(255, 255, 255, 0.5);
   font-family: var(--font-main);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 36px;
@@ -288,7 +288,7 @@
 
 .media-action-btn .action-count {
   font-family: 'sweet-square-pro', monospace;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -336,7 +336,7 @@
   gap: 8px;
   padding: 1rem 1.25rem 0.75rem;
   font-family: var(--font-display, 'acme-gothic-extrawide', sans-serif);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   color: var(--accent, #1ae784);
   letter-spacing: 1px;
@@ -418,7 +418,7 @@
     0 0 10px rgba(0, 212, 255, 0.2);
   
   font-family: var(--font-main);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   resize: none;
   min-height: 38px;
   max-height: 80px;
@@ -546,7 +546,7 @@
 
 .lightbox-comment-author {
   font-family: 'sweet-square-pro', sans-serif;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
   transition: all 0.2s ease;
@@ -564,14 +564,14 @@
 
 .lightbox-comment-text {
   font-family: var(--font-main);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.85);
 }
 
 .lightbox-comment-meta {
   font-family: var(--font-main);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   color: rgba(79, 255, 255, 0.5);
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -759,7 +759,7 @@
   }
   
   .media-action-btn .action-count {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
   }
   
   .lightbox-comment-composer {
@@ -768,7 +768,7 @@
   
   .lightbox-comment-input {
     padding: 8px 40px 8px 10px;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     min-height: 34px;
   }
   
@@ -819,7 +819,7 @@
   
   .media-lightbox-caption {
     padding: 0.375rem 0.75rem;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
   }
   
   .media-lightbox-actions {
@@ -839,7 +839,7 @@
   }
   
   .media-action-btn .action-count {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
   }
   
   .media-action-btn--like {
@@ -852,7 +852,7 @@
   
   .lightbox-comment-input {
     padding: 8px 36px 8px 10px;
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     min-height: 32px;
   }
   
@@ -874,7 +874,7 @@
   
   .lightbox-comments-header {
     padding: 0.5rem 0.75rem 0.375rem;
-    font-size: 10px;
+    font-size: var(--font-size-xs);
   }
   
   .lightbox-comments-header svg {
@@ -950,7 +950,7 @@
   }
   
   .media-action-btn .action-count {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
   }
   
   .lightbox-comment-composer {
@@ -959,7 +959,7 @@
   
   .lightbox-comment-input {
     padding: 10px 38px 10px 12px;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     min-height: 38px;
   }
   

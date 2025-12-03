@@ -62,7 +62,7 @@
   border: 1px solid rgba(0, 212, 255, 0.25);
   color: rgba(255, 255, 255, 0.9);
   font-family: 'sweet-square-pro', sans-serif;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: 600;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -97,7 +97,7 @@
   padding: 80px 20px;
   color: rgba(255, 255, 255, 0.5);
   font-family: 'degular', sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-md);
 }
 
 .timeline-river-empty svg {
@@ -117,7 +117,7 @@
   }
 
   .river-date-badge {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     padding: 6px 12px;
   }
 

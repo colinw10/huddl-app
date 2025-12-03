@@ -227,7 +227,7 @@
 
 .signup-subtitle {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
@@ -250,7 +250,7 @@
 
 .form-label {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   letter-spacing: 1.5px;
   color: rgba(255, 255, 255, 0.7);
@@ -263,7 +263,7 @@
 .form-input {
   width: 100%;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   padding: 18px 22px;
   background:
     linear-gradient(145deg, #0a0a0a, #000000),
@@ -380,7 +380,7 @@
    ============================================ */
 .error-message {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: #ff5252;
   margin-top: 4px;
   animation: errorSlide 0.3s ease;
@@ -393,7 +393,7 @@
   border-radius: 8px;
   color: #ff5252;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   text-align: center;
   animation: errorSlide 0.3s ease;
 }
@@ -405,7 +405,7 @@
   width: 100%;
   padding: 18px;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -491,7 +491,7 @@
 
 .footer-text {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
 }
@@ -530,16 +530,16 @@
   }
 
   .title-separator {
-    font-size: 20px;
+    font-size: var(--font-size-title);
   }
 
   .signup-subtitle {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
   }
 
   .form-input {
     padding: 16px 20px;
-    font-size: 15px;
+    font-size: var(--font-size-body);
   }
 }
 
@@ -564,11 +564,11 @@
   }
 
   .title-separator {
-    font-size: 18px;
+    font-size: var(--font-size-lg);
   }
 
   .signup-subtitle {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
   }
 
   .signup-form {
@@ -577,12 +577,12 @@
 
   .form-input {
     padding: 14px 18px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 
   .btn-submit {
     padding: 16px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 }
 

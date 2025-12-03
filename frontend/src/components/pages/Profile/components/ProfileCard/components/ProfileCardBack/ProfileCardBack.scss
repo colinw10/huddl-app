@@ -86,14 +86,14 @@
 }
 
 .analytics-value {
-  font-size: 20px;
+  font-size: var(--font-size-title);
   font-weight: 700;
   color: #ffffff;
   font-family: 'sweet-square-pro', monospace;
 }
 
 .analytics-label {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -104,7 +104,7 @@
   }
   
   .analytics-title {
-    font-size: 18px;
+    font-size: var(--font-size-lg);
   }
   
   .flip-trigger-back {

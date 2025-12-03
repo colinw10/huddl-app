@@ -187,7 +187,7 @@
   cursor: pointer;
   transition: all 0.18s ease;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 500;
   position: relative;
 }
@@ -287,7 +287,7 @@
 
   .nav-item {
     padding: 0.2rem 0.4rem;
-    font-size: 0.65rem;
+    font-size: var(--font-size-xs);
     border-left: none;
     gap: 0.1rem;
   }

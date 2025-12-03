@@ -177,7 +177,7 @@
 
 .login-subtitle {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
@@ -197,7 +197,7 @@
 
 .form-label {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   letter-spacing: 1.5px;
   color: rgba(255, 255, 255, 0.7);
@@ -207,7 +207,7 @@
 .form-input {
   width: 100%;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   padding: 18px 22px;
   background:
     linear-gradient(145deg, #0a0a0a, #000000),
@@ -302,7 +302,7 @@
 
 .error-message {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: #ff5252;
   margin-top: 4px;
   animation: errorSlide 0.3s ease;
@@ -320,7 +320,7 @@
   align-items: center;
   gap: 0.5rem;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   cursor: pointer;
   user-select: none;
 }
@@ -336,7 +336,7 @@
   background: none;
   border: none;
   color: rgba(26, 115, 231, 0.9);
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 0;
@@ -352,7 +352,7 @@
   width: 100%;
   padding: 18px;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -407,7 +407,7 @@
   border-radius: 8px;
   color: #ff5252;
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   text-align: center;
   animation: errorSlide 0.3s ease;
 }
@@ -421,7 +421,7 @@
 
 .login-footer p {
   font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
 }
@@ -457,12 +457,12 @@
   }
 
   .login-subtitle {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
   }
 
   .form-input {
     padding: 16px 20px;
-    font-size: 15px;
+    font-size: var(--font-size-body);
   }
 }
 
@@ -485,7 +485,7 @@
   }
 
   .login-subtitle {
-    font-size: 10px;
+    font-size: var(--font-size-xs);
   }
 
   .login-form {
@@ -494,7 +494,7 @@
 
   .form-input {
     padding: 14px 18px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 
   .form-options {
@@ -505,7 +505,7 @@
 
   .btn-submit {
     padding: 16px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 }
 
