@@ -411,6 +411,11 @@ $breakpoint-wide: 1280px;
   --bg-input: rgba(255, 255, 255, 0.95);
   --bg-overlay: rgba(0, 0, 0, 0.4);
   
+  // Surfaces (for cards using --surface)
+  --surface: rgba(255, 255, 255, 0.95);
+  --surface-hover: rgba(248, 250, 252, 1);
+  --surface-active: rgba(243, 244, 246, 1);
+  
   // Text
   --text-primary: #000000;
   --text-secondary: rgba(0, 0, 0, 0.65);
@@ -423,10 +428,16 @@ $breakpoint-wide: 1280px;
   --border-strong: rgba(0, 0, 0, 0.15);
   --border-subtle: rgba(0, 0, 0, 0.06);
   --border-focus: rgba(26, 115, 231, 0.5);
+  --border: rgba(0, 0, 0, 0.1);
+  --border-hover: rgba(0, 0, 0, 0.2);
   
   // Shadows
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
   --shadow-input: 0 2px 4px rgba(0, 0, 0, 0.05);
   --shadow-focus: 0 0 0 3px rgba(26, 115, 231, 0.1);
+  
+  // Glows (subtle for light mode)
+  --glow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --glow-strong: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
