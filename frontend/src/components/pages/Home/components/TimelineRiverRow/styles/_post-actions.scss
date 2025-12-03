@@ -1,0 +1,65 @@
+/* ============================================
+   POST ACTIONS - Button Row
+   Like, comment, share buttons
+   ============================================ */
+
+.river-post-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: 10px;
+  margin-top: 4px;
+  position: relative;
+}
+
+/* Gradient separator line */
+.river-post-actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.2) 20%,
+    rgba(167, 131, 255, 0.15) 50%,
+    rgba(0, 212, 255, 0.2) 80%,
+    transparent 100%
+  );
+}
+
+/* Action button base */
+.river-action-btn {
+  background: var(--bg-glass);
+  border: 1px solid rgba(79, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Primary hover - cyan */
+.river-action-btn:hover {
+  background: rgba(79, 255, 255, 0.08);
+  border-color: rgba(79, 255, 255, 0.4);
+  color: #4fffff;
+  box-shadow: 0 0 12px rgba(79, 255, 255, 0.2);
+}
+
+/* Alternating hover - purple for even buttons */
+.river-action-btn:nth-child(even):hover {
+  background: rgba(167, 131, 255, 0.08);
+  border-color: rgba(167, 131, 255, 0.4);
+  color: #c9a8ff;
+  box-shadow: 0 0 12px rgba(167, 131, 255, 0.2);
+}
+
+.river-action-btn:active {
+  transform: scale(0.97);
+}

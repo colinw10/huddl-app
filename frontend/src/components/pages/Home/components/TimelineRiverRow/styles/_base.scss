@@ -1,0 +1,69 @@
+/* ============================================
+   BASE LAYOUT - Grid & Column Structure
+   Core layout for timeline rows
+   ============================================ */
+
+.timeline-river-row {
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  align-items: start;
+}
+
+/* Adaptive column layouts based on number of post types */
+.timeline-river-row--1-col {
+  grid-template-columns: 1fr;
+}
+
+.timeline-river-row--2-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.timeline-river-row--3-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* River Column - vertical container for posts */
+.river-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  position: relative;
+  flex: 1;
+}
+
+/* ============================================
+   POST TYPE WIDTH DIFFERENTIATION
+   ============================================ */
+
+.post--thoughts,
+.post--media,
+.post--milestones {
+  width: 100%;
+}
+
+/* ============================================
+   SINGLE POST CENTERING
+   When only one post exists in the row
+   ============================================ */
+
+.post--single {
+  width: 70%;
+  margin: 0 auto !important;
+  max-width: 700px;
+}
+
+.post--thoughts.post--single {
+  width: 65%;
+  max-width: 650px;
+}
+
+.post--media.post--single {
+  width: 75%;
+  max-width: 750px;
+}

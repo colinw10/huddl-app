@@ -1,0 +1,208 @@
+/* ============================================
+   POST CARD - Base Card Styling
+   Chamfered cyberpunk card with glow effects
+   ============================================ */
+
+.river-post-card {
+  padding: var(--space-md);
+  color: #f9f9f9;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  /* Cyberpunk cut corners */
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+
+/* Pseudo-element border - glowing edge effect */
+.river-post-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    135deg,
+    var(--card-accent, rgba(79, 255, 255, 0.4)) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    var(--card-accent, rgba(79, 255, 255, 0.4)) 100%
+  );
+  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+  z-index: -2;
+  transition: background 0.4s ease 0.05s, filter 0.4s ease 0.05s;
+  pointer-events: none;
+}
+
+/* Inner solid background layer */
+.river-post-card::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: linear-gradient(145deg, rgba(12, 18, 30, 0.98), rgba(8, 12, 22, 0.99));
+  clip-path: polygon(13px 0, 100% 0, 100% calc(100% - 13px), calc(100% - 13px) 100%, 0 100%, 0 13px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Card accent colors by column */
+.river-column:nth-child(1) .river-post-card {
+  --card-accent: rgba(26, 115, 231, 0.6);
+  --card-glow: rgba(26, 115, 231, 0.25);
+}
+
+.river-column:nth-child(2) .river-post-card {
+  --card-accent: rgba(220, 8, 188, 0.6);
+  --card-glow: rgba(220, 8, 188, 0.25);
+}
+
+.river-column:nth-child(3) .river-post-card {
+  --card-accent: rgba(255, 215, 0, 0.45);
+  --card-glow: rgba(255, 215, 0, 0.2);
+}
+
+/* Stagger animations */
+.river-post-card {
+  animation-delay: calc(var(--card-index, 0) * 0.05s);
+}
+
+/* Hover state */
+.river-post-card:hover {
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.river-post-card:hover::before {
+  opacity: 1;
+}
+
+.river-post-card:active {
+  transform: translateY(0);
+  transition: all 0.1s ease;
+}
+
+/* Active card - brought to front on click */
+.river-post-card.post--active {
+  z-index: 100 !important;
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   POST HEADER
+   ============================================ */
+
+.river-post-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.river-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4fffff;
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+}
+
+.river-avatar svg {
+  color: #4fffff;
+}
+
+.river-post-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.river-author {
+  font-family: 'acme-gothic-extrawide', sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.river-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: var(--font-size-xs);
+}
+
+.river-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-family: 'sweet-square-pro', sans-serif;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+}
+
+.river-timestamp {
+  color: var(--text-muted);
+  font-family: 'degular', sans-serif;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.privacy-icon {
+  color: rgba(167, 131, 255, 0.6);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(167, 131, 255, 0.3));
+}
+
+/* ============================================
+   POST CONTENT
+   ============================================ */
+
+.river-post-content {
+  font-family: var(--font-main);
+  font-size: var(--font-size-body);
+  line-height: 1.45;
+  color: #e3e7ef;
+  margin-bottom: var(--space-sm);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Thought posts: larger text */
+.river-column:nth-child(1) .river-post-card {
+  padding: 16px 18px;
+}
+
+.river-column:nth-child(1) .river-post-content {
+  font-size: var(--font-size-md);
+  line-height: 1.45;
+}
+
+/* ============================================
+   POST LIKES
+   ============================================ */
+
+.river-post-likes {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: 'sweet-square-pro', sans-serif;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
