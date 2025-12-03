@@ -1,62 +1,67 @@
 /**
  * ============================================
- * HUDDL Light Mode Theme - Clean Version
+ * HUDDL Light Mode Theme - Override File
  * ============================================
  * 
- * Organized, variable-based light mode overrides.
- * Reduced from ~1200 lines and 289 !important declarations.
+ * This file provides overrides for components that haven't
+ * been converted to use semantic variables yet.
+ * 
+ * As components are converted to use var(--bg-card), var(--text-primary),
+ * etc., their overrides here can be removed.
+ * 
+ * Theme variables are defined in _variables.scss under [data-theme="light"]
  */
 
 [data-theme="light"] {
-  /* ============================================
-     DESIGN TOKENS - Light Mode Variables
-     ============================================ */
-  
-  /* Core Colors */
-  --light-bg: #f5f5f7;
-  --light-bg-card: #ffffff;
-  --light-bg-card-hover: #fafafa;
-  --light-bg-overlay: rgba(255, 255, 255, 0.95);
-  --light-bg-glass: rgba(255, 255, 255, 0.8);
-  --light-bg-input: rgba(255, 255, 255, 0.95);
-  --light-bg-subtle: rgba(0, 0, 0, 0.03);
-  --light-bg-muted: rgba(0, 0, 0, 0.05);
-  
-  /* Text Colors */
-  --light-text-primary: #000000;
-  --light-text-secondary: rgba(0, 0, 0, 0.65);
-  --light-text-muted: rgba(0, 0, 0, 0.45);
-  --light-text-placeholder: rgba(0, 0, 0, 0.4);
-  
-  /* Borders */
-  --light-border: rgba(0, 0, 0, 0.1);
-  --light-border-strong: rgba(0, 0, 0, 0.15);
-  --light-border-subtle: rgba(0, 0, 0, 0.06);
-  --light-border-focus: rgba(26, 115, 231, 0.5);
-  
-  /* Shadows */
-  --light-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --light-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --light-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --light-shadow-focus: 0 0 0 3px rgba(26, 115, 231, 0.1);
-  
-  /* Accent Colors (keep vibrant) */
-  --light-accent-blue: #1a73e9;
-  --light-accent-cyan: var(--color-cyan, #00d4ff);
-  --light-accent-magenta: var(--color-magenta, #ff00ff);
   
   /* ============================================
      BASE RESET
      ============================================ */
   
-  background: var(--light-bg) !important;
-  color: var(--light-text-primary) !important;
+  background: var(--bg-base) !important;
+  color: var(--text-primary) !important;
+
+  /* ============================================
+     LEGACY VARIABLE ALIASES
+     Bridge old --light-* vars to semantic tokens
+     Remove as components are fully converted
+     ============================================ */
+  
+  // Backgrounds
+  --light-bg-glass: var(--bg-glass);
+  --light-bg-card: var(--bg-card);
+  --light-bg-subtle: rgba(0, 0, 0, 0.02);
+  --light-bg-muted: rgba(0, 0, 0, 0.04);
+  --light-bg-input: var(--bg-input);
+  --light-bg-overlay: var(--bg-overlay);
+  
+  // Text
+  --light-text-primary: var(--text-primary);
+  --light-text-secondary: var(--text-secondary);
+  --light-text-muted: var(--text-muted);
+  --light-text-placeholder: var(--text-placeholder);
+  
+  // Borders
+  --light-border: var(--border-default);
+  --light-border-strong: var(--border-strong);
+  --light-border-focus: var(--border-focus);
+  
+  // Shadows
+  --light-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --light-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --light-shadow-lg: var(--shadow-card);
+  --light-shadow-focus: var(--shadow-focus);
+  
+  // Accents
+  --light-accent-blue: #1565c0;
+  --light-accent-cyan: #0277bd;
+  --light-accent-magenta: #9c27b0;
 
   /* ============================================
      TYPOGRAPHY
      ============================================ */
   
-  /* Base text color inherited from [data-theme="light"] above */
+  /* Base text color inherited from semantic variables */
   /* Only override specific elements that need it */
   
   .text-muted,
@@ -87,6 +92,9 @@
      CARDS (Unified)
      ============================================ */
   
+  /* Cards now inherit from semantic variables in _variables.scss */
+  /* These overrides ensure any hardcoded dark values are fixed */
+  
   .card,
   .profile-card,
   .post-card,
@@ -95,34 +103,19 @@
   .signup-card,
   .auth-card,
   .river-card {
-    background: var(--light-bg-card) !important;
-    border: 1px solid var(--light-border) !important;
-    box-shadow: var(--light-shadow-md) !important;
-    color: var(--light-text-primary) !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-default) !important;
+    box-shadow: var(--shadow-card) !important;
+    color: var(--text-primary) !important;
   }
 
   /* Card interactions */
   .card:hover,
   .post-card:hover,
   .river-card:hover {
-    background: var(--light-bg-card-hover) !important;
-    border-color: var(--light-border-strong) !important;
-    box-shadow: var(--light-shadow-lg) !important;
-  }
-
-  /* Card titles & metadata */
-  .card-title,
-  .post-author,
-  .river-author,
-  .river-username,
-  .username {
-    color: var(--light-text-primary) !important;
-  }
-
-  .card-meta,
-  .post-timestamp,
-  .river-timestamp {
-    color: var(--light-text-secondary) !important;
+    background: var(--bg-card-hover) !important;
+    border-color: var(--border-strong) !important;
+    box-shadow: var(--shadow-card-hover) !important;
   }
 
   /* ============================================
@@ -168,29 +161,18 @@
      NAVIGATION
      ============================================ */
   
+  /* Navigation now uses theme variables from _variables.scss */
+  /* Additional light mode tweaks only */
+  
   .top-bar,
   .bottom-nav,
   .side-nav {
-    background: var(--light-bg-glass) !important;
-    backdrop-filter: blur(20px) !important;
-    border-color: var(--light-border-subtle) !important;
-  }
-
-  .nav-item,
-  .nav-link,
-  .nav-button {
-    color: var(--light-text-primary) !important;
-  }
-
-  .nav-item:hover,
-  .nav-link:hover,
-  .nav-button:hover {
-    background: var(--light-bg-muted) !important;
+    box-shadow: var(--shadow-card) !important;
   }
 
   .nav-item.active,
   .nav-link.active {
-    color: var(--light-accent-blue) !important;
+    color: var(--color-cyan) !important;
   }
 
   /* ============================================

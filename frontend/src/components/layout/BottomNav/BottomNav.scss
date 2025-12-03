@@ -133,22 +133,22 @@
    ============================================ */
 [data-theme="light"] {
   .main-nav {
-    background: rgba(255, 255, 255, 0.9) !important;
+    background: var(--bg-glass) !important;
   }
 
   .main-nav.bottom-nav {
     background: rgba(255, 255, 255, 0.95) !important;
-    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-top: 1px solid var(--border-default) !important;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08) !important;
   }
 
   .main-nav.left-nav {
-    border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-right: 1px solid var(--border-default) !important;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05) !important;
   }
 
   .nav-item {
-    color: rgba(0, 0, 0, 0.6) !important;
+    color: var(--text-secondary) !important;
   }
 
   .nav-item:hover {
