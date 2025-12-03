@@ -29,11 +29,11 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 400;
+  font-style: normal;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-secondary);
   padding: var(--space-md);
   border-radius: 12px;
   background: var(--bg-glass);
@@ -43,6 +43,7 @@
 
 /* Thoughts - Blue outline */
 .left-label {
+  color: rgba(26, 115, 231, 0.8);
   border: 1px solid rgba(26, 115, 231, 0.5);
   box-shadow: 0 0 8px rgba(26, 115, 231, 0.15),
               inset 0 0 12px rgba(26, 115, 231, 0.05);
@@ -55,6 +56,7 @@
 
 /* Media - Magenta outline */
 .center-label {
+  color: rgba(220, 8, 188, 0.8);
   border: 1px solid rgba(220, 8, 188, 0.5);
   box-shadow: 0 0 8px rgba(220, 8, 188, 0.15),
               inset 0 0 12px rgba(220, 8, 188, 0.05);
@@ -67,6 +69,7 @@
 
 /* Milestones - Gold outline */
 .right-label {
+  color: rgba(255, 215, 0, 0.8);
   border: 1px solid rgba(255, 215, 0, 0.5);
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.15),
               inset 0 0 12px rgba(255, 215, 0, 0.05);
@@ -317,34 +320,45 @@
 }
 
 .river-action-btn {
-  background: none;
+  background: transparent;
   border: none;
-  color: var(--text-secondary);
+  color: rgba(201, 168, 255, 0.5);
   cursor: pointer;
-  padding: var(--space-sm);
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  padding: 6px;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   gap: var(--space-xs);
 }
 
 .river-action-btn:hover {
-  color: var(--text-primary);
-  background: var(--bg-glass-hover);
+  color: #c9a8ff;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 255, 0.5));
   transform: scale(1.1);
 }
 
+.text-card .river-action-btn {
+  color: rgba(79, 255, 255, 0.5);
+}
 .text-card .river-action-btn:hover {
-  color: rgba(26, 115, 231, 0.9);
+  color: #4fffff;
+  filter: drop-shadow(0 0 8px rgba(79, 255, 255, 0.5));
 }
 
+.media-card .river-action-btn {
+  color: rgba(201, 168, 255, 0.5);
+}
 .media-card .river-action-btn:hover {
-  color: rgba(220, 8, 188, 0.9);
+  color: #c9a8ff;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 255, 0.5));
 }
 
+.achievement-card .river-action-btn {
+  color: rgba(26, 231, 132, 0.5);
+}
 .achievement-card .river-action-btn:hover {
-  color: rgba(255, 215, 0, 0.9);
+  color: #1ae784;
+  filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.5));
 }
 
 /* SVG River Flow Lines */
@@ -506,20 +520,6 @@
 
   .river-content {
     color: #000000 !important;
-  }
-
-  .river-actions {
-    border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
-  }
-
-  .river-action-btn {
-    color: rgba(0, 0, 0, 0.5) !important;
-    background: transparent !important;
-  }
-
-  .river-action-btn:hover {
-    color: #1a73e7 !important;
-    background: rgba(26, 115, 231, 0.08) !important;
   }
 
   /* Flow lines - subtle in light mode */

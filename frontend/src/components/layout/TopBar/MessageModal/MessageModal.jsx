@@ -139,8 +139,8 @@ function MessageModal({ onClose }) {
                 onChange={(e) => setMessageText(e.target.value)}
               />
               <button className={`chat-send-btn charge-${getChargeLevel()}`}>
-                <svg className="send-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                <svg className="send-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 6 15 12 9 18"/>
                 </svg>
               </button>
             </div>

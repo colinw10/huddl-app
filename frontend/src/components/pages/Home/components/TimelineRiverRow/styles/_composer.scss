@@ -214,8 +214,7 @@
   border-radius: 10px;
   color: #ffffff;
   font-family: 'degular', sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-weight: 400;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow:
@@ -268,26 +267,20 @@
   width: 36px;
   height: 36px;
   min-width: 36px;
-  background: linear-gradient(135deg, rgba(15, 20, 35, 0.95), rgba(8, 12, 25, 0.98));
+  background: transparent;
   border: none;
-  color: #1ae784;
+  color: rgba(26, 231, 132, 0.6);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.4));
-}
-
-.modal-comment-area .comment-submit-btn svg {
-  width: 16px;
-  height: 16px;
 }
 
 .modal-comment-area .comment-submit-btn:hover:not(:disabled) {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 14px rgba(26, 231, 132, 0.7));
+  color: #1ae784;
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6));
 }
 
 .modal-comment-area .comment-submit-btn:hover:not(:disabled) svg {
@@ -409,8 +402,7 @@
   color: #ffffff;
   font-family: 'degular', sans-serif;
   font-size: var(--font-size-sm);
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-weight: 400;
   resize: none;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -468,59 +460,33 @@
 
 /* ============================================
    COMMENT SUBMIT BUTTON
-   Hexagonal shape with glow
+   Minimal shapeless chevron
    ============================================ */
 
 .comment-submit-btn {
-  background: linear-gradient(135deg, rgba(15, 20, 35, 0.95), rgba(8, 12, 25, 0.98));
+  background: transparent;
   border: none;
   padding: 0;
-  color: #1ae784;
+  color: rgba(26, 231, 132, 0.6);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
   flex-shrink: 0;
   position: relative;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.3));
+  align-self: center;
 }
 
-.comment-submit-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, 
-    rgba(26, 231, 132, 0.2) 0%, 
-    transparent 40%,
-    rgba(26, 115, 231, 0.15) 100%
-  );
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
+.comment-submit-btn::before,
 .comment-submit-btn::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 20%;
-  right: 20%;
-  height: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent);
-  border-radius: 50%;
-}
-
-.comment-submit-btn:hover:not(:disabled)::before {
-  opacity: 1;
+  display: none;
 }
 
 .comment-submit-btn svg {
-  width: 16px;
-  height: 16px;
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
@@ -528,28 +494,24 @@
 
 .comment-submit-btn:hover:not(:disabled) {
   color: #1ae784;
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 10px rgba(26, 231, 132, 0.6));
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6));
 }
 
 .comment-submit-btn:hover:not(:disabled) svg {
-  filter: drop-shadow(0 0 4px rgba(26, 231, 132, 0.8));
   transform: translateX(2px);
 }
 
 .comment-submit-btn:active:not(:disabled) {
-  transform: scale(0.95);
-  box-shadow: 
-    0 0 25px rgba(26, 231, 132, 0.7),
-    inset 0 0 10px rgba(26, 231, 132, 0.3);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(26, 231, 132, 0.8));
 }
 
 .comment-submit-btn:active:not(:disabled) svg {
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
 .comment-submit-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  box-shadow: none;
 }

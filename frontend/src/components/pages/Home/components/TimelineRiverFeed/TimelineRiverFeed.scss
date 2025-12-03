@@ -61,10 +61,10 @@
   border-radius: 20px;
   border: 1px solid rgba(0, 212, 255, 0.25);
   color: var(--text-primary);
-  font-family: 'sweet-square-pro', sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-xs);
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 400;
+  font-style: normal;
   white-space: nowrap;
   flex-shrink: 0;
   box-shadow: 0 0 12px rgba(0, 212, 255, 0.1);
@@ -98,8 +98,7 @@
   color: var(--text-muted);
   font-family: 'degular', sans-serif;
   font-size: var(--font-size-md);
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-weight: 400;
 }
 
 .timeline-river-empty svg {

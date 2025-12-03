@@ -11,11 +11,11 @@
 
 // Base typography settings
 :root {
-  font-family: "degular", "acme-gothic-extrawide", sans-serif;
-  font-weight: normal;
+  font-family: "degular", sans-serif;
+  font-weight: 400;
   font-style: normal;
   line-height: 1.5;
-  letter-spacing: 0.5px;
+  letter-spacing: normal;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);

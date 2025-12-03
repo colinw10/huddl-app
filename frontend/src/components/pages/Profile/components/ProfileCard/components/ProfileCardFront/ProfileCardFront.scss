@@ -2,7 +2,6 @@
    Public profile view styles
    Extracted from ProfileCard.scss
 */
-@import url("https://use.typekit.net/nxn1rxl.css");
 
 /* Front Card */
 .profile-card-front .profile-header {
@@ -445,6 +444,18 @@
   .profile-username {
     color: rgba(0, 0, 0, 0.5) !important;
     text-shadow: none !important;
+  }
+
+  .profile-display-name {
+    color: #000000 !important;
+  }
+
+  .profile-handle {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .profile-location {
+    color: rgba(0, 0, 0, 0.6) !important;
   }
 
   .profile-bio,

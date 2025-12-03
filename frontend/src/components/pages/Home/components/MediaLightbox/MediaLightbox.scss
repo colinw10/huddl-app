@@ -457,35 +457,36 @@
   text-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
 }
 
-/* Send button - positioned inside the input */
+/* Send button - minimal shapeless chevron */
 .lightbox-comment-submit-btn {
   position: absolute;
   right: 6px;
   bottom: 6px;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(26, 231, 132, 0.8), rgba(26, 115, 231, 0.8));
+  background: transparent;
   border: none;
-  border-radius: 6px;
-  color: white;
+  color: rgba(26, 231, 132, 0.6);
   cursor: pointer;
-  transition: all 0.2s ease;
-  opacity: 0.6;
+  transition: all 0.3s ease;
 }
 
 .lightbox-comment-submit-btn:hover:not(:disabled) {
-  opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(26, 231, 132, 0.4);
+  color: #1ae784;
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6));
+}
+
+.lightbox-comment-submit-btn:hover:not(:disabled) svg {
+  transform: translateX(2px);
 }
 
 .lightbox-comment-submit-btn:disabled {
-  opacity: 0.2;
+  opacity: 0.3;
   cursor: not-allowed;
-  background: rgba(255, 255, 255, 0.1);
 }
 
 .lightbox-comments-list {

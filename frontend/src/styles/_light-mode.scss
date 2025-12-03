@@ -112,11 +112,24 @@
   /* River post cards - solid background for clip-path corners */
   .river-post-card {
     background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
     color: #000000 !important;
     position: relative;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
     /* Keep cyberpunk clip-path */
     clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+
+  .river-post-card:hover {
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 4px 12px rgba(26, 115, 231, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(26, 115, 231, 0.2) !important;
+    transform: translateY(-2px);
   }
 
   /* Card interactions */
@@ -144,7 +157,6 @@
   .btn-secondary,
   .btn-ghost,
   .action-btn,
-  .river-action-btn,
   .media-action-btn {
     background: var(--light-bg-muted) !important;
     border: 1px solid var(--light-border) !important;
@@ -154,7 +166,6 @@
   .btn-secondary:hover,
   .btn-ghost:hover,
   .action-btn:hover,
-  .river-action-btn:hover,
   .media-action-btn:hover {
     background: rgba(0, 0, 0, 0.1) !important;
     border-color: var(--light-border-strong) !important;

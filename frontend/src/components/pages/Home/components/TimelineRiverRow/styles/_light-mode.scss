@@ -8,14 +8,19 @@
   .river-post-card {
     background: #ffffff !important;
     color: #000000 !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
   }
 
   .river-post-card::before {
     background: linear-gradient(
       135deg,
-      rgba(26, 115, 231, 0.25) 0%,
-      rgba(26, 231, 132, 0.15) 50%,
-      rgba(26, 115, 231, 0.25) 100%
+      rgba(26, 115, 231, 0.15) 0%,
+      rgba(26, 231, 132, 0.08) 50%,
+      rgba(26, 115, 231, 0.15) 100%
     ) !important;
   }
 
@@ -25,15 +30,20 @@
 
   .river-post-card:hover {
     background: #ffffff !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 4px 12px rgba(26, 115, 231, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(26, 115, 231, 0.2) !important;
+    transform: translateY(-2px);
   }
 
   .river-post-card:hover::before {
     background: linear-gradient(
       135deg,
-      rgba(26, 115, 231, 0.4) 0%,
-      rgba(26, 231, 132, 0.25) 50%,
-      rgba(26, 115, 231, 0.4) 100%
+      rgba(26, 115, 231, 0.25) 0%,
+      rgba(26, 231, 132, 0.15) 50%,
+      rgba(26, 115, 231, 0.25) 100%
     ) !important;
   }
 
@@ -81,21 +91,6 @@
 
   .river-post-content {
     color: #000000 !important;
-  }
-
-  /* Actions */
-  .river-actions {
-    border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
-  }
-
-  .river-action-btn {
-    color: rgba(0, 0, 0, 0.5) !important;
-    background: transparent !important;
-  }
-
-  .river-action-btn:hover {
-    color: #1a73e7 !important;
-    background: rgba(26, 115, 231, 0.08) !important;
   }
 
   /* Column headers */
