@@ -27,10 +27,9 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     // Check localStorage first
     const saved = localStorage.getItem('theme');
-    if (saved) return saved;
     
-    // Default to dark mode (ignore system preference)
-    return 'dark';
+    // If no saved preference, default to dark mode
+    return saved || 'dark';
   });
 
   // Apply theme to document

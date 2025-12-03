@@ -27,6 +27,29 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const [isComposerExpanded, setIsComposerExpanded] = useState(false);
   // Track if comment composer is in fullscreen expanded mode
   
+  // 🔵 Smart Deck state - which card index is showing for each type
+  const [deckIndex, setDeckIndex] = useState({
+    thoughts: 0,
+    media: 0,
+    milestones: 0
+  });
+  
+  // Cycle to next card in deck
+  const nextCard = (type, totalCards) => {
+    setDeckIndex(prev => ({
+      ...prev,
+      [type]: (prev[type] + 1) % totalCards
+    }));
+  };
+  
+  // Cycle to previous card in deck
+  const prevCard = (type, totalCards) => {
+    setDeckIndex(prev => ({
+      ...prev,
+      [type]: prev[type] === 0 ? totalCards - 1 : prev[type] - 1
+    }));
+  };
+  
   // 🔵 Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
@@ -68,7 +91,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     setTouchEndX(0);
   };
   
-  const renderPostCard = (post, type) => {
+  const renderPostCard = (post, type, isCompact = false) => {
     // 🔵 Config for each post type (label, color)
     const typeConfig = {
       thoughts: { label: 'Thought', color: 'rgba(79, 255, 255, 0.15)', borderColor: 'rgba(79, 255, 255, 0.4)', textColor: '#4fffff' },
@@ -77,7 +100,6 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     };
 
     const config = typeConfig[type]; // Get config for this type
-  
     
     // Determine if this is a single post in the row
     const isSinglePost = (type === 'thoughts' && thoughts.length === 1 && media.length === 0 && milestones.length === 0) ||
@@ -90,7 +112,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     return (
       <div 
         key={post.id} 
-        className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} fade-in hover-lift`}
+        className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} ${isCompact ? 'post--compact' : ''} fade-in hover-lift`}
         onClick={() => setActivePostId(post.id)}
         style={{ zIndex: isActive ? 100 : 'auto' }}
       >
@@ -222,7 +244,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             <div className="comment-input-wrapper">
               <textarea
                 className="comment-input"
-                placeholder="Share your thoughts..."
+                placeholder="Comment..."
                 value={commentText}
                 onChange={(e) => {
                   setCommentText(e.target.value);
@@ -487,34 +509,120 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     );
   }
 
-  // Desktop: Render as adaptive grid
+  // 🔵 Smart Deck renderer - shows one card at a time, cycle through
+  const renderSmartDeck = (posts, type) => {
+    if (posts.length === 0) return null;
+    
+    const currentIndex = deckIndex[type];
+    const currentPost = posts[currentIndex];
+    const totalCards = posts.length;
+    
+    const typeConfig = {
+      thoughts: { label: 'Thoughts', color: '#4fffff' },
+      media: { label: 'Media', color: '#c9a8ff' },
+      milestones: { label: 'Milestones', color: '#1ae784' }
+    };
+    const config = typeConfig[type];
+    
+    // SVG icons for each type
+    const typeIcons = {
+      thoughts: (
+        <svg className="smart-deck-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+      ),
+      media: (
+        <svg className="smart-deck-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+      ),
+      milestones: (
+        <svg className="smart-deck-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      )
+    };
+    
+    return (
+      <div className={`smart-deck smart-deck--${type}`}>
+        {/* Deck Header with count and navigation */}
+        <div className="smart-deck-header">
+          <span className="smart-deck-icon">{typeIcons[type]}</span>
+          <span className="smart-deck-count" style={{ color: config.color }}>
+            {totalCards}
+          </span>
+          <span className="smart-deck-label">{config.label}</span>
+          
+          {/* Card position indicator */}
+          {totalCards > 1 && (
+            <span className="smart-deck-position">
+              {currentIndex + 1}/{totalCards}
+            </span>
+          )}
+        </div>
+        
+        {/* Current card */}
+        <div className="smart-deck-card-container">
+          {renderPostCard(currentPost, type)}
+        </div>
+        
+        {/* Navigation for multiple cards */}
+        {totalCards > 1 && (
+          <div className="smart-deck-nav">
+            <button 
+              className="smart-deck-nav-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                prevCard(type, totalCards);
+              }}
+              aria-label="Previous card"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+            
+            {/* Dot indicators */}
+            <div className="smart-deck-dots">
+              {posts.map((_, idx) => (
+                <span 
+                  key={idx} 
+                  className={`smart-deck-dot ${idx === currentIndex ? 'smart-deck-dot--active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDeckIndex(prev => ({ ...prev, [type]: idx }));
+                  }}
+                />
+              ))}
+            </div>
+            
+            <button 
+              className="smart-deck-nav-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                nextCard(type, totalCards);
+              }}
+              aria-label="Next card"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Desktop: Render as adaptive grid with Smart Decks
   // 🟢 DESKTOP: 3 Columns Side-by-Side
   return (
     <div className={`timeline-river-row timeline-river-row--${columnCount}-col`}>
-      {hasThoughts && (
-        <div 
-          className={`river-column ${activeColumnType === 'thoughts' ? 'river-column--active' : ''}`}
-          onClick={() => setActiveColumnType('thoughts')}
-        >
-          {thoughts.map(post => renderPostCard(post, 'thoughts'))}
-        </div>
-      )}
-      {hasMedia && (
-        <div 
-          className={`river-column ${activeColumnType === 'media' ? 'river-column--active' : ''}`}
-          onClick={() => setActiveColumnType('media')}
-        >
-          {media.map(post => renderPostCard(post, 'media'))}
-        </div>
-      )}
-      {hasMilestones && (
-        <div 
-          className={`river-column ${activeColumnType === 'milestones' ? 'river-column--active' : ''}`}
-          onClick={() => setActiveColumnType('milestones')}
-        >
-          {milestones.map(post => renderPostCard(post, 'milestones'))}
-        </div>
-      )}
+      {hasThoughts && renderSmartDeck(thoughts, 'thoughts')}
+      {hasMedia && renderSmartDeck(media, 'media')}
+      {hasMilestones && renderSmartDeck(milestones, 'milestones')}
       
       {/* Desktop navigation controls - only show for stacked 3-col layout when a card is active */}
       {columnCount === 3 && activeColumnType && (

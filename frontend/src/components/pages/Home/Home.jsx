@@ -195,6 +195,81 @@ function Home() {
       isPublic: true,
       avatar: "JM",
       type: "thoughts"
+    },
+    // 🔵 STACKED TEST USER - 2 of each type to test river stacking
+    {
+      id: 11,
+      author: "Alex Rivera",
+      userId: "alex_rivera",
+      content: "Just wrapped up a 3-hour coding session. Brain = fried but made huge progress on the app 💻",
+      timestamp: "5h",
+      createdAt: "2024-01-15T11:00:00Z",
+      likes: 18,
+      isPublic: true,
+      avatar: "AR",
+      type: "thoughts"
+    },
+    {
+      id: 12,
+      author: "Alex Rivera",
+      userId: "alex_rivera",
+      content: "Coffee is not a want, it's a need. Third cup and counting ☕",
+      timestamp: "5h",
+      createdAt: "2024-01-15T10:45:00Z",
+      likes: 27,
+      isPublic: true,
+      avatar: "AR",
+      type: "thoughts"
+    },
+    {
+      id: 13,
+      author: "Alex Rivera",
+      userId: "alex_rivera",
+      content: "Caught this insane sunset from the rooftop last night 🌅",
+      timestamp: "5h",
+      createdAt: "2024-01-15T10:30:00Z",
+      likes: 64,
+      isPublic: true,
+      avatar: "AR",
+      type: "media",
+      media_url: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=800"
+    },
+    {
+      id: 14,
+      author: "Alex Rivera",
+      userId: "alex_rivera",
+      content: "New setup finally complete. Dual monitors hit different 🖥️🖥️",
+      timestamp: "5h",
+      createdAt: "2024-01-15T10:15:00Z",
+      likes: 41,
+      isPublic: true,
+      avatar: "AR",
+      type: "media",
+      media_url: "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800"
+    },
+    {
+      id: 15,
+      author: "Alex Rivera",
+      userId: "alex_rivera",
+      content: "🎉 100 days of coding streak! Consistency > intensity",
+      timestamp: "5h",
+      createdAt: "2024-01-15T10:00:00Z",
+      likes: 112,
+      isPublic: true,
+      avatar: "AR",
+      type: "milestones"
+    },
+    {
+      id: 16,
+      author: "Alex Rivera",
+      userId: "alex_rivera",
+      content: "🏆 Just got my AWS certification! Cloud architect mode activated ☁️",
+      timestamp: "5h",
+      createdAt: "2024-01-15T09:45:00Z",
+      likes: 89,
+      isPublic: true,
+      avatar: "AR",
+      type: "milestones"
     }
   ];
 
