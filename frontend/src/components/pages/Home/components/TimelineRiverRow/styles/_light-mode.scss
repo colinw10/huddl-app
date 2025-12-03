@@ -9,18 +9,17 @@
     background: #ffffff !important;
     color: #000000 !important;
     box-shadow: 
-      0 2px 8px rgba(0, 0, 0, 0.06),
-      0 1px 3px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    border: none !important;
   }
 
   .river-post-card::before {
     background: linear-gradient(
       135deg,
-      rgba(26, 115, 231, 0.15) 0%,
-      rgba(26, 231, 132, 0.08) 50%,
-      rgba(26, 115, 231, 0.15) 100%
+      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0.06) 50%,
+      rgba(0, 0, 0, 0.12) 100%
     ) !important;
   }
 
@@ -31,19 +30,18 @@
   .river-post-card:hover {
     background: #ffffff !important;
     box-shadow: 
-      0 8px 24px rgba(0, 0, 0, 0.1),
-      0 4px 12px rgba(26, 115, 231, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(26, 115, 231, 0.2) !important;
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 4px 12px rgba(26, 115, 231, 0.08) !important;
+    border: none !important;
     transform: translateY(-2px);
   }
 
   .river-post-card:hover::before {
     background: linear-gradient(
       135deg,
-      rgba(26, 115, 231, 0.25) 0%,
+      rgba(26, 115, 231, 0.3) 0%,
       rgba(26, 231, 132, 0.15) 50%,
-      rgba(26, 115, 231, 0.25) 100%
+      rgba(26, 115, 231, 0.3) 100%
     ) !important;
   }
 
@@ -173,5 +171,46 @@
   .media-expand-hint {
     background: var(--bg-glass) !important;
     color: var(--text-secondary) !important;
+  }
+
+  /* Smart deck header - darker borders for light mode */
+  .smart-deck--thoughts .smart-deck-header {
+    border-color: rgba(0, 153, 170, 0.4) !important;
+    box-shadow: 0 0 8px rgba(0, 153, 170, 0.1) !important;
+  }
+
+  .smart-deck--media .smart-deck-header {
+    border-color: rgba(139, 92, 246, 0.4) !important;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.1) !important;
+  }
+
+  .smart-deck--milestones .smart-deck-header {
+    border-color: rgba(5, 150, 105, 0.4) !important;
+    box-shadow: 0 0 8px rgba(5, 150, 105, 0.1) !important;
+  }
+
+  /* Smart deck labels - darker colors for light mode */
+  .smart-deck-label,
+  .smart-deck-count,
+  .smart-deck-position {
+    font-weight: 500;
+  }
+
+  .smart-deck--thoughts .smart-deck-label,
+  .smart-deck--thoughts .smart-deck-count,
+  .smart-deck--thoughts .smart-deck-position {
+    color: #0099aa !important; /* darker cyan */
+  }
+
+  .smart-deck--media .smart-deck-label,
+  .smart-deck--media .smart-deck-count,
+  .smart-deck--media .smart-deck-position {
+    color: #8b5cf6 !important; /* darker purple */
+  }
+
+  .smart-deck--milestones .smart-deck-label,
+  .smart-deck--milestones .smart-deck-count,
+  .smart-deck--milestones .smart-deck-position {
+    color: #059669 !important; /* darker green */
   }
 }

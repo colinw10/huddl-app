@@ -540,6 +540,19 @@
     fill: rgba(0, 0, 0, 0.7) !important;
   }
 
+  /* Peak markers - darker green stroke, solid fill */
+  .peak-marker-bg {
+    fill: rgba(26, 231, 132, 0.3) !important;
+    stroke: rgba(20, 160, 90, 0.8) !important;
+    stroke-width: 1 !important;
+  }
+
+  .peak-marker {
+    filter: none !important;
+    stroke: rgba(20, 160, 90, 0.8) !important;
+    stroke-width: 1 !important;
+  }
+
   /* Heatmap */
   .heatmap-container {
     background: rgba(0, 0, 0, 0.02) !important;

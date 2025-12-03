@@ -112,24 +112,46 @@
   /* River post cards - solid background for clip-path corners */
   .river-post-card {
     background: #ffffff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border: none !important;
     color: #000000 !important;
     position: relative;
     box-shadow: 
-      0 2px 8px rgba(0, 0, 0, 0.06),
-      0 1px 3px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-    /* Keep cyberpunk clip-path */
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+      0 2px 8px rgba(0, 0, 0, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    /* Keep cyberpunk clip-path - match base style sizes */
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+  }
+
+  .river-post-card::before {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.05) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    ) !important;
+    clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px) !important;
+  }
+
+  .river-post-card::after {
+    background: #ffffff !important;
+    clip-path: polygon(13px 0, 100% 0, 100% calc(100% - 13px), calc(100% - 13px) 100%, 0 100%, 0 13px) !important;
   }
 
   .river-post-card:hover {
     box-shadow: 
-      0 8px 24px rgba(0, 0, 0, 0.1),
-      0 4px 12px rgba(26, 115, 231, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(26, 115, 231, 0.2) !important;
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 4px 12px rgba(26, 115, 231, 0.08) !important;
+    border: none !important;
     transform: translateY(-2px);
+  }
+
+  .river-post-card:hover::before {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 115, 231, 0.25) 0%,
+      rgba(26, 231, 132, 0.12) 50%,
+      rgba(26, 115, 231, 0.25) 100%
+    ) !important;
   }
 
   /* Card interactions */

@@ -462,19 +462,60 @@
 
   /* River labels */
   .river-labels {
-    background: linear-gradient(180deg, #f5f5f7 0%, #f5f5f7 90%, transparent 100%) !important;
+    background: transparent !important;
+    border-top: none !important;
+    padding-top: 24px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .river-labels::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.4) 80%, transparent 100%);
+    pointer-events: none;
   }
 
   .river-label {
     background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: #000000 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
   }
 
-  .river-label span {
-    color: #000000 !important;
-    text-shadow: none !important;
+  /* Thoughts - darker blue for light mode */
+  .left-label {
+    color: #1a5bc7 !important;
+    border: 1px solid rgba(26, 91, 199, 0.4) !important;
+  }
+
+  .left-label svg {
+    color: #1a5bc7 !important;
+    filter: none !important;
+  }
+
+  /* Media - darker magenta for light mode */
+  .center-label {
+    color: #b0078a !important;
+    border: 1px solid rgba(176, 7, 138, 0.4) !important;
+  }
+
+  .center-label svg {
+    color: #b0078a !important;
+    filter: none !important;
+  }
+
+  /* Milestones - darker gold for light mode */
+  .right-label {
+    color: #b8860b !important;
+    border: 1px solid rgba(184, 134, 11, 0.4) !important;
+  }
+
+  .right-label svg {
+    color: #b8860b !important;
+    filter: none !important;
   }
 
   /* River cards */
