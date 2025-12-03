@@ -130,8 +130,8 @@
   .carousel-btn:disabled {
     opacity: 0.25;
     cursor: not-allowed;
-    border-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.3);
+    border-color: var(--border-default);
+    color: var(--text-muted);
   }
   
   .carousel-indicators {
@@ -1170,7 +1170,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
   position: relative;
   animation: slideDown 0.3s ease;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1296,7 +1296,7 @@
 }
 
 .comment-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1317,7 +1317,7 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 }
 
 .comment-emoji-btn svg {
@@ -1807,10 +1807,10 @@
 
   /* Date badge */
   .river-date-badge {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: #000000 !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    background: var(--bg-glass) !important;
+    border: 1px solid var(--border-default) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-card) !important;
   }
 
   .river-date-badge svg {
@@ -1819,9 +1819,9 @@
 
   /* Carousel controls - preserve hexagonal clip-path */
   .carousel-btn {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-default) !important;
+    color: var(--text-secondary) !important;
     /* Hexagonal shape - must preserve! */
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   }
@@ -1848,10 +1848,10 @@
 
   /* Desktop stack navigation - preserve hexagonal shape */
   .desktop-stack-btn {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-default) !important;
+    color: var(--text-secondary) !important;
+    box-shadow: var(--shadow-card) !important;
     /* Hexagonal shape - must preserve! */
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   }
@@ -1863,7 +1863,7 @@
   }
 
   .desktop-stack-close {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: var(--bg-card) !important;
     border: 1px solid rgba(220, 8, 188, 0.3) !important;
     color: rgba(220, 8, 188, 0.8) !important;
   }
@@ -1874,7 +1874,7 @@
 
   /* Media expand hint */
   .media-expand-hint {
-    background: rgba(255, 255, 255, 0.9) !important;
-    color: rgba(0, 0, 0, 0.7) !important;
+    background: var(--bg-glass) !important;
+    color: var(--text-secondary) !important;
   }
 }
