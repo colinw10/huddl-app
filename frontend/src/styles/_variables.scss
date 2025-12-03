@@ -9,6 +9,41 @@
 
 :root {
   // ============================================
+  // THEME-AWARE SEMANTIC TOKENS
+  // These change based on [data-theme]
+  // Use these in components for automatic theming
+  // ============================================
+  
+  // Backgrounds
+  --bg-base: #0a0a0f;
+  --bg-card: rgba(15, 15, 25, 0.9);
+  --bg-card-solid: #0f0f19;
+  --bg-card-hover: rgba(20, 20, 35, 0.95);
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --bg-glass-hover: rgba(255, 255, 255, 0.08);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+  
+  // Text
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --text-placeholder: rgba(255, 255, 255, 0.35);
+  --text-inverse: #000000;
+  
+  // Borders
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-focus: rgba(0, 212, 255, 0.5);
+  
+  // Shadows
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-input: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(0, 212, 255, 0.2);
+
+  // ============================================
   // UNIFIED VISUAL IDENTITY TOKENS
   // Core design system for consistent UI
   // ============================================
@@ -359,3 +394,39 @@ $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 $breakpoint-wide: 1280px;
+
+// ================================================
+// LIGHT MODE THEME OVERRIDES
+// These semantic tokens change for light theme
+// ================================================
+
+[data-theme="light"] {
+  // Backgrounds
+  --bg-base: #f5f5f7;
+  --bg-card: #ffffff;
+  --bg-card-solid: #ffffff;
+  --bg-card-hover: #fafafa;
+  --bg-glass: rgba(255, 255, 255, 0.8);
+  --bg-glass-hover: rgba(255, 255, 255, 0.9);
+  --bg-input: rgba(255, 255, 255, 0.95);
+  --bg-overlay: rgba(0, 0, 0, 0.4);
+  
+  // Text
+  --text-primary: #000000;
+  --text-secondary: rgba(0, 0, 0, 0.65);
+  --text-muted: rgba(0, 0, 0, 0.45);
+  --text-placeholder: rgba(0, 0, 0, 0.4);
+  --text-inverse: #ffffff;
+  
+  // Borders
+  --border-default: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.15);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-focus: rgba(26, 115, 231, 0.5);
+  
+  // Shadows
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-input: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 3px rgba(26, 115, 231, 0.1);
+}
