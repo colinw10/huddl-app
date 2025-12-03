@@ -2,8 +2,8 @@
 // TimelineRiverFeed.jsx - Main timeline feed with 3-column river layout
 
 import { useMemo } from 'react';
-import { groupPostsByUserAndDay, sortGroupedPosts } from '../utils/groupPosts';
-import TimelineRiverRow from './TimelineRiverRow';
+import { groupPostsByUserAndDay, sortGroupedPosts } from '../../utils/groupPosts';
+import TimelineRiverRow from '../TimelineRiverRow';
 import './TimelineRiverFeed.scss';
 
 function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText }) {

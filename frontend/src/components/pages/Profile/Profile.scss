@@ -184,7 +184,7 @@
 
 .quick-composer-section {
   flex: 1;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface);
   backdrop-filter: blur(15px);
   clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
   padding: 0.8rem 1rem;
@@ -193,8 +193,8 @@
   gap: 0.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 var(--border-default);
+  border: 1px solid var(--border-default);
 }
 
 .quick-composer-section.thought-composer {
@@ -209,8 +209,8 @@
 
 .quick-composer-section:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 24px rgba(26, 115, 231, 0.2), 0 0 12px rgba(26, 115, 231, 0.15), inset 0 1px 3px rgba(255, 255, 255, 0.08);
+  background: var(--surface-hover);
+  box-shadow: 0 8px 24px rgba(26, 115, 231, 0.2), 0 0 12px rgba(26, 115, 231, 0.15), inset 0 1px 3px var(--border-subtle);
   border-color: rgba(26, 115, 231, 0.3);
 }
 
@@ -222,7 +222,7 @@
 .quick-composer-section.media-composer:hover {
   background: rgba(220, 8, 188, 0.08);
   border-color: rgba(220, 8, 188, 0.4);
-  box-shadow: 0 8px 24px rgba(220, 8, 188, 0.2), 0 0 12px rgba(220, 8, 188, 0.15), inset 0 1px 3px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(220, 8, 188, 0.2), 0 0 12px rgba(220, 8, 188, 0.15), inset 0 1px 3px var(--border-subtle);
 }
 
 .quick-composer-avatar {
@@ -235,11 +235,11 @@
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(26, 115, 231, 0.3);
-  box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15), inset 0 1px 2px var(--border-default);
 }
 
 .quick-composer-avatar svg {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
 }
 
 .quick-composer-input {
@@ -272,7 +272,7 @@
   /* 3D depth shadows */
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.8),
-    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 1px 3px var(--border-strong),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
@@ -280,7 +280,7 @@
 }
 
 .quick-composer-placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-placeholder);
   font-size: var(--font-size-body);
   
   /* Glowing text effect */

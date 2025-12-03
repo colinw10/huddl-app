@@ -40,8 +40,8 @@
   width: 90vw;
   height: 85vh;
   max-width: 1200px;
-  background: rgba(15, 20, 30, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-default);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -161,7 +161,7 @@
 
 .conversations-header {
   padding: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-bg-subtle);
 }
 
 .conversations-search {
@@ -201,12 +201,12 @@
   /* 3D depth shadows */
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.8),
-    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 1px 3px var(--border-strong),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .conversations-search::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-placeholder);
   text-shadow:
     0 0 5px rgba(138, 43, 226, 0.5),
     0 0 10px rgba(0, 212, 255, 0.3);
@@ -229,7 +229,7 @@
   box-shadow:
     0 0 15px rgba(0, 212, 255, 0.3),
     0 0 30px rgba(138, 43, 226, 0.2),
-    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 1px 3px var(--border-strong),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -303,7 +303,7 @@
 }
 
 .conversation-item:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface);
 }
 
 .conversation-item:hover::after {
@@ -347,7 +347,7 @@
   flex-shrink: 0;
   box-shadow:
     0 0 10px rgba(0, 212, 255, 0.15),
-    inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    inset 0 1px 2px var(--glass-bg-subtle);
 }
 
 /* First initial - cyan */
@@ -387,9 +387,9 @@
 
 .conversation-name {
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
   font-size: var(--font-size-body);
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 20px var(--glass-bg-subtle);
   transition: all 0.2s ease;
 }
 
@@ -415,7 +415,7 @@
 
 .conversation-preview {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -516,7 +516,7 @@
   font-weight: 700;
   box-shadow:
     0 0 10px rgba(0, 212, 255, 0.15),
-    inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    inset 0 1px 2px var(--glass-bg-subtle);
 }
 
 /* First initial - cyan */
@@ -575,7 +575,7 @@
   /* 3D depth shadows */
   box-shadow:
     0 2px 6px rgba(0, 0, 0, 0.5),
-    inset 0 1px 2px rgba(255, 255, 255, 0.1),
+    inset 0 1px 2px var(--border-default),
     inset 0 -1px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -733,14 +733,14 @@
   /* 3D depth shadows */
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.8),
-    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 1px 3px var(--border-strong),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   
   backdrop-filter: blur(10px);
 }
 
 .chat-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-placeholder);
   text-shadow:
     0 0 5px rgba(138, 43, 226, 0.5),
     0 0 10px rgba(0, 212, 255, 0.3);
@@ -763,7 +763,7 @@
   box-shadow:
     0 0 15px rgba(26, 115, 231, 0.3),
     0 0 30px rgba(220, 8, 188, 0.2),
-    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 1px 3px var(--border-strong),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
 }
 

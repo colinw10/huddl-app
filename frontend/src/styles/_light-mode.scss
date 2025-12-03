@@ -190,11 +190,7 @@
      ============================================ */
   
   .input,
-  .form-input,
   .search-input,
-  .login-input,
-  .signup-input,
-  .auth-input,
   .lightbox-comment-input {
     background: var(--light-bg-input) !important;
     border: 1px solid var(--light-border-strong) !important;
@@ -204,11 +200,7 @@
   }
 
   .input:focus,
-  .form-input:focus,
   .search-input:focus,
-  .login-input:focus,
-  .signup-input:focus,
-  .auth-input:focus,
   .lightbox-comment-input:focus {
     border-color: var(--light-border-focus) !important;
     box-shadow: var(--light-shadow-focus) !important;
@@ -216,11 +208,56 @@
   }
 
   .input::placeholder,
-  .form-input::placeholder,
   .search-input::placeholder,
   .lightbox-comment-input::placeholder {
     color: var(--light-text-placeholder) !important;
     text-shadow: none !important;
+  }
+
+  /* ============================================
+     LOGIN/SIGNUP FORM INPUTS - BLACK HOLOGRAPHIC
+     ============================================
+     
+     These stay dark in light mode as signature design.
+   */
+  .login-card .form-input {
+    /* Dark cosmic base */
+    background: linear-gradient(
+      145deg,
+      rgba(15, 12, 25, 0.95) 0%,
+      rgba(25, 20, 40, 0.95) 50%,
+      rgba(15, 15, 30, 0.95) 100%
+    ) !important;
+    
+    /* Cyan-purple holographic border */
+    border: 1.5px solid rgba(0, 212, 255, 0.4) !important;
+    
+    /* White text */
+    color: #ffffff !important;
+    
+    /* 3D depth with strong top light rim */
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.7),
+      inset 0 2px 6px rgba(255, 255, 255, 0.35),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.5) !important;
+    
+    border-radius: 12px !important;
+  }
+
+  .login-card .form-input::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+    text-shadow:
+      0 0 5px rgba(138, 43, 226, 0.5),
+      0 0 10px rgba(0, 212, 255, 0.3) !important;
+  }
+
+  .login-card .form-input:focus {
+    border-color: rgba(0, 212, 255, 0.6) !important;
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(0, 212, 255, 0.3),
+      inset 0 1px 3px rgba(255, 255, 255, 0.2),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.5) !important;
   }
 
   /* ============================================

@@ -60,7 +60,7 @@
   padding: 8px 16px;
   border-radius: 20px;
   border: 1px solid rgba(0, 212, 255, 0.25);
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   font-family: 'sweet-square-pro', sans-serif;
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -95,7 +95,7 @@
   justify-content: center;
   gap: var(--space-lg);
   padding: 80px 20px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   font-family: 'degular', sans-serif;
   font-size: var(--font-size-md);
 }

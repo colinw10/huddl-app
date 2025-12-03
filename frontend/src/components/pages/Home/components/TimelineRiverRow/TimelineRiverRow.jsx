@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './TimelineRiverRow.scss';
-import MediaLightbox from './MediaLightbox/MediaLightbox';
+import MediaLightbox from '../MediaLightbox/MediaLightbox';
 
 function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commentText, setCommentText, setActiveCommentPostId }) {
   // 🔵 Extract data from props

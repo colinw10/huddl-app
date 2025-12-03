@@ -74,7 +74,7 @@
   padding: 0.5rem 1rem;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 12px;
@@ -83,7 +83,7 @@
 }
 
 .nav-item:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   background: rgba(26, 115, 231, 0.1);
   transform: translateY(-2px);
 }

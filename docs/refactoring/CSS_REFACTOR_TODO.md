@@ -122,5 +122,98 @@ Once components use semantic variables, remove their overrides from `_light-mode
 
 ---
 
+## 🔄 Phase 2: File Structure Refactoring
+
+### ✅ Completed - rgba(255,255,255) Conversion (Dec 3, 2025)
+
+Converted ~118 hardcoded `rgba(255,255,255,...)` values to semantic variables:
+
+| File                       | Before | After | Converted |
+| -------------------------- | ------ | ----- | --------- |
+| MediaLightbox.scss         | 28     | 9     | 19        |
+| ActivityVisualization.scss | 27     | 1     | 26        |
+| ComposerModal.scss         | 26     | 5     | 21        |
+| Home.scss                  | 25     | 16    | 9         |
+| MessageModal.scss          | 25     | 10    | 15        |
+| Profile.scss               | 22     | 12    | 10        |
+| ProfileCard.scss           | 9      | 2     | 7         |
+| Landing.scss               | 8      | 6     | 2         |
+| Login.scss                 | 14     | 9     | 5         |
+| TimelineRiverFeed.scss     | 3      | 1     | 2         |
+| BottomNav.scss             | 5      | 3     | 2         |
+
+**Also added:** Black holographic inputs for Login/Signup forms in light mode (`_light-mode.scss`)
+
+### ✅ Completed - Component Folder Organization (Dec 3, 2025)
+
+Moved loose files into proper component folders:
+
+| Component            | Status                                                              |
+| -------------------- | ------------------------------------------------------------------- |
+| `TimelineRiverFeed/` | ✅ Created folder with `TimelineRiverFeed.jsx`, `.scss`, `index.js` |
+| `TimelineRiverRow/`  | ✅ Created folder with `TimelineRiverRow.jsx`, `.scss`, `index.js`  |
+
+Import paths updated in:
+
+- `TimelineRiverFeed.jsx` → `../../utils/groupPosts`, `../TimelineRiverRow`
+- `TimelineRiverRow.jsx` → `../MediaLightbox/MediaLightbox`
+
+### ✅ Completed - Reusable Mixins (Dec 3, 2025)
+
+Added new mixins to `_mixins.scss`:
+
+**Auth Form Mixins:**
+
+- `@include auth-animations` - Keyframes for auth pages
+- `@include auth-back-button` - Back button styling
+- `@include auth-container` - Full page wrapper
+- `@include auth-card` - Holographic card container
+- `@include auth-input` - Holographic form input
+- `@include auth-submit-button` - Blob-shaped submit button
+
+**Signature Pattern Mixins:**
+
+- `@include holographic-card-bg($animate)` - Cosmic black background
+- `@include cyberpunk-input` - Dark input with cyan accents
+- `@include glass-card-chamfered($corner-size)` - Cut-corner glass card
+- `@include spectral-border` - Animated gradient border
+- `@include hover-glow-spectral` - Rainbow glow on hover
+- `@include depth-shadow-3d` - Top light rim 3D effect
+
+---
+
+## 📁 Current Architecture
+
+```
+components/
+├── layout/
+│   ├── TopBar/
+│   │   ├── TopBar.jsx, .scss
+│   │   └── MessageModal/
+│   ├── SideNav/
+│   └── BottomNav/
+├── pages/
+│   ├── Home/
+│   │   ├── Home.jsx, .scss
+│   │   └── components/
+│   │       ├── TimelineRiverFeed/  ✅
+│   │       ├── TimelineRiverRow/   ✅
+│   │       ├── MediaLightbox/
+│   │       └── utils/
+│   ├── Profile/
+│   │   └── components/
+│   │       ├── ProfileCard/
+│   │       │   └── components/ (ActivityVisualization, etc.)
+│   │       ├── ComposerModal/
+│   │       └── TimelineRiver/
+│   ├── Login/
+│   ├── Signup/
+│   └── Landing/
+└── ui/
+    └── ThemeToggle/
+```
+
+---
+
 _Last updated: December 3, 2025_
 _Branch: master-ui_

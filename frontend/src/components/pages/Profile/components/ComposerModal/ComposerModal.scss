@@ -131,8 +131,8 @@
 
 .composer-close-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
   font-size: var(--font-size-xl);
   cursor: pointer;
   width: 36px;
@@ -147,7 +147,7 @@
 }
 
 .composer-close-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-glass);
   border-color: rgba(220, 8, 188, 0.5);
   color: rgba(220, 8, 188, 0.9);
 }
@@ -187,12 +187,12 @@
 .composer-user-name {
   font-size: var(--font-size-body);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
 }
 
 .composer-privacy {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
@@ -223,7 +223,7 @@
   padding: 1rem 1.25rem;
   
   /* Glowing text */
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
   text-shadow:
     0 0 5px rgba(138, 43, 226, 0.5),
     0 0 10px rgba(0, 212, 255, 0.3);
@@ -240,7 +240,7 @@
   box-shadow:
     0 4px 15px rgba(0, 0, 0, 0.8),
     0 0 20px rgba(138, 43, 226, 0.2),
-    inset 0 1px 3px rgba(255, 255, 255, 0.1),
+    inset 0 1px 3px var(--border-default),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -253,7 +253,7 @@
     0 4px 20px rgba(0, 0, 0, 0.9),
     0 0 30px rgba(0, 212, 255, 0.4),
     0 0 15px rgba(138, 43, 226, 0.3),
-    inset 0 1px 5px rgba(255, 255, 255, 0.3),
+    inset 0 1px 5px var(--border-bright),
     inset 0 -1px 5px rgba(0, 0, 0, 0.6);
   
   text-shadow:
@@ -262,7 +262,7 @@
 }
 
 .composer-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-placeholder);
   text-shadow: none;
 }
 
@@ -291,20 +291,20 @@
 }
 
 .media-upload-placeholder svg {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-placeholder);
   margin-bottom: 12px;
 }
 
 .media-upload-placeholder p {
   font-size: var(--font-size-md);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .media-upload-placeholder span {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 }
 
 .composer-type-toggle {
@@ -314,14 +314,14 @@
   padding: var(--space-sm);
   border-radius: 12px;
   margin-top: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-default);
 }
 
 .type-toggle-btn {
   flex: 1;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   padding: 10px 16px;
   border-radius: 8px;
   font-size: var(--font-size-sm);
@@ -335,13 +335,13 @@
 }
 
 .type-toggle-btn:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  background: var(--glass-bg-subtle);
 }
 
 .type-toggle-btn.active {
   background: rgba(26, 115, 231, 0.2);
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
   border: 1px solid rgba(26, 115, 231, 0.4);
 }
 
@@ -351,7 +351,7 @@
   align-items: center;
   padding-top: 1rem;
   margin-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-default);
 }
 
 .composer-actions-left {
@@ -361,10 +361,10 @@
 
 .composer-icon-btn {
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
   padding: var(--space-md);
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -373,7 +373,7 @@
 }
 
 .composer-icon-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-glass);
   border-color: rgba(26, 115, 231, 0.5);
   color: rgba(26, 115, 231, 0.9);
   transform: scale(1.1);
