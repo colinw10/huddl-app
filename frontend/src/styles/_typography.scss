@@ -12,9 +12,10 @@
 // Base typography settings
 :root {
   font-family: "degular", "acme-gothic-extrawide", sans-serif;
-  font-weight: 400;
+  font-weight: normal;
   font-style: normal;
   line-height: 1.5;
+  letter-spacing: 0.5px;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);

@@ -152,10 +152,10 @@
 }
 
 .login-title {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: 38px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   margin: 0 0 12px 0;
   color: #ffffff;
   animation: slideInFromLeft 1.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -176,9 +176,10 @@
 }
 
 .login-subtitle {
-  font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: var(--font-size-xs);
-  letter-spacing: 2px;
+  font-family: "degular", sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: var(--text-muted);
   margin: 0;
 }
@@ -196,18 +197,20 @@
 }
 
 .form-label {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.75px;
   color: var(--text-secondary);
   text-transform: uppercase;
 }
 
 .form-input {
   width: 100%;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   padding: 18px 22px;
   background:
     linear-gradient(145deg, #0a0a0a, #000000),
@@ -301,8 +304,10 @@
 }
 
 .error-message {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: #ff5252;
   margin-top: 4px;
   animation: errorSlide 0.3s ease;
@@ -319,6 +324,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: "degular", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: var(--text-secondary);
   font-size: var(--font-size-sm);
   cursor: pointer;
@@ -335,6 +343,9 @@
 .forgot-password {
   background: none;
   border: none;
+  font-family: "degular", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: rgba(26, 115, 231, 0.9);
   font-size: var(--font-size-sm);
   cursor: pointer;
@@ -351,10 +362,10 @@
 .btn-submit {
   width: 100%;
   padding: var(--space-xl);
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-md);
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-weight: 700;
+  letter-spacing: 1.25px;
   text-transform: uppercase;
   color: white !important;
   background: rgba(0, 0, 0, 0.963) !important;
@@ -406,8 +417,10 @@
   border: 1px solid rgba(255, 82, 82, 0.4);
   border-radius: 8px;
   color: #ff5252;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   text-align: center;
   animation: errorSlide 0.3s ease;
 }
@@ -420,8 +433,10 @@
 }
 
 .login-footer p {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: var(--text-secondary);
   margin: 0;
 }
@@ -430,7 +445,9 @@
   background: none;
   border: none;
   color: #1a73e7;
-  font-weight: 600;
+  font-family: "degular", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;

@@ -110,7 +110,7 @@ function Signup() {
           <h1 className="signup-title">
             <span className="title-word-left" data-word="Join">Join</span>
             <span className="title-separator">•</span>
-            <span className="title-word-right" data-word="Huddl">Huddl</span>
+            <span className="title-word-right" data-word="HUDDL">HUDDL</span>
           </h1>
           <p className="signup-subtitle">Create your account to get started</p>
         </div>

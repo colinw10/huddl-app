@@ -175,10 +175,10 @@
 }
 
 .signup-title {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: 38px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   margin: 0 0 12px 0;
   display: flex;
   align-items: center;
@@ -197,6 +197,9 @@
 .title-word-right {
   position: relative;
   color: #ffffff;
+  font-family: "acme-gothic-extrawide", sans-serif;
+  font-weight: 400;
+  letter-spacing: 2px;
   animation: slideInFromRight 1.5s cubic-bezier(0.22, 1, 0.36, 1);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -226,9 +229,10 @@
 }
 
 .signup-subtitle {
-  font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: var(--font-size-xs);
-  letter-spacing: 2px;
+  font-family: "degular", sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
@@ -249,10 +253,10 @@
 }
 
 .form-label {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.75px;
   color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
 }
@@ -262,8 +266,10 @@
    ============================================ */
 .form-input {
   width: 100%;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   padding: 18px 22px;
   background:
     linear-gradient(145deg, #0a0a0a, #000000),
@@ -379,8 +385,10 @@
    ERROR MESSAGES
    ============================================ */
 .error-message {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: #ff5252;
   margin-top: 4px;
   animation: errorSlide 0.3s ease;
@@ -392,8 +400,10 @@
   border: 1px solid rgba(255, 82, 82, 0.4);
   border-radius: 8px;
   color: #ff5252;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   text-align: center;
   animation: errorSlide 0.3s ease;
 }
@@ -404,10 +414,10 @@
 .btn-submit {
   width: 100%;
   padding: var(--space-xl);
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-md);
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-weight: 700;
+  letter-spacing: 1.25px;
   text-transform: uppercase;
   color: #333;
   background: rgba(255, 255, 255, 0.52);
@@ -490,8 +500,10 @@
 }
 
 .footer-text {
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: "degular", sans-serif;
   font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.5px;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
 }
@@ -499,8 +511,10 @@
 .footer-link {
   background: none;
   border: none;
+  font-family: "degular", sans-serif;
   color: #1a73e7;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
