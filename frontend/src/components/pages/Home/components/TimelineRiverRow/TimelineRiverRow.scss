@@ -401,12 +401,30 @@
 .smart-deck-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-sm);
   padding: 6px 10px;
   margin-bottom: 8px;
   background: var(--bg-glass);
   border-radius: 8px;
   border: 1px solid var(--border-subtle);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Type-specific header border colors */
+.smart-deck--thoughts .smart-deck-header {
+  border-color: rgba(79, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(79, 255, 255, 0.15);
+}
+
+.smart-deck--media .smart-deck-header {
+  border-color: rgba(167, 131, 255, 0.4);
+  box-shadow: 0 0 8px rgba(167, 131, 255, 0.15);
+}
+
+.smart-deck--milestones .smart-deck-header {
+  border-color: rgba(26, 231, 132, 0.4);
+  box-shadow: 0 0 8px rgba(26, 231, 132, 0.15);
 }
 
 .smart-deck-icon {
