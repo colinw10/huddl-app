@@ -1814,11 +1814,13 @@
     color: #1a73e7 !important;
   }
 
-  /* Carousel controls */
+  /* Carousel controls - preserve hexagonal clip-path */
   .carousel-btn {
     background: rgba(255, 255, 255, 0.95) !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     color: rgba(0, 0, 0, 0.6) !important;
+    /* Hexagonal shape - must preserve! */
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
   }
 
   .carousel-btn:hover:not(:disabled) {
