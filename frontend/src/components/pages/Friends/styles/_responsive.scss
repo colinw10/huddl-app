@@ -1,0 +1,52 @@
+// Friends/_responsive.scss - Responsive breakpoints
+// 🔵 PABLO - UI/Styling
+
+// ============================================
+// RESPONSIVE
+// ============================================
+
+@media (max-width: 768px) {
+  .friends-header {
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: flex-start;
+    margin-top: 30px;
+  }
+
+  .friends-tabs {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .friends-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .friend-card {
+    padding: var(--space-md) var(--space-lg);
+  }
+  
+  .request-actions {
+    flex-direction: column;
+    gap: var(--space-xs);
+    
+    .btn-accept,
+    .btn-decline {
+      padding: var(--space-sm) var(--space-md);
+      min-width: 80px;
+      justify-content: center;
+    }
+  }
+  
+  .btn-add-friend {
+    padding: var(--space-sm);
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+  
+  .friend-action-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

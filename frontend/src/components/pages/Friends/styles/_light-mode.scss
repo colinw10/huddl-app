@@ -1,0 +1,124 @@
+// Friends/_light-mode.scss - Light theme overrides
+// 🔵 PABLO - UI/Styling
+
+// ============================================
+// LIGHT MODE
+// ============================================
+
+[data-theme="light"] {
+  .friends-page {
+    background: var(--bg-base);
+  }
+
+  .friends-title {
+    color: #1a73e7;
+    text-shadow: none;
+  }
+
+  .stat-value {
+    color: #1a73e7;
+    text-shadow: none;
+  }
+
+  .stat-label {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .stat-divider {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .friend-card::after {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.98));
+  }
+
+  .friend-avatar {
+    background: linear-gradient(145deg, rgba(240, 245, 255, 0.95), rgba(230, 235, 245, 0.98));
+    border-color: rgba(26, 115, 231, 0.3);
+  }
+
+  .friend-name {
+    color: #000000;
+  }
+
+  .friend-username {
+    color: #1a73e7;
+    text-shadow: none;
+  }
+
+  .friend-mutual {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .friend-action-btn {
+    color: #1a73e7;
+    
+    &:hover {
+      filter: drop-shadow(0 0 8px rgba(26, 115, 231, 0.6));
+    }
+  }
+
+  .status-dot {
+    border-color: white;
+  }
+
+  .btn-decline {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.6);
+
+    &:hover {
+      background: rgba(220, 8, 188, 0.1);
+    }
+  }
+
+  .btn-add-friend {
+    border-color: rgba(26, 115, 231, 0.4);
+    color: #1a73e7;
+  }
+
+  .tab-btn {
+    /* Dark cosmic base - matches composer style */
+    background: linear-gradient(
+      145deg,
+      rgba(15, 12, 25, 0.95) 0%,
+      rgba(25, 20, 40, 0.95) 50%,
+      rgba(15, 15, 30, 0.95) 100%
+    );
+    
+    /* Cyan holographic border */
+    border: 1.5px solid rgba(0, 212, 255, 0.4);
+    
+    /* White text */
+    color: #ffffff;
+    
+    /* 3D depth with strong top light rim */
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.7),
+      inset 0 2px 6px rgba(255, 255, 255, 0.35),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      transform: translateY(-1px);
+      border-color: rgba(0, 212, 255, 0.6);
+      box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(0, 212, 255, 0.3),
+        inset 0 1px 3px rgba(255, 255, 255, 0.2),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    &.active {
+      border-color: rgba(0, 212, 255, 0.7);
+      text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+      box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.8),
+        0 0 25px rgba(0, 212, 255, 0.4),
+        inset 0 1px 3px rgba(255, 255, 255, 0.25),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  .scan-line {
+    background: linear-gradient(90deg, transparent, #1a73e7, transparent);
+  }
+}
