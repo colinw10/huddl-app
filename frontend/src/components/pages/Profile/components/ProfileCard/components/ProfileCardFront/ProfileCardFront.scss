@@ -103,7 +103,7 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 40px;
-  align-items: start;
+  align-items: end;
 }
 
 .profile-header-content {
@@ -219,7 +219,7 @@
 
 /* Bio Section */
 .profile-bio {
-  margin-bottom: 10px;
+  margin-bottom: 0;
   color: rgba(255, 255, 255, 0.9);
   font-size: var(--font-size-body);
   line-height: 1.6;
@@ -464,11 +464,6 @@
     color: rgba(0, 0, 0, 0.5) !important;
   }
 
-  .profile-stats {
-    background: rgba(0, 0, 0, 0.03) !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  }
-
   .stat-item {
     color: #000000 !important;
   }
@@ -482,22 +477,40 @@
     color: rgba(0, 0, 0, 0.5) !important;
   }
 
-  .profile-actions-pill {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-  }
-
   .action-icon-btn {
-    background: rgba(0, 0, 0, 0.03) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.7) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   }
 
-  .action-icon-btn:hover {
-    background: rgba(26, 115, 231, 0.1) !important;
-    border-color: rgba(26, 115, 231, 0.3) !important;
-    color: #1a73e7 !important;
+  .action-icon-btn.share-btn {
+    color: #0099cc !important;
+    border-color: rgba(0, 153, 204, 0.3) !important;
+  }
+
+  .action-icon-btn.share-btn:hover {
+    background: rgba(0, 153, 204, 0.1) !important;
+    border-color: rgba(0, 153, 204, 0.5) !important;
+  }
+
+  .action-icon-btn.more-btn {
+    color: #c0079a !important;
+    border-color: rgba(192, 7, 154, 0.3) !important;
+  }
+
+  .action-icon-btn.more-btn:hover {
+    background: rgba(192, 7, 154, 0.1) !important;
+    border-color: rgba(192, 7, 154, 0.5) !important;
+  }
+
+  .action-icon-btn.analytics-btn {
+    color: #1a9e4a !important;
+    border-color: rgba(26, 158, 74, 0.3) !important;
+  }
+
+  .action-icon-btn.analytics-btn:hover {
+    background: rgba(26, 158, 74, 0.1) !important;
+    border-color: rgba(26, 158, 74, 0.5) !important;
   }
 
   .flip-btn {
