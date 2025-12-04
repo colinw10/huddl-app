@@ -200,19 +200,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-sm);
-  border-radius: 12px;
   transition: all 0.18s ease;
-}
-
-.nav-item:hover .nav-icon {
-  background: rgba(0, 212, 255, 0.08);
-  box-shadow: 0 0 12px rgba(0, 212, 255, 0.3),
-              0 0 4px rgba(138, 43, 226, 0.2);
-}
-
-.nav-item.active .nav-icon {
-  background: rgba(26, 231, 132, 0.1);
-  box-shadow: 0 0 8px rgba(26, 231, 132, 0.3);
 }
 
 .nav-item:hover {
@@ -239,31 +227,24 @@
 /* Each nav icon gets a unique neon color on hover */
 .nav-item:nth-child(1):hover { color: #00d4ff; } /* Home - Cyan */
 .nav-item:nth-child(1):hover svg { filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6)); }
-.nav-item:nth-child(1):hover .nav-icon { box-shadow: 0 0 12px rgba(0, 212, 255, 0.4); }
 
 .nav-item:nth-child(2):hover { color: #ff6b9d; } /* Search - Pink */
 .nav-item:nth-child(2):hover svg { filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.6)); }
-.nav-item:nth-child(2):hover .nav-icon { box-shadow: 0 0 12px rgba(255, 107, 157, 0.4); }
 
-.nav-item:nth-child(3):hover { color: #a855f7; } /* Messages - Purple */
-.nav-item:nth-child(3):hover svg { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)); }
-.nav-item:nth-child(3):hover .nav-icon { box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); }
+.nav-item:nth-child(3):hover { color: #34d399; } /* Messages - Emerald */
+.nav-item:nth-child(3):hover svg { filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.6)); }
 
 .nav-item:nth-child(4):hover { color: #fbbf24; } /* Notifications - Amber */
 .nav-item:nth-child(4):hover svg { filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6)); }
-.nav-item:nth-child(4):hover .nav-icon { box-shadow: 0 0 12px rgba(251, 191, 36, 0.4); }
 
-.nav-item:nth-child(5):hover { color: #34d399; } /* Friends - Emerald */
-.nav-item:nth-child(5):hover svg { filter: drop-shadow(0 0 8px rgba(52, 211, 153, 0.6)); }
-.nav-item:nth-child(5):hover .nav-icon { box-shadow: 0 0 12px rgba(52, 211, 153, 0.4); }
+.nav-item:nth-child(5):hover { color: #a855f7; } /* Friends - Purple */
+.nav-item:nth-child(5):hover svg { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)); }
 
 .nav-item:nth-child(6):hover { color: #f472b6; } /* Profile - Rose */
 .nav-item:nth-child(6):hover svg { filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6)); }
-.nav-item:nth-child(6):hover .nav-icon { box-shadow: 0 0 12px rgba(244, 114, 182, 0.4); }
 
 .nav-item:nth-child(7):hover { color: #60a5fa; } /* About - Blue */
 .nav-item:nth-child(7):hover svg { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6)); }
-.nav-item:nth-child(7):hover .nav-icon { box-shadow: 0 0 12px rgba(96, 165, 250, 0.4); }
 
 .nav-item.active svg {
   filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.8));
@@ -355,18 +336,7 @@
     filter: drop-shadow(0 0 4px rgba(26, 115, 231, 0.4)) !important;
   }
 
-  .nav-icon {
-    background: transparent !important;
-  }
 
-  .nav-item:hover .nav-icon {
-    background: rgba(26, 115, 231, 0.08) !important;
-    box-shadow: none !important;
-  }
-
-  .nav-item.active .nav-icon {
-    background: rgba(26, 115, 231, 0.1) !important;
-  }
 
   /* Neon indicator bar - subtle in light mode */
   @media (min-width: 481px) {

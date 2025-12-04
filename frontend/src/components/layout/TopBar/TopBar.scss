@@ -54,15 +54,15 @@
   border-radius: 50%;
 }
 
-/* Search icon - secondary purple */
+/* Search icon - pink */
 .icon-search {
-  color: var(--secondary, #a783ff);
+  color: #ff6b9d;
 }
 
 .icon-search:hover {
-  color: #c4a8ff;
-  background: rgba(167, 131, 255, 0.15);
-  box-shadow: 0 0 15px rgba(167, 131, 255, 0.4);
+  color: #ff8bb3;
+  background: rgba(255, 107, 157, 0.15);
+  box-shadow: 0 0 15px rgba(255, 107, 157, 0.4);
   transform: scale(1.1);
 }
 
