@@ -54,11 +54,12 @@
 // ============================================
 [data-theme="light"] {
   .App {
-    background: var(--bg-base) !important;
+    background: #f5f7fa !important;
     color: var(--text-primary) !important;
   }
 
   .main-content {
+    background: #f5f7fa !important;
     color: #000000 !important;
   }
 }

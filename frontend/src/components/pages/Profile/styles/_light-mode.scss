@@ -2,6 +2,12 @@
 // 🔵 PABLO - UI/Styling
 
 [data-theme="light"] {
+  .user-profile-page,
+  .user-profile-page.river-profile {
+    background: #f5f7fa !important;
+    color: #000000;
+  }
+
   .quick-composer-textarea {
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 20%, transparent 40%),

@@ -16,7 +16,8 @@
   }
 
   .story-card::after {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: #ffffff !important;
+    background-image: none !important;
   }
 
   .story-card:hover::before {
@@ -44,8 +45,8 @@
   /* Composer Section - solid white background with cyan border */
   .composer-section {
     background: #ffffff !important;
-    border: 1px solid rgba(26, 115, 231, 0.25) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
   }
 
   .composer-section:hover {
@@ -86,8 +87,8 @@
 
   /* Composer Modal */
   .composer-modal {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    background: rgba(248, 250, 252, 0.97) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
   }
 

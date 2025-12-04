@@ -79,7 +79,7 @@
   .profile-page,
   .user-profile-page,
   .user-profile-page.river-profile {
-    background: #a7afc0bb !important;  /* Change this for profile background */
+    background: var(--bg-base) !important;
   }
 
   .home-page,
@@ -91,7 +91,7 @@
   .login-page,
   .signup-page,
   .landing-page {
-    background: transparent !important;
+    background: var(--bg-base) !important;
   }
 
   /* ============================================

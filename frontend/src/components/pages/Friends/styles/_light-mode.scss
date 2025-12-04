@@ -7,21 +7,26 @@
 
 [data-theme="light"] {
   .friends-page {
-    background: var(--bg-base);
+    background: #f5f7fa;
+    color: #000000;
+    
+    &::before {
+      background: none !important;
+    }
   }
 
   .friends-title {
-    color: #1a73e7;
+    color: #000000;
     text-shadow: none;
   }
 
   .stat-value {
-    color: #1a73e7;
+    color: #000000;
     text-shadow: none;
   }
 
   .stat-label {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.7);
   }
 
   .stat-divider {
@@ -29,7 +34,9 @@
   }
 
   .friend-card::after {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.98));
+    background: #ffffff !important;
+    background-image: none !important;
+    border: none;
   }
 
   .friend-avatar {

@@ -9,9 +9,9 @@
     background: #ffffff !important;
     color: #000000 !important;
     box-shadow: 
-      0 2px 8px rgba(0, 0, 0, 0.08),
-      0 1px 3px rgba(0, 0, 0, 0.05) !important;
-    border: none !important;
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
   }
 
   .river-post-card::before {
@@ -25,14 +25,15 @@
 
   .river-post-card::after {
     background: #ffffff !important;
+    background-image: none !important;
   }
 
   .river-post-card:hover {
-    background: #ffffff !important;
+    background: rgba(248, 250, 252, 0.97) !important;
     box-shadow: 
       0 8px 24px rgba(0, 0, 0, 0.12),
       0 4px 12px rgba(26, 115, 231, 0.08) !important;
-    border: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
     transform: translateY(-2px);
   }
 
