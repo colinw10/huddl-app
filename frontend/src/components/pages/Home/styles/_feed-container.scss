@@ -1,0 +1,40 @@
+// ============================================
+// FEED CONTAINER
+// ============================================
+
+.feed-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  overflow-x: hidden; /* Changed back to hidden to prevent horizontal scroll */
+}
+
+/* Prevent horizontal scroll on wider screens too */
+@media (min-width: 650px) and (max-width: 1200px) {
+  .feed-container {
+    overflow-x: clip; /* Use clip to allow stacked cards to be visible but prevent scrollbar */
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (min-width: 481px) {
+  .feed-container {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+}
+
+/* Thinner side nav on smaller tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .feed-container {
+    margin-left: 50px;
+    width: calc(100% - 50px);
+  }
+}

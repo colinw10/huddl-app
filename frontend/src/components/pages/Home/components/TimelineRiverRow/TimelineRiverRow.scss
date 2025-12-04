@@ -18,19 +18,19 @@
    ============================================ */
 
 // Layout & Structure
-@import './styles/base';
-@import './styles/carousel';
-@import './styles/smart-deck';
+@use './styles/base';
+@use './styles/carousel';
+@use './styles/smart-deck';
 
 // Post Components
-@import './styles/post-card';
-@import './styles/post-media';
-@import './styles/post-actions';
+@use './styles/post-card';
+@use './styles/post-media';
+@use './styles/post-actions';
 
 // Interactive Features
-@import './styles/composer';
-@import './styles/desktop-stack-nav';
+@use './styles/composer';
+@use './styles/desktop-stack-nav';
 
 // Responsive & Theming
-@import './styles/responsive';
-@import './styles/light-mode';
+@use './styles/responsive';
+@use './styles/light-mode';
