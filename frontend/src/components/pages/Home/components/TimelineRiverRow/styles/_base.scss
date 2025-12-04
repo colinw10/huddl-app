@@ -21,11 +21,26 @@
 }
 
 .timeline-river-row--2-col {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .timeline-river-row--3-col {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Force all smart-decks to respect grid boundaries */
+.smart-deck {
+  min-width: 0;
+  width: 100%;
+}
+
+.smart-deck-card-container {
+  min-width: 0;
+}
+
+.river-post-card {
+  min-width: 0;
+  width: 100%;
 }
 
 /* River Column - vertical container for posts */
@@ -33,6 +48,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  min-width: 0;
   position: relative;
   flex: 1;
 }

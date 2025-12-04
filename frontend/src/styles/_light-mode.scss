@@ -75,7 +75,13 @@
      PAGE CONTAINERS
      ============================================ */
   
+  /* Profile page - custom background */
   .profile-page,
+  .user-profile-page,
+  .user-profile-page.river-profile {
+    background: #a7afc0bb !important;  /* Change this for profile background */
+  }
+
   .home-page,
   .friends-page,
   .about-page,
@@ -321,11 +327,11 @@
     background: transparent !important;
   }
 
-  /* Date Headers */
+  /* Date Headers - container is transparent, only badge has background */
   .river-date-header,
   .date-header {
-    background: var(--bg-glass) !important;
-    border: 1px solid var(--border-default) !important;
+    background: transparent !important;
+    border: none !important;
     color: var(--text-primary) !important;
   }
 

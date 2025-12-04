@@ -20,17 +20,6 @@ function PostTypeBreakdown({ postTypeData }) {
       <h4 className="breakdown-title">Content Mix</h4>
       <div className="breakdown-content">
         <svg width="120" height="120" viewBox="0 0 120 120" className="donut-chart">
-          <defs>
-            {postTypeData.map((item, index) => (
-              <filter key={index} id={`glow-${index}`}>
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-            ))}
-          </defs>
           {segments.map((item, index) => {
             const startAngle = (item.startPercent / 100) * 360 - 90;
             const endAngle = ((item.startPercent + item.percentage) / 100) * 360 - 90;
@@ -56,7 +45,6 @@ function PostTypeBreakdown({ postTypeData }) {
                 key={index}
                 d={`M ${x1} ${y1} A ${outerRadius} ${outerRadius} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${innerRadius} ${innerRadius} 0 ${largeArc} 0 ${x4} ${y4} Z`}
                 fill={item.color}
-                filter={`url(#glow-${index})`}
                 className="donut-segment"
               >
                 <title>{item.type}: {item.percentage}%</title>
@@ -69,8 +57,8 @@ function PostTypeBreakdown({ postTypeData }) {
             <div key={index} className="breakdown-legend-item">
               <div className="legend-color" style={{ background: item.color }}></div>
               <div className="legend-text">
-                <span className="legend-type">{item.type}</span>
-                <span className="legend-percent">{item.percentage}%</span>
+                <span className="legend-type" style={{ color: item.color }}>{item.type}</span>
+                <span className="legend-percent" style={{ color: item.color }}>{item.percentage}%</span>
               </div>
             </div>
           ))}

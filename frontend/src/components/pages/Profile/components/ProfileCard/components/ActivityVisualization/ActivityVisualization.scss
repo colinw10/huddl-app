@@ -66,26 +66,14 @@
 
 .peak-time {
   font-size: var(--font-size-xs);
-  color: rgba(255, 215, 0, 1);
+  color: rgba(255, 215, 0, 0.85);
   font-weight: 600;
-  padding: 4px 10px;
-  background: linear-gradient(135deg, rgba(255, 165, 0, 0.15), rgba(255, 215, 0, 0.1));
-  border: 1px solid rgba(255, 165, 0, 0.4);
-  border-radius: 12px;
-  backdrop-filter: blur(5px);
-  box-shadow: 
-    0 0 15px rgba(255, 165, 0, 0.3),
-    0 0 25px rgba(255, 215, 0, 0.2),
-    inset 0 1px 2px rgba(255, 215, 0, 0.3);
+  margin-right: 16px;
   transition: all 0.3s ease;
 }
 
 .peak-time:hover {
-  box-shadow: 
-    0 0 20px rgba(255, 165, 0, 0.5),
-    0 0 35px rgba(255, 215, 0, 0.3),
-    inset 0 1px 3px rgba(255, 215, 0, 0.4);
-  border-color: rgba(255, 215, 0, 0.6);
+  color: rgba(255, 215, 0, 1);
 }
 
 /* View Toggle */
@@ -154,8 +142,6 @@
 .wave-svg {
   width: 100%;
   height: 180px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
   padding: var(--space-md);
   box-sizing: border-box;
 }
@@ -227,13 +213,6 @@
   color: var(--text-secondary);
   padding: 0 12px;
   font-weight: 500;
-}
-
-.wave-timeline span {
-  background: var(--glass-bg-subtle);
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 0.5px solid var(--border-subtle);
 }
 
 /* Wave Legend */
@@ -551,6 +530,94 @@
     filter: none !important;
     stroke: rgba(20, 160, 90, 0.8) !important;
     stroke-width: 1 !important;
+  }
+
+  /* Grid lines - subtle dark lines for light mode */
+  .grid-lines line {
+    stroke: rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Wave timeline labels - simple text, no pills */
+  .wave-timeline {
+    color: rgba(0, 0, 0, 0.45) !important;
+  }
+
+  .wave-timeline span {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    color: rgba(0, 0, 0, 0.45) !important;
+  }
+
+  /* Wave legend */
+  .wave-legend .legend-item {
+    color: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  /* Peak time badge - simple text, no pill */
+  .peak-time {
+    color: rgba(180, 120, 40, 0.85) !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    border-radius: 0 !important;
+    margin-right: 16px !important;
+  }
+
+  .peak-time:hover {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* View toggle - cleaner minimal style */
+  .view-toggle {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .toggle-btn {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+    box-shadow: none !important;
+  }
+
+  .toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    box-shadow: none !important;
+  }
+
+  .toggle-btn.active {
+    background: rgba(26, 115, 231, 0.08) !important;
+    border: 1px solid rgba(26, 115, 231, 0.2) !important;
+    color: rgba(26, 115, 231, 0.9) !important;
+    box-shadow: none !important;
+  }
+
+  /* Post frequency text */
+  .post-frequency {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Activity wave container */
+  .activity-wave {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .activity-wave::before {
+    background: none !important;
+  }
+
+  /* Wave title */
+  .wave-title {
+    color: rgba(0, 0, 0, 0.85) !important;
   }
 
   /* Heatmap */

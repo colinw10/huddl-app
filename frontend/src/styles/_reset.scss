@@ -112,17 +112,17 @@ select {
 // LIGHT MODE - Root element overrides
 // ============================================
 [data-theme="light"] {
-  background: #e8eaed !important;
-  color: #000000 !important;
+  background: var(--bg-base) !important;
+  color: var(--text-primary) !important;
 
   body {
-    background: #e8eaed !important;
-    color: #000000 !important;
+    background: var(--bg-base) !important;
+    color: var(--text-primary) !important;
   }
 
   #root {
-    background: #e8eaed !important;
-    color: #000000 !important;
+    background: var(--bg-base) !important;
+    color: var(--text-primary) !important;
   }
 
   // Light mode scrollbar

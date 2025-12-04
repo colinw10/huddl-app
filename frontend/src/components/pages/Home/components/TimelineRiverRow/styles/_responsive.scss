@@ -1,4 +1,29 @@
 /* ============================================
+   LARGE DESKTOP - Force equal column widths
+   Above 1200px - grid layout
+   ============================================ */
+
+@media (min-width: 1201px) {
+  .timeline-river-row--3-col {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  .timeline-river-row--2-col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .timeline-river-row--3-col .smart-deck,
+  .timeline-river-row--2-col .smart-deck,
+  .timeline-river-row--3-col .river-post-card,
+  .timeline-river-row--2-col .river-post-card {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* ============================================
    DESKTOP STACKED LAYOUT
    Tablet breakpoint - overlapping cards
    ============================================ */

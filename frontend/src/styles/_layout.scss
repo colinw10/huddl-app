@@ -54,8 +54,8 @@
 // ============================================
 [data-theme="light"] {
   .App {
-    background: #e8eaed !important;
-    color: #000000 !important;
+    background: var(--bg-base) !important;
+    color: var(--text-primary) !important;
   }
 
   .main-content {
