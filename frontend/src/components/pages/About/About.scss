@@ -1,0 +1,314 @@
+// About.scss - About page styles
+// 🔵 PABLO - UI/Styling
+// Editorial grid layout - no containers, just typography and space
+
+.about-page {
+  min-height: 100vh;
+  padding: 80px 24px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Hero
+.about-hero {
+  text-align: center;
+  padding: 60px 0 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 60px;
+}
+
+.hero-label {
+  font-family: 'sweet-square-pro', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.4);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: 'acme-gothic-extrawide', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+  line-height: 0.9;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 24px 0 0;
+  line-height: 1.6;
+}
+
+// Grid
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px 24px;
+}
+
+.grid-item {
+  h2 {
+    font-family: 'acme-gothic-extrawide', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+  
+  p {
+    margin: 0 0 12px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.95rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.item-number {
+  font-family: 'sweet-square-pro', monospace;
+  font-size: 0.65rem;
+  color: #4fffff;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+// Grid placement
+.manifesto {
+  grid-column: 2 / 7;
+}
+
+.design {
+  grid-column: 8 / 13;
+}
+
+.pull-quote {
+  grid-column: 2 / 12;
+  padding: 60px 0;
+  
+  blockquote {
+    margin: 0;
+    font-family: 'acme-gothic-extrawide', sans-serif;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 400;
+    color: rgba(79, 255, 255, 0.75);
+    text-align: center;
+    line-height: 1.4;
+    font-style: italic;
+    position: relative;
+    
+    &::before {
+      content: '"';
+      position: absolute;
+      left: -40px;
+      top: -20px;
+      font-size: 4rem;
+      color: rgba(79, 255, 255, 0.35);
+      font-family: Georgia, serif;
+      font-style: normal;
+    }
+    
+    &::after {
+      content: '"';
+      position: absolute;
+      right: -40px;
+      bottom: -30px;
+      font-size: 4rem;
+      color: rgba(79, 255, 255, 0.35);
+      font-family: Georgia, serif;
+      font-style: normal;
+    }
+  }
+}
+
+.timing {
+  grid-column: 2 / 6;
+}
+
+.honest {
+  grid-column: 8 / 13;
+}
+
+.team {
+  grid-column: 4 / 10;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.cta {
+  grid-column: 4 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.cta-text {
+  font-family: 'acme-gothic-extrawide', sans-serif;
+  font-size: 1rem;
+  color: rgba(79, 255, 255, 0.6);
+  text-align: center;
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .manifesto {
+    grid-column: 1 / 7;
+  }
+  
+  .design {
+    grid-column: 7 / 13;
+  }
+  
+  .timing {
+    grid-column: 1 / 7;
+  }
+  
+  .honest {
+    grid-column: 7 / 13;
+  }
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    gap: 32px 16px;
+  }
+  
+  .manifesto,
+  .design,
+  .timing,
+  .honest,
+  .team,
+  .cta {
+    grid-column: 1 / 13;
+  }
+  
+  .pull-quote {
+    grid-column: 1 / 13;
+    padding: 40px 0;
+    
+    blockquote {
+      text-align: left;
+      
+      &::before {
+        position: static;
+        display: block;
+        font-size: 3rem;
+        margin-bottom: -20px;
+      }
+    }
+  }
+  
+  .cta {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  
+  .cta-text {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-page {
+    padding: 70px 16px 80px;
+  }
+  
+  .about-hero {
+    padding: 40px 0 50px;
+    margin-bottom: 40px;
+  }
+  
+  .about-grid {
+    gap: 28px 0;
+  }
+  
+  .grid-item h2 {
+    font-size: 1.15rem;
+  }
+  
+  .grid-item p {
+    font-size: 0.9rem;
+  }
+  
+  .pull-quote {
+    padding: 30px 0;
+    
+    blockquote {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .team,
+  .cta {
+    padding-top: 28px;
+  }
+}
+
+// ============================================
+// LIGHT MODE
+// ============================================
+[data-theme="light"] {
+  .hero-title {
+    background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0.6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hero-sub {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .about-hero {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+  
+  .hero-label {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .grid-item {
+    h2 {
+      color: #000000;
+    }
+    
+    p {
+      color: rgba(0, 0, 0, 0.65);
+    }
+  }
+  
+  .item-number {
+    color: #1a73e7;
+  }
+  
+  .pull-quote blockquote {
+    color: #1a73e7;
+    
+    &::before {
+      color: rgba(26, 115, 231, 0.2);
+    }
+  }
+  
+  .team,
+  .cta {
+    border-top-color: rgba(0, 0, 0, 0.08);
+  }
+  
+  .cta-text {
+    color: rgba(0, 0, 0, 0.3);
+  }
+}
