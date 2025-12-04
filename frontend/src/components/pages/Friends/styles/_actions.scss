@@ -12,19 +12,21 @@
 }
 
 .btn-accept {
-  padding: var(--space-sm) var(--space-md);
-  background: linear-gradient(135deg, #1a73e7, #1ae784);
-  border: none;
-  border-radius: 8px;
-  color: white;
+  padding: 4px 12px;
+  background: rgba(79, 255, 255, 0.08);
+  border: 1px solid rgba(79, 255, 255, 0.5);
+  color: #4fffff;
   font-weight: 600;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   cursor: pointer;
   transition: all 0.2s ease;
+  clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+  text-shadow: 0 0 8px rgba(79, 255, 255, 0.6);
+  box-shadow: 0 4px 16px rgba(79, 255, 255, 0.2);
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 16px rgba(26, 231, 132, 0.5);
+    box-shadow: 0 0 16px rgba(79, 255, 255, 0.5), 0 4px 16px rgba(79, 255, 255, 0.3);
   }
   
   &:active {
@@ -32,21 +34,21 @@
   }
   
   &:focus-visible {
-    outline: 2px solid #1ae784;
+    outline: 2px solid #4fffff;
     outline-offset: 2px;
   }
 }
 
 .btn-decline {
-  padding: var(--space-sm) var(--space-md);
+  padding: 4px 12px;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
   color: rgba(255, 255, 255, 0.7);
-  font-weight: 600;
-  font-size: var(--font-size-sm);
+  font-weight: 500;
+  font-size: var(--font-size-xs);
   cursor: pointer;
   transition: all 0.2s ease;
+  clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
 
   &:hover {
     border-color: #dc08bc;

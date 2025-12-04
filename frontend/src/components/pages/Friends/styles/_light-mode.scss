@@ -42,6 +42,7 @@
   .friend-avatar {
     background: linear-gradient(145deg, rgba(240, 245, 255, 0.95), rgba(230, 235, 245, 0.98));
     border-color: rgba(26, 115, 231, 0.3);
+    color: #1a73e7;
   }
 
   .friend-name {
@@ -69,6 +70,18 @@
     border-color: white;
   }
 
+  .btn-accept {
+    background: rgba(26, 115, 231, 0.15);
+    border: 1px solid rgba(26, 115, 231, 0.5);
+    color: #1a73e7;
+    text-shadow: none;
+    box-shadow: 0 2px 8px rgba(26, 115, 231, 0.2);
+
+    &:hover {
+      box-shadow: 0 0 12px rgba(26, 115, 231, 0.4), 0 4px 12px rgba(26, 115, 231, 0.2);
+    }
+  }
+
   .btn-decline {
     border-color: rgba(0, 0, 0, 0.2);
     color: rgba(0, 0, 0, 0.6);
@@ -87,9 +100,9 @@
     /* Dark cosmic base - matches composer style */
     background: linear-gradient(
       145deg,
-      rgba(15, 12, 25, 0.95) 0%,
-      rgba(25, 20, 40, 0.95) 50%,
-      rgba(15, 15, 30, 0.95) 100%
+      rgba(15, 12, 25, 0.75) 0%,
+      rgba(25, 20, 40, 0.75) 50%,
+      rgba(15, 15, 30, 0.75) 100%
     );
     
     /* Cyan holographic border */
