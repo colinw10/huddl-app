@@ -11,6 +11,7 @@ function Profile() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
   const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
+  const [composerText, setComposerText] = useState('');
   const [viewMode, setViewMode] = useState('timeline'); // 'timeline' or 'feed'
   
   // Sample data - in real app, this would come from API
@@ -78,42 +79,33 @@ function Profile() {
         </button>
       </div>
 
-      {/* Quick Composer Buttons */}
+      {/* Quick Composer - Same as Home */}
       <div className="quick-composer-buttons">
-        <div 
-          className="quick-composer-section thought-composer"
-          onClick={() => {
-            setComposerType('thought');
-            setShowComposer(true);
-          }}
-        >
+        <div className="quick-composer-section unified-composer">
           <div className="quick-composer-avatar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
           </div>
-          <div className="quick-composer-input">
-            <span className="quick-composer-placeholder">Share a thought…</span>
-          </div>
-        </div>
-        
-        <div 
-          className="quick-composer-section media-composer"
-          onClick={() => {
-            setComposerType('media');
-            setShowComposer(true);
-          }}
-        >
-          <div className="quick-composer-avatar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
+          <textarea
+            className="quick-composer-textarea"
+            placeholder="Share something…"
+            value={composerText}
+            onChange={(e) => setComposerText(e.target.value)}
+            rows={1}
+          />
+          <button 
+            className="quick-composer-expand-btn"
+            onClick={() => setShowComposer(true)}
+            title="Expand"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 3 21 3 21 9"/>
+              <polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/>
+              <line x1="3" y1="21" x2="10" y2="14"/>
             </svg>
-          </div>
-          <div className="quick-composer-input">
-            <span className="quick-composer-placeholder">Post media…</span>
-          </div>
+          </button>
         </div>
       </div>
 

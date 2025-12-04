@@ -30,6 +30,7 @@
 .donut-segment {
   transition: all 0.3s ease;
   cursor: pointer;
+  stroke: none;
 }
 
 .donut-segment:hover {
@@ -110,7 +111,7 @@
   }
 
   .legend-percent {
-    color: rgba(0, 0, 0, 0.5) !important;
+    color: rgba(0, 0, 0, 0.7) !important;
   }
 
 }

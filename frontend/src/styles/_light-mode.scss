@@ -576,6 +576,22 @@
     background: var(--light-bg-muted) !important;
   }
 
+  /* Composer modal - fix textarea */
+  .composer-textarea {
+    color: #ffffff !important;
+    background: linear-gradient(
+      145deg,
+      rgba(15, 12, 25, 0.95) 0%,
+      rgba(25, 20, 40, 0.95) 50%,
+      rgba(15, 15, 30, 0.95) 100%
+    ) !important;
+    border: 1.5px solid rgba(0, 212, 255, 0.4) !important;
+  }
+  
+  .composer-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+
   /* ============================================
      BLACK HOLOGRAPHIC SIGNATURE COMPOSERS
      ============================================

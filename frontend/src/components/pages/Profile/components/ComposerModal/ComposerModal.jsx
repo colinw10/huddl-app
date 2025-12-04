@@ -12,7 +12,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
       <div className="composer-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="composer-modal-header">
           <h3 className="composer-modal-title">
-            {composerType === 'thought' ? 'Share Your Thoughts' : 'Post Media'}
+            {composerType === 'thought' ? 'Share Your Thoughts' : composerType === 'media' ? 'Post Media' : 'Add Milestone'}
           </h3>
           <button 
             className="composer-close-btn"
@@ -46,7 +46,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
 
           <textarea 
             className={`composer-textarea ${composerType === 'media' ? 'media-mode' : ''}`}
-            placeholder={composerType === 'thought' ? "What's on your mind?" : "Add a caption to your media..."}
+            placeholder={composerType === 'thought' ? "What's on your mind?" : composerType === 'media' ? "Add a caption to your media..." : "Describe your milestone..."}
             rows={composerType === 'media' ? 2 : 6}
             autoFocus
           />
@@ -62,6 +62,25 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
                 <p>Click to upload photo or video</p>
                 <span>or drag and drop</span>
               </div>
+            </div>
+          )}
+
+          {composerType === 'milestone' && (
+            <div className="milestone-options">
+              <input 
+                type="date" 
+                className="milestone-date-input"
+                placeholder="When did this happen?"
+              />
+              <select className="milestone-category-select">
+                <option value="">Select category...</option>
+                <option value="career">Career</option>
+                <option value="education">Education</option>
+                <option value="personal">Personal</option>
+                <option value="travel">Travel</option>
+                <option value="achievement">Achievement</option>
+                <option value="other">Other</option>
+              </select>
             </div>
           )}
 
@@ -85,6 +104,16 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
                 <polyline points="21 15 16 10 5 21"/>
               </svg>
               Media
+            </button>
+            <button 
+              className={`type-toggle-btn ${composerType === 'milestone' ? 'active' : ''}`}
+              onClick={() => setComposerType('milestone')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                <line x1="4" y1="22" x2="4" y2="15"/>
+              </svg>
+              Milestone
             </button>
           </div>
         </div>
