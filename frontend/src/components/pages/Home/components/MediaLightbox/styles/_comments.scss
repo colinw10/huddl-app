@@ -32,9 +32,9 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 1rem 1.25rem 0.75rem;
-  font-family: var(--font-display, 'acme-gothic-extrawide', sans-serif);
+  font-family: var(--font-title);
   font-size: var(--font-size-xs);
-  font-weight: 600;
+  font-weight: 400;
   color: var(--accent, #1ae784);
   letter-spacing: 1px;
   text-shadow:
@@ -245,21 +245,30 @@
 }
 
 .lightbox-comment-author {
-  font-family: 'sweet-square-pro', sans-serif;
+  font-family: var(--font-title);
   font-size: var(--font-size-sm);
-  color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 400;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   transition: all 0.2s ease;
 }
 
 .lightbox-comment-item:nth-child(odd) .lightbox-comment-author {
-  color: #4fffff;
-  text-shadow: 0 0 8px rgba(79, 255, 255, 0.4);
+  background: linear-gradient(180deg, #4fffff 22%, rgba(79, 200, 200, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(79, 255, 255, 0.4));
 }
 
 .lightbox-comment-item:nth-child(even) .lightbox-comment-author {
-  color: #c9a8ff;
-  text-shadow: 0 0 8px rgba(201, 168, 255, 0.4);
+  background: linear-gradient(180deg, #c9a8ff 22%, rgba(160, 130, 200, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 255, 0.4));
 }
 
 .lightbox-comment-text {

@@ -63,11 +63,14 @@
 }
 
 .media-lightbox-author {
-  font-family: 'sweet-square-pro', sans-serif;
+  font-family: var(--font-title);
   font-size: var(--font-size-body);
-  color: var(--text-primary);
-  font-weight: 600;
-  text-shadow: 0 0 20px var(--glass-bg-subtle);
+  font-weight: 400;
+  background: linear-gradient(180deg, #4fffff 22%, rgba(79, 200, 200, 0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(79, 255, 255, 0.4));
 }
 
 .media-lightbox-timestamp {

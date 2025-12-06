@@ -8,8 +8,15 @@
 
 // Adobe Typekit fonts
 @import url("https://use.typekit.net/nxn1rxl.css");
-@import url("https://use.typekit.net/nxn1rxl.css");
-  @import url("https://use.typekit.net/nxn1rxl.css");
+
+// Available fonts from Typekit:
+// - degular (body text, --font-main)
+// - new-science-mono (labels, --font-label)
+// - stop-mn (display, --font-display)
+// - centrifuge (titles, --font-title)
+// - sweet-square-pro (numbers, stats)
+// - bd-geminis (About page)
+
 // Base typography settings
 :root {
   font-family: "degular", sans-serif;

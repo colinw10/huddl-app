@@ -190,9 +190,14 @@
 }
 
 .composer-user-name {
+  font-family: var(--font-title);
   font-size: var(--font-size-body);
-  font-weight: 600;
-  color: var(--text-primary);
+  font-weight: 400;
+  line-height: 1.2;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(140, 150, 150, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .composer-privacy {
@@ -366,12 +371,11 @@
 .type-toggle-btn {
   flex: 1;
   background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  padding: 10px 16px;
+  padding: 0.35rem 0.9rem;
   border-radius: 8px;
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: 400;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -380,15 +384,60 @@
   transition: all 0.3s ease;
 }
 
-.type-toggle-btn:hover {
-  color: var(--text-primary);
-  background: var(--glass-bg-subtle);
+.type-toggle-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
-.type-toggle-btn.active {
-  background: rgba(26, 115, 231, 0.2);
-  color: var(--text-primary);
-  border: 1px solid rgba(26, 115, 231, 0.4);
+/* Thought - Blue */
+.type-toggle-thought {
+  color: rgba(26, 115, 231, 0.8);
+  border: 1px solid rgba(26, 115, 231, 0.5);
+}
+
+.type-toggle-thought svg {
+  color: rgba(26, 115, 231, 0.8);
+}
+
+.type-toggle-thought:hover,
+.type-toggle-thought.active {
+  background: rgba(26, 115, 231, 0.15);
+  border-color: rgba(26, 115, 231, 0.6);
+  color: rgba(26, 115, 231, 1);
+}
+
+/* Media - Magenta */
+.type-toggle-media {
+  color: rgba(220, 8, 188, 0.8);
+  border: 1px solid rgba(220, 8, 188, 0.5);
+}
+
+.type-toggle-media svg {
+  color: rgba(220, 8, 188, 0.8);
+}
+
+.type-toggle-media:hover,
+.type-toggle-media.active {
+  background: rgba(220, 8, 188, 0.15);
+  border-color: rgba(220, 8, 188, 0.6);
+  color: rgba(220, 8, 188, 1);
+}
+
+/* Milestone - Gold */
+.type-toggle-milestone {
+  color: rgba(255, 215, 0, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+.type-toggle-milestone svg {
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.type-toggle-milestone:hover,
+.type-toggle-milestone.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.6);
+  color: rgba(255, 215, 0, 1);
 }
 
 .composer-modal-footer {
@@ -426,13 +475,15 @@
 
 .composer-post-btn {
   padding: 12px 24px;
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: white !important;
-  background: rgba(0, 0, 0, 0.963) !important;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(140, 150, 150, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   border: 2px solid rgba(255, 255, 255, 0.588);
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
   cursor: pointer;

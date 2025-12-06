@@ -86,7 +86,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
 
           <div className="composer-type-toggle">
             <button 
-              className={`type-toggle-btn ${composerType === 'thought' ? 'active' : ''}`}
+              className={`type-toggle-btn type-toggle-thought ${composerType === 'thought' ? 'active' : ''}`}
               onClick={() => setComposerType('thought')}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -95,7 +95,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
               Thought
             </button>
             <button 
-              className={`type-toggle-btn ${composerType === 'media' ? 'active' : ''}`}
+              className={`type-toggle-btn type-toggle-media ${composerType === 'media' ? 'active' : ''}`}
               onClick={() => setComposerType('media')}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -106,7 +106,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
               Media
             </button>
             <button 
-              className={`type-toggle-btn ${composerType === 'milestone' ? 'active' : ''}`}
+              className={`type-toggle-btn type-toggle-milestone ${composerType === 'milestone' ? 'active' : ''}`}
               onClick={() => setComposerType('milestone')}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

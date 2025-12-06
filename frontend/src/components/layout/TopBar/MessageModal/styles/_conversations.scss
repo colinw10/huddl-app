@@ -258,10 +258,14 @@
 }
 
 .conversation-name {
-  font-weight: 500;
-  color: var(--text-primary);
+  font-family: var(--font-title);
+  font-weight: 400;
   font-size: var(--font-size-body);
-  text-shadow: 0 0 20px var(--glass-bg-subtle);
+  line-height: 1.2;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(140, 150, 150, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   transition: all 0.2s ease;
 }
 

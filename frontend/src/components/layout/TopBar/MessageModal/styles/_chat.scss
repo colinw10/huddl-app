@@ -113,7 +113,9 @@
 }
 
 .chat-username {
+  font-family: var(--font-title);
   font-weight: 500;
+  font-size: 18px;
   color: #4fffff;
   text-shadow:
     0 0 8px rgba(79, 255, 255, 0.5),
@@ -150,6 +152,17 @@
 
 .chat-message p {
   margin: 0;
+  color: inherit;
+}
+
+.chat-message.received p {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.chat-message.sent p {
+  color: #70ffb8;
+  font-weight: 500;
 }
 
 .chat-message .message-time {
@@ -175,13 +188,8 @@
       rgba(138, 43, 226, 0.04)
     );
   
-  color: rgba(180, 230, 255, 0.95);
+  color: rgba(220, 245, 255, 1);
   border: 1px solid rgba(0, 213, 255, 0.374);
-  
-  /* Text glow to match green messages */
-  text-shadow:
-    0 0 8px rgba(0, 213, 255, 0.781),
-    0 0 16px rgba(138, 43, 226, 0.2);
   
   /* Clip-path: cut top-left and bottom-right corners */
   clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
@@ -207,7 +215,7 @@
       rgba(26, 231, 132, 0.08)
     );
   
-  color: var(--accent, #1ae784);
+  color: #5fffb0;
   border: 1px solid rgba(26, 231, 132, 0.4);
   
   /* Clip-path: cut top-right and bottom-left corners (mirrored) */

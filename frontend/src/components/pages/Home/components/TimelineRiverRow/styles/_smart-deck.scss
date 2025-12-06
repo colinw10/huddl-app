@@ -76,7 +76,7 @@
 
 /* Count badge */
 .smart-deck-count {
-  font-family: "new-science-mono", sans-serif;
+  font-family: var(--font-title);
   font-size: 13px;
   font-weight: 400;
   font-style: normal;
@@ -98,7 +98,7 @@
 
 /* Type label */
 .smart-deck-label {
-  font-family: "new-science-mono", sans-serif;
+  font-family: var(--font-title);
   font-size: 12px;
   font-weight: 400;
   font-style: normal;
@@ -110,14 +110,17 @@
 /* Type-specific label colors */
 .smart-deck--thoughts .smart-deck-label {
   color: #4fffff;
+  text-shadow: 0 0 8px rgba(79, 255, 255, 0.6);
 }
 
 .smart-deck--media .smart-deck-label {
   color: #c9a8ff;
+  text-shadow: 0 0 8px rgba(201, 168, 255, 0.6);
 }
 
 .smart-deck--milestones .smart-deck-label {
   color: #1ae784;
+  text-shadow: 0 0 8px rgba(26, 231, 132, 0.6);
 }
 
 /* Position indicator (e.g., "1/3") */

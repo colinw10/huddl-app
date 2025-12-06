@@ -1,7 +1,7 @@
 // 🔵 PABLO - UI/Styling | 🟡 NATALIA - User Posts Data
 // TimelineRiver.jsx - Profile timeline showing user's posts in river format
 
-import React from 'react';
+import React, { useState } from 'react';
 import './TimelineRiver.scss';
 
 function TimelineRiver({ 
@@ -13,6 +13,28 @@ function TimelineRiver({
   feedMediaPosts,
   feedAchievementPosts
 }) {
+  // State for inline comment composer
+  const [activeCommentPostId, setActiveCommentPostId] = useState(null);
+  const [commentText, setCommentText] = useState('');
+
+  const handleCommentClick = (postId) => {
+    if (activeCommentPostId === postId) {
+      setActiveCommentPostId(null);
+      setCommentText('');
+    } else {
+      setActiveCommentPostId(postId);
+      setCommentText('');
+    }
+  };
+
+  const handleCommentSubmit = () => {
+    if (commentText.trim()) {
+      console.log('Comment posted:', commentText);
+      setCommentText('');
+      setActiveCommentPostId(null);
+    }
+  };
+
   return (
     <div className="timeline-river">
       {/* River Column Labels */}
@@ -62,12 +84,46 @@ function TimelineRiver({
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5"/>
                   </svg>
                 </button>
-                <button className="river-action-btn" aria-label="Comment">
+                <button className="river-action-btn" aria-label="Comment" onClick={() => handleCommentClick(post.id)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
                 </button>
               </div>
+              {/* Inline Comment Composer */}
+              {activeCommentPostId === post.id && (
+                <div className="inline-comment-composer">
+                  <div className="comment-input-wrapper">
+                    <textarea
+                      className="comment-input"
+                      placeholder="Comment..."
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      rows={1}
+                      autoFocus
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleCommentSubmit();
+                        }
+                        if (e.key === 'Escape') {
+                          setActiveCommentPostId(null);
+                          setCommentText('');
+                        }
+                      }}
+                    />
+                  </div>
+                  <button 
+                    className="comment-submit-btn"
+                    disabled={!commentText.trim()}
+                    onClick={handleCommentSubmit}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 6 15 12 9 18"/>
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -101,12 +157,46 @@ function TimelineRiver({
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5"/>
                   </svg>
                 </button>
-                <button className="river-action-btn" aria-label="Comment">
+                <button className="river-action-btn" aria-label="Comment" onClick={() => handleCommentClick(post.id)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
                 </button>
               </div>
+              {/* Inline Comment Composer */}
+              {activeCommentPostId === post.id && (
+                <div className="inline-comment-composer">
+                  <div className="comment-input-wrapper">
+                    <textarea
+                      className="comment-input"
+                      placeholder="Comment..."
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      rows={1}
+                      autoFocus
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleCommentSubmit();
+                        }
+                        if (e.key === 'Escape') {
+                          setActiveCommentPostId(null);
+                          setCommentText('');
+                        }
+                      }}
+                    />
+                  </div>
+                  <button 
+                    className="comment-submit-btn"
+                    disabled={!commentText.trim()}
+                    onClick={handleCommentSubmit}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 6 15 12 9 18"/>
+                    </svg>
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>

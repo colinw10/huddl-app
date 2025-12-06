@@ -197,9 +197,13 @@
 }
 
 .profile-handle {
+  font-family: var(--font-title);
   font-size: var(--font-size-body);
-  color: rgba(255, 255, 255, 0.6);
   font-weight: 400;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .profile-location {
@@ -220,7 +224,7 @@
 .profile-bio {
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-sm);
   line-height: 1.6;
   margin-top: 12px;
 }
@@ -296,7 +300,7 @@
 }
 
 .engagement-stat {
-  margin-top: -16px;
+  margin-top: -19.01px;
   
   .engagement-ring {
     display: flex;
@@ -305,6 +309,8 @@
     
     svg {
       display: block;
+      width: 36px;
+      height: 36px;
     }
     
     .ring-progress {
@@ -312,7 +318,7 @@
     }
     
     .ring-text {
-      font-size: 10px;
+      font-size: 14px;
       font-weight: 700;
       fill: rgba(79, 255, 255, 0.9);
       font-family: 'sweet-square-pro', monospace;
@@ -334,7 +340,7 @@
 .stat-count {
   font-weight: 700;
   color: #ffffff;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
   line-height: 1;
   position: relative;
   z-index: 20;
@@ -345,7 +351,7 @@
 
 .stat-label {
   color: rgba(255, 255, 255, 0.699);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
   font-weight: 400;
   position: relative;
   z-index: 20;
