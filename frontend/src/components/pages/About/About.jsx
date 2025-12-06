@@ -29,16 +29,13 @@ function About() {
           <span className="item-number">••</span>
           <h2>The aesthetic is the message.</h2>
           <p>
-            If we had to give it a genre—which we don't—we'd call it neo-punk. 
-            Technology that serves humans, not the other way around. Every glow, 
-            every chamfered corner, every gradient is a rejection of sterile corporate design.
+            If we had to name it—neo-punk. Technology that serves humans, not the other way around. The glows and gradients aren't a manifesto. They're just what felt right. That it doesn't look like every other app is a bonus.
           </p>
         </div>
 
         <div className="grid-item pull-quote">
           <blockquote>
-            We'd rather make something with a strong point of view that some people love 
-            than something forgettable that nobody hates.
+            We'd rather make something people actually love than something nobody hates.
           </blockquote>
         </div>
 
@@ -47,21 +44,19 @@ function About() {
           <h2>The internet used to work.</h2>
           <p>
             Your feed showed what your friends posted. In order. No algorithm deciding what 
-            you "need" to see. Revolutionary, right? We're just bringing that back.
+            you "need" to see. Revolutionary, right? We're just bringing it back.
           </p>
         </div>
 
         <div className="grid-item honest">
           <span className="item-number">••••</span>
-          <h2>Real talk.</h2>
+          <h2>Look</h2>
           <p>
-            This won't replace Instagram. We know. But not everything needs a billion users 
-            to be valuable. Sometimes the best communities stay small enough to actually be 
-            communities.
+            This won't replace Instagram. But not everything needs a billion users 
+            to be substantive.  But the best communities aren't the biggest — they're the ones where people actually show up.
           </p>
           <p>
-            The design is extra. The glows might be too much. The cyber aesthetic isn't 
-            everyone's taste. Good. We're not for everyone.
+            The design is loud. The cyber aesthetic isn't for everyone. Good. Neither are we.
           </p>
         </div>
 
