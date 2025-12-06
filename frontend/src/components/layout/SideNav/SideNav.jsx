@@ -3,12 +3,14 @@
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useMessages } from '../../../contexts';
 import './SideNav.scss';
 
 function SideNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 480);
+  const { isMessageModalOpen, openMessages } = useMessages();
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,12 +21,19 @@ function SideNav() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Don't navigate if message modal is open
+  const handleNavClick = (path) => {
+    if (isMessageModalOpen) return;
+    navigate(path);
+  };
+
   return (
-    <nav className={`main-nav ${isDesktop ? 'left-nav' : 'bottom-nav'}`}>
+    <nav className={`main-nav ${isDesktop ? 'left-nav' : 'bottom-nav'} ${isMessageModalOpen ? 'nav-disabled' : ''}`}>
       <button 
         className={`nav-item ${location.pathname === '/home' ? 'active' : ''}`}
-        onClick={() => navigate('/home')}
+        onClick={() => handleNavClick('/home')}
         title="Home"
+        disabled={isMessageModalOpen}
       >
         <div className="nav-icon">
           {/* Hexagon hub with center node */}
@@ -37,8 +46,9 @@ function SideNav() {
       </button>
       <button 
         className={`nav-item ${location.pathname === '/search' ? 'active' : ''}`}
-        onClick={() => navigate('/search')}
+        onClick={() => handleNavClick('/search')}
         title="Search"
+        disabled={isMessageModalOpen}
       >
         <div className="nav-icon">
           {/* Targeting reticle */}
@@ -54,8 +64,8 @@ function SideNav() {
         <span>Search</span>
       </button>
       <button 
-        className={`nav-item ${location.pathname === '/messages' ? 'active' : ''}`}
-        onClick={() => navigate('/messages')}
+        className={`nav-item ${isMessageModalOpen ? 'active' : ''}`}
+        onClick={openMessages}
         title="Messages"
       >
         <div className="nav-icon">
@@ -68,8 +78,9 @@ function SideNav() {
       </button>
       <button 
         className={`nav-item ${location.pathname === '/notifications' ? 'active' : ''}`}
-        onClick={() => navigate('/notifications')}
+        onClick={() => handleNavClick('/notifications')}
         title="Notifications"
+        disabled={isMessageModalOpen}
       >
         <div className="nav-icon">
           {/* Signal broadcast/pulse */}
@@ -84,8 +95,9 @@ function SideNav() {
       {location.pathname !== '/friends' && (
         <button 
           className={`nav-item ${location.pathname === '/friends' ? 'active' : ''}`}
-          onClick={() => navigate('/friends')}
+          onClick={() => handleNavClick('/friends')}
           title="Friends"
+          disabled={isMessageModalOpen}
         >
           <div className="nav-icon">
             {/* Connected nodes network */}
@@ -104,8 +116,9 @@ function SideNav() {
       {location.pathname !== '/profile' && (
         <button 
           className={`nav-item ${location.pathname === '/profile' ? 'active' : ''}`}
-          onClick={() => navigate('/profile')}
+          onClick={() => handleNavClick('/profile')}
           title="Profile"
+          disabled={isMessageModalOpen}
         >
           <div className="nav-icon">
             {/* Hexagon avatar frame */}
@@ -121,7 +134,8 @@ function SideNav() {
       {location.pathname !== '/about' && (
         <button 
           className={`nav-item ${location.pathname === '/about' ? 'active' : ''}`}
-          onClick={() => navigate('/about')}
+          onClick={() => handleNavClick('/about')}
+          disabled={isMessageModalOpen}
         >
           <div className="nav-icon">
             {/* Circuit chip with "i" */}

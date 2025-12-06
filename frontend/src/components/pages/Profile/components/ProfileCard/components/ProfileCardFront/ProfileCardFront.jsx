@@ -80,8 +80,30 @@ function ProfileCardFront({ setIsFlipped, posts }) {
               <span className="stat-label">Posts</span>
             </div>
             <div className="stat-item engagement-stat">
-              <span className="stat-count">⭐ 12%</span>
-              <span className="stat-label">Engagement</span>
+              <div className="engagement-ring">
+                <svg width="36" height="36" viewBox="0 0 36 36">
+                  <circle 
+                    className="ring-bg" 
+                    cx="18" cy="18" r="14" 
+                    fill="none" 
+                    stroke="rgba(255,255,255,0.1)" 
+                    strokeWidth="3"
+                  />
+                  <circle 
+                    className="ring-progress" 
+                    cx="18" cy="18" r="14" 
+                    fill="none" 
+                    stroke="rgba(79, 255, 255, 0.8)" 
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray="88"
+                    strokeDashoffset="77"
+                    transform="rotate(-90 18 18)"
+                  />
+                  <text x="18" y="20" textAnchor="middle" className="ring-text">12</text>
+                </svg>
+              </div>
+              <span className="stat-label">Pulse</span>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@
   perspective: 2000px;
   width: 100%;
   max-width: 1200px;
-  margin: 20px auto 40px;
+  margin: 20px auto 22px;
   padding: 0 20px;
   position: relative;
   overflow: visible;
@@ -79,7 +79,7 @@
   50% {
     clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
     opacity: 0.5;
-    transform: scaleY(0.1) scaleX(1.05);
+    transform: scaleY(0.1) scaleX(1);
   }
   100% {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
@@ -126,7 +126,7 @@
   overflow-y: auto;
   opacity: 0;
   scrollbar-width: thin;
-  scrollbar-color: rgba(30, 234, 76, 0.5) var(--surface);
+  scrollbar-color: rgba(43, 232, 188, 0.709) var(--surface);
 }
 
 .profile-card-back::-webkit-scrollbar {

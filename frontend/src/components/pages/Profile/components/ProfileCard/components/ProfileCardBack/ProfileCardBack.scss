@@ -11,36 +11,64 @@
 }
 
 .analytics-title {
-  font-size: 22px;
+  font-family: "new-science-mono", sans-serif;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
-  font-family: 'acme-gothic-extrawide', sans-serif;
+  font-style: normal;
+  font-size: 22px;
   letter-spacing: 1px;
-  text-shadow: 
-    0 0 20px rgba(30, 234, 76, 0.5),
-    0 0 30px rgba(26, 115, 231, 0.3);
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .flip-trigger-back {
-  background: rgba(26, 115, 231, 0.2);
-  border: 1px solid rgba(26, 115, 231, 0.4);
+  background: rgba(26, 115, 231, 0.15);
+  border: 1px solid rgba(26, 115, 231, 0.3);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: rgba(26, 231, 132, 0.9);
+  color: rgba(79, 255, 255, 0.8);
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(26, 115, 231, 0.3);
+  box-shadow: 0 0 15px rgba(26, 115, 231, 0.2);
+  
+  svg {
+    overflow: visible;
+    width: 32px;
+    height: 32px;
+  }
+  
+  .enso-circle {
+    stroke-dasharray: 57;
+    stroke-dashoffset: 57;
+    animation: enso-draw 6s ease-in-out infinite;
+    transform-origin: center;
+    filter: drop-shadow(0 0 3px rgba(79, 255, 255, 0.6));
+  }
+}
+
+@keyframes enso-draw {
+  0% {
+    stroke-dashoffset: 57;
+  }
+  100% {
+    stroke-dashoffset: -57;
+  }
 }
 
 .flip-trigger-back:hover {
-  background: rgba(26, 231, 132, 0.3);
-  border-color: rgba(26, 231, 132, 0.6);
-  transform: rotate(-20deg) scale(1.1);
-  box-shadow: 0 0 25px rgba(26, 231, 132, 0.5);
+  background: rgba(79, 255, 255, 0.2);
+  border-color: rgba(79, 255, 255, 0.5);
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(79, 255, 255, 0.4);
+  
+  .enso-circle {
+    animation-duration: 3s;
+  }
 }
 
 /* Analytics Grid */

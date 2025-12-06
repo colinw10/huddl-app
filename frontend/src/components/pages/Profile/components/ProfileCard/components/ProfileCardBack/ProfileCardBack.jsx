@@ -25,9 +25,17 @@ function ProfileCardBack({
       <div className="analytics-header">
         <h2 className="analytics-title">Your Analytics</h2>
         <button className="flip-trigger-back" onClick={() => setIsFlipped(false)} aria-label="Back to Profile">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="1 4 1 10 7 10"/>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="ensoGradient" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="currentColor" stopOpacity="0" />
+                <stop offset="15%" stopColor="currentColor" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="currentColor" stopOpacity="1" />
+                <stop offset="85%" stopColor="currentColor" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <circle className="enso-circle" cx="12" cy="12" r="9" stroke="url(#ensoGradient)" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
         </button>
       </div>

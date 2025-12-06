@@ -8,10 +8,10 @@
 
 // ============================================
 // FOUNDATION
-// Core variables, mixins, and resets
+// Variables and mixins are auto-injected via vite.config.js
 // ============================================
-@use 'variables' as *;    // Design tokens: colors, spacing, shadows, etc.
-@use 'mixins' as *;       // Reusable Sass mixins
+@use 'variables' as *;
+@use 'mixins' as *;
 @use 'reset';             // CSS reset and base styles
 @use 'typography';        // Font imports and text styles
 

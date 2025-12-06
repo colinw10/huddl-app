@@ -27,12 +27,10 @@
 }
 
 .top-bar-logo {
-  font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: .7rem;
+  @include huddl-title;
+  font-size: 1rem;
   margin-bottom: 1rem;
   margin-left: 2.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
   letter-spacing: 2px;
 }
 

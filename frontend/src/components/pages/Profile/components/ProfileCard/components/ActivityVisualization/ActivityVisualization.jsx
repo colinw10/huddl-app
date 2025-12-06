@@ -22,7 +22,12 @@ function ActivityVisualization({
           <h3 className="wave-title">Activity Overview</h3>
           <div className="activity-meta">
             <span className="post-frequency">Avg. {(posts.length / 52).toFixed(1)} posts/week</span>
-            <span className="peak-time">🔥 Peak: {bestPostingTime}</span>
+            <span className="peak-time">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="peak-icon">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+              Peak: {bestPostingTime}
+            </span>
           </div>
         </div>
         <div className="view-toggle">
@@ -33,7 +38,6 @@ function ActivityVisualization({
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M3 12h4l3-9 4 18 3-9h4"/>
             </svg>
-            Wave
           </button>
           <button 
             className={`toggle-btn ${viewMode === 'heatmap' ? 'active' : ''}`}
@@ -45,7 +49,6 @@ function ActivityVisualization({
               <rect x="3" y="14" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/>
             </svg>
-            Grid
           </button>
         </div>
       </div>
@@ -55,34 +58,34 @@ function ActivityVisualization({
           <svg className="wave-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
             <defs>
               <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="rgba(26, 231, 132, 0.5)" />
-                <stop offset="40%" stopColor="rgba(26, 115, 231, 0.35)" />
-                <stop offset="100%" stopColor="rgba(26, 115, 231, 0.1)" />
+                <stop offset="0%" stopColor="rgba(0, 200, 255, 0.76)" />
+                <stop offset="40%" stopColor="rgba(0, 150, 255, 0.5)" />
+                <stop offset="100%" stopColor="rgba(0, 100, 200, 0.15)" />
               </linearGradient>
               <linearGradient id="mediumWaveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="rgba(220, 8, 188, 0.4)" />
-                <stop offset="40%" stopColor="rgba(220, 8, 188, 0.25)" />
-                <stop offset="100%" stopColor="rgba(220, 8, 188, 0.08)" />
+                <stop offset="0%" stopColor="rgba(255, 0, 102, 0.88)" />
+                <stop offset="40%" stopColor="rgba(200, 0, 150, 0.4)" />
+                <stop offset="100%" stopColor="rgba(150, 0, 200, 0.1)" />
               </linearGradient>
               <linearGradient id="lowWaveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255, 165, 0, 0.3)" />
-                <stop offset="40%" stopColor="rgba(255, 165, 0, 0.2)" />
-                <stop offset="100%" stopColor="rgba(255, 165, 0, 0.05)" />
+                <stop offset="0%" stopColor="rgba(255, 100, 0, 0.5)" />
+                <stop offset="40%" stopColor="rgba(255, 50, 50, 0.35)" />
+                <stop offset="100%" stopColor="rgba(200, 0, 100, 0.1)" />
               </linearGradient>
               <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(26, 115, 231, 0.6)" />
-                <stop offset="50%" stopColor="rgba(26, 231, 132, 0.9)" />
-                <stop offset="100%" stopColor="rgba(26, 115, 231, 0.6)" />
+                <stop offset="0%" stopColor="rgba(0, 200, 255, 0.8)" />
+                <stop offset="50%" stopColor="rgba(0, 255, 174, 0.55)" />
+                <stop offset="100%" stopColor="rgba(0, 200, 255, 0.8)" />
               </linearGradient>
               <linearGradient id="mediumLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(220, 8, 188, 0.5)" />
-                <stop offset="50%" stopColor="rgba(220, 8, 188, 0.8)" />
-                <stop offset="100%" stopColor="rgba(220, 8, 188, 0.5)" />
+                <stop offset="0%" stopColor="rgba(255, 0, 150, 0.7)" />
+                <stop offset="50%" stopColor="rgba(255, 50, 200, 1)" />
+                <stop offset="100%" stopColor="rgba(255, 0, 150, 0.7)" />
               </linearGradient>
               <linearGradient id="lowLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(255, 165, 0, 0.4)" />
-                <stop offset="50%" stopColor="rgba(255, 165, 0, 0.7)" />
-                <stop offset="100%" stopColor="rgba(255, 165, 0, 0.4)" />
+                <stop offset="0%" stopColor="rgba(255, 100, 0, 0.6)" />
+                <stop offset="50%" stopColor="rgba(255, 150, 50, 0.9)" />
+                <stop offset="100%" stopColor="rgba(255, 100, 0, 0.6)" />
               </linearGradient>
               <filter id="glow">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur"/>

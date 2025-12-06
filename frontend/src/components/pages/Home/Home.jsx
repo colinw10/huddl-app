@@ -103,7 +103,7 @@ function Home() {
       id: 3,
       author: "Pablo Cordero",
       userId: "pablo_cordero",
-      content: "🏆 Shipped Huddl v1.0! From concept to production in 2 weeks. Dreams become reality when you stop waiting.",
+      content: "🏆 Shipped HuddL v1.0! From concept to production in 2 weeks. Dreams become reality when you stop waiting.",
       timestamp: "2h",
       createdAt: "2024-01-15T14:20:00Z",
       likes: 142,

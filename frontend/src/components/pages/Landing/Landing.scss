@@ -12,13 +12,11 @@
 }
 
 .landing-title {
-  font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: 2.8rem;
-  font-weight: 300;
+  @include huddl-title;
+  font-size: 5rem;
   margin: 3rem 0 1rem;
-  color: #d5d1d1;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  transform: translateX(10px);
 }
 
 .landing-subtitle {
@@ -45,9 +43,9 @@
 
 .btn-login,
 .btn-signup {
-  padding: 0.20rem 1.8rem;
-  font-family: "acme-gothic-extrawide", sans-serif;
-  font-size: var(--font-size-sm);
+  padding: 0.15rem 2.8rem;
+  font-family: var(--font-main);
+  font-size: var(--font-size-md);
   font-weight: 600;
   border: 2px solid rgba(255, 255, 255, 0.588);
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;

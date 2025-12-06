@@ -24,22 +24,6 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Type-specific header border colors */
-.smart-deck--thoughts .smart-deck-header {
-  border-color: rgba(79, 255, 255, 0.4);
-  box-shadow: 0 0 8px rgba(79, 255, 255, 0.15);
-}
-
-.smart-deck--media .smart-deck-header {
-  border-color: rgba(167, 131, 255, 0.4);
-  box-shadow: 0 0 8px rgba(167, 131, 255, 0.15);
-}
-
-.smart-deck--milestones .smart-deck-header {
-  border-color: rgba(26, 231, 132, 0.4);
-  box-shadow: 0 0 8px rgba(26, 231, 132, 0.15);
-}
-
 /* Icon container */
 .smart-deck-icon {
   display: flex;
@@ -56,6 +40,22 @@
   stroke-linejoin: round;
   transition: all 0.3s ease;
   filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Type-specific header border colors */
+.smart-deck--thoughts .smart-deck-header {
+  border-color: rgba(79, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(79, 255, 255, 0.15);
+}
+
+.smart-deck--media .smart-deck-header {
+  border-color: rgba(167, 131, 255, 0.4);
+  box-shadow: 0 0 8px rgba(167, 131, 255, 0.15);
+}
+
+.smart-deck--milestones .smart-deck-header {
+  border-color: rgba(26, 231, 132, 0.4);
+  box-shadow: 0 0 8px rgba(26, 231, 132, 0.15);
 }
 
 /* Type-specific icon colors */
@@ -80,6 +80,7 @@
   font-size: var(--font-size-sm);
   font-weight: 400;
   font-style: normal;
+  line-height: 1;
 }
 
 /* Type-specific count colors */
@@ -102,6 +103,7 @@
   font-weight: 400;
   font-style: normal;
   text-transform: uppercase;
+  line-height: 1;
 }
 
 /* Type-specific label colors */

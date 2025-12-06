@@ -37,6 +37,15 @@
   }
 }
 
+/* Disabled state when message modal is open */
+.main-nav.nav-disabled {
+  .nav-item:not(.active) {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
 /* Left Sidebar for Desktop */
 @media (min-width: 481px) {
   .main-nav.left-nav {

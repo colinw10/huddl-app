@@ -125,7 +125,7 @@ function Signup() {
               value={formData.username}
               onChange={handleChange}
               className={`form-input ${errors.username ? 'error' : ''} ${formData.username ? 'has-value' : ''}`}
-              placeholder="Choose a username"
+              placeholder="Choose a username…"
               autoComplete="username"
             />
             {errors.username && <span className="error-message">{errors.username}</span>}
@@ -140,7 +140,7 @@ function Signup() {
               value={formData.email}
               onChange={handleChange}
               className={`form-input ${errors.email ? 'error' : ''} ${formData.email ? 'has-value' : ''}`}
-              placeholder="you@example.com"
+              placeholder="Enter your email…"
               autoComplete="email"
             />
             {errors.email && <span className="error-message">{errors.email}</span>}
@@ -155,7 +155,7 @@ function Signup() {
               value={formData.password}
               onChange={handleChange}
               className={`form-input ${errors.password ? 'error' : ''} ${formData.password ? 'has-value' : ''}`}
-              placeholder="••••••••"
+              placeholder="Create a password…"
               autoComplete="new-password"
             />
             {errors.password && <span className="error-message">{errors.password}</span>}
@@ -170,7 +170,7 @@ function Signup() {
               value={formData.confirmPassword}
               onChange={handleChange}
               className={`form-input ${errors.confirmPassword ? 'error' : ''} ${formData.confirmPassword ? 'has-value' : ''}`}
-              placeholder="••••••••"
+              placeholder="Confirm your password…"
               autoComplete="new-password"
             />
             {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}

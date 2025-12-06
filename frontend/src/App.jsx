@@ -14,6 +14,8 @@ import SignUp from './components/pages/Signup';
 import Profile from './components/pages/Profile';
 import About from './components/pages/About';
 import Friends from './components/pages/Friends';
+// Contexts
+import { MessageProvider } from './contexts';
 // Global styles now imported via main.scss in main.jsx
 
 function AppContent() {
@@ -63,7 +65,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>{/* 🟡 Enables routing (URL matching) */}
-      <AppContent />
+      <MessageProvider>
+        <AppContent />
+      </MessageProvider>
     </BrowserRouter>
   );
 }

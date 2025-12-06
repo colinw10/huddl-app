@@ -94,7 +94,7 @@ function Login() {
         </button>
         <div className="login-header">
           <h1 className="login-title">Welcome Back</h1>
-          <p className="login-subtitle">Sign in to continue to Huddl</p>
+          <p className="login-subtitle">Sign in to continue to HuddL</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -107,7 +107,7 @@ function Login() {
               value={formData.email}
               onChange={handleChange}
               className={`form-input ${errors.email ? 'error' : ''}`}
-              placeholder="you@example.com"
+              placeholder="Enter your email…"
               autoComplete="email"
             />
             {errors.email && <span className="error-message">{errors.email}</span>}
@@ -122,7 +122,7 @@ function Login() {
               value={formData.password}
               onChange={handleChange}
               className={`form-input ${errors.password ? 'error' : ''}`}
-              placeholder="••••••••"
+              placeholder="Enter your password…"
               autoComplete="current-password"
             />
             {errors.password && <span className="error-message">{errors.password}</span>}

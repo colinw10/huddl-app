@@ -11,13 +11,13 @@ function About() {
     <div className="about-page">
       <div className="about-hero">
         <span className="hero-label">About</span>
-        <h1 className="hero-title">Huddl</h1>
+        <h1 className="hero-title">HuddL</h1>
         <p className="hero-sub">Not another social network.<br/>A digital neighborhood.</p>
       </div>
 
       <div className="about-grid">
         <div className="grid-item manifesto">
-          <span className="item-number">01</span>
+          <span className="item-number">•</span>
           <h2>We're tired of the same shit.</h2>
           <p>
             Algorithmic feeds. Dopamine-harvesting scroll holes. Platforms that treat your 
@@ -26,7 +26,7 @@ function About() {
         </div>
 
         <div className="grid-item design">
-          <span className="item-number">02</span>
+          <span className="item-number">••</span>
           <h2>The aesthetic is the message.</h2>
           <p>
             If we had to give it a genre—which we don't—we'd call it neo-punk. 
@@ -43,7 +43,7 @@ function About() {
         </div>
 
         <div className="grid-item timing">
-          <span className="item-number">03</span>
+          <span className="item-number">•••</span>
           <h2>The internet used to work.</h2>
           <p>
             Your feed showed what your friends posted. In order. No algorithm deciding what 
@@ -52,7 +52,7 @@ function About() {
         </div>
 
         <div className="grid-item honest">
-          <span className="item-number">04</span>
+          <span className="item-number">••••</span>
           <h2>Real talk.</h2>
           <p>
             This won't replace Instagram. We know. But not everything needs a billion users 
@@ -66,7 +66,7 @@ function About() {
         </div>
 
         <div className="grid-item team">
-          <span className="item-number">05</span>
+          <span className="item-number">―</span>
           <h2>Who we are.</h2>
           <p>
             A small crew who got tired of complaining and decided to build. No VC money 

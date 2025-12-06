@@ -189,11 +189,10 @@
 }
 
 .profile-display-name {
+  @include huddl-title;
   font-size: 24px;
   font-weight: 300;
   margin: 0 0 4px 0;
-  color: #ffffff;
-  font-family: "acme-gothic-extrawide", sans-serif;
   letter-spacing: .8px;
 }
 
@@ -296,15 +295,40 @@
   color: rgba(26, 231, 132, 0.9);
 }
 
-.engagement-stat .stat-count {
-  color: rgba(255, 215, 0, 1);
-  text-shadow: 
-    0 0 1px rgba(121, 105, 12, 0.527),
-    0 0 25px rgba(255, 165, 0, 0.2);
-}
-
-.engagement-stat:hover .stat-count {
-  color: rgba(255, 215, 0, 1);
+.engagement-stat {
+  margin-top: -16px;
+  
+  .engagement-ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    svg {
+      display: block;
+    }
+    
+    .ring-progress {
+      transition: stroke-dashoffset 0.5s ease;
+    }
+    
+    .ring-text {
+      font-size: 10px;
+      font-weight: 700;
+      fill: rgba(79, 255, 255, 0.9);
+      font-family: 'sweet-square-pro', monospace;
+    }
+  }
+  
+  &:hover {
+    .ring-progress {
+      stroke: rgba(26, 231, 132, 1);
+      filter: drop-shadow(0 0 4px rgba(26, 231, 132, 0.6));
+    }
+    
+    .ring-text {
+      fill: rgba(26, 231, 132, 1);
+    }
+  }
 }
 
 .stat-count {

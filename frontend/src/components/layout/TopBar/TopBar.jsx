@@ -1,13 +1,13 @@
 // 🔵 PABLO - UI Architect
 // TopBar.jsx - Top navigation bar component
 
-import { useState } from 'react';
 import './TopBar.scss';
 import MessageModal from './MessageModal/MessageModal';
 import { ThemeToggle } from '../../ui/ThemeToggle';
+import { useMessages } from '../../../contexts';
 
 function TopBar() {
-  const [showMessages, setShowMessages] = useState(false);
+  const { isMessageModalOpen, openMessages, closeMessages } = useMessages();
 
   return (
     <>
@@ -29,7 +29,7 @@ function TopBar() {
           <div 
             className="icon-placeholder icon-messages" 
             title="Messages"
-            onClick={() => setShowMessages(true)}
+            onClick={openMessages}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -39,8 +39,8 @@ function TopBar() {
       </div>
 
       {/* Message Modal */}
-      {showMessages && (
-        <MessageModal onClose={() => setShowMessages(false)} />
+      {isMessageModalOpen && (
+        <MessageModal onClose={closeMessages} />
       )}
     </>
   );

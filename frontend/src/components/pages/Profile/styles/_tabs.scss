@@ -24,7 +24,7 @@
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: var(--font-display);
   text-transform: uppercase;
 }
 

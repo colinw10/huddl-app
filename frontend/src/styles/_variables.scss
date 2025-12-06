@@ -9,9 +9,9 @@
 
 :root {
   // ============================================
-  // THEME-AWARE SEMANTIC TOKENS
-  // These change based on [data-theme]
-  // Use these in components for automatic theming
+  // CUSTOM PROPERTIES (your own CSS shortcuts)
+  // These automatically switch between dark/light mode
+  // Use var(--name) anywhere to grab these values
   // ============================================
   
   // Backgrounds
@@ -68,9 +68,9 @@
   --glow-strong: 0 0 30px rgba(124, 201, 255, 0.4);
   
   // Typography
-  --font-main: 'degular', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'acme-gothic-extrawide', sans-serif;
-  --font-mono: 'sweet-square-pro', monospace;
+  --font-main: "degular", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "stop-mn", sans-serif;
+  --font-mono: "sweet-square-pro", monospace;
   
   --font-size-xs: 0.75rem;      // 12px
   --font-size-sm: 0.875rem;     // 14px

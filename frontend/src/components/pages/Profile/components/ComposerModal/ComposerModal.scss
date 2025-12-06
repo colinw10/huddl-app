@@ -426,7 +426,7 @@
 
 .composer-post-btn {
   padding: 12px 24px;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: var(--font-display);
   font-size: var(--font-size-sm);
   font-weight: 600;
   letter-spacing: 1px;

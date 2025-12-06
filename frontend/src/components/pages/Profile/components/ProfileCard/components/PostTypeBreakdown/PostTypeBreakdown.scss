@@ -9,12 +9,16 @@
 }
 
 .breakdown-title {
-  font-size: var(--font-size-sm);
+  font-family: "new-science-mono", sans-serif;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  font-style: normal;
+  font-size: var(--font-size-sm);
   margin: 0 0 16px 0;
-  font-family: 'acme-gothic-extrawide', sans-serif;
   letter-spacing: 0.5px;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .breakdown-content {

@@ -149,6 +149,19 @@
   background-clip: text;
 }
 
+// HuddL display title - gradient text with display font
+@mixin huddl-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: #fffdfd;
+  margin: 0;
+  line-height: 1.2;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 @mixin text-glow($color: rgba(124, 201, 255, 0.4)) {
   text-shadow: 0 0 10px $color;
 }
@@ -379,7 +392,7 @@
 // Auth form input (holographic black style)
 @mixin auth-input {
   width: 100%;
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: var(--font-display);
   font-size: var(--font-size-md);
   padding: 18px 22px;
   background:
@@ -433,7 +446,7 @@
 @mixin auth-submit-button {
   width: 100%;
   padding: var(--space-xl);
-  font-family: "acme-gothic-extrawide", sans-serif;
+  font-family: var(--font-display);
   font-size: var(--font-size-md);
   font-weight: 600;
   letter-spacing: 2px;

@@ -42,12 +42,16 @@
 }
 
 .wave-title {
-  font-size: var(--font-size-md);
+  font-family: "new-science-mono", sans-serif;
   font-weight: 600;
-  color: var(--text-primary);
+  font-style: normal;
+  font-size: var(--font-size-md);
   margin: 0;
-  font-family: 'acme-gothic-extrawide', sans-serif;
   letter-spacing: 0.5px;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .activity-meta {
@@ -275,7 +279,7 @@
   font-size: var(--font-size-xs);
   font-weight: 600;
   color: var(--text-secondary);
-  font-family: 'acme-gothic-extrawide', sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 0.3px;
 }
 
