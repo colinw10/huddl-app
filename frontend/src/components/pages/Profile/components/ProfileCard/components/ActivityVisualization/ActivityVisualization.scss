@@ -265,6 +265,7 @@
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-sizing: border-box;
 }
 
@@ -407,6 +408,7 @@
   flex-shrink: 0;
   box-sizing: border-box;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: 1px solid var(--border-default);
 }
 
@@ -416,6 +418,7 @@
               0 0 32px currentColor;
   z-index: 100;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .heatmap-legend {
@@ -619,9 +622,12 @@
     background: none !important;
   }
 
-  /* Wave title */
+  /* Wave title - invert gradient for light mode */
   .wave-title {
-    color: rgba(0, 0, 0, 0.85) !important;
+    background: linear-gradient(180deg, #000000 22%, rgba(80, 80, 80, 0.7) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
   }
 
   /* Heatmap */

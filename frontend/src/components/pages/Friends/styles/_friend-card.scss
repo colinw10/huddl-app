@@ -50,17 +50,7 @@
   pointer-events: none;
 }
 
-@keyframes gradientShimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+/* gradientShimmer keyframe moved to _animations.scss */
 
 /* Inner solid background layer - cosmic black holographic */
 .friend-card::after {

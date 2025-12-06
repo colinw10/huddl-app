@@ -82,6 +82,7 @@
     inset 0 2px 4px rgba(255, 255, 255, 0.1),
     0 0 0 1px rgba(30, 234, 76, 0.2);
   backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .profile-card-front .profile-avatar svg {
@@ -469,11 +470,19 @@
   }
 
   .profile-display-name {
-    color: #000000 !important;
+    /* Invert gradient for light mode - dark on top, lighter at bottom */
+    background: linear-gradient(180deg, #000000 22%, rgba(80, 80, 80, 0.7) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
   }
 
   .profile-handle {
-    color: rgba(0, 0, 0, 0.5) !important;
+    /* Invert gradient for light mode */
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 22%, rgba(80, 80, 80, 0.5) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
   }
 
   .profile-location {

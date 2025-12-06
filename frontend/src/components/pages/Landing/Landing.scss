@@ -17,6 +17,56 @@
   margin: 3rem 0 1rem;
   letter-spacing: 1px;
   transform: translateX(10px);
+  display: flex;
+  justify-content: center;
+}
+
+.title-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letterFadeIn 5s linear forwards;
+  
+  // Inherit gradient
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  // Flipped letters (H and L) - start mirrored, flip to normal
+  &--flip {
+    animation: letterFadeInFlip 5s linear forwards;
+  }
+}
+
+@keyframes letterFadeIn {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes letterFadeInFlip {
+  0% {
+    opacity: 0;
+    transform: scaleX(-1);
+  }
+  20% {
+    opacity: 1;
+    transform: scaleX(-1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 .landing-subtitle {
@@ -52,10 +102,29 @@
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   outline: none;
   position: relative;
   overflow: hidden;
-  animation: float 1.5s ease-in-out infinite;
+  opacity: 0;
+  animation: buttonFadeIn 5s linear forwards;
+}
+
+.btn-login {
+  animation-delay: 2.7s;
+}
+
+.btn-signup {
+  animation-delay: 3s;
+}
+
+@keyframes buttonFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes float {
@@ -86,7 +155,6 @@
   color: white;
   box-shadow: 0 4px 12px rgba(95, 241, 239, 0.448),
               0 8px 20px rgba(26, 115, 231, 0.476);
-  animation-delay: 0.2s;
 }
 
 .btn-login::before {
@@ -251,6 +319,14 @@
     text-shadow: none !important;
   }
 
+  /* Invert gradient for light mode - dark on top, lighter at bottom */
+  .title-letter {
+    background: linear-gradient(180deg, #000000 22%, rgba(100, 100, 100, 0.7) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+
   .landing-subtitle {
     color: rgba(0, 0, 0, 0.6) !important;
   }
@@ -261,12 +337,21 @@
     color: #000000 !important;
     border: 2px solid rgba(0, 0, 0, 0.3) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    opacity: 1 !important;
+    animation: none !important;
   }
 
   .btn-login:hover {
     background: rgba(255, 255, 255, 1) !important;
+    color: #1a73e7 !important;
     border-color: rgba(26, 115, 231, 0.5) !important;
     box-shadow: 0 8px 24px rgba(26, 115, 231, 0.2) !important;
+    transform: translateY(-5px) scale(1.05);
+  }
+
+  .btn-login::before,
+  .btn-signup::before {
+    display: none !important;
   }
 
   /* Signup button - filled cyan/blue style */
@@ -276,11 +361,15 @@
     border: none !important;
     box-shadow: 0 4px 12px rgba(26, 115, 231, 0.3),
                 0 8px 20px rgba(26, 231, 132, 0.2) !important;
+    opacity: 1 !important;
+    animation: none !important;
   }
 
   .btn-signup:hover {
     background: linear-gradient(135deg, #1557b0, #15c96e) !important;
+    color: #ffffff !important;
     box-shadow: 0 8px 24px rgba(26, 115, 231, 0.4),
                 0 15px 35px rgba(26, 231, 132, 0.3) !important;
+    transform: translateY(-5px) scale(1.05);
   }
 }

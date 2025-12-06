@@ -14,13 +14,14 @@
   left: calc(50% - 200px);
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(26, 115, 231, 0.785), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(26, 115, 231, 0.785), rgba(255, 220, 200, 0.15) 50%, transparent 70%);
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(125, 211, 198, 0.226);
   animation: blobMorph 20s ease-in-out infinite;
   animation-delay: 10s;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -35,6 +36,7 @@
   background: radial-gradient(circle, rgba(220, 8, 188, 0.619), rgba(255, 200, 245, 0.15) 50%, transparent 70%);
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(235, 176, 176, 0.146);
   animation: blobMorph 20s ease-in-out infinite;
   z-index: 1;
@@ -47,9 +49,10 @@
   transform: translateY(-50%);
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(26, 231, 132, 0.785), rgba(255, 255, 255, 0.05) 50%, transparent 70%); 
+  background: radial-gradient(circle, rgba(26, 231, 132, 0.785), rgba(200, 255, 220, 0.15) 50%, transparent 70%); 
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(185, 216, 200, 0.204);
   animation: blobMorphLeft 20s ease-in-out infinite;
   animation-delay: 5s;
@@ -64,9 +67,10 @@
   transform: translateY(-50%);
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(220, 192, 8, 0.619), rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(220, 192, 8, 0.619), rgba(255, 245, 200, 0.15) 50%, transparent 70%);
   border-radius: 45% 55% 60% 40% / 50% 60% 40% 50%;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(196, 191, 134, 0.155);
   animation: blobMorphRight 20s ease-in-out infinite;
   animation-delay: 15s;
@@ -233,6 +237,6 @@
 }
 
 // ============================================
-// LIGHT MODE - Keep blobs vibrant!
-// No overrides needed - blobs stay colorful
+// LIGHT MODE - Blobs use base styles
+// (base gradients already have 0.15 opacity tints)
 // ============================================

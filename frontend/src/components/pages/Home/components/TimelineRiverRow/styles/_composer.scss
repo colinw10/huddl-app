@@ -25,7 +25,6 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   animation: fadeIn 0.3s ease;
 }
 
@@ -301,7 +300,6 @@
   padding: var(--space-sm);
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
   border: 1px solid var(--border-subtle);
   position: relative;

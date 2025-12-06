@@ -1,28 +1,5 @@
 /* ComposerModal Component Styles */
-
-@keyframes dark-holographic-shimmer {
-  0% {
-    background-position:
-      0% 50%,
-      50% 50%,
-      50% 50%,
-      0% 50%;
-  }
-  50% {
-    background-position:
-      0% 50%,
-      100% 100%,
-      100% 100%,
-      100% 50%;
-  }
-  100% {
-    background-position:
-      0% 50%,
-      50% 50%,
-      50% 50%,
-      0% 50%;
-  }
-}
+/* Keyframes moved to _animations.scss */
 
 .composer-modal-overlay {
   position: fixed;
@@ -32,6 +9,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,6 +70,7 @@
     0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   animation: slideUp 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 

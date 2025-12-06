@@ -42,21 +42,18 @@
 @mixin glass-effect($blur: 20px, $opacity: 0.02) {
   background: rgba(255, 255, 255, $opacity);
   backdrop-filter: blur($blur) saturate(150%);
-  -webkit-backdrop-filter: blur($blur) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 @mixin glass-strong {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 @mixin glass-subtle {
   background: rgba(255, 255, 255, 0.01);
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -271,33 +268,8 @@
 // AUTH FORMS (Login/Signup shared styles)
 // ============================================
 
-// Keyframe animations for auth pages
-@mixin auth-animations {
-  @keyframes dark-holographic-shimmer {
-    0% { background-position: 0% 50%, 50% 50%, 50% 50%, 0% 50%; }
-    50% { background-position: 0% 50%, 100% 100%, 100% 100%, 100% 50%; }
-    100% { background-position: 0% 50%, 50% 50%, 50% 50%, 0% 50%; }
-  }
-
-  @keyframes gradientShift {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(10px, 10px) rotate(5deg); }
-  }
-
-  @keyframes slideInFromLeft {
-    0% { opacity: 0; transform: translateY(300px); filter: blur(10px); }
-    100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
-  }
-
-  @keyframes errorSlide {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-}
+// NOTE: Auth keyframes are now consolidated in _animations.scss
+// (dark-holographic-shimmer, gradientShift, slideInFromLeft, errorSlide, spin)
 
 // Back button for auth pages
 @mixin auth-back-button {
@@ -385,6 +357,7 @@
   padding: 56px 48px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transform: scale(0.85);
   transform-origin: center;
 }
@@ -411,6 +384,7 @@
   text-shadow: 0 0 5px rgba(26, 115, 231, 0.5), 0 0 10px rgba(220, 8, 188, 0.3), 0 0 15px rgba(220, 192, 8, 0.2);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), inset 0 1px 3px rgba(255, 255, 255, 0.2), inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-sizing: border-box;
 
   &::placeholder {
@@ -535,7 +509,6 @@
 @mixin glass-card-chamfered($corner-size: 15px) {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-default);
   clip-path: polygon(
     $corner-size 0, 100% 0,

@@ -54,12 +54,13 @@
 // ============================================
 [data-theme="light"] {
   .App {
-    background: #f5f7fa !important;
+    // Semi-transparent so blobs show through
+    background: rgba(245, 247, 250, 0.92) !important;
     color: var(--text-primary) !important;
   }
 
   .main-content {
-    background: #f5f7fa !important;
+    background: transparent !important;
     color: #000000 !important;
   }
 }

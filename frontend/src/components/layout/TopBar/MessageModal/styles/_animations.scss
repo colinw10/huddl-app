@@ -1,9 +1,5 @@
 /* MessageModal Keyframe Animations */
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* Core keyframes (fadeIn, dark-holographic-shimmer) moved to _animations.scss */
 
 @keyframes slideUp {
   from { 
@@ -14,12 +10,6 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
-
-@keyframes dark-holographic-shimmer {
-  0% { background-position: 0% 50%, 75% 75%, 75% 75%, 0% 50%; }
-  50% { background-position: 100% 50%, 25% 25%, 25% 25%, 100% 50%; }
-  100% { background-position: 0% 50%, 75% 75%, 75% 75%, 0% 50%; }
 }
 
 @keyframes pulse-icon {

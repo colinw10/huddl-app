@@ -30,54 +30,7 @@
   stroke-width: 3;
 }
 
-@keyframes dark-holographic-shimmer {
-  0% {
-    background-position: 0% 50%, 50% 50%, 50% 50%, 0% 50%;
-  }
-  50% {
-    background-position: 0% 50%, 100% 100%, 100% 100%, 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%, 50% 50%, 50% 50%, 0% 50%;
-  }
-}
-
-@keyframes gradientShift {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(10px, 10px) rotate(5deg);
-  }
-}
-
-@keyframes slideInFromLeft {
-  0% {
-    opacity: 0;
-    transform: translateY(300px);
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0px);
-  }
-}
-
-@keyframes errorSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* Keyframes moved to _animations.scss */
 
 .login-container {
   width: 100%;
@@ -140,6 +93,7 @@
     0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 
   /* Scale down for compact appearance */
   transform: scale(0.85);
@@ -152,7 +106,7 @@
 }
 
 .login-title {
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: 38px;
   font-weight: 400;
   letter-spacing: 1px;
@@ -176,7 +130,7 @@
 }
 
 .login-subtitle {
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -197,7 +151,7 @@
 }
 
 .form-label {
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.75px;
@@ -207,7 +161,7 @@
 
 .form-input {
   width: 100%;
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-md);
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -293,7 +247,7 @@
 }
 
 .error-message {
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -313,7 +267,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
   letter-spacing: 0.5px;
   color: var(--text-secondary);
@@ -438,7 +392,7 @@
 .forgot-password {
   background: none;
   border: none;
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
   letter-spacing: 0.5px;
   color: rgba(26, 115, 231, 0.9);
@@ -512,7 +466,7 @@
   border: 1px solid rgba(255, 82, 82, 0.4);
   border-radius: 8px;
   color: #ff5252;
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -528,7 +482,7 @@
 }
 
 .login-footer p {
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.5px;
@@ -540,7 +494,7 @@
   background: none;
   border: none;
   color: #1a73e7;
-  font-family: "degular", sans-serif;
+  font-family: var(--font-main);
   font-weight: 400;
   letter-spacing: 0.5px;
   cursor: pointer;
