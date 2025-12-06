@@ -55,10 +55,9 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
                 <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
               {new Date(date).toLocaleDateString('en-US', { 
-                weekday: 'short', 
-                month: 'short', 
+                month: 'numeric', 
                 day: 'numeric',
-                year: 'numeric'
+                year: '2-digit'
               })}
             </div>
             <div className="river-divider"></div>

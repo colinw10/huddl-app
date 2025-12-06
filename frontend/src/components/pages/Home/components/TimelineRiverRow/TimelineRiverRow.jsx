@@ -291,11 +291,6 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                     <span className="reply-context-handle">@{user.username}</span>
                     <span className="reply-context-dot">·</span>
                     <span className="reply-context-time">{post.timestamp}</span>
-                    <span className={`reply-context-type reply-context-type--${type}`}>
-                      {type === 'thoughts' && '💭'}
-                      {type === 'media' && '📸'}
-                      {type === 'milestones' && '🏆'}
-                    </span>
                   </div>
                   
                   {/* Post content */}

@@ -18,8 +18,13 @@
   font-family: var(--font-display);
   font-size: 1.75rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  color: #fffdfd;
   margin: 0;
+  line-height: 1.2;
+  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .friends-stats {

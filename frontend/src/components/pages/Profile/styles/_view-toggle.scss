@@ -12,13 +12,15 @@
 
 .view-toggle-btn {
   background: rgba(248, 250, 252, 0.9);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 0.35rem 0.9rem;
   color: rgba(30, 30, 60, 0.7);
   border: 1px solid rgba(200, 200, 220, 0.4);
   cursor: pointer;
-  font-size: var(--font-size-xs);
+  font-family: "new-science-mono", sans-serif;
+  font-size: 12px;
   font-weight: 400;
+  letter-spacing: 0.05em;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
