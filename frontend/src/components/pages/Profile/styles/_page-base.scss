@@ -4,7 +4,7 @@
 .user-profile-page {
   min-height: 100vh;
   width: 100%;
-  background: var(--bg-overlay);
+  background: transparent;
   color: var(--text-primary);
   position: relative;
   overflow-x: hidden;
@@ -13,7 +13,7 @@
   margin-top: -60px;
   padding-top: 60px;
   
-  // Dark background layer behind everything
+  // Dark veil overlay behind content (over the blobs)
   &::before {
     content: '';
     position: fixed;
@@ -22,7 +22,7 @@
     right: 0;
     bottom: 0;
     background: var(--bg-overlay);
-    z-index: -2;
+    z-index: -1;
     pointer-events: none;
   }
 }
@@ -35,7 +35,7 @@
 }
 
 .user-profile-page.river-profile {
-  background: var(--bg-overlay);
+  background: transparent;
 }
 
 /* ========================================
