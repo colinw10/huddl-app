@@ -16,7 +16,7 @@
   padding: 8px 16px;
   background: linear-gradient(135deg, rgba(26, 231, 132, 0.15), rgba(79, 255, 255, 0.1));
   border: 1px solid rgba(26, 231, 132, 0.5);
-  color: #1ae784;
+  color: var(--accent);
   font-weight: 600;
   font-size: 12px;
   cursor: pointer;
@@ -44,7 +44,7 @@
     box-shadow: 
       0 0 20px rgba(26, 231, 132, 0.4),
       0 6px 20px rgba(26, 231, 132, 0.25);
-    color: #2fff9a;
+    color: var(--accent);
   }
   
   &:active {
@@ -52,7 +52,7 @@
   }
   
   &:focus-visible {
-    outline: 2px solid #1ae784;
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 }
@@ -83,7 +83,7 @@
   &:hover {
     background: rgba(220, 8, 188, 0.1);
     border-color: rgba(220, 8, 188, 0.6);
-    color: #ff50c8;
+    color: var(--magenta);
     box-shadow: 0 0 16px rgba(220, 8, 188, 0.3);
     transform: translateY(-2px);
   }
@@ -93,7 +93,7 @@
   }
   
   &:focus-visible {
-    outline: 2px solid #dc08bc;
+    outline: 2px solid var(--magenta);
     outline-offset: 2px;
   }
 }
@@ -103,7 +103,7 @@
   background: linear-gradient(135deg, rgba(26, 115, 231, 0.12), rgba(79, 255, 255, 0.08));
   border: 1px solid rgba(79, 255, 255, 0.35);
   border-radius: 8px;
-  color: #4fffff;
+  color: var(--cyan);
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
@@ -137,7 +137,7 @@
   }
   
   &:focus-visible {
-    outline: 2px solid #4fffff;
+    outline: 2px solid var(--cyan);
     outline-offset: 2px;
   }
 }
