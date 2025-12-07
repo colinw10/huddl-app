@@ -2,7 +2,7 @@
 
 > **Legend:**  
 > 🔵 PABLO | 🟢 COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO  
-> ✅ = Done | 🔧 = In Progress | ❌ = Not Started
+> ✅ = Done | 📝 = Has TODO placeholder | 🔧 = In Progress
 
 ```
 huddl-app/
@@ -13,38 +13,33 @@ huddl-app/
 │   ├── manage.py                          ✅ (auto-generated)
 │   │
 │   ├── huddl/                             # Project settings
-│   │   ├── settings.py                    🟠 TITO 🔧 (needs CORS)
+│   │   ├── settings.py                    🟠 TITO 📝 (add CORS)
 │   │   ├── urls.py                        🔵 PABLO ✅
 │   │   └── wsgi.py / asgi.py              ✅ (auto-generated)
 │   │
-│   ├── api/                               # General API app
-│   │   ├── models.py                      🟢 COLIN ❌
-│   │   ├── serializers.py                 🟢 COLIN ❌
-│   │   ├── urls.py                        🟠 TITO ❌
-│   │   └── views.py                       🟢 COLIN ❌
-│   │
-│   ├── posts/                             # Posts app
-│   │   ├── models.py                      🟢 COLIN ✅
-│   │   ├── serializers.py                 🟢 COLIN ❌
-│   │   ├── urls.py                        🟢 COLIN ❌
-│   │   ├── views.py                       🟢 COLIN ❌
-│   │   ├── admin.py                       🟢 COLIN ❌
+│   ├── posts/                             # Posts app - COLIN
+│   │   ├── models.py                      🟢 COLIN 📝
+│   │   ├── serializers.py                 🟢 COLIN 📝
+│   │   ├── urls.py                        🟢 COLIN 📝
+│   │   ├── views.py                       🟢 COLIN 📝
+│   │   ├── admin.py                       🟢 COLIN ✅
 │   │   └── migrations/                    ✅ (auto-generated)
 │   │
-│   ├── users/                             # Users/Auth app
+│   ├── users/                             # Users/Auth app - NATALIA
 │   │   ├── models.py                      🟡 NATALIA ✅
-│   │   ├── serializers.py                 🟡 NATALIA ✅
-│   │   ├── urls.py                        🟡 NATALIA ✅
-│   │   ├── views.py                       🟡 NATALIA ✅
-│   │   ├── admin.py                       🟡 NATALIA ❌
+│   │   ├── serializers.py                 🟡 NATALIA 📝
+│   │   ├── urls.py                        🟡 NATALIA 📝
+│   │   ├── views.py                       🟡 NATALIA 📝
+│   │   ├── admin.py                       🟡 NATALIA ✅
 │   │   └── migrations/                    ✅ (auto-generated)
 │   │
-│   └── friends/                           # Friends app
-│       ├── models.py                      🟣 CRYSTAL ❌
-│       ├── serializers.py                 🟣 CRYSTAL ❌
-│       ├── urls.py                        🟣 CRYSTAL ❌
-│       ├── views.py                       🟣 CRYSTAL ❌
-│       └── admin.py                       🟣 CRYSTAL ❌
+│   └── friends/                           # Friends app - CRYSTAL
+│       ├── models.py                      🟣 CRYSTAL 📝
+│       ├── serializers.py                 🟣 CRYSTAL 📝
+│       ├── urls.py                        🟣 CRYSTAL 📝
+│       ├── views.py                       🟣 CRYSTAL 📝
+│       ├── admin.py                       🟣 CRYSTAL ✅
+│       └── migrations/                    ✅ (auto-generated)
 │
 ├── frontend/
 │   ├── index.html                         🔵 PABLO ✅
@@ -54,113 +49,135 @@ huddl-app/
 │   └── src/
 │       ├── main.jsx                       🔵 PABLO ✅
 │       ├── App.jsx                        🔵 PABLO ✅
-│       ├── index.css                      🔵 PABLO ✅
 │       │
 │       ├── styles/                        # Design System [ALL PABLO ✅]
-│       │   ├── design-const.css           🔵 PABLO ✅
-│       │   ├── utilities.css              🔵 PABLO ✅
-│       │   ├── App.css                    🔵 PABLO ✅
-│       │   ├── theme.css                  🔵 PABLO ✅
-│       │   ├── Buttons.css                🔵 PABLO ✅
-│       │   ├── Blobs.css                  🔵 PABLO ✅
-│       │   └── Logo.css                   🔵 PABLO ✅
+│       │   ├── _variables.scss            🔵 PABLO ✅
+│       │   ├── _mixins.scss               🔵 PABLO ✅
+│       │   ├── _utilities.scss            🔵 PABLO ✅
+│       │   ├── _buttons.scss              🔵 PABLO ✅
+│       │   ├── _cards.scss                🔵 PABLO ✅
+│       │   ├── _animations.scss           🔵 PABLO ✅
+│       │   ├── _blobs.scss                🔵 PABLO ✅
+│       │   ├── _light-mode.scss           🔵 PABLO ✅
+│       │   └── main.scss                  🔵 PABLO ✅
 │       │
-│       ├── services/                      # API Layer [NEEDS CREATION]
-│       │   ├── apiClient.js               🟠 TITO ❌
-│       │   ├── authService.js             🟡 NATALIA ❌
-│       │   ├── postsService.js            🟠 TITO ❌
-│       │   └── friendsService.js          🟣 CRYSTAL ❌
+│       ├── services/                      # API Layer
+│       │   ├── apiClient.js               🟠 TITO 📝
+│       │   ├── postsService.js            🟢 COLIN 📝
+│       │   └── friendsService.js          🟣 CRYSTAL 📝
 │       │
-│       ├── utils/                         # Helpers [NEEDS CREATION]
-│       │   ├── formatters.js              🟠 TITO ❌
-│       │   └── validators.js              🟠 TITO ❌
+│       ├── contexts/                      # State Management
+│       │   ├── index.js                   🔵 PABLO ✅
+│       │   ├── ThemeContext.jsx           🔵 PABLO ✅
+│       │   ├── AuthContext.jsx            🟡 NATALIA 📝
+│       │   ├── PostsContext.jsx           🟢 COLIN 📝
+│       │   ├── FriendsContext.jsx         🟣 CRYSTAL 📝
+│       │   └── MessageContext.jsx         🟠 TITO 📝
 │       │
 │       ├── components/
 │       │   │
-│       │   ├── auth/                      # Auth Components [NEEDS CREATION]
-│       │   │   └── ProtectedRoute.jsx     🟡 NATALIA ❌
-│       │   │
 │       │   ├── layout/                    # Layout [ALL PABLO ✅]
+│       │   │   ├── Shell/                 🔵 PABLO ✅
 │       │   │   ├── TopBar/                🔵 PABLO ✅
 │       │   │   ├── SideNav/               🔵 PABLO ✅
 │       │   │   └── BottomNav/             🔵 PABLO ✅
+│       │   │
+│       │   ├── ui/                        # UI Components [ALL PABLO ✅]
+│       │   │   ├── ThemeToggle/           🔵 PABLO ✅
+│       │   │   └── ProtectedRoute.jsx     🔵 PABLO ✅
 │       │   │
 │       │   └── pages/
 │       │       ├── Landing/               🔵 PABLO ✅
 │       │       │
 │       │       ├── Login/
-│       │       │   ├── Login.jsx          🔵 UI ✅ | 🟡 Logic ❌
-│       │       │   └── Login.css          🔵 PABLO ✅
+│       │       │   ├── Login.jsx          🟡 NATALIA 📝 (wire up auth)
+│       │       │   └── Login.scss         🔵 PABLO ✅
 │       │       │
 │       │       ├── Signup/
-│       │       │   ├── Signup.jsx         🔵 UI ✅ | 🟡 Logic ❌
-│       │       │   └── Signup.css         🔵 PABLO ✅
+│       │       │   ├── Signup.jsx         🟡 NATALIA 📝 (wire up auth)
+│       │       │   └── Signup.scss        🔵 PABLO ✅
 │       │       │
 │       │       ├── Home/
-│       │       │   ├── Home.jsx           🔵 UI ✅ | 🟢🟠 Logic ❌
-│       │       │   ├── Home.css           🔵 PABLO ✅
-│       │       │   ├── utils/groupPosts.js 🔵 PABLO ✅
+│       │       │   ├── Home.jsx           🟢 COLIN 📝 (wire up posts)
+│       │       │   ├── Home.scss          🔵 PABLO ✅
 │       │       │   └── components/        🔵 PABLO ✅
-│       │       │       ├── TimelineRiverFeed.jsx
-│       │       │       ├── TimelineRiverRow.jsx
-│       │       │       └── MediaLightbox/
+│       │       │       ├── TimelineRiverFeed/
+│       │       │       └── TimelineRiverRow/
 │       │       │
 │       │       ├── Profile/
-│       │       │   ├── Profile.jsx        🔵 UI ✅ | 🟡 Logic ❌
-│       │       │   ├── Profile.css        🔵 PABLO ✅
+│       │       │   ├── Profile.jsx        🟣 CRYSTAL 📝 (wire up profile)
+│       │       │   ├── Profile.scss       🔵 PABLO ✅
 │       │       │   └── components/        🔵 PABLO ✅
 │       │       │       ├── ProfileCard/
-│       │       │       ├── ComposerModal/
 │       │       │       └── TimelineRiver/
 │       │       │
-│       │       ├── Friends/
-│       │       │   ├── Friends.jsx        🔵 UI ✅ | 🟣 Logic ❌
-│       │       │   └── Friends.css        🔵 PABLO (if needed)
-│       │       │
-│       │       └── About/
-│       │           └── About.jsx          🟣 CRYSTAL ❌
+│       │       └── Friends/
+│       │           ├── Friends.jsx        🟣 CRYSTAL 📝 (wire up friends)
+│       │           └── Friends.scss       🔵 PABLO ✅
 │
 └── docs/                                  🔵 PABLO ✅
     ├── team-plan-v2/                      # This folder
-    └── features/
+    ├── features/                          # Feature documentation
+    └── refactoring/                       # Technical debt tracking
 ```
 
 ---
 
 ## Summary by Person
 
-### 🔵 Pablo (UI Architect)
+### 🔵 Pablo (UI Architect) - DONE ✅
 
-- **All CSS/styling** across the entire project
-- **All component structure** (JSX layout, no API logic)
-- **Design system** and visual consistency
+- **All SCSS styling** across the entire project
+- **All component structure** (JSX layout)
+- **Design system** (variables, mixins, utilities)
+- **Layout components** (Shell, TopBar, SideNav, BottomNav)
+- **ThemeContext** for dark/light mode
 - **Documentation** and project coordination
-- **Remaining:** Backend gaps, CORS, error handling patterns
 
-### 🟢 Colin (Posts Backend)
+### 🟢 Colin (Posts) - 📝 TODO
 
-- `posts/` Django app (models ✅, serializers, views, urls, admin)
-- Feed logic integration with Home.jsx
-- ComposerModal post creation logic
+Backend:
+- `posts/models.py` - Uncomment Post model fields
+- `posts/serializers.py` - Implement PostSerializer
+- `posts/views.py` - Implement PostViewSet
+- `posts/urls.py` - Register routes
 
-### 🟡 Natalia (Auth & Users)
+Frontend:
+- `postsService.js` - Implement API calls
+- `PostsContext.jsx` - Implement state management
+- `Home.jsx` - Wire up to PostsContext
 
-- `users/` Django app (models ✅, serializers ✅, views ✅, urls ✅, admin)
-- `authService.js` frontend service
-- `ProtectedRoute.jsx` component
-- Login/Signup form → API connection
+### 🟡 Natalia (Auth) - 📝 TODO
 
-### 🟣 Crystal (Friends System)
+Backend:
+- `users/serializers.py` - Implement serializers
+- `users/views.py` - Implement signup/me endpoints
+- `users/urls.py` - Register routes
 
-- `friends/` Django app (models, serializers, views, urls, admin)
-- `friendsService.js` frontend service
-- Friends.jsx logic
-- About.jsx page
+Frontend:
+- `AuthContext.jsx` - Implement auth state
+- `Login.jsx` - Wire up login form
+- `Signup.jsx` - Wire up signup form
 
-### 🟠 Tito (Infrastructure)
+### 🟣 Crystal (Friends) - 📝 TODO
 
-- `settings.py` CORS configuration
-- `apiClient.js` base HTTP client with auth
-- `postsService.js` posts API wrapper
-- `utils/formatters.js` and `validators.js`
-- API routing setup
+Backend:
+- `friends/models.py` - Uncomment Friendship model
+- `friends/serializers.py` - Implement serializers
+- `friends/views.py` - Implement FriendViewSet
+- `friends/urls.py` - Register routes
+
+Frontend:
+- `friendsService.js` - Implement API calls
+- `FriendsContext.jsx` - Implement state management
+- `Friends.jsx` - Wire up friends list
+- `Profile.jsx` - Wire up profile page
+
+### 🟠 Tito (Infrastructure) - 📝 TODO
+
+Backend:
+- `huddl/settings.py` - Add CORS configuration
+
+Frontend:
+- `apiClient.js` - Implement Axios with auth
+- `MessageContext.jsx` - Implement messaging (stretch)

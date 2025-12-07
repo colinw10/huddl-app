@@ -8,24 +8,18 @@ You're the **infrastructure backbone** - you build the foundation that everyone 
 
 ### Backend
 
-| File                | Status      | Description                   |
-| ------------------- | ----------- | ----------------------------- |
-| `huddl/settings.py` | 🔧 Add CORS | CORS configuration (CRITICAL) |
-| `api/urls.py`       | ❌ Build    | General API routing           |
+| File                | Status       | Description                   |
+| ------------------- | ------------ | ----------------------------- |
+| `huddl/settings.py` | 📝 Implement | Add CORS configuration        |
 
-### Frontend (`src/services/`)
+### Frontend (`src/services/` and `src/contexts/`)
 
-| File              | Status    | Description                        |
-| ----------------- | --------- | ---------------------------------- |
-| `apiClient.js`    | ❌ Create | Base HTTP client with auth headers |
-| `postsService.js` | ❌ Create | Posts API wrapper                  |
+All files have starter code with TODO comments. Follow the comments!
 
-### Frontend (`src/utils/`)
-
-| File            | Status    | Description                          |
-| --------------- | --------- | ------------------------------------ |
-| `formatters.js` | ❌ Create | Date, number, text formatting        |
-| `validators.js` | ❌ Create | Email, username, password validation |
+| File                 | Status       | Description                        |
+| -------------------- | ------------ | ---------------------------------- |
+| `apiClient.js`       | 📝 Implement | Axios client with auth headers     |
+| `MessageContext.jsx` | 📝 Implement | Messaging state (stretch goal)     |
 
 ## Week-by-Week Tasks
 
