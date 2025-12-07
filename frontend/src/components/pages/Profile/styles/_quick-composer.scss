@@ -4,10 +4,22 @@
 .quick-composer-buttons {
   display: flex;
   gap: var(--space-lg);
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto 30px;
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+@media (min-width: 1600px) {
+  .quick-composer-buttons {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .quick-composer-buttons {
+    max-width: 1800px;
+  }
 }
 
 .quick-composer-section {

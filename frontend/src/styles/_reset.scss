@@ -15,15 +15,16 @@
 
 html {
   overflow-x: hidden;
-  overflow-y: overlay; /* Scrollbar floats over content instead of taking space */
+  overflow-y: auto;
+  width: 100%;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
-  overflow-y: overlay; /* Scrollbar floats over content instead of taking space */
   font-family: var(--font-main);
 }
 
@@ -31,6 +32,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  min-width: 100%;
   overflow-x: hidden;
 }
 

@@ -14,12 +14,25 @@
 .profile-flip-container {
   perspective: 2000px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 20px auto 22px;
   padding: 0 20px;
   position: relative;
   overflow: visible;
   box-sizing: border-box;
+}
+
+/* Large screens: expand card width */
+@media (min-width: 1600px) {
+  .profile-flip-container {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .profile-flip-container {
+    max-width: 1800px;
+  }
 }
 
 /* Desktop: shift card left to center between nav and viewport edge */
@@ -117,7 +130,7 @@
   background-size: 100% 100%, 150% 150%, 150% 150%, 200% 200%;
   background-position: 0% 50%, 75% 75%, 75% 75%, 50% 50%;
   background-blend-mode: overlay, multiply, overlay;
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-subtle);
   transition: opacity 0.3s ease;
 }
 

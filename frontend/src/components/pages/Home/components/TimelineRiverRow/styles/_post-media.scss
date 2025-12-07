@@ -16,10 +16,10 @@
 .river-media-image {
   width: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
-  height: 140px !important;
-  max-height: 140px !important;
+  max-height: 300px;
+  height: auto;
   transition: transform 0.3s ease;
 }
 

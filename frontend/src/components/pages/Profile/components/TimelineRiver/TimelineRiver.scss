@@ -9,6 +9,18 @@
   box-sizing: border-box;
 }
 
+@media (min-width: 1600px) {
+  .timeline-river {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .timeline-river {
+    max-width: 1800px;
+  }
+}
+
 /* River Column Labels */
 
 .river-labels {

@@ -11,8 +11,39 @@ function ProfileCardFront({ setIsFlipped, posts }) {
           {/* Background image placeholder */}
         </div>
         
-        {/* Overlapping avatar container */}
+        {/* Overlapping avatar container with engagement ring */}
         <div className="avatar-wrapper">
+          <div className="avatar-engagement-ring">
+            <svg width="130" height="130" viewBox="0 0 130 130">
+              {/* Background ring */}
+              <circle 
+                className="ring-bg" 
+                cx="65" cy="65" r="60" 
+                fill="none" 
+                stroke="rgba(255,255,255,0.15)" 
+                strokeWidth="4"
+              />
+              {/* Progress ring - animates on load */}
+              <circle 
+                className="ring-progress" 
+                cx="65" cy="65" r="60" 
+                fill="none" 
+                stroke="#1ae784"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeDasharray="377"
+                strokeDashoffset="377"
+                transform="rotate(-90 65 65)"
+              />
+              {/* Spark/particle at the end of progress */}
+              <circle 
+                className="ring-spark"
+                cx="65" cy="5"
+                r="5"
+                fill="#1ae784"
+              />
+            </svg>
+          </div>
           <div className="profile-avatar">
             <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
@@ -65,45 +96,11 @@ function ProfileCardFront({ setIsFlipped, posts }) {
             </div>
           </div>
           
-          {/* Stats - Each on Own Row */}
+          {/* Stats - Posts only */}
           <div className="profile-stats">
-            <div className="stat-item">
-              <span className="stat-count">-26</span>
-              <span className="stat-label">Following</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-count">0</span>
-              <span className="stat-label">Followers</span>
-            </div>
             <div className="stat-item">
               <span className="stat-count">{posts.length}</span>
               <span className="stat-label">Posts</span>
-            </div>
-            <div className="stat-item engagement-stat">
-              <div className="engagement-ring">
-                <svg width="36" height="36" viewBox="0 0 36 36">
-                  <circle 
-                    className="ring-bg" 
-                    cx="18" cy="18" r="14" 
-                    fill="none" 
-                    stroke="rgba(255,255,255,0.1)" 
-                    strokeWidth="3"
-                  />
-                  <circle 
-                    className="ring-progress" 
-                    cx="18" cy="18" r="14" 
-                    fill="none" 
-                    stroke="rgba(79, 255, 255, 0.8)" 
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeDasharray="88"
-                    strokeDashoffset="77"
-                    transform="rotate(-90 18 18)"
-                  />
-                  <text x="18" y="20" textAnchor="middle" className="ring-text">12</text>
-                </svg>
-              </div>
-              <span className="stat-label">Pulse</span>
             </div>
           </div>
         </div>

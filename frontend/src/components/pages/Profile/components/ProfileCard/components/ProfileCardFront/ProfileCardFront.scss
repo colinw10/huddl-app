@@ -63,6 +63,86 @@
   transform: translateY(0);
   bottom: -10px;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Engagement ring around avatar */
+.profile-card-front .avatar-engagement-ring {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  
+  svg {
+    display: block;
+    filter: drop-shadow(0 0 12px rgba(26, 231, 132, 0.6));
+    overflow: visible;
+  }
+  
+  .ring-bg {
+    opacity: 0.2;
+    stroke: rgba(255, 255, 255, 0.15);
+  }
+  
+  .ring-progress {
+    stroke: #26def2f2;
+    filter: drop-shadow(0 0 10px rgba(231, 221, 26, 0.8));
+    /* Animate from empty (377) to ~12% filled (330) on load */
+    animation: ringFill 1.5s ease-out 0.5s forwards;
+  }
+  
+  .ring-spark {
+    fill: #1ae784;
+    filter: drop-shadow(0 0 8px #1ae784) drop-shadow(0 0 16px rgba(26, 231, 132, 0.8));
+    transform-origin: 65px 65px;
+    /* Animate spark rotating around the ring */
+    animation: sparkMove 1.5s ease-out 0.5s forwards, sparkPulse 1s ease-in-out infinite;
+    opacity: 0;
+  }
+}
+
+/* Ring fills from 0 to target (377 = empty, 330 = ~12% filled) */
+@keyframes ringFill {
+  0% {
+    stroke-dashoffset: 377;
+  }
+  100% {
+    stroke-dashoffset: 330;
+  }
+}
+
+/* Spark rotates to follow the ring progress */
+@keyframes sparkMove {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(45deg);  /* ~12% of 360deg */
+    opacity: 1;
+  }
+}
+
+/* Spark pulses/glows */
+@keyframes sparkPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px #1ae784) drop-shadow(0 0 12px rgba(26, 231, 132, 0.6));
+    r: 5;
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #1ae784) drop-shadow(0 0 20px rgba(26, 231, 132, 0.9));
+    r: 6;
+  }
+}
+
+@keyframes ringPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(26, 231, 132, 0.8));
+  }
 }
 
 .profile-card-front .profile-avatar {
@@ -79,10 +159,11 @@
     0 0 40px rgba(26, 115, 231, 0.3),
     0 0 60px rgba(234, 30, 162, 0.2),
     inset 0 0 20px rgba(255, 255, 255, 0.05),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1),
-    0 0 0 1px rgba(30, 234, 76, 0.2);
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  position: relative;
+  z-index: 2;
 }
 
 .profile-card-front .profile-avatar svg {
@@ -304,7 +385,7 @@
 }
 
 .engagement-stat {
-  margin-top: -19.01px;
+  margin-top: -8px;
   
   .engagement-ring {
     display: flex;
@@ -325,7 +406,7 @@
       font-size: 14px;
       font-weight: 700;
       fill: rgba(79, 255, 255, 0.9);
-      font-family: 'sweet-square-pro', monospace;
+      font-family: var(--font-title);
     }
   }
   
@@ -363,6 +444,34 @@
   text-shadow: 
     0 0 15px rgba(26, 115, 231, 0.3),
     0 0 25px rgba(30, 234, 76, 0.15);
+}
+
+/* Responsive - Tablet/smaller desktop */
+@media (max-width: 1024px) {
+  .profile-card-front .avatar-engagement-ring {
+    width: 110px;
+    height: 110px;
+    
+    svg {
+      width: 110px;
+      height: 110px;
+    }
+    
+    .ring-bg,
+    .ring-progress {
+      stroke-width: 3.5;
+    }
+    
+    .ring-spark {
+      transform-origin: 55px 55px;
+      r: 4.5;
+    }
+  }
+  
+  .profile-card-front .profile-avatar {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 /* Responsive - Mobile */
@@ -433,6 +542,28 @@
   .profile-actions-pill {
     top: 170px;
     right: 12px;
+  }
+  
+  /* Scale down engagement ring for mobile */
+  .profile-card-front .avatar-engagement-ring {
+    width: 80px;
+    height: 80px;
+    
+    svg {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.4));
+    }
+    
+    .ring-bg,
+    .ring-progress {
+      stroke-width: 2.5;
+    }
+    
+    .ring-spark {
+      transform-origin: 40px 40px;
+      r: 3.5;
+    }
   }
 }
 
