@@ -10,24 +10,24 @@ You're building the **friends/social connection system** - how users find and co
 
 All files have starter code with TODO comments. Follow the comments!
 
-| File             | Status       | Description                  |
-| ---------------- | ------------ | ---------------------------- |
-| `models.py`      | 📝 Implement | Friendship model             |
-| `serializers.py` | 📝 Implement | Friendship serializers       |
-| `views.py`       | 📝 Implement | Friend request endpoints     |
-| `urls.py`        | 📝 Implement | Friends routes               |
-| `admin.py`       | ✅ Done      | Already configured           |
+| File             | Status       | Description              |
+| ---------------- | ------------ | ------------------------ |
+| `models.py`      | 📝 Implement | Friendship model         |
+| `serializers.py` | 📝 Implement | Friendship serializers   |
+| `views.py`       | 📝 Implement | Friend request endpoints |
+| `urls.py`        | 📝 Implement | Friends routes           |
+| `admin.py`       | ✅ Done      | Already configured       |
 
 ### Frontend (`src/services/`, `src/contexts/`, pages)
 
 All files have starter code with TODO comments. Follow the comments!
 
-| File                  | Status       | Description                      |
-| --------------------- | ------------ | -------------------------------- |
-| `friendsService.js`   | 📝 Implement | API calls for friends            |
-| `FriendsContext.jsx`  | 📝 Implement | Global friends state management  |
-| `Friends.jsx`         | 📝 Implement | Display friends, handle requests |
-| `Profile.jsx`         | 📝 Implement | User profile page                |
+| File                 | Status       | Description                      |
+| -------------------- | ------------ | -------------------------------- |
+| `friendsService.js`  | 📝 Implement | API calls for friends            |
+| `FriendsContext.jsx` | 📝 Implement | Global friends state management  |
+| `Friends.jsx`        | 📝 Implement | Display friends, handle requests |
+| `Profile.jsx`        | 📝 Implement | User profile page                |
 
 ## Week-by-Week Tasks
 

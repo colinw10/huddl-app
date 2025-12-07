@@ -10,23 +10,23 @@ You're responsible for the **authentication system** - how users sign up, log in
 
 All files have starter code with TODO comments. Follow the comments!
 
-| File             | Status       | Description                      |
-| ---------------- | ------------ | -------------------------------- |
-| `models.py`      | ✅ Done      | Profile model exists             |
-| `serializers.py` | 📝 Implement | User/Profile serializers         |
-| `views.py`       | 📝 Implement | signup, me endpoints             |
-| `urls.py`        | 📝 Implement | Auth routes                      |
-| `admin.py`       | ✅ Done      | Already configured               |
+| File             | Status       | Description              |
+| ---------------- | ------------ | ------------------------ |
+| `models.py`      | ✅ Done      | Profile model exists     |
+| `serializers.py` | 📝 Implement | User/Profile serializers |
+| `views.py`       | 📝 Implement | signup, me endpoints     |
+| `urls.py`        | 📝 Implement | Auth routes              |
+| `admin.py`       | ✅ Done      | Already configured       |
 
 ### Frontend (`src/contexts/` and pages)
 
 All files have starter code with TODO comments. Follow the comments!
 
-| File                | Status       | Description                       |
-| ------------------- | ------------ | --------------------------------- |
-| `AuthContext.jsx`   | 📝 Implement | Auth state, login/signup/logout   |
-| `Login.jsx`         | 📝 Implement | Connect form to AuthContext       |
-| `Signup.jsx`        | 📝 Implement | Connect form to AuthContext       |
+| File              | Status       | Description                     |
+| ----------------- | ------------ | ------------------------------- |
+| `AuthContext.jsx` | 📝 Implement | Auth state, login/signup/logout |
+| `Login.jsx`       | 📝 Implement | Connect form to AuthContext     |
+| `Signup.jsx`      | 📝 Implement | Connect form to AuthContext     |
 
 ## Week-by-Week Tasks
 

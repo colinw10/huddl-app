@@ -41,12 +41,12 @@
 
 Each file has starter code with TODO comments. Follow the comments to implement!
 
-| Member      | Backend Files                                                  | Frontend Files                                                    |
-| ----------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
-| **Colin**   | `posts/models.py`, `views.py`, `serializers.py`, `urls.py`     | `postsService.js`, `PostsContext.jsx`, `Home.jsx`                 |
-| **Natalia** | `users/views.py`, `serializers.py`, `urls.py`                  | `AuthContext.jsx`, `Login.jsx`, `Signup.jsx`                      |
-| **Crystal** | `friends/models.py`, `views.py`, `serializers.py`, `urls.py`   | `friendsService.js`, `FriendsContext.jsx`, `Profile.jsx`, `Friends.jsx` |
-| **Tito**    | CORS config in `settings.py`                                   | `apiClient.js`, `MessageContext.jsx`                              |
+| Member      | Backend Files                                                | Frontend Files                                                          |
+| ----------- | ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| **Colin**   | `posts/models.py`, `views.py`, `serializers.py`, `urls.py`   | `postsService.js`, `PostsContext.jsx`, `Home.jsx`                       |
+| **Natalia** | `users/views.py`, `serializers.py`, `urls.py`                | `AuthContext.jsx`, `Login.jsx`, `Signup.jsx`                            |
+| **Crystal** | `friends/models.py`, `views.py`, `serializers.py`, `urls.py` | `friendsService.js`, `FriendsContext.jsx`, `Profile.jsx`, `Friends.jsx` |
+| **Tito**    | CORS config in `settings.py`                                 | `apiClient.js`, `MessageContext.jsx`                                    |
 
 ### 📝 How To Complete Your Tasks
 

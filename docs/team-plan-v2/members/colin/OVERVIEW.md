@@ -22,11 +22,11 @@ All files have starter code with TODO comments. Follow the comments!
 
 All files have starter code with TODO comments. Follow the comments!
 
-| File                | Status       | Description                              |
-| ------------------- | ------------ | ---------------------------------------- |
-| `postsService.js`   | 📝 Implement | API calls for posts CRUD                 |
-| `PostsContext.jsx`  | 📝 Implement | Global posts state management            |
-| `Home.jsx`          | 📝 Implement | Connect to PostsContext, render feed     |
+| File               | Status       | Description                          |
+| ------------------ | ------------ | ------------------------------------ |
+| `postsService.js`  | 📝 Implement | API calls for posts CRUD             |
+| `PostsContext.jsx` | 📝 Implement | Global posts state management        |
+| `Home.jsx`         | 📝 Implement | Connect to PostsContext, render feed |
 
 ## Week-by-Week Tasks
 

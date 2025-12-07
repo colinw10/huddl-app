@@ -137,12 +137,14 @@ huddl-app/
 ### 🟢 Colin (Posts) - 📝 TODO
 
 Backend:
+
 - `posts/models.py` - Uncomment Post model fields
 - `posts/serializers.py` - Implement PostSerializer
 - `posts/views.py` - Implement PostViewSet
 - `posts/urls.py` - Register routes
 
 Frontend:
+
 - `postsService.js` - Implement API calls
 - `PostsContext.jsx` - Implement state management
 - `Home.jsx` - Wire up to PostsContext
@@ -150,11 +152,13 @@ Frontend:
 ### 🟡 Natalia (Auth) - 📝 TODO
 
 Backend:
+
 - `users/serializers.py` - Implement serializers
 - `users/views.py` - Implement signup/me endpoints
 - `users/urls.py` - Register routes
 
 Frontend:
+
 - `AuthContext.jsx` - Implement auth state
 - `Login.jsx` - Wire up login form
 - `Signup.jsx` - Wire up signup form
@@ -162,12 +166,14 @@ Frontend:
 ### 🟣 Crystal (Friends) - 📝 TODO
 
 Backend:
+
 - `friends/models.py` - Uncomment Friendship model
 - `friends/serializers.py` - Implement serializers
 - `friends/views.py` - Implement FriendViewSet
 - `friends/urls.py` - Register routes
 
 Frontend:
+
 - `friendsService.js` - Implement API calls
 - `FriendsContext.jsx` - Implement state management
 - `Friends.jsx` - Wire up friends list
@@ -176,8 +182,10 @@ Frontend:
 ### 🟠 Tito (Infrastructure) - 📝 TODO
 
 Backend:
+
 - `huddl/settings.py` - Add CORS configuration
 
 Frontend:
+
 - `apiClient.js` - Implement Axios with auth
 - `MessageContext.jsx` - Implement messaging (stretch)

@@ -8,18 +8,18 @@ You're the **infrastructure backbone** - you build the foundation that everyone 
 
 ### Backend
 
-| File                | Status       | Description                   |
-| ------------------- | ------------ | ----------------------------- |
-| `huddl/settings.py` | 📝 Implement | Add CORS configuration        |
+| File                | Status       | Description            |
+| ------------------- | ------------ | ---------------------- |
+| `huddl/settings.py` | 📝 Implement | Add CORS configuration |
 
 ### Frontend (`src/services/` and `src/contexts/`)
 
 All files have starter code with TODO comments. Follow the comments!
 
-| File                 | Status       | Description                        |
-| -------------------- | ------------ | ---------------------------------- |
-| `apiClient.js`       | 📝 Implement | Axios client with auth headers     |
-| `MessageContext.jsx` | 📝 Implement | Messaging state (stretch goal)     |
+| File                 | Status       | Description                    |
+| -------------------- | ------------ | ------------------------------ |
+| `apiClient.js`       | 📝 Implement | Axios client with auth headers |
+| `MessageContext.jsx` | 📝 Implement | Messaging state (stretch goal) |
 
 ## Week-by-Week Tasks
 
