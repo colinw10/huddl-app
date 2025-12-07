@@ -1,98 +1,225 @@
-"""
-=============================================================================
-FRIENDS APP - VIEWS (API Endpoints)
-=============================================================================
+# 🟣 CRYSTAL - Friends System Lead
+# views.py - API endpoints for friend operations
 
-File: backend/friends/views.py
-Assigned to: CRYSTAL
-Responsibility: Friend requests and friendship management
+# api_view - turns a function into an API endpoint
+# permission_classes - controls who can access
+# IsAuthenticated - requires login
+# Response - sends JSON back to React
+# status - HTTP codes (200, 400, 404, etc.)
+# User - Django's built-in user model
+# FriendRequest, Friendship - your models (we may need to build these)
 
-TODO:
-- [ ] GET /api/friends/ - List all friends of current user
-- [ ] GET /api/friends/requests/ - List pending friend requests
-- [ ] POST /api/friends/request/ - Send friend request
-- [ ] POST /api/friends/accept/{id}/ - Accept friend request
-- [ ] DELETE /api/friends/decline/{id}/ - Decline friend request
-- [ ] DELETE /api/friends/{id}/ - Remove friend
-- [ ] Prevent duplicate requests
-- [ ] Prevent self-requests
-- [ ] Add IsAuthenticated permission
-
-Status: PLACEHOLDER
-=============================================================================
-"""
-
-from django.shortcuts import render
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.models import User
+from django.shortcuts import render
+from .models import FriendRequest, Friendship
 
-# TODO: Crystal - Import models and serializers
-# from .models import Friendship, FriendRequest
-# from .serializers import FriendSerializer, FriendRequestSerializer
+# ═══════════════════════════════════════════════════════════════════════
+# 🟢 CRYSTAL - Friend List
+# ═══════════════════════════════════════════════════════════════════════
 
+@api_view(['GET']) # Only accepts GET requests
+@permission_classes([IsAuthenticated]) # Must be logged in
+def friend_list(request):
+  '''
+  Returns all friends of the logged-in user
 
-class FriendViewSet(viewsets.ViewSet):
-    """
-    Crystal: Implement friendship management
-    """
-    permission_classes = [IsAuthenticated]
-    
-    def list(self, request):
-        """
-        GET /api/friends/
-        List all friends of current user
-        """
-        # TODO: Crystal - Get user's friends
-        return Response({'message': 'Crystal: Implement list friends'})
-    
-    @action(detail=False, methods=['get'])
-    def requests(self, request):
-        """
-        GET /api/friends/requests/
-        List pending friend requests
-        """
-        # TODO: Crystal - Get pending requests
-        return Response({'message': 'Crystal: Implement list requests'})
-    
-    @action(detail=False, methods=['post'])
-    def send_request(self, request):
-        """
-        POST /api/friends/request/
-        Send a friend request
-        Body: { user_id: int }
-        """
-        # TODO: Crystal - Create friend request
-        # 1. Get target user_id from request.data
-        # 2. Check not self-request
-        # 3. Check not already friends
-        # 4. Check no pending request
-        # 5. Create FriendRequest
-        return Response({'message': 'Crystal: Implement send request'})
-    
-    @action(detail=True, methods=['post'])
-    def accept(self, request, pk=None):
-        """
-        POST /api/friends/accept/{id}/
-        Accept a friend request
-        """
-        # TODO: Crystal - Accept request, create friendship
-        return Response({'message': 'Crystal: Implement accept request'})
-    
-    @action(detail=True, methods=['delete'])
-    def decline(self, request, pk=None):
-        """
-        DELETE /api/friends/decline/{id}/
-        Decline a friend request
-        """
-        # TODO: Crystal - Delete the request
-        return Response({'message': 'Crystal: Implement decline request'})
-    
-    def destroy(self, request, pk=None):
-        """
-        DELETE /api/friends/{id}/
-        Remove a friend
-        """
-        # TODO: Crystal - Delete friendship
-        return Response({'message': 'Crystal: Implement remove friend'})
+  Frontend calls: GET /api/friends/
+  Returns: [{ "id": 2, "username": "sarah" }, ...]
+  '''
+  #request.user = logged-in user (from JWT token)
+  user = request.user
+
+  # Get all friendships where this user is involved
+  friendships = Friendship.objects.filter(user=user)
+
+  # Build a list of friend data to send back
+  friends = []
+  for friendship in friendships:
+      friends.append({
+        'id': friendship.friend.id,
+        'username': friendship.friend.username,
+        'first_name': friendship.friend.first_name,
+        'last_name': friendship.friend.last_name,
+      })
+
+  # Return the list as JSON
+  return Response(friends)
+
+# 🟢 CRYSTAL - Pending Friend Requests
+# ═══════════════════════════════════════════════════════════════════════
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def pending_requests(request):
+  '''
+  Returns all pending friend requests TO the logged-in user
+
+  Frontend calls: GET /api/friends/requests/
+  Returns: [{ "id": 1, "from_user": { "id": 5, "username": "jordan" }, "created_at": "..." }, ...]
+  '''
+  user = request.user
+
+  # Get all pending requests where this user is the recipient
+  requests = FriendRequest.objects.filter(to_user=user)
+
+  # Build a list of request data
+  pending = []
+  for req in requests:
+      pending.append({
+        'id': req.id,
+        'from_user': {
+          'id': req.from_user.id,
+          'username': req.from_user.username,
+          'first_name': req.from_user.first_name,
+          'last_name': req.from_user.last_name,
+        },
+        'created_at': req.created_at.isoformat(),
+      })
+
+  return Response(pending)
+
+# Create your views here.
+
+# 🟢 CRYSTAL - Send Friend Request
+# ═══════════════════════════════════════════════════════════════════════
+
+@api_view(['POST']) # Only accepts POST requests
+@permission_classes([IsAuthenticated]) # must be logged in
+def send_request(request, user_id):
+  '''
+  Sends a friend request to another user
+
+  Frontend calls: POST /api/friends/request/5/
+  user_id comes from the URL (the person you want to add)
+  '''
+  # Get the logged-in user
+  from_user = request.user
+  # Find the user we're sending the request to
+  try:
+    to_user = User.objects.get(id=user_id)
+  except User.DoesNotExist:
+    return Response(
+      {'error': 'User not found'},
+      status=status.HTTP_404_NOT_FOUND
+    )
+  # Can't send request yourself
+  if from_user == to_user:
+    return Response(
+      {'error': 'Cannot send friend request to yourself'},
+      status=status.HTTP_400_BAD_REQUEST
+    )
+
+  # Check if request already exists
+  if FriendRequest.objects.filter(from_user=from_user, to_user=to_user).exists():
+    return Response(
+      {'error': 'Friend request already sent'},
+      status=status.HTTP_400_BAD_REQUEST
+    )
+  # Create the friend request
+  FriendRequest.objects.create(from_user=from_user, to_user=to_user)
+
+  return Response(
+    {'message': f'Friend request sent to {to_user.username}'},
+    status=status.HTTP_201_CREATED
+  )
+
+# 🟢 CRYSTAL - Accept Friend Request
+# ═══════════════════════════════════════════════════════════════════════
+@api_view(['POST']) # Only accepts POST requests
+@permission_classes([IsAuthenticated]) # Must be logged-in
+def accept_request(request, request_id):
+  '''
+  Accepts a pending friend request
+
+  Frontend calls: POST /api/friends/accept/12/
+  request_id comes from the URL (the specific friend request)
+  '''
+  user = request.user
+
+  # Find the friend request
+  try:
+    friend_request = FriendRequest.objects.get(id=request_id)
+  except FriendRequest.DoesNotExist:
+    return Response(
+      {'error': 'Friend request not found'},
+      status=status.HTTP_404_NOT_FOUND
+    )
+  # Make sure this request was sent TO the logged-in user
+  if friend_request.to_user != user:
+    return Response(
+      {'error': 'This request was not sent to you'},
+      status=status.HTTP_403_FORBIDDEN
+    )
+  # Create friendship both way (user1 -> user2 AND user2 -> user1)
+  Friendship.objects.create(user=user, friend=friend_request.from_user)
+  Friendship.objects.create(user=friend_request.from_user, friend=user)
+
+  # Delete the friend request no longer needed
+  friend_request.delete()
+
+  return Response(
+    {'message': f'You are now friends with {friend_request.from_user.username}'},
+    status=status.HTTP_201_CREATED
+  )
+# 🟢 CRYSTAL - Decline Friend Request
+# ═══════════════════════════════════════════════════════════════════════
+@api_view(['POST']) # Only accepts POST requests
+@permission_classes([IsAuthenticated]) # Must be logged-in
+def decline_request(request, request_id):
+  '''
+  Declines a pending friend request
+
+  Frontend calls: POST /api/friends/decline/12/
+  request_id comes from URL (the specific friend request)
+  '''
+  user = request.user
+  # Find the friend request
+  try:
+    friend_request = FriendRequest.objects.get(id=request_id)
+  except FriendRequest.DoesNotExist:
+    return Response(
+      {'error': 'Friend request not found'},
+      status=status.HTTP_404_NOT_FOUND
+    )
+
+  # Make sure this request was sent TO the logged-in user
+  if friend_request.to_user != user:
+    return Response(
+      {'error': 'This request was not sent to you'},
+      status=status.HTTP_403_FORBIDDEN
+    )
+
+  # Delete the friend request (declined)
+  friend_request.delete()
+
+  return Response({'message': 'Friend request declined'})
+
+# 🟢 CRYSTAL - Remove Friend
+# ═══════════════════════════════════════════════════════════════════════
+@api_view(['DELETE']) # Only accepts DELETE requests
+@permission_classes([IsAuthenticated]) # Must be logged-in
+def remove_friend(request, user_id):
+  '''
+  Removes a friend from your friend list
+
+  Frontend calls: DELETE /api/friends/remove/5/
+  user_id comes from the URL (the friend to remove)
+  '''
+  user = request.user
+  # find the friend we're removing
+  try:
+    friend = User.objects.get(id=user_id)
+  except User.DoesNotExist:
+    return Response(
+      {'error': 'User not found'},
+      status=status.HTTP_404_NOT_FOUND
+    )
+
+  # Delete friendship both ways (user -> friend AND friend -> user)
+  Friendship.objects.filter(user=user, friend=friend).delete()
+  Friendship.objects.filter(user=friend, friend=user).delete()
+  return Response({'message': f'{friend.username} removed from friends'})

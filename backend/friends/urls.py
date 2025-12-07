@@ -1,36 +1,31 @@
-"""
-=============================================================================
-FRIENDS APP - URLS
-=============================================================================
+# 🟣 CRYSTAL - Friends System Lead
+# urls.py - URL routing for friends API endpoints
 
-File: backend/friends/urls.py
-Assigned to: CRYSTAL
-Responsibility: Friend request and friendship URL routes
-
-TODO:
-- [ ] Set up DefaultRouter for FriendViewSet
-- [ ] Routes to implement:
-      - GET /friends/ - List user's friends
-      - GET /friends/requests/ - List pending requests
-      - POST /friends/send_request/ - Send friend request
-      - POST /friends/<id>/accept/ - Accept request
-      - POST /friends/<id>/decline/ - Decline request
-      - DELETE /friends/<id>/ - Remove friend
-- [ ] Register router with urlpatterns
-
-Status: PLACEHOLDER
-=============================================================================
-"""
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import FriendViewSet
-
-# TODO: Crystal - Set up router
-router = DefaultRouter()
-# router.register(r'', FriendViewSet, basename='friend')
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    # TODO: Crystal - Uncomment when ViewSet is ready
-    # path('', include(router.urls)),
+    # GET all friends
+    path('', views.friend_list, name='friend_list'),
+
+    # GET pending friend requests
+    path('requests/', views.pending_requests, name='pending_requests'),
+
+    # POST --> send a friend request
+    # <int:user_id> = placeholder for the user you're sending the request to
+    # Same pattern as <int:pk>
+    path('request/<int:user_id>/', views.send_request, name='send_request'),
+
+    # POST accept a friend request
+    # Note: This uses request_id, not user_id
+    # Why? You're accepting a specific request, not a user
+    # /api/friends/accept/12/ → "Accept friend request #12"
+    path('accept/<int:request_id>/', views.accept_request, name='accept_request'),
+
+    # POST decline a friend request
+    # /api/friends/decline/12/ → "Decline friend request #12"
+    path('decline/<int:request_id>/', views.decline_request, name='decline_request'),
+
+    # DELETE remove a friend
+    path('remove/<int:user_id>/', views.remove_friend, name='remove_friend'),
 ]

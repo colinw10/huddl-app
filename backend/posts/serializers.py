@@ -1,59 +1,33 @@
-"""
-=============================================================================
-POSTS APP - SERIALIZERS
-=============================================================================
-
-File: backend/posts/serializers.py
-Assigned to: COLIN
-Responsibility: Convert Post model to/from JSON for API
-
-TODO:
-- [ ] Create PostSerializer with ModelSerializer
-- [ ] Include fields: id, author, content, post_type, media_url, created_at, like_count, is_liked
-- [ ] Add author as nested serializer (username, avatar)
-- [ ] Add SerializerMethodField for like_count
-- [ ] Add SerializerMethodField for is_liked (check if current user liked)
-- [ ] Validate content length (max 500 chars)
-- [ ] Auto-set author to request.user in create()
-
-Status: PLACEHOLDER
-=============================================================================
-"""
+# 🟢 COLIN - Posts Backend Lead
+# serializers.py - Data conversion between Django models and JSON
 
 from rest_framework import serializers
+from .models import Post
+from django.contrib.auth.models import User
+from users.serializers import UserSerializer  # nested author data
 
-# TODO: Colin - Import Post model
-# from .models import Post
-
-
+# Create your serializers here.
 class PostSerializer(serializers.ModelSerializer):
     """
-    Colin: Implement full serializer for Post model
+    Converts Post model to/from JSON
+    Includes nested author object (not just author ID)
     """
-    # TODO: Colin - Add nested author serializer
-    # author = UserSerializer(read_only=True)
-    
-    # TODO: Colin - Add computed fields
-    # like_count = serializers.SerializerMethodField()
-    # is_liked = serializers.SerializerMethodField()
-    
+    # Nested serializer = returns full user object instead of just ID
+    # read_only=True = author is set automatically, can't be changed via API
+    author = UserSerializer(read_only=True)
+   
     class Meta:
-        # TODO: Colin - Uncomment when model is ready
-        # model = Post
-        fields = ['id', 'author', 'content', 'post_type', 'media_url', 'created_at']
-    
-    def get_like_count(self, obj):
-        """Return number of likes on this post"""
-        # TODO: Colin - return obj.likes.count()
-        return 0
-    
-    def get_is_liked(self, obj):
-        """Check if current user has liked this post"""
-        # TODO: Colin - check request.user in obj.likes
-        return False
-    
-    def create(self, validated_data):
-        """Auto-set author to current user"""
-        # TODO: Colin - validated_data['author'] = self.context['request'].user
-        pass
-
+        model = Post
+        # Fields that will appear in JSON response
+        # Note: Python uses underscores, not hyphens in field names
+        fields = [
+            'id',
+            'author',
+            'content',
+            'type',
+            'media_url',  # Fixed: was 'media-url', should be 'media_url'
+            'created_at',
+            'updated_at',
+        ]
+        # These fields are auto-generated and can't be modified via API
+        read_only_fields = ['author', 'created_at', 'updated_at']

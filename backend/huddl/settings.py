@@ -1,3 +1,6 @@
+# 🟠 TITO - Infrastructure Lead
+# settings.py - Django configuration (CORS setup is critical!)
+
 """
 settings.py - Django's config file (like Express app.js config section)
 
@@ -30,6 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',  # Serves static files (like express.static())
     # Third-party apps
     'rest_framework',
+    'rest_framework_simplejwt',  # JWT authentication
+    'corsheaders',  # <-- Added for CORS
     # Custom apps
     'users',
     'posts',
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
 # MIDDLEWARE - Request/response pipeline (exactly like Express app.use() chain)
 # Executes top-to-bottom on requests, bottom-to-top on responses
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # <-- Added for CORS (must be first)
     'django.middleware.security.SecurityMiddleware',      # Security headers (helmet in Express)
     'django.contrib.sessions.middleware.SessionMiddleware',  # Session handling (express-session)
     'django.middleware.common.CommonMiddleware',           # Common HTTP features
@@ -71,11 +77,12 @@ TEMPLATES = [
 # WSGI server config (like http.createServer() in Node)
 WSGI_APPLICATION = 'huddl.wsgi.application'
 
-# DATABASE - Connection config (like mongoose.connect() or Sequelize setup)
+# DATABASE - Connection config
+# Using SQLite for development (switch to PostgreSQL for production)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # DB type (postgres, mysql, etc.)
-        'NAME': BASE_DIR / 'db.sqlite3',         # DB file path or name
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -106,3 +113,25 @@ STATIC_URL = 'static/'
 
 # Default ID field type for models (like MongoDB ObjectId or auto-increment in SQL)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS - Allow React frontend to talk to Django
+CORS_ALLOW_ALL_ORIGINS = True  # For development only
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# JWT Settings
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}

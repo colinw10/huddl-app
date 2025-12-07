@@ -2,14 +2,10 @@
  * =============================================================================
  * CONTEXTS - BARREL EXPORT
  * =============================================================================
- *
- * File: frontend/src/contexts/index.js
- * Assigned to: PABLO
- * Responsibility: Clean exports for all context providers
- *
- * Status: PLACEHOLDER
- * =============================================================================
  */
 
-export { ThemeProvider, useTheme } from "./ThemeContext";
 export { AuthProvider, useAuth } from "./AuthContext";
+export { ThemeProvider, useTheme } from "./ThemeContext";
+export { MessageProvider, useMessages } from "./MessageContext";
+export { PostsProvider, usePosts } from "./PostsContext";
+export { FriendsProvider, useFriends } from "./FriendsContext";

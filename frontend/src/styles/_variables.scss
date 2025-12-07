@@ -9,6 +9,41 @@
 
 :root {
   // ============================================
+  // CUSTOM PROPERTIES (your own CSS shortcuts)
+  // These automatically switch between dark/light mode
+  // Use var(--name) anywhere to grab these values
+  // ============================================
+  
+  // Backgrounds
+  --bg-base: #0a0a0f;
+  --bg-card: rgba(15, 15, 25, 0.9);
+  --bg-card-solid: #0f0f19;
+  --bg-card-hover: rgba(20, 20, 35, 0.95);
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --bg-glass-hover: rgba(255, 255, 255, 0.08);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+  
+  // Text
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --text-placeholder: rgba(255, 255, 255, 0.35);
+  --text-inverse: #000000;
+  
+  // Borders
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-focus: rgba(0, 212, 255, 0.5);
+  
+  // Shadows
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-input: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-focus: 0 0 0 3px rgba(0, 212, 255, 0.2);
+
+  // ============================================
   // UNIFIED VISUAL IDENTITY TOKENS
   // Core design system for consistent UI
   // ============================================
@@ -17,6 +52,29 @@
   --primary: #7cc9ff;
   --secondary: #a783ff;
   --accent: #1ae784;
+  
+  // Brand Accent Colors (nav, icons, highlights)
+  --cyan: #00d4ff;
+  --pink: #ff6b9d;
+  --emerald: #34d399;
+  --amber: #fbbf24;
+  --purple: #a855f7;
+  --rose: #f472b6;
+  --blue: #60a5fa;
+  --blue-primary: #1a73e7;
+  --magenta: #dc08bc;
+  
+  // Status Colors
+  --color-error: #ff5252;
+  --color-warning: #fbbf24;
+  --color-success: #1ae784;
+  --color-info: #00d4ff;
+  
+  // Additional UI Colors
+  --gold: #dcc008;
+  --text-dark: #333333;
+  --post-media-badge: #c9a8ff;
+  --content-text: #e3e7ef;
   
   // Surface & Backgrounds
   --surface: rgba(255, 255, 255, 0.02);
@@ -33,9 +91,10 @@
   --glow-strong: 0 0 30px rgba(124, 201, 255, 0.4);
   
   // Typography
-  --font-main: 'degular', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'acme-gothic-extrawide', sans-serif;
-  --font-mono: 'sweet-square-pro', monospace;
+  --font-main: "degular", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "stop-mn", sans-serif;
+  --font-title: "centrifuge", sans-serif;
+  --font-label: "new-science-mono", sans-serif;
   
   --font-size-xs: 0.75rem;      // 12px
   --font-size-sm: 0.875rem;     // 14px
@@ -259,37 +318,6 @@
     inset 0 -1px 3px rgba(0, 0, 0, 0.5);
   
   // ============================================
-  // TYPOGRAPHY (alternate scale)
-  // ============================================
-  
-  // Font Families
-  --font-body: 'degular', sans-serif;
-  --font-ui: 'sweet-square-pro', sans-serif;
-  
-  // Font Sizes (px scale)
-  --text-xs: 11px;
-  --text-sm: 13px;
-  --text-base: 14px;
-  --text-md: 15px;
-  --text-lg: 16px;
-  --text-xl: 18px;
-  --text-2xl: 20px;
-  --text-3xl: 24px;
-  
-  // Line Heights
-  --leading-tight: 1.2;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.6;
-  --leading-loose: 1.8;
-  
-  // Letter Spacing
-  --tracking-tight: -0.5px;
-  --tracking-normal: 0;
-  --tracking-wide: 0.5px;
-  --tracking-wider: 1px;
-  --tracking-widest: 2px;
-  
-  // ============================================
   // SPACING SCALE (alternate)
   // ============================================
   
@@ -359,3 +387,50 @@ $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 $breakpoint-wide: 1280px;
+
+// ================================================
+// LIGHT MODE THEME OVERRIDES
+// These semantic tokens change for light theme
+// ================================================
+
+[data-theme="light"] {
+  // Backgrounds
+  --bg-base: #f5f7fa;
+  --bg-card: #ffffff;
+  --bg-card-solid: #ffffff;
+  --bg-card-hover: #fafafa;
+  --bg-glass: rgba(255, 255, 255, 0.8);
+  --bg-glass-hover: rgba(255, 255, 255, 0.9);
+  --bg-input: rgba(255, 255, 255, 0.95);
+  --bg-overlay: rgba(0, 0, 0, 0.4);
+  
+  // Surfaces (for cards using --surface)
+  --surface: rgba(255, 255, 255, 0.95);
+  --surface-hover: rgba(248, 250, 252, 1);
+  --surface-active: rgba(243, 244, 246, 1);
+  
+  // Text
+  --text-primary: #000000;
+  --text-secondary: rgba(0, 0, 0, 0.65);
+  --text-muted: rgba(0, 0, 0, 0.45);
+  --text-placeholder: rgba(0, 0, 0, 0.4);
+  --text-inverse: #ffffff;
+  
+  // Borders
+  --border-default: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.15);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-focus: rgba(26, 115, 231, 0.5);
+  --border: rgba(0, 0, 0, 0.1);
+  --border-hover: rgba(0, 0, 0, 0.2);
+  
+  // Shadows
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-input: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 3px rgba(26, 115, 231, 0.1);
+  
+  // Glows (subtle for light mode)
+  --glow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --glow-strong: 0 8px 24px rgba(0, 0, 0, 0.12);
+}

@@ -8,10 +8,10 @@
 
 // ============================================
 // FOUNDATION
-// Core variables, mixins, and resets
+// Variables and mixins are auto-injected via vite.config.js
 // ============================================
-@use 'variables' as *;    // Design tokens: colors, spacing, shadows, etc.
-@use 'mixins' as *;       // Reusable Sass mixins
+@use 'variables' as *;
+@use 'mixins' as *;
 @use 'reset';             // CSS reset and base styles
 @use 'typography';        // Font imports and text styles
 
@@ -35,11 +35,10 @@
 // ============================================
 @use 'buttons';           // Button variants and states
 @use 'cards';             // Card components
-@use 'glass';             // Glassmorphism utilities
 
 // ============================================
 // UTILITIES
 // Animations and helper classes
 // ============================================
 @use 'animations';        // Keyframes and animation classes
-@use 'utilities';         // Spacing, text, layout helpers
+@use 'utilities';         // Spacing, text, layout helpers, glass effects

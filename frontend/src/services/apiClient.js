@@ -1,67 +1,64 @@
-/**
- * =============================================================================
- * API CLIENT
- * =============================================================================
- *
- * File: frontend/src/services/apiClient.js
- * Assigned to: PABLO
- * Responsibility: Centralized API client with auth token handling
- *
- * TODO:
- * - [ ] Create axios instance with base URL
- * - [ ] Add request interceptor for auth token
- * - [ ] Add response interceptor for error handling
- * - [ ] Handle 401 errors (redirect to login)
- * - [ ] Handle network errors gracefully
- * - [ ] Export configured instance
- *
- * Status: PLACEHOLDER
- * =============================================================================
- */
+// 🟠 TITO - Infrastructure Lead
+// apiClient.js - Base HTTP client with automatic auth token handling
 
 import axios from "axios";
 
-// TODO: Pablo - Move to environment variable
-const BASE_URL = "http://localhost:8000/api";
+const API_BASE_URL = "http://localhost:8000/api";
 
+// Create axios instance
 const apiClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Request interceptor - add auth token
+// Request interceptor - adds auth token to requests
 apiClient.interceptors.request.use(
   (config) => {
-    // TODO: Pablo - Get token from localStorage or context
     const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor - handle errors
+// Response interceptor - handles token refresh on 401
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // TODO: Pablo - Handle 401 (token refresh or redirect to login)
-    if (error.response?.status === 401) {
-      // Token expired or invalid
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      // TODO: Redirect to login
-      // window.location.href = '/login';
-    }
+    const originalRequest = error.config;
 
-    // TODO: Pablo - Handle network errors
-    if (!error.response) {
-      console.error("Network error:", error.message);
+    // If 401 and we haven't tried refreshing yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (refreshToken) {
+        try {
+          const response = await axios.post(
+            `${API_BASE_URL}/auth/token/refresh/`,
+            {
+              refresh: refreshToken,
+            }
+          );
+
+          const { access } = response.data;
+          localStorage.setItem("accessToken", access);
+
+          // Retry original request with new token
+          originalRequest.headers.Authorization = `Bearer ${access}`;
+          return apiClient(originalRequest);
+        } catch (refreshError) {
+          // Refresh failed - clear tokens and redirect to login
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          window.location.href = "/login";
+          return Promise.reject(refreshError);
+        }
+      }
     }
 
     return Promise.reject(error);

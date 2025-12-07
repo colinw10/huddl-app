@@ -5,14 +5,14 @@
  *
  * File: frontend/src/contexts/ThemeContext.jsx
  * Assigned to: PABLO
- * Responsibility: Global theme state management (dark/light mode)
+ * Responsibility: Global theme state (dark/light mode)
  *
  * TODO:
- * - [ ] Create ThemeContext with Provider
- * - [ ] Store theme preference in localStorage
- * - [ ] Detect system preference (prefers-color-scheme)
+ * - [ ] Store theme in state ('dark' or 'light')
+ * - [ ] Initialize from localStorage or system preference
  * - [ ] Provide toggleTheme function
- * - [ ] Apply theme class to document root
+ * - [ ] Apply data-theme attribute to document root
+ * - [ ] Persist preference to localStorage
  * - [ ] Export useTheme hook
  *
  * Status: PLACEHOLDER
@@ -21,19 +21,15 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const ThemeContext = createContext();
+const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
-  // TODO: Pablo - Initialize from localStorage or system preference
   const [theme, setTheme] = useState(() => {
+    // Check localStorage first
     const saved = localStorage.getItem('theme');
-    if (saved) return saved;
     
-    // Check system preference
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light';
-    }
-    return 'dark';
+    // If no saved preference, default to dark mode
+    return saved || 'dark';
   });
 
   // Apply theme to document

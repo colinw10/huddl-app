@@ -14,16 +14,18 @@
 }
 
 html {
-  overflow-x: hidden;
-  overflow-y: overlay; /* Scrollbar floats over content instead of taking space */
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow-x: hidden;
-  overflow-y: overlay; /* Scrollbar floats over content instead of taking space */
+  overflow-y: auto;
   font-family: var(--font-main);
 }
 
@@ -31,7 +33,9 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
+  min-width: 100%;
+  min-height: 100%;
+  overflow: visible;
 }
 
 // Remove default button styles
@@ -112,17 +116,17 @@ select {
 // LIGHT MODE - Root element overrides
 // ============================================
 [data-theme="light"] {
-  background: #e8eaed !important;
-  color: #000000 !important;
+  background: var(--bg-base) !important;
+  color: var(--text-primary) !important;
 
   body {
-    background: #e8eaed !important;
-    color: #000000 !important;
+    background: var(--bg-base) !important;
+    color: var(--text-primary) !important;
   }
 
   #root {
-    background: #e8eaed !important;
-    color: #000000 !important;
+    background: var(--bg-base) !important;
+    color: var(--text-primary) !important;
   }
 
   // Light mode scrollbar

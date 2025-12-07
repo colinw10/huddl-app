@@ -1,99 +1,139 @@
-"""
-=============================================================================
-USERS APP - VIEWS (Authentication & Profile Endpoints)
-=============================================================================
-
-File: backend/users/views.py
-Assigned to: NATALIA
-Responsibility: User authentication (signup, login, JWT) and profile management
-
-TODO:
-- [ ] POST /api/users/signup/ - Create new user account
-- [ ] POST /api/users/login/ - Authenticate and return JWT tokens
-- [ ] POST /api/users/token/refresh/ - Refresh access token
-- [ ] GET /api/users/me/ - Get current user profile
-- [ ] PUT /api/users/me/ - Update current user profile
-- [ ] GET /api/users/{id}/ - Get public user profile
-- [ ] Add password hashing with Django's make_password
-- [ ] Add JWT token generation with simplejwt
-- [ ] Add validation for unique email/username
-
-Status: PLACEHOLDER
-=============================================================================
-"""
-
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import viewsets, status
+# 🟡 NATALIA - Auth & Users Lead
+# views.py - Authentication and user management endpoints
+
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
+from .models import Profile
+from .serializers import ProfileSerializer
 
-# TODO: Natalia - Import serializers
-# from .serializers import UserSerializer, SignupSerializer, LoginSerializer
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    # Temporarily disabled for testing:
+    # permission_classes = [IsAuthenticated]
+    
+    # Override the create method to auto-assign logged-in user
+    def perform_create(self, serializer):
+        # Get the logged-in user (request.user)
+        # Save the profile with that user attached
+        serializer.save(user=self.request.user)
 
 
+# ═══════════════════════════════════════════════════════════════════════
+# 🔐 SIGNUP VIEW
+# ═══════════════════════════════════════════════════════════════════════
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny])  # Anyone can sign up (no auth required)
 def signup(request):
     """
-    POST /api/users/signup/
-    Create a new user account
+    Creates a new user account
     
-    Request: { username, email, password }
-    Response: { id, username, email }
+    Frontend sends: POST /api/auth/signup/
+    Body: { "username": "pablo", "email": "pablo@huddl.com", "password": "pass123" }
+    Returns: { "id": 1, "username": "pablo", "email": "pablo@huddl.com" }
     """
-    # TODO: Natalia - Implement signup
-    # 1. Validate request data
-    # 2. Check if username/email already exists
-    # 3. Create user with hashed password
-    # 4. Return user data (without password)
-    return Response({'message': 'Natalia: Implement signup endpoint'})
+    # Get data from request
+    username = request.data.get('username')
+    email = request.data.get('email')
+    password = request.data.get('password')
+    
+    # Validate required fields
+    if not username or not email or not password:
+        return Response(
+            {'error': 'Username, email, and password are required'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Check if username already exists
+    if User.objects.filter(username=username).exists():
+        return Response(
+            {'error': 'Username already taken'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Check if email already exists
+    if User.objects.filter(email=email).exists():
+        return Response(
+            {'error': 'Email already registered'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Create the user
+    user = User.objects.create_user(
+        username=username,
+        email=email,
+        password=password  # Django auto-hashes this!
+    )
+    
+    # Create a profile for the user
+    Profile.objects.create(user=user)
+    
+    return Response({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'message': 'Account created successfully!'
+    }, status=status.HTTP_201_CREATED)
 
 
+# ═══════════════════════════════════════════════════════════════════════
+# 🔐 EMAIL LOGIN VIEW
+# ═══════════════════════════════════════════════════════════════════════
 @api_view(['POST'])
-@permission_classes([AllowAny])
-def login(request):
+@permission_classes([AllowAny])  # Anyone can try to log in
+def email_login(request):
     """
-    POST /api/users/login/
-    Authenticate user and return JWT tokens
+    Login with email and password, returns JWT tokens
     
-    Request: { email, password }
-    Response: { access, refresh, user: { id, username, email } }
+    Frontend sends: POST /api/auth/login/
+    Body: { "email": "pablo@huddl.com", "password": "test123" }
+    Returns: { "access": "...", "refresh": "..." }
     """
-    # TODO: Natalia - Implement login
-    # 1. Get email and password from request
-    # 2. Find user by email
-    # 3. Check password with check_password()
-    # 4. Generate JWT tokens with RefreshToken.for_user()
-    # 5. Return tokens and user data
-    return Response({'message': 'Natalia: Implement login endpoint'})
+    from .serializers import EmailLoginSerializer
+    
+    serializer = EmailLoginSerializer(data=request.data)
+    if serializer.is_valid():
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+    
+    # Format errors for frontend - extract first error message
+    errors = serializer.errors
+    if 'non_field_errors' in errors:
+        detail = errors['non_field_errors'][0]
+    else:
+        detail = list(errors.values())[0][0] if errors else 'Login failed'
+    
+    return Response({'detail': detail}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-@api_view(['GET', 'PUT'])
-@permission_classes([IsAuthenticated])
+# ═══════════════════════════════════════════════════════════════════════
+# 👤 CURRENT USER VIEW
+# ═══════════════════════════════════════════════════════════════════════
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  # Must be logged in
 def current_user(request):
     """
-    GET /api/users/me/ - Get current user profile
-    PUT /api/users/me/ - Update current user profile
+    Returns the currently logged-in user's info
+    
+    Frontend sends: GET /api/auth/me/
+    Headers: { "Authorization": "Bearer TOKEN123..." }
+    Returns: { "id": 1, "username": "pablo", "email": "pablo@huddl.com", "profile": {...} }
     """
-    # TODO: Natalia - Implement current user endpoint
-    if request.method == 'GET':
-        # Return current user data
-        return Response({'message': 'Natalia: Implement get current user'})
-    elif request.method == 'PUT':
-        # Update current user data
-        return Response({'message': 'Natalia: Implement update current user'})
-
-
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    Natalia: Public user profiles (read-only)
-    GET /api/users/{id}/ - Get public profile
-    """
-    # TODO: Natalia - Uncomment and implement
-    # queryset = User.objects.all()
-    # serializer_class = UserSerializer
-    pass
+    user = request.user  # JWT middleware attaches this
+    
+    # Try to get user's profile
+    try:
+        profile = user.profile
+        profile_data = ProfileSerializer(profile).data
+    except Profile.DoesNotExist:
+        profile_data = None
+    
+    return Response({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'profile': profile_data
+    })

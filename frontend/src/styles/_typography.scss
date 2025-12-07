@@ -9,12 +9,21 @@
 // Adobe Typekit fonts
 @import url("https://use.typekit.net/nxn1rxl.css");
 
+// Available fonts from Typekit:
+// - degular (body text, --font-main)
+// - new-science-mono (labels, --font-label)
+// - stop-mn (display, --font-display)
+// - centrifuge (titles, --font-title)
+// - sweet-square-pro (numbers, stats)
+// - bd-geminis (About page)
+
 // Base typography settings
 :root {
-  font-family: "degular", "acme-gothic-extrawide", sans-serif;
-  font-weight: 400;
+  font-family: var(--font-main);
+  font-weight: 300;
   font-style: normal;
   line-height: 1.5;
+  letter-spacing: normal;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);

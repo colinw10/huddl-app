@@ -1,84 +1,34 @@
-"""
-=============================================================================
-POSTS APP - VIEWS (API Endpoints)
-=============================================================================
-
-File: backend/posts/views.py
-Assigned to: COLIN
-Responsibility: Posts API - CRUD operations, feed, likes
-
-TODO:
-- [ ] Create PostViewSet with ModelViewSet
-- [ ] GET /api/posts/ - List all posts (paginated)
-- [ ] GET /api/posts/feed/ - Get posts from user's friends (custom action)
-- [ ] GET /api/posts/user/{id}/ - Get posts by specific user
-- [ ] POST /api/posts/ - Create new post (authenticated only)
-- [ ] PUT /api/posts/{id}/ - Update post (author only)
-- [ ] DELETE /api/posts/{id}/ - Delete post (author only)
-- [ ] POST /api/posts/{id}/like/ - Like a post
-- [ ] DELETE /api/posts/{id}/like/ - Unlike a post
-- [ ] Add IsAuthenticatedOrReadOnly permission
-- [ ] Add IsAuthorOrReadOnly custom permission
-- [ ] Add pagination (10-20 posts per page)
-
-Status: PLACEHOLDER
-=============================================================================
-"""
+# 🟢 COLIN - Posts Backend Lead
+# views.py - API endpoints for posts (using ViewSet approach)
 
 from django.shortcuts import render
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import viewsets, permissions
+from .models import Post
+from .serializers import PostSerializer
 
-# TODO: Colin - Import Post model and PostSerializer
-# from .models import Post
-# from .serializers import PostSerializer
-
-
+# Create your views here.
 class PostViewSet(viewsets.ModelViewSet):
     """
-    Colin: Implement full CRUD for posts
-    
-    Endpoints:
-    - GET /api/posts/ - List posts
-    - POST /api/posts/ - Create post
-    - GET /api/posts/{id}/ - Get single post
-    - PUT /api/posts/{id}/ - Update post
-    - DELETE /api/posts/{id}/ - Delete post
+    A ModelViewSet gives full CRUD operations automatically:
+    - list (GET /posts/)
+    - retrieve (GET /posts/12/)
+    - create (POST /posts/)
+    - update (PUT/PATCH /posts/12/)
+    - delete (DELETE /posts/12/)
     """
-    # TODO: Colin - Uncomment and implement
-    # queryset = Post.objects.all()
-    # serializer_class = PostSerializer
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    # This is the list of posts returned; sorted newest-first
+    # Note: field name is 'created_at' not '_created_at'
+    queryset = Post.objects.all().order_by('-created_at')
     
-    @action(detail=False, methods=['get'])
-    def feed(self, request):
-        """
-        GET /api/posts/feed/
-        Returns posts from user's friends, ordered by newest first
-        """
-        # TODO: Colin - Get user's friends, filter posts
-        return Response({'message': 'Colin: Implement feed endpoint'})
+    # Tells DRF to use PostSerializer for JSON input/output
+    serializer_class = PostSerializer
     
-    @action(detail=True, methods=['post'])
-    def like(self, request, pk=None):
-        """
-        POST /api/posts/{id}/like/
-        Like a post
-        """
-        # TODO: Colin - Add user to post.likes
-        return Response({'message': 'Colin: Implement like endpoint'})
+    # Only logged-in users can access these endpoints
+    permission_classes = [permissions.IsAuthenticated]
     
-    @action(detail=True, methods=['delete'])
-    def unlike(self, request, pk=None):
+    def perform_create(self, serializer):
         """
-        DELETE /api/posts/{id}/like/
-        Unlike a post
+        This function runs automatically when creating a new Post
+        It saves the post AND assigns the current logged-in user as the author
         """
-        # TODO: Colin - Remove user from post.likes
-        return Response({'message': 'Colin: Implement unlike endpoint'})
-#         # Add like logic
-#         pass
-#
-# Create your views here.
+        serializer.save(author=self.request.user)

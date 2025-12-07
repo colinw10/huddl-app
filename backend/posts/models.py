@@ -1,62 +1,56 @@
-"""
-=============================================================================
-POSTS APP - MODELS
-=============================================================================
-
-File: backend/posts/models.py
-Assigned to: COLIN
-Responsibility: Post model for user-generated content
-
-TODO:
-- [ ] Create Post model with fields:
-      - author (ForeignKey to User)
-      - content (TextField, max 500 chars)
-      - post_type (CharField: 'thought', 'media', 'milestone')
-      - media_url (URLField, optional)
-      - created_at (DateTimeField, auto)
-      - updated_at (DateTimeField, auto)
-      - likes (ManyToManyField to User)
-- [ ] Add __str__ method
-- [ ] Add Meta class with ordering = ['-created_at']
-- [ ] Add like_count property
-- [ ] Run migrations after implementing
-
-Status: PLACEHOLDER
-=============================================================================
-"""
+# 🟢 COLIN - Posts Backend Lead
+# models.py - Database structure for posts
 
 from django.db import models
 from django.contrib.auth.models import User
 
+# Create your models here.
 
+# Creates a new database table called "posts"
 class Post(models.Model):
-    """
-    Colin: Implement Post model
-    """
-    POST_TYPES = [
-        ('thought', 'Thought'),
-        ('media', 'Media'),
-        ('milestone', 'Milestone'),
-    ]
-    
-    # TODO: Colin - Uncomment and implement
-    # author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-    # content = models.TextField(max_length=500)
-    # post_type = models.CharField(max_length=20, choices=POST_TYPES, default='thought')
-    # media_url = models.URLField(blank=True, null=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
-    # likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
-    
-    class Meta:
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        # TODO: Colin - return f"{self.author.username}: {self.content[:50]}..."
-        return "Post placeholder"
-    
-    @property
-    def like_count(self):
-        # TODO: Colin - return self.likes.count()
-        return 0
+    # Links post to the user that created it
+    # ForeignKey = many posts can belong to one user
+    # on_delete=CASCADE = if user deleted, delete their posts too
+    # related_name='posts' = lets you do user.posts.all()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
 
+    # The actual text content of the post
+    # TextField = can hold long text (like paragraphs)
+    # max_length = 500 characters max (from your spec)
+    # blank=False = this field is REQUIRED (can't be empty)
+    content = models.TextField(max_length=500, blank=False)
+
+    # Type of post (thoughts, media, or milestones)
+    # CharField = short text field
+    # max_length = 20 chars (enough for "milestones")
+    # choices = only these 3 options allowed
+    # default 'thoughts' if not specified
+    POST_TYPES = [
+        # 'lowercase' = Database value (gets saved)
+        # 'Uppercase' = Display name (what humans see in admin/forms)
+        ('thoughts', 'Thoughts'),
+        ('media', 'Media'),
+        ('milestones', 'Milestones'),
+    ]
+    type = models.CharField(max_length=20, choices=POST_TYPES, default='thoughts')
+
+    # Optional URL to photo/video (for media posts)
+    # URLField = validates it's a proper URL
+    # blank=True, null=True = this field is OPTIONAL
+    media_url = models.URLField(max_length=500, blank=True, null=True)
+
+    # Timestamps - track when post was created and last updated
+    # auto_now_add=True = set to NOW when post first created (never changes)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # auto_now=True = update to NOW every time post is saved
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # String representation = how post displays in admin panel
+    # Shows first 50 chars of content with author's name
+    def __str__(self):
+        return f"{self.author.username}: {self.content[:50]}"
+    
+    # Meta options - configure how posts behave
+    class Meta:
+        # Order posts newest first (- means descending)
+        ordering = ['-created_at']

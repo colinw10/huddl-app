@@ -4,45 +4,41 @@
  * =============================================================================
  *
  * File: frontend/src/contexts/AuthContext.jsx
- * Assigned to: PABLO (context structure) + NATALIA (auth logic)
+ * Assigned to: PABLO
  * Responsibility: Global authentication state management
  *
- * TODO:
- * - [ ] Create AuthContext with Provider
- * - [ ] Store user and tokens in state
- * - [ ] Provide login, logout, signup functions
- * - [ ] Check auth status on mount
- * - [ ] Handle token refresh
- * - [ ] Export useAuth hook
- *
- * Status: PLACEHOLDER
+ * Status: IMPLEMENTED ✅
  * =============================================================================
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import apiClient from '../services/apiClient';
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check auth status on mount
+  // Check if user is logged in on mount
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('accessToken');
+      console.log('AuthContext checkAuth - token exists:', !!token);
       if (token) {
         try {
-          // TODO: Natalia - Implement /auth/me endpoint call
-          // const response = await apiClient.get('/auth/me/');
-          // setUser(response.data);
-          // setIsAuthenticated(true);
+          const response = await apiClient.get('/auth/me/');
+          console.log('Auth /me response:', response.data);
+          setUser(response.data);
+          setIsAuthenticated(true);
         } catch (error) {
+          console.error('Auth check failed:', error);
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
         }
+      } else {
+        console.log('No token found, user not logged in');
       }
       setIsLoading(false);
     };
@@ -50,24 +46,62 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // TODO: Natalia - Implement login function
+  // Login function
   const login = async (email, password) => {
-    // const response = await apiClient.post('/auth/login/', { email, password });
-    // localStorage.setItem('accessToken', response.data.access);
-    // localStorage.setItem('refreshToken', response.data.refresh);
-    // setUser(response.data.user);
-    // setIsAuthenticated(true);
-    console.log('Login not implemented');
+    try {
+      const response = await apiClient.post('/auth/login/', { email, password });
+      localStorage.setItem('accessToken', response.data.access);
+      localStorage.setItem('refreshToken', response.data.refresh);
+      
+      // Fetch user info
+      const userResponse = await apiClient.get('/auth/me/');
+      setUser(userResponse.data);
+      setIsAuthenticated(true);
+      
+      return { success: true };
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error.response?.data?.detail || 'Login failed' 
+      };
+    }
   };
 
-  // TODO: Natalia - Implement signup function
+  // Signup function
   const signup = async (username, email, password) => {
-    // const response = await apiClient.post('/auth/signup/', { username, email, password });
-    // localStorage.setItem('accessToken', response.data.access);
-    // localStorage.setItem('refreshToken', response.data.refresh);
-    // setUser(response.data.user);
-    // setIsAuthenticated(true);
-    console.log('Signup not implemented');
+    try {
+      await apiClient.post('/auth/signup/', { 
+        username, 
+        email, 
+        password 
+      });
+      
+      // Auto-login after signup
+      const loginResult = await login(username, password);
+      return loginResult;
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error.response?.data?.error || 'Signup failed' 
+      };
+    }
+  };
+
+  // Update user profile
+  const updateProfile = async (profileData) => {
+    try {
+      const response = await apiClient.put(`/auth/profile/${user.profile.id}/`, profileData);
+      setUser(prev => ({
+        ...prev,
+        profile: response.data
+      }));
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Profile update failed'
+      };
+    }
   };
 
   const logout = () => {
@@ -86,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         login,
         signup,
         logout,
+        updateProfile,
       }}
     >
       {children}
