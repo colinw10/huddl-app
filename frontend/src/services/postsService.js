@@ -2,49 +2,64 @@
  * =============================================================================
  * POSTS SERVICE
  * =============================================================================
- * 
+ *
  * File: frontend/src/services/postsService.js
  * Assigned to: COLIN
  * Responsibility: API calls for posts CRUD
- * 
- * Status: IMPLEMENTED ✅
+ *
+ * TODO:
+ * - [ ] Import apiClient
+ * - [ ] Implement getAll() - GET /api/posts/
+ * - [ ] Implement getById(id) - GET /api/posts/:id/
+ * - [ ] Implement create(content) - POST /api/posts/
+ * - [ ] Implement update(id, data) - PATCH /api/posts/:id/
+ * - [ ] Implement delete(id) - DELETE /api/posts/:id/
+ *
+ * Status: PLACEHOLDER
  * =============================================================================
  */
-import apiClient from "./apiClient"; // Axios instance with JWT interceptors
+
+// TODO: Colin - Import the API client
+// import apiClient from "./apiClient";
 
 const postsService = {
-  // GET /api/posts/ => lists all posts
+  // TODO: Colin - GET /api/posts/ => lists all posts
   getAll: async () => {
-    const response = await apiClient.get('/posts/'); // Sends GET, token added automatically
-    return response.data; // Return just the JSON array, not full axios response
+    // const response = await apiClient.get('/posts/');
+    // return response.data;
+    console.log("Colin: Implement getAll()");
+    return []; // Placeholder return
   },
-  // GET /api/posts/:id/ → single post
+
+  // TODO: Colin - GET /api/posts/:id/ → single post
   getById: async (id) => {
-    const response = await apiClient.get(`/posts/${id}/`)// Template literal inserts id into URL
-    return response.data;
-    
+    // const response = await apiClient.get(`/posts/${id}/`);
+    // return response.data;
+    console.log("Colin: Implement getById()", id);
+    return null; // Placeholder return
   },
-  // POST /api/posts/ → create post
+
+  // TODO: Colin - POST /api/posts/ → create post
   create: async (content) => {
-     // { content } is shorthand for { content: content } - becomes JSON body
-     const response = await apiClient.post('/posts/', { content });
-     return response.data;
-     // Returns the new post object with id, author, timestamps
-
+    // const response = await apiClient.post('/posts/', { content });
+    // return response.data;
+    console.log("Colin: Implement create()", content);
+    return null; // Placeholder return
   },
- // PATCH /api/posts/:id/ → update post (partial update, not full replace)
- update: async (id, data) => {
-   // data is an object like { content: "edited text" }
-   const response = await apiClient.patch(`/posts/${id}/`, data);
-   return response.data; // Returns updated post
- },
-// DELETE /api/posts/:id/ → delete post
-delete: async (id) => {
-  await apiClient.delete(`/posts/${id}/`); // No return - DELETE gives 204 No Content
-},
 
+  // TODO: Colin - PATCH /api/posts/:id/ → update post
+  update: async (id, data) => {
+    // const response = await apiClient.patch(`/posts/${id}/`, data);
+    // return response.data;
+    console.log("Colin: Implement update()", id, data);
+    return null; // Placeholder return
+  },
+
+  // TODO: Colin - DELETE /api/posts/:id/ → delete post
+  delete: async (id) => {
+    // await apiClient.delete(`/posts/${id}/`);
+    console.log("Colin: Implement delete()", id);
+  },
 };
 
 export default postsService;
-  
- 

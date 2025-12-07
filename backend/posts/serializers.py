@@ -1,33 +1,42 @@
-# 🟢 COLIN - Posts Backend Lead
-# serializers.py - Data conversion between Django models and JSON
+# =============================================================================
+# POSTS APP - SERIALIZERS
+# =============================================================================
+#
+# File: backend/posts/serializers.py
+# Assigned to: COLIN
+# Responsibility: Convert Post model ↔ JSON
+#
+# TODO:
+# - [ ] Import Post model
+# - [ ] Create PostSerializer with ModelSerializer
+# - [ ] Include fields: id, author, content, created_at, updated_at
+# - [ ] Make author read-only (set automatically in view)
+# - [ ] Add nested author serializer for username display
+#
+# Status: PLACEHOLDER
+# =============================================================================
 
 from rest_framework import serializers
-from .models import Post
-from django.contrib.auth.models import User
-from users.serializers import UserSerializer  # nested author data
+# TODO: Colin - Import your models
+# from .models import Post
 
-# Create your serializers here.
+
 class PostSerializer(serializers.ModelSerializer):
     """
-    Converts Post model to/from JSON
-    Includes nested author object (not just author ID)
+    Colin: Serialize Post model to/from JSON
+    
+    Example output:
+    {
+        "id": 1,
+        "author": {"id": 1, "username": "colin"},
+        "content": "Hello world!",
+        "created_at": "2024-01-15T10:30:00Z",
+        "updated_at": "2024-01-15T10:30:00Z"
+    }
     """
-    # Nested serializer = returns full user object instead of just ID
-    # read_only=True = author is set automatically, can't be changed via API
-    author = UserSerializer(read_only=True)
-   
-    class Meta:
-        model = Post
-        # Fields that will appear in JSON response
-        # Note: Python uses underscores, not hyphens in field names
-        fields = [
-            'id',
-            'author',
-            'content',
-            'type',
-            'media_url',  # Fixed: was 'media-url', should be 'media_url'
-            'created_at',
-            'updated_at',
-        ]
-        # These fields are auto-generated and can't be modified via API
-        read_only_fields = ['author', 'created_at', 'updated_at']
+    # TODO: Colin - Configure serializer
+    # class Meta:
+    #     model = Post
+    #     fields = ['id', 'author', 'content', 'created_at', 'updated_at']
+    #     read_only_fields = ['author', 'created_at', 'updated_at']
+    pass

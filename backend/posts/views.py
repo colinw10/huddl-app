@@ -1,34 +1,51 @@
-# 🟢 COLIN - Posts Backend Lead
-# views.py - API endpoints for posts (using ViewSet approach)
+# =============================================================================
+# POSTS APP - VIEWS (API Endpoints)
+# =============================================================================
+#
+# File: backend/posts/views.py
+# Assigned to: COLIN
+# Responsibility: Posts API - CRUD operations, feed
+#
+# TODO:
+# - [ ] Import Post model and PostSerializer
+# - [ ] Create PostViewSet with ModelViewSet
+# - [ ] GET /api/posts/ - List all posts (newest first)
+# - [ ] POST /api/posts/ - Create new post (authenticated only)
+# - [ ] GET /api/posts/{id}/ - Get single post
+# - [ ] PUT/PATCH /api/posts/{id}/ - Update post (author only)
+# - [ ] DELETE /api/posts/{id}/ - Delete post (author only)
+# - [ ] Implement perform_create to set author automatically
+#
+# Status: PLACEHOLDER
+# =============================================================================
 
-from django.shortcuts import render
 from rest_framework import viewsets, permissions
-from .models import Post
-from .serializers import PostSerializer
+# TODO: Colin - Import your models and serializers
+# from .models import Post
+# from .serializers import PostSerializer
 
-# Create your views here.
+
 class PostViewSet(viewsets.ModelViewSet):
     """
-    A ModelViewSet gives full CRUD operations automatically:
+    Colin: Implement full CRUD for posts
+    
+    A ModelViewSet gives you these endpoints automatically:
     - list (GET /posts/)
     - retrieve (GET /posts/12/)
     - create (POST /posts/)
     - update (PUT/PATCH /posts/12/)
-    - delete (DELETE /posts/12/)
+    - destroy (DELETE /posts/12/)
     """
-    # This is the list of posts returned; sorted newest-first
-    # Note: field name is 'created_at' not '_created_at'
-    queryset = Post.objects.all().order_by('-created_at')
-    
-    # Tells DRF to use PostSerializer for JSON input/output
-    serializer_class = PostSerializer
-    
-    # Only logged-in users can access these endpoints
-    permission_classes = [permissions.IsAuthenticated]
+    # TODO: Colin - Uncomment and configure
+    # queryset = Post.objects.all().order_by('-created_at')
+    # serializer_class = PostSerializer
+    # permission_classes = [permissions.IsAuthenticated]
     
     def perform_create(self, serializer):
         """
-        This function runs automatically when creating a new Post
-        It saves the post AND assigns the current logged-in user as the author
+        This runs when creating a new Post.
+        It saves the post AND assigns the current logged-in user as author.
         """
-        serializer.save(author=self.request.user)
+        # TODO: Colin - Save with author
+        # serializer.save(author=self.request.user)
+        pass

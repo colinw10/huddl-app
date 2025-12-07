@@ -2,20 +2,12 @@
  * =============================================================================
  * THEME CONTEXT
  * =============================================================================
- *
+ * 
  * File: frontend/src/contexts/ThemeContext.jsx
- * Assigned to: PABLO
- * Responsibility: Global theme state (dark/light mode)
- *
- * TODO:
- * - [ ] Store theme in state ('dark' or 'light')
- * - [ ] Initialize from localStorage or system preference
- * - [ ] Provide toggleTheme function
- * - [ ] Apply data-theme attribute to document root
- * - [ ] Persist preference to localStorage
- * - [ ] Export useTheme hook
- *
- * Status: PLACEHOLDER
+ * Assigned to: PABLO (provided)
+ * Responsibility: Dark/light mode switching
+ * 
+ * Status: PROVIDED ✅ (use as-is)
  * =============================================================================
  */
 
@@ -25,21 +17,17 @@ const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    // Check localStorage first
     const saved = localStorage.getItem('theme');
-    
-    // If no saved preference, default to dark mode
     return saved || 'dark';
   });
 
-  // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
   return (
