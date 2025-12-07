@@ -29,13 +29,8 @@
 
 @media (min-width: 481px) {
   .user-profile-page {
-    margin-left: 80px;
-    width: calc(100% - 80px);
-    
-    // Offset the background overlay to not extend under nav
-    &::before {
-      left: 80px;
-    }
+    padding-left: 80px;
+    width: 100%;
   }
 }
 

@@ -39,4 +39,14 @@ html:not([data-theme="light"]) {
     background: rgba(167, 131, 255, 0.25);
     color: #b89fff;
   }
+
+  // Remove dark background strip from river labels container
+  .river-labels {
+    background: transparent;
+  }
+
+  // Remove dark backgrounds from Thoughts/Media/Milestones labels
+  .column-label {
+    background: transparent;
+  }
 }

@@ -81,6 +81,35 @@ def signup(request):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# 🔐 EMAIL LOGIN VIEW
+# ═══════════════════════════════════════════════════════════════════════
+@api_view(['POST'])
+@permission_classes([AllowAny])  # Anyone can try to log in
+def email_login(request):
+    """
+    Login with email and password, returns JWT tokens
+    
+    Frontend sends: POST /api/auth/login/
+    Body: { "email": "pablo@huddl.com", "password": "test123" }
+    Returns: { "access": "...", "refresh": "..." }
+    """
+    from .serializers import EmailLoginSerializer
+    
+    serializer = EmailLoginSerializer(data=request.data)
+    if serializer.is_valid():
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+    
+    # Format errors for frontend - extract first error message
+    errors = serializer.errors
+    if 'non_field_errors' in errors:
+        detail = errors['non_field_errors'][0]
+    else:
+        detail = list(errors.values())[0][0] if errors else 'Login failed'
+    
+    return Response({'detail': detail}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # 👤 CURRENT USER VIEW
 # ═══════════════════════════════════════════════════════════════════════
 @api_view(['GET'])

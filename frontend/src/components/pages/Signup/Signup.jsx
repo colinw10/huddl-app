@@ -78,7 +78,7 @@ function Signup() {
       await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
       console.log('Signup submitted:', formData);
       // Navigate to feed on success
-      navigate('/feed');
+      navigate('/home');
     } catch {
       setErrors({ submit: 'Signup failed. Please try again.' });
     } finally {

@@ -2,6 +2,7 @@
 // Friends.jsx - Friends list and requests page
 
 import { useState } from 'react';
+import { useFriends } from '../../../contexts';
 import './Friends.scss';
 
 // Helper function to assign color variants to cards
@@ -10,29 +11,86 @@ const getColorVariant = (id) => {
   return variants[id % variants.length];
 };
 
+// Helper to get initials from name
+const getInitials = (firstName, lastName, username) => {
+  if (firstName && lastName) {
+    return `${firstName[0]}${lastName[0]}`.toUpperCase();
+  }
+  if (firstName) {
+    return firstName.slice(0, 2).toUpperCase();
+  }
+  return username.slice(0, 2).toUpperCase();
+};
+
+// Helper to get display name
+const getDisplayName = (friend) => {
+  if (friend.first_name && friend.last_name) {
+    return `${friend.first_name} ${friend.last_name}`;
+  }
+  if (friend.first_name) {
+    return friend.first_name;
+  }
+  return friend.username;
+};
+
 function Friends() {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'requests', 'suggestions'
+  
+  // Get data from context (connected to backend)
+  const { 
+    friends, 
+    pendingRequests, 
+    isLoading, 
+    error,
+    acceptRequest, 
+    declineRequest, 
+    removeFriend 
+  } = useFriends();
 
-  // Mock data
-  const friends = [
-    { id: 1, name: 'Colin Weir', username: '@colinw', avatar: 'CW', mutualFriends: 12, status: 'online' },
-    { id: 2, name: 'Crystal Ruiz', username: '@crystalr', avatar: 'CR', mutualFriends: 8, status: 'online' },
-    { id: 3, name: 'Tito', username: '@tito', avatar: 'T', mutualFriends: 15, status: 'offline' },
-    { id: 4, name: 'Natalia P', username: '@nataliap', avatar: 'NP', mutualFriends: 6, status: 'online' },
-    { id: 5, name: 'Arthur Bernier', username: '@arthurb', avatar: 'AB', mutualFriends: 4, status: 'offline' },
-    { id: 6, name: 'Alex Rivera', username: '@alexr', avatar: 'AR', mutualFriends: 9, status: 'online' },
-  ];
+  // Debug logging
+  console.log('Friends page - friends:', friends, 'pending:', pendingRequests, 'loading:', isLoading, 'error:', error);
 
-  const requests = [
-    { id: 101, name: 'Jordan Lee', username: '@jordanl', avatar: 'JL', mutualFriends: 3 },
-    { id: 102, name: 'Sam Chen', username: '@samc', avatar: 'SC', mutualFriends: 7 },
-  ];
-
+  // Suggestions are still mock for now (would need a different API)
   const suggestions = [
-    { id: 201, name: 'Maya Patel', username: '@mayap', avatar: 'MP', mutualFriends: 5 },
-    { id: 202, name: 'Jake Thompson', username: '@jaket', avatar: 'JT', mutualFriends: 2 },
-    { id: 203, name: 'Emma Wilson', username: '@emmaw', avatar: 'EW', mutualFriends: 8 },
+    { id: 201, name: 'Maya Patel', username: 'mayap', avatar: 'MP', mutualFriends: 5 },
+    { id: 202, name: 'Jake Thompson', username: 'jaket', avatar: 'JT', mutualFriends: 2 },
+    { id: 203, name: 'Emma Wilson', username: 'emmaw', avatar: 'EW', mutualFriends: 8 },
   ];
+
+  // Handle accept friend request
+  const handleAccept = async (requestId) => {
+    const result = await acceptRequest(requestId);
+    if (!result.success) {
+      console.error('Failed to accept:', result.error);
+    }
+  };
+
+  // Handle decline friend request
+  const handleDecline = async (requestId) => {
+    const result = await declineRequest(requestId);
+    if (!result.success) {
+      console.error('Failed to decline:', result.error);
+    }
+  };
+
+  // Handle remove friend
+  const handleRemove = async (userId) => {
+    const result = await removeFriend(userId);
+    if (!result.success) {
+      console.error('Failed to remove:', result.error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="friends-page">
+        <div className="friends-header">
+          <h1 className="friends-title">Friends</h1>
+        </div>
+        <div className="loading-state">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="friends-page">
@@ -49,7 +107,7 @@ function Friends() {
           </span>
           <span className="stat-dot"></span>
           <span className="stat-item">
-            <span className="stat-value">{requests.length}</span>
+            <span className="stat-value">{pendingRequests.length}</span>
             <span className="stat-label">pending</span>
           </span>
         </div>
@@ -68,7 +126,7 @@ function Friends() {
           onClick={() => setActiveTab('requests')}
         >
           Requests
-          {requests.length > 0 && <span className="tab-badge">{requests.length}</span>}
+          {pendingRequests.length > 0 && <span className="tab-badge">{pendingRequests.length}</span>}
         </button>
         <button 
           className={`tab-btn ${activeTab === 'suggestions' ? 'active' : ''}`}
@@ -86,15 +144,14 @@ function Friends() {
               <div key={friend.id} className={`friend-card card card-interactive ${getColorVariant(friend.id)}`}>
                 <div className="scan-line"></div>
                 <div className="friend-avatar">
-                  <span>{friend.avatar}</span>
-                  <div className={`status-dot ${friend.status}`}></div>
+                  <span>{getInitials(friend.first_name, friend.last_name, friend.username)}</span>
+                  <div className="status-dot online"></div>
                 </div>
                 <div className="friend-info">
-                  <h3 className="friend-name">{friend.name}</h3>
-                  <span className="friend-username">{friend.username}</span>
-                  <span className="friend-mutual">{friend.mutualFriends} mutual friends</span>
+                  <h3 className="friend-name">{getDisplayName(friend)}</h3>
+                  <span className="friend-username">@{friend.username}</span>
                 </div>
-                <button className="friend-action-btn">
+                <button className="friend-action-btn" onClick={() => handleRemove(friend.id)} title="Remove friend">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
@@ -106,20 +163,19 @@ function Friends() {
 
         {activeTab === 'requests' && (
           <div className="friends-grid">
-            {requests.map(request => (
+            {pendingRequests.map(request => (
               <div key={request.id} className="friend-card card request-card">
                 <div className="scan-line"></div>
                 <div className="friend-avatar">
-                  <span>{request.avatar}</span>
+                  <span>{getInitials(request.from_user.first_name, request.from_user.last_name, request.from_user.username)}</span>
                 </div>
                 <div className="friend-info">
-                  <h3 className="friend-name">{request.name}</h3>
-                  <span className="friend-username">{request.username}</span>
-                  <span className="friend-mutual">{request.mutualFriends} mutual friends</span>
+                  <h3 className="friend-name">{getDisplayName(request.from_user)}</h3>
+                  <span className="friend-username">@{request.from_user.username}</span>
                 </div>
                 <div className="request-actions">
-                  <button className="btn-accept">Accept</button>
-                  <button className="btn-decline">Decline</button>
+                  <button className="btn-accept" onClick={() => handleAccept(request.id)}>Accept</button>
+                  <button className="btn-decline" onClick={() => handleDecline(request.id)}>Decline</button>
                 </div>
               </div>
             ))}

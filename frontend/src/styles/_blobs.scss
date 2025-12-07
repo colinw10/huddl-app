@@ -9,7 +9,7 @@
 // Large organic blob cutout-bottom
 .App::before {
   content: '';
-  position: absolute;
+  position: fixed;
   bottom: -200px;
   left: calc(50% - 200px);
   width: 400px;
@@ -21,14 +21,14 @@
   border: 2px solid rgba(125, 211, 198, 0.226);
   animation: blobFadeIn 1.2s ease-out forwards, blobMorph 20s ease-in-out infinite 1.2s;
   opacity: 0;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 
 // Large organic blob cutout on top
 .App::after {
   content: '';
-  position: absolute;
+  position: fixed;
   top: -200px;
   left: calc(50% - 200px);
   width: 400px;
@@ -40,11 +40,11 @@
   border: 2px solid rgba(235, 176, 176, 0.146);
   animation: blobFadeIn 1.2s ease-out forwards, blobMorph 20s ease-in-out infinite 1.2s;
   opacity: 0;
-  z-index: 1;
+  z-index: 0;
 }
 
 .blob-left {
-  position: absolute;
+  position: fixed;
   left: -200px;
   top: 50%;
   width: 350px;
@@ -57,12 +57,12 @@
   animation: blobFadeInSide 1.2s ease-out forwards, blobMorphLeft 20s ease-in-out infinite 1.2s;
   opacity: 0;
   transform: translateY(-50%);
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 
 .blob-right {
-  position: absolute;
+  position: fixed;
   right: -200px;
   top: 50%;
   width: 350px;
@@ -75,7 +75,7 @@
   animation: blobFadeInSide 1.2s ease-out forwards, blobMorphRight 20s ease-in-out infinite 1.2s;
   opacity: 0;
   transform: translateY(-50%);
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
 }
 

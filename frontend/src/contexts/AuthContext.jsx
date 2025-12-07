@@ -25,9 +25,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('accessToken');
+      console.log('AuthContext checkAuth - token exists:', !!token);
       if (token) {
         try {
           const response = await apiClient.get('/auth/me/');
+          console.log('Auth /me response:', response.data);
           setUser(response.data);
           setIsAuthenticated(true);
         } catch (error) {
@@ -35,6 +37,8 @@ export const AuthProvider = ({ children }) => {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
         }
+      } else {
+        console.log('No token found, user not logged in');
       }
       setIsLoading(false);
     };
@@ -43,9 +47,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     try {
-      const response = await apiClient.post('/auth/login/', { username, password });
+      const response = await apiClient.post('/auth/login/', { email, password });
       localStorage.setItem('accessToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
       

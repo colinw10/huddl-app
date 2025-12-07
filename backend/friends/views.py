@@ -42,10 +42,46 @@ def friend_list(request):
       friends.append({
         'id': friendship.friend.id,
         'username': friendship.friend.username,
+        'first_name': friendship.friend.first_name,
+        'last_name': friendship.friend.last_name,
       })
 
   # Return the list as JSON
   return Response(friends)
+
+# 🟢 CRYSTAL - Pending Friend Requests
+# ═══════════════════════════════════════════════════════════════════════
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def pending_requests(request):
+  '''
+  Returns all pending friend requests TO the logged-in user
+
+  Frontend calls: GET /api/friends/requests/
+  Returns: [{ "id": 1, "from_user": { "id": 5, "username": "jordan" }, "created_at": "..." }, ...]
+  '''
+  user = request.user
+
+  # Get all pending requests where this user is the recipient
+  requests = FriendRequest.objects.filter(to_user=user)
+
+  # Build a list of request data
+  pending = []
+  for req in requests:
+      pending.append({
+        'id': req.id,
+        'from_user': {
+          'id': req.from_user.id,
+          'username': req.from_user.username,
+          'first_name': req.from_user.first_name,
+          'last_name': req.from_user.last_name,
+        },
+        'created_at': req.created_at.isoformat(),
+      })
+
+  return Response(pending)
+
 # Create your views here.
 
 # 🟢 CRYSTAL - Send Friend Request

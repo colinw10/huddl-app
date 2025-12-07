@@ -2,19 +2,12 @@
 # urls.py - URL routing for authentication endpoints
 
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-# ☝️ Import pre-built JWT views from the library
-# TokenObtainPairView = handles login (checks password, gives tokens)
-# TokenRefreshView = gives new access token when old one expires
+from rest_framework_simplejwt.views import TokenRefreshView
 from . import views
-# ☝️ Import OUR views file (users/views.py)
-# The dot (.) means "from this same folder"
-# We'll write signup() and current_user() functions in views.py
-# Router for ViewSets
 
 urlpatterns = [
     path('signup/', views.signup, name='signup'),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('login/', views.email_login, name='login'),  # Custom email login
 
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # ☝️ Creates route: /api/auth/token/refresh/

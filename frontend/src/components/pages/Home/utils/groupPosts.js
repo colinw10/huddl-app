@@ -4,12 +4,14 @@
  * @returns {Object} Nested structure: { dateKey: { userId: { user, thoughts[], media[], milestones[] } } }
  */
 export const groupPostsByUserAndDay = (posts) => {
-  const grouped = {};  // 🔵 Empty object to store organized data
+  const grouped = {}; // 🔵 Empty object to store organized data
 
-  posts.forEach((post) => {// 🔵 Loop through each post
+  posts.forEach((post) => {
+    // 🔵 Loop through each post
 
     // Extract date key (YYYY-MM-DD format)
-    const dateKey = new Date(post.createdAt || Date.now())
+    // Handle both createdAt (mock) and created_at (backend) formats
+    const dateKey = new Date(post.createdAt || post.created_at || Date.now())
       .toISOString() // "2024-01-15T14:30:00.000Z"
       .split("T")[0]; // "2024-01-15"
 
@@ -18,25 +20,59 @@ export const groupPostsByUserAndDay = (posts) => {
       grouped[dateKey] = {};
     }
 
+    // Handle author as object (backend) or string (mock)
+    const authorObj = typeof post.author === "object" ? post.author : null;
+    const userId = post.userId || (authorObj ? authorObj.id : post.author);
+
+    // Get display name - prefer first_name + last_name, fall back to username
+    const getDisplayName = (author) => {
+      if (!author) return "Unknown";
+      if (typeof author === "string") return author;
+      if (author.first_name && author.last_name) {
+        return `${author.first_name} ${author.last_name}`;
+      }
+      if (author.first_name) {
+        return author.first_name;
+      }
+      // Capitalize username as fallback
+      return author.username
+        ? author.username.charAt(0).toUpperCase() + author.username.slice(1)
+        : "Unknown";
+    };
+
+    // Generate avatar initials from name
+    const getInitials = (author) => {
+      if (!author) return "??";
+      if (typeof author === "string") return author.slice(0, 2).toUpperCase();
+      if (author.first_name && author.last_name) {
+        return `${author.first_name[0]}${author.last_name[0]}`.toUpperCase();
+      }
+      if (author.first_name) {
+        return author.first_name.slice(0, 2).toUpperCase();
+      }
+      return author.username ? author.username.slice(0, 2).toUpperCase() : "??";
+    };
+
+    const authorName = getDisplayName(authorObj || post.author);
+
     // Step 4: Create user bucket if it doesn't exist
-    const userId = post.userId || post.author; // fallback to author for mock data
     if (!grouped[dateKey][userId]) {
       grouped[dateKey][userId] = {
         user: {
           id: userId,
-          name: post.author,
-          avatar: post.avatar,
+          name: authorName,
+          avatar: post.avatar || getInitials(authorObj || post.author),
         },
-        thoughts: [],  // 🔵 Empty arrays for each post type
+        thoughts: [], // 🔵 Empty arrays for each post type
         media: [],
         milestones: [],
       };
     }
 
-     // Step 5: Add post to correct category (thoughts/media/milestones)
+    // Step 5: Add post to correct category (thoughts/media/milestones)
     const type = post.type || "thoughts"; // default to thoughts if no type
     if (grouped[dateKey][userId][type]) {
-      grouped[dateKey][userId][type].push(post);// Add post to array
+      grouped[dateKey][userId][type].push(post); // Add post to array
     }
   });
 
@@ -52,7 +88,7 @@ export const sortGroupedPosts = (grouped) => {
   const sorted = []; // 🔵 Empty array to store sorted results
 
   // Sort dates newest first
-  Object.keys(grouped)       // ["2024-01-15", "2024-01-14"]
+  Object.keys(grouped) // ["2024-01-15", "2024-01-14"]
     .sort((a, b) => new Date(b) - new Date(a)) // Sort dates: newest first
     .forEach((dateKey) => {
       // For each date, add all user rows
@@ -61,10 +97,10 @@ export const sortGroupedPosts = (grouped) => {
         sorted.push({
           date: dateKey,
           userId,
-          data: grouped[dateKey][userId],  // Contains user + posts arrays
+          data: grouped[dateKey][userId], // Contains user + posts arrays
         });
       });
     });
 
-  return sorted;   // 🔵 Return sorted array
+  return sorted; // 🔵 Return sorted array
 };

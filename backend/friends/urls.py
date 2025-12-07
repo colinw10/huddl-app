@@ -8,6 +8,9 @@ urlpatterns = [
     # GET all friends
     path('', views.friend_list, name='friend_list'),
 
+    # GET pending friend requests
+    path('requests/', views.pending_requests, name='pending_requests'),
+
     # POST --> send a friend request
     # <int:user_id> = placeholder for the user you're sending the request to
     # Same pattern as <int:pk>

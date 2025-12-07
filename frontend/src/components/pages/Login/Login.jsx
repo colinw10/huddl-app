@@ -3,11 +3,13 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
 import './Login.scss';
 // BackButton styles now in main.scss
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -60,11 +62,12 @@ function Login() {
     setIsLoading(true);
     
     try {
-      // TODO: Add actual API call here
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
-      console.log('Login submitted:', formData);
-      // Navigate to feed on success
-      navigate('/feed');
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        navigate('/home');
+      } else {
+        setErrors({ submit: result.error });
+      }
     } catch {
       setErrors({ submit: 'Login failed. Please try again.' });
     } finally {
