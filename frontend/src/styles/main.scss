@@ -35,11 +35,10 @@
 // ============================================
 @use 'buttons';           // Button variants and states
 @use 'cards';             // Card components
-@use 'glass';             // Glassmorphism utilities
 
 // ============================================
 // UTILITIES
 // Animations and helper classes
 // ============================================
 @use 'animations';        // Keyframes and animation classes
-@use 'utilities';         // Spacing, text, layout helpers
+@use 'utilities';         // Spacing, text, layout helpers, glass effects
