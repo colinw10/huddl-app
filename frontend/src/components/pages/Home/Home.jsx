@@ -2,7 +2,7 @@
 // Home.jsx - Timeline river feed page
 
 import { useState } from 'react';
-import './Home.consolidated.scss'; // Testing consolidated file
+import './Home.scss';
 import TimelineRiverFeed from './components/TimelineRiverFeed';
 import { usePosts, useFriends } from '../../../contexts';
 
