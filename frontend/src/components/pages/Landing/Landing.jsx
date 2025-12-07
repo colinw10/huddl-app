@@ -2,7 +2,7 @@
 // Landing.jsx - Welcome/landing page
 
 import { useNavigate } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import './Landing.scss';
 
 // Golden ratio - the most aesthetically pleasing irrational number
@@ -10,6 +10,11 @@ const PHI = (1 + Math.sqrt(5)) / 2; // ≈ 1.618033988749895
 
 function Landing() {
   const navigate = useNavigate();
+  
+  // Track which letters have been hovered (for "hover all" replay)
+  const hoveredRef = useRef(new Set());
+  const isAnimatingRef = useRef(false);
+  const [replayGlitch, setReplayGlitch] = useState(false);
   
   // Generate delays using golden ratio for beautiful pseudo-randomness
   // Uses the Weyl sequence: (n * φ) mod 1 - produces low-discrepancy sequence
@@ -32,10 +37,42 @@ function Landing() {
   
   // Unique color variant for each letter
   const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
+  
+  // Track letter hovers - when all 5 are hovered, trigger replay
+  const handleLetterHover = (index) => {
+    // Don't track while animating
+    if (isAnimatingRef.current) return;
+    
+    // Add this letter to hovered set
+    hoveredRef.current.add(index);
+    
+    // Check if all 5 letters have been hovered
+    if (hoveredRef.current.size === 5) {
+      isAnimatingRef.current = true;
+      
+      // Reset tracking immediately
+      hoveredRef.current = new Set();
+      
+      // Trigger replay animation
+      setReplayGlitch('reset');
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setReplayGlitch('replay');
+          
+          // After animation completes, allow tracking again
+          setTimeout(() => {
+            setReplayGlitch(false);
+            isAnimatingRef.current = false;
+          }, 4000);
+        });
+      });
+    }
+  };
 
   return (
     <div className="landing-container">
-      <h1 className="landing-title">
+      <h1 className={`landing-title ${replayGlitch === 'reset' ? 'landing-title--reset' : ''} ${replayGlitch === 'replay' ? 'landing-title--replay' : ''}`}>
         {'HUDDL'.split('').map((letter, index) => {
           const isFlipped = index === 0 || index === 4; // H and L
           return (
@@ -46,6 +83,8 @@ function Landing() {
                 animationDelay: `${letterDelays[index]}s`,
                 '--hover-delay': `${hoverDelays[index]}s`
               }}
+              data-letter={letter}
+              onMouseEnter={() => handleLetterHover(index)}
             >
               {letter}
             </span>

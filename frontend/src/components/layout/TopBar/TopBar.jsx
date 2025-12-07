@@ -20,7 +20,14 @@ function TopBar() {
   return (
     <>
       <div className="top-bar">
-        <div className="top-bar-logo">HUDDL</div>
+        <div 
+          className="top-bar-logo" 
+          onClick={() => navigate('/')}
+          style={{ cursor: 'pointer' }}
+          title="Go to Landing"
+        >
+          HUDDL
+        </div>
         <div className="top-bar-icons">
           <ThemeToggle />
           <div className="icon-placeholder icon-search" title="Search">

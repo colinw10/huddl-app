@@ -77,6 +77,27 @@
   transform: scale(1.1);
 }
 
+/* Logout icon - arrow orange, door cyan */
+.icon-logout {
+  svg {
+    path {
+      stroke: #00d4ff; /* Door - cyan */
+    }
+    polyline {
+      stroke: #ff8c00; /* Arrow head - orange */
+    }
+    line {
+      stroke: #ff8c00; /* Arrow line - orange */
+    }
+  }
+}
+
+.icon-logout:hover {
+  background: rgba(255, 140, 0, 0.15);
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+  transform: scale(1.1);
+}
+
 .icon-placeholder:hover {
   color: #1a73e7;
   background: rgba(26, 115, 231, 0.1);
