@@ -39,18 +39,18 @@ function Friends() {
       {/* Scan line overlay */}
       <div className="scan-overlay"></div>
       
-      {/* Header */}
+      {/* Header - Centered with stats below */}
       <div className="friends-header">
         <h1 className="friends-title">Friends</h1>
         <div className="friends-stats">
           <span className="stat-item">
             <span className="stat-value">{friends.length}</span>
-            <span className="stat-label">Friends</span>
+            <span className="stat-label">connected</span>
           </span>
-          <span className="stat-divider"></span>
+          <span className="stat-dot"></span>
           <span className="stat-item">
             <span className="stat-value">{requests.length}</span>
-            <span className="stat-label">Requests</span>
+            <span className="stat-label">pending</span>
           </span>
         </div>
       </div>

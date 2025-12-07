@@ -6,27 +6,38 @@
 // ============================================
 
 .friends-content {
-  max-width: 1200px;
+  max-width: 1100px;              // Tighter max for better card grouping
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   animation: fadeIn 0.3s ease-out;
 }
 
 .friends-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-lg);
-  justify-content: center;
+  // Fixed card widths for consistent sizing, max 3 columns
+  grid-template-columns: repeat(auto-fit, minmax(320px, 350px));
+  gap: 18px;                      // Tighter gap for cohesion
+  justify-content: center;        // Center the grid itself
+  
+  // Cap at 3 columns on large screens
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 350px);
+  }
+  
+  // 2 columns on medium screens
+  @media (min-width: 768px) and (max-width: 1199px) {
+    grid-template-columns: repeat(2, minmax(320px, 380px));
+  }
   
   // Center cards when there are few
   @media (min-width: 992px) {
     &:has(.friend-card:nth-child(-n+2):last-child) {
-      grid-template-columns: repeat(2, minmax(300px, 400px));
+      grid-template-columns: repeat(2, 350px);
       justify-content: center;
     }
     
     &:has(.friend-card:only-child) {
-      grid-template-columns: minmax(300px, 400px);
+      grid-template-columns: 350px;
       justify-content: center;
     }
   }

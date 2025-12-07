@@ -2,60 +2,74 @@
 // 🔵 PABLO - UI/Styling
 
 // ============================================
-// HEADER
+// HEADER - Centered with stats below title
 // ============================================
 
 .friends-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  max-width: 1200px;
-  margin: 90px auto 24px;
-  padding: 0 20px;
+  text-align: center;
+  max-width: 1100px;
+  margin: 80px auto 28px;
+  padding: 0 24px;
+  gap: 12px;
 }
 
 .friends-title {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 2.5rem;
   font-weight: 500;
-  color: #fffdfd;
+  color: #ffffff;
   margin: 0;
-  line-height: 1.2;
-  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  line-height: 1.1;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffffff 30%, rgba(150, 160, 170, 0.7) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 40px rgba(79, 255, 255, 0.15);
 }
 
 .friends-stats {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
+  justify-content: center;
+  gap: 20px;
 }
 
 .stat-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: baseline;
+  gap: 6px;
 }
 
 .stat-value {
   font-family: 'sweet-square-pro', monospace;
-  font-size: var(--font-size-xl);
+  font-size: 1.1rem;
   font-weight: 700;
   color: #4fffff;
-  text-shadow: 0 0 8px rgba(79, 255, 255, 0.6);
+  text-shadow: 0 0 10px rgba(79, 255, 255, 0.5);
 }
 
 .stat-label {
-  font-size: var(--font-size-xs);
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  letter-spacing: 0.3px;
 }
 
+// Dot separator between stats
+.stat-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(79, 255, 255, 0.5);
+  box-shadow: 0 0 6px rgba(79, 255, 255, 0.4);
+}
+
+// Remove old divider style
 .stat-divider {
-  width: 1px;
-  height: 30px;
-  background: rgba(255, 255, 255, 0.15);
+  display: none;
 }

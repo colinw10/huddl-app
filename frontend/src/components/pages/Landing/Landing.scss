@@ -60,9 +60,53 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   
+  // Scanline overlay - horizontal lines that sweep during glitch
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.3) 2px,
+      rgba(0, 0, 0, 0.3) 4px
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
   // Modifier: Flipped letters (H and L) - start mirrored, flip to normal
   &--flip {
     animation: letterFadeInFlipGlitch 4s linear forwards;
+  }
+  
+  // HOVER GLITCH - Use filter/text-shadow/transform directly instead of animation
+  // This avoids overriding the 'forwards' fill state from initial animation
+  &:hover {
+    filter: blur(1px) brightness(1.2);
+    text-shadow: 
+      3px 0 #ff00ff,
+      -3px 0 #00ffff;
+    transform: translateX(2px);
+    transition: none;
+    
+    &::before {
+      opacity: 0.6;
+      animation: scanlineSweep 0.3s ease-in-out;
+    }
+  }
+  
+  &--flip:hover {
+    filter: blur(1px) brightness(1.2);
+    text-shadow: 
+      3px 0 #ffee00,
+      -3px 0 #0066ff;
+    transform: scaleX(0.95) translateX(-2px);
   }
 }
 
@@ -85,62 +129,60 @@
   5% {
     opacity: 0;
   }
-  // GLITCH BURST START - Circular dissolution → pixel blocks
+  // GLITCH BURST START - RGB Cycle: Magenta/Cyan
   5.5% {
     opacity: 1;
     transform: translateX(3px);
     filter: blur(4px) brightness(1.5);   // Blur pulse + bright flash
     text-shadow: 
-      2px 0 #ff00ffa7,
-      -2px 0 #00ffff;
-    // Circular/ellipse pattern - organic dissolution
+      2px 0 #ff00ff,                      // Magenta right
+      -2px 0 #00ffff;                     // Cyan left
     clip-path: ellipse(80% 40% at 50% 50%);
   }
+  // RGB Cycle: Yellow/Blue
   5.8% {
     opacity: 1;
     transform: translateX(-3px);
-    filter: blur(1px) invert(1);          // Invert flash!
+    filter: blur(2px) invert(1);
     text-shadow: 
-      4px 0 #ff00ff,
-      -4px 0 #00ffff;
-    // Multiple circles scattered
+      4px 0 #ffee00,                      // Yellow right
+      -4px 0 #0066ff;                     // Blue left
     clip-path: polygon(
-      // Circle-ish top left
       10% 5%, 25% 0%, 35% 10%, 30% 25%, 15% 20%,
-      // Circle-ish top right  
       65% 5%, 85% 0%, 95% 15%, 85% 30%, 70% 25%,
-      // Circle-ish center
       35% 40%, 50% 35%, 65% 45%, 60% 60%, 45% 65%, 35% 55%,
-      // Circle-ish bottom
       15% 75%, 30% 70%, 45% 80%, 40% 95%, 20% 100%, 5% 85%,
       70% 70%, 90% 75%, 95% 90%, 80% 100%, 65% 90%
     );
   }
+  // RGB Cycle: Red/Green
   6% {
     opacity: 1;
     transform: translateX(100px) skewX(-700deg);
     filter: blur(10px);
     text-shadow: 
-      -3px 0 #200676,
-      3px 0 #00ffff,
+      -3px 0 #ff3333,                     // Red left
+      3px 0 #33ff33,                      // Green right
       0 0 10px rgba(255, 255, 255, 0.5);
-    // Transitioning to blocky - rounded rectangles
     clip-path: polygon(
-      0 0%, 30% 0%, 30% 25%, 0 25%,        // Block 1
-      40% 5%, 70% 5%, 70% 30%, 40% 30%,    // Block 2
-      75% 0%, 100% 0%, 100% 20%, 75% 20%,  // Block 3
-      10% 40%, 50% 40%, 50% 65%, 10% 65%,  // Block 4
-      55% 45%, 95% 45%, 95% 70%, 55% 70%,  // Block 50
-      0 75%, 35% 75%, 35% 100%, 0 100%,    // Block 6
-      45% 80%, 75% 80%, 75% 100%, 45% 100%,// Block 7
-      80% 75%, 100% 75%, 100% 95%, 80% 95% // Block 8
+      0 0%, 30% 0%, 30% 25%, 0 25%,
+      40% 5%, 70% 5%, 70% 30%, 40% 30%,
+      75% 0%, 100% 0%, 100% 20%, 75% 20%,
+      10% 40%, 50% 40%, 50% 65%, 10% 65%,
+      55% 45%, 95% 45%, 95% 70%, 55% 70%,
+      0 75%, 35% 75%, 35% 100%, 0 100%,
+      45% 80%, 75% 80%, 75% 100%, 45% 100%,
+      80% 75%, 100% 75%, 100% 95%, 80% 95%
     );
   }
+  // RGB Cycle: Back to Magenta/Cyan
   6.3% {
     opacity: 0.6;
     transform: translateX(-50px);
-    filter: blur(3px) invert(0.5);         // Half invert flash
-    // Pixel grid - sharp squares
+    filter: blur(3px) invert(0.5);
+    text-shadow: 
+      -2px 0 #ff00ff,                     // Magenta
+      2px 0 #00ffff;                      // Cyan
     clip-path: polygon(
       0 0%, 20% 0%, 20% 20%, 0 20%,
       25% 0%, 45% 0%, 45% 20%, 25% 20%,
@@ -158,13 +200,14 @@
       75% 85%, 95% 85%, 95% 100%, 75% 100%
     );
   }
+  // Final color flash: Yellow/Blue
   6.5% {
     opacity: 0.4;
     transform: translateX(100px);
-    filter: blur(0.5px);                   // Blur settling
+    filter: blur(0.5px);
     text-shadow: 
-      1px 0 #ff00ff,
-      -1px 0 #00ffff;
+      1px 0 #ffee00,                      // Yellow
+      -1px 0 #0066ff;                     // Blue
     clip-path: none;
   }
   // GLITCH BURST END - back to normal
@@ -193,24 +236,24 @@
     opacity: 1;
     transform: scaleX(-1);
   }
+  // RGB Cycle: Magenta/Cyan
   15.5% {
     opacity: 1;
     transform: scaleX(-1) translateX(-3px);
-    filter: blur(3px) brightness(1.4);    // Blur + bright
+    filter: blur(3px) brightness(1.4);
     text-shadow: 
-      3px 0 #ff00ff,
-      -3px 0 #00ffff;
-    // Start with ellipse/circle
+      3px 0 #ff00ff,                       // Magenta
+      -3px 0 #00ffff;                      // Cyan
     clip-path: ellipse(70% 50% at 50% 50%);
   }
+  // RGB Cycle: Yellow/Blue
   16% {
     opacity: 1;
     transform: scaleX(-1) translateX(5px);
-    filter: blur(2px) invert(1);          // Invert flash
+    filter: blur(2px) invert(1);
     text-shadow: 
-      5px 0 #ffee00,
-      -5px 0 #00ffff;
-    // Scattered circles → blocks transition
+      5px 0 #ffee00,                       // Yellow
+      -5px 0 #0066ff;                      // Blue
     clip-path: polygon(
       5% 10%, 30% 5%, 35% 25%, 15% 30%,
       60% 0%, 90% 10%, 85% 35%, 55% 30%,
@@ -220,14 +263,14 @@
       50% 80%, 75% 85%, 70% 100%, 55% 95%
     );
   }
+  // RGB Cycle: Red/Green
   16.5% {
     opacity: 0.7;
     transform: scaleX(-1) translateX(2px) skewX(10deg);
     filter: blur(1px) invert(0.3);
     text-shadow: 
-      -2px 0 #ff00ff,
-      2px 0 #00ffff;
-    // Pixel blocks
+      -2px 0 #ff3333,                      // Red
+      2px 0 #33ff33;                       // Green
     clip-path: polygon(
       0 0%, 25% 0%, 25% 25%, 0 25%,
       30% 5%, 55% 5%, 55% 30%, 30% 30%,
@@ -255,6 +298,131 @@
   100% {
     opacity: 1;
     transform: scaleX(1);
+  }
+}
+
+/* ============================================
+   HOVER GLITCH ANIMATIONS
+   
+   Triggered when user hovers over individual letters
+   Shorter, snappier version of the initial glitch
+   RGB color cycling: Magenta/Cyan → Yellow/Blue → Red/Green
+   ============================================ */
+
+@keyframes letterHoverGlitch {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: none;
+    text-shadow: none;
+  }
+  // Magenta/Cyan
+  15% {
+    opacity: 1;
+    transform: translateX(4px);
+    filter: blur(2px) brightness(1.3);
+    text-shadow: 
+      3px 0 #ff00ff,
+      -3px 0 #00ffff;
+    clip-path: polygon(
+      0 0%, 100% 0%, 100% 30%, 0 30%,
+      0 40%, 100% 40%, 100% 70%, 0 70%,
+      0 80%, 100% 80%, 100% 100%, 0 100%
+    );
+  }
+  // Yellow/Blue
+  40% {
+    opacity: 0.9;
+    transform: translateX(-3px);
+    filter: blur(1px) invert(0.8);
+    text-shadow: 
+      4px 0 #ffee00,
+      -4px 0 #0066ff;
+    clip-path: polygon(
+      0 5%, 50% 0%, 50% 25%, 0 30%,
+      50% 35%, 100% 30%, 100% 55%, 50% 60%,
+      0 65%, 50% 60%, 50% 85%, 0 90%,
+      50% 90%, 100% 85%, 100% 100%, 50% 100%
+    );
+  }
+  // Red/Green
+  65% {
+    opacity: 0.8;
+    transform: translateX(2px) skewX(-5deg);
+    filter: blur(0.5px);
+    text-shadow: 
+      2px 0 #ff3333,
+      -2px 0 #33ff33;
+    clip-path: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: none;
+    text-shadow: none;
+    clip-path: none;
+  }
+}
+
+@keyframes letterHoverGlitchFlip {
+  0% {
+    opacity: 1;
+    transform: scaleX(1);
+    filter: none;
+    text-shadow: none;
+  }
+  // Magenta/Cyan - slight mirror flash
+  20% {
+    opacity: 1;
+    transform: scaleX(-0.9) translateX(3px);
+    filter: blur(2px) brightness(1.4);
+    text-shadow: 
+      3px 0 #ff00ff,
+      -3px 0 #00ffff;
+  }
+  // Yellow/Blue
+  50% {
+    opacity: 0.9;
+    transform: scaleX(1.1) translateX(-2px);
+    filter: blur(1px) invert(0.6);
+    text-shadow: 
+      4px 0 #ffee00,
+      -4px 0 #0066ff;
+  }
+  // Red/Green
+  75% {
+    opacity: 0.85;
+    transform: scaleX(0.95);
+    filter: blur(0.5px);
+    text-shadow: 
+      2px 0 #ff3333,
+      -2px 0 #33ff33;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+    filter: none;
+    text-shadow: none;
+  }
+}
+
+/* Scanline sweep animation - horizontal lines sweep down during hover */
+@keyframes scanlineSweep {
+  0% {
+    opacity: 0;
+    background-position: 0 -100%;
+  }
+  20% {
+    opacity: 0.8;
+    background-position: 0 0%;
+  }
+  80% {
+    opacity: 0.6;
+    background-position: 0 100%;
+  }
+  100% {
+    opacity: 0;
+    background-position: 0 200%;
   }
 }
 
@@ -394,7 +562,6 @@
   outline: none;
   box-shadow: 0 8px 20px rgba(120, 224, 156, 0.7),
               0 15px 35px rgba(223, 224, 204, 0.5);
-  animation: none;                // Stop fade-in animation on hover
 }
 
 .btn-signup:hover::before {
@@ -410,7 +577,6 @@
   outline: none;
   box-shadow: 0 8px 20px rgba(26, 231, 132, 0.7),
               0 15px 35px rgba(26, 115, 231, 0.6);
-  animation: none;
 }
 
 .btn-login:hover::before {

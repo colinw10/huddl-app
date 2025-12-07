@@ -6,6 +6,11 @@
   .user-profile-page.river-profile {
     background: #f5f7fa !important;
     color: #000000;
+    
+    // Hide the dark overlay in light mode
+    &::before {
+      display: none;
+    }
   }
 
   .quick-composer-textarea {

@@ -22,6 +22,13 @@
   box-sizing: border-box;
 }
 
+/* Desktop: shift card left to center between nav and viewport edge */
+@media (min-width: 481px) {
+  .profile-flip-container {
+    transform: translateX(-8px);
+  }
+}
+
 @media (max-width: 768px) {
   .profile-flip-container {
     margin: 8px auto 0;
