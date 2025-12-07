@@ -280,11 +280,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             <div className="expanded-composer-modal">
               {/* Original Post Context - what they're replying to */}
               <div className="reply-context">
-                <img 
-                  src={user.avatar} 
-                  alt={user.display_name}
-                  className="reply-context-avatar"
-                />
+                <div className="reply-context-avatar">
+                  {user.avatar}
+                </div>
                 <div className="reply-context-body">
                   <div className="reply-context-header">
                     <span className="reply-context-name">{user.display_name}</span>

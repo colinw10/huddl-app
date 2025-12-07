@@ -95,7 +95,16 @@
   height: 48px;
   min-width: 48px;
   border-radius: 50%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.3), rgba(220, 8, 188, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
 }
 
 .reply-context-body {

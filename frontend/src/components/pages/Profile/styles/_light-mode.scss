@@ -13,6 +13,24 @@
     }
   }
 
+  // Engagement ring around avatar - more visible in light mode
+  .profile-card-front .avatar-engagement-ring {
+    svg {
+      filter: drop-shadow(0 0 12px rgba(220, 8, 188, 0.6)) !important;
+    }
+    
+    .ring-progress {
+      stroke: #dc08bc !important;
+      filter: drop-shadow(0 0 10px rgba(220, 8, 188, 0.8)) !important;
+    }
+    
+    .ring-spark {
+      fill: #dc08bc !important;
+      stroke: none !important;
+      filter: drop-shadow(0 0 8px #dc08bc) drop-shadow(0 0 16px rgba(220, 8, 188, 0.8)) !important;
+    }
+  }
+
   .quick-composer-textarea {
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 20%, transparent 40%),

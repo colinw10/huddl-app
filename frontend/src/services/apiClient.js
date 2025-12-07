@@ -1,26 +1,68 @@
 // 🟠 TITO - Infrastructure Lead
 // apiClient.js - Base HTTP client with automatic auth token handling
 
-// To be implemented by Tito: handles API requests, JWT tokens, error handling, etc.
+import axios from "axios";
 
-// Placeholder apiClient until fully implemented
-const apiClient = {
-  get: async (url) => {
-    console.warn("apiClient.get not implemented yet:", url);
-    return { data: null };
+const API_BASE_URL = "http://localhost:8000/api";
+
+// Create axios instance
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
   },
-  post: async (url, data) => {
-    console.warn("apiClient.post not implemented yet:", url, data);
-    return { data: null };
+});
+
+// Request interceptor - adds auth token to requests
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
-  put: async (url, data) => {
-    console.warn("apiClient.put not implemented yet:", url, data);
-    return { data: null };
-  },
-  delete: async (url) => {
-    console.warn("apiClient.delete not implemented yet:", url);
-    return { data: null };
-  },
-};
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor - handles token refresh on 401
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If 401 and we haven't tried refreshing yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (refreshToken) {
+        try {
+          const response = await axios.post(
+            `${API_BASE_URL}/auth/token/refresh/`,
+            {
+              refresh: refreshToken,
+            }
+          );
+
+          const { access } = response.data;
+          localStorage.setItem("accessToken", access);
+
+          // Retry original request with new token
+          originalRequest.headers.Authorization = `Bearer ${access}`;
+          return apiClient(originalRequest);
+        } catch (refreshError) {
+          // Refresh failed - clear tokens and redirect to login
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          window.location.href = "/login";
+          return Promise.reject(refreshError);
+        }
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default apiClient;

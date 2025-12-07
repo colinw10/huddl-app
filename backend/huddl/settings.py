@@ -77,16 +77,12 @@ TEMPLATES = [
 # WSGI server config (like http.createServer() in Node)
 WSGI_APPLICATION = 'huddl.wsgi.application'
 
-# DATABASE - Connection config (PostgreSQL)
-# Connects to your local Postgres server
+# DATABASE - Connection config
+# Using SQLite for development (switch to PostgreSQL for production)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Use PostgreSQL
-        'NAME': 'huddl_pablo_dev',  # Your personal database
-        'USER': 'pablodcordero',  # Your Mac username
-        'PASSWORD': '',  # No password set
-        'HOST': 'localhost',  # Database on your computer
-        'PORT': '5432',  # Default Postgres port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -120,3 +116,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS - Allow React frontend to talk to Django
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# JWT Settings
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}

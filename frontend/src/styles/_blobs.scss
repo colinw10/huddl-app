@@ -19,8 +19,8 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(125, 211, 198, 0.226);
-  animation: blobMorph 20s ease-in-out infinite;
-  animation-delay: 10s;
+  animation: blobFadeIn 1.2s ease-out forwards, blobMorph 20s ease-in-out infinite 1.2s;
+  opacity: 0;
   z-index: 1;
   pointer-events: none;
 }
@@ -38,7 +38,8 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(235, 176, 176, 0.146);
-  animation: blobMorph 20s ease-in-out infinite;
+  animation: blobFadeIn 1.2s ease-out forwards, blobMorph 20s ease-in-out infinite 1.2s;
+  opacity: 0;
   z-index: 1;
 }
 
@@ -46,7 +47,6 @@
   position: absolute;
   left: -200px;
   top: 50%;
-  transform: translateY(-50%);
   width: 350px;
   height: 350px;
   background: radial-gradient(circle, rgba(26, 231, 132, 0.785), rgba(200, 255, 220, 0.15) 50%, transparent 70%); 
@@ -54,8 +54,9 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(185, 216, 200, 0.204);
-  animation: blobMorphLeft 20s ease-in-out infinite;
-  animation-delay: 5s;
+  animation: blobFadeInSide 1.2s ease-out forwards, blobMorphLeft 20s ease-in-out infinite 1.2s;
+  opacity: 0;
+  transform: translateY(-50%);
   z-index: 1;
   pointer-events: none;
 }
@@ -64,7 +65,6 @@
   position: absolute;
   right: -200px;
   top: 50%;
-  transform: translateY(-50%);
   width: 350px;
   height: 350px;
   background: radial-gradient(circle, rgba(220, 192, 8, 0.619), rgba(255, 245, 200, 0.15) 50%, transparent 70%);
@@ -72,8 +72,9 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(196, 191, 134, 0.155);
-  animation: blobMorphRight 20s ease-in-out infinite;
-  animation-delay: 15s;
+  animation: blobFadeInSide 1.2s ease-out forwards, blobMorphRight 20s ease-in-out infinite 1.2s;
+  opacity: 0;
+  transform: translateY(-50%);
   z-index: 1;
   pointer-events: none;
 }
@@ -82,6 +83,49 @@
 // BLOB ANIMATIONS
 // ============================================
 
+// Blob fade-in on page load - fade through blur to clarity
+@keyframes blobFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(30px);
+  }
+  30% {
+    opacity: 0.6;
+    filter: blur(20px);
+  }
+  60% {
+    opacity: 0.85;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+// Blob fade-in for side blobs (preserves translateY centering) - fade through blur to clarity
+@keyframes blobFadeInSide {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+    filter: blur(30px);
+  }
+  30% {
+    opacity: 0.6;
+    transform: translateY(-50%);
+    filter: blur(20px);
+  }
+  60% {
+    opacity: 0.85;
+    transform: translateY(-50%);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+    filter: blur(0px);
+  }
+}
 
 @keyframes blobMorph {
   0%, 100% {

@@ -7,16 +7,7 @@
  * Assigned to: PABLO
  * Responsibility: Global authentication state management
  *
- * TODO:
- * - [ ] Store user object and tokens in state
- * - [ ] Provide login function (call /api/auth/login/)
- * - [ ] Provide signup function (call /api/auth/signup/)
- * - [ ] Provide logout function (clear tokens)
- * - [ ] Check auth status on mount (call /api/auth/me/)
- * - [ ] Persist tokens in localStorage
- * - [ ] Export useAuth hook
- *
- * Status: PLACEHOLDER
+ * Status: IMPLEMENTED ✅
  * =============================================================================
  */
 
@@ -36,10 +27,9 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('accessToken');
       if (token) {
         try {
-          // TODO: Uncomment when ready to test
-          // const response = await apiClient.get('/auth/me/');
-          // setUser(response.data);
-          // setIsAuthenticated(true);
+          const response = await apiClient.get('/auth/me/');
+          setUser(response.data);
+          setIsAuthenticated(true);
         } catch (error) {
           console.error('Auth check failed:', error);
           localStorage.removeItem('accessToken');
@@ -52,22 +42,19 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // TODO: Implement login
+  // Login function
   const login = async (username, password) => {
     try {
-      // const response = await apiClient.post('/auth/login/', { username, password });
-      // localStorage.setItem('accessToken', response.data.access);
-      // localStorage.setItem('refreshToken', response.data.refresh);
-      // 
-      // // Fetch user info
-      // const userResponse = await apiClient.get('/auth/me/');
-      // setUser(userResponse.data);
-      // setIsAuthenticated(true);
-      // 
-      // return { success: true };
+      const response = await apiClient.post('/auth/login/', { username, password });
+      localStorage.setItem('accessToken', response.data.access);
+      localStorage.setItem('refreshToken', response.data.refresh);
       
-      console.log('Login not implemented yet');
-      return { success: false, error: 'Not implemented' };
+      // Fetch user info
+      const userResponse = await apiClient.get('/auth/me/');
+      setUser(userResponse.data);
+      setIsAuthenticated(true);
+      
+      return { success: true };
     } catch (error) {
       return { 
         success: false, 
@@ -76,25 +63,39 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // TODO: Implement signup
+  // Signup function
   const signup = async (username, email, password) => {
     try {
-      // const response = await apiClient.post('/auth/signup/', { 
-      //   username, 
-      //   email, 
-      //   password 
-      // });
-      // 
-      // // Auto-login after signup
-      // const loginResult = await login(username, password);
-      // return loginResult;
+      await apiClient.post('/auth/signup/', { 
+        username, 
+        email, 
+        password 
+      });
       
-      console.log('Signup not implemented yet');
-      return { success: false, error: 'Not implemented' };
+      // Auto-login after signup
+      const loginResult = await login(username, password);
+      return loginResult;
     } catch (error) {
       return { 
         success: false, 
         error: error.response?.data?.error || 'Signup failed' 
+      };
+    }
+  };
+
+  // Update user profile
+  const updateProfile = async (profileData) => {
+    try {
+      const response = await apiClient.put(`/auth/profile/${user.profile.id}/`, profileData);
+      setUser(prev => ({
+        ...prev,
+        profile: response.data
+      }));
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data?.error || 'Profile update failed'
       };
     }
   };
@@ -115,6 +116,7 @@ export const AuthProvider = ({ children }) => {
         login,
         signup,
         logout,
+        updateProfile,
       }}
     >
       {children}

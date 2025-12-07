@@ -218,4 +218,32 @@
   .smart-deck--milestones .smart-deck-position {
     color: #059669 !important; /* darker green */
   }
+
+  /* Reply context text in expanded composer modal */
+  .reply-context-avatar {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(220, 8, 188, 0.2)) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+  }
+
+  .reply-context-name {
+    color: #000000 !important;
+  }
+
+  .reply-context-handle,
+  .reply-context-time {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .reply-context-dot {
+    color: rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .reply-context-content {
+    color: #000000 !important;
+  }
+
+  .reply-divider-text {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
 }

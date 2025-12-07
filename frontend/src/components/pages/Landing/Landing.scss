@@ -19,6 +19,64 @@
   padding-top: 30vh;              // Push content down from top
   position: relative;
   z-index: 2;
+  
+  // Page fade-in animation - waits for blobs to fade in first
+  opacity: 0;
+  animation: pageFadeIn 0.8s ease-out 1s forwards;
+  
+  // Ambient vignette overlay that lifts as content appears
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+    opacity: 1;
+    animation: vignetteLift 2s ease-out forwards;
+  }
+}
+
+// Page fade-in keyframes
+@keyframes pageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Vignette lifts as blobs materialize
+@keyframes vignetteLift {
+  0% {
+    opacity: 1;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+  }
+  100% {
+    opacity: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      transparent 60%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
 }
 
 /* ============================================
@@ -87,25 +145,58 @@
   
   // HOVER GLITCH - Use filter/text-shadow/transform directly instead of animation
   // This avoids overriding the 'forwards' fill state from initial animation
+  // Tiny random delay per letter so it doesn't feel too "on cue"
+  // Each letter has unique color variant
   &:hover {
     filter: blur(1px) brightness(1.2);
-    text-shadow: 
-      3px 0 #ff00ff,
-      -3px 0 #00ffff;
     transform: translateX(2px);
-    transition: none;
+    transition: filter var(--hover-delay, 0.05s), 
+                text-shadow var(--hover-delay, 0.05s), 
+                transform var(--hover-delay, 0.05s);
     
     &::before {
       opacity: 0.6;
       animation: scanlineSweep 0.3s ease-in-out;
+      animation-delay: var(--hover-delay, 0.05s);
     }
   }
   
-  &--flip:hover {
-    filter: blur(1px) brightness(1.2);
+  // H - Magenta/Cyan
+  &--magenta:hover {
     text-shadow: 
-      3px 0 #ffee00,
-      -3px 0 #0066ff;
+      3px 0 #ff00ff,
+      -3px 0 #00ffff;
+  }
+  
+  // U - Cyan/Aqua
+  &--cyan:hover {
+    text-shadow: 
+      3px 0 #1a73e7,
+      -3px 0 #1ae784;
+  }
+  
+  // D - Aqua/Magenta
+  &--aqua:hover {
+    text-shadow: 
+      3px 0 #1ae784,
+      -3px 0 #dc08bc;
+  }
+  
+  // D - Purple/Cyan
+  &--purple:hover {
+    text-shadow: 
+      3px 0 #a783ff,
+      -3px 0 #00ffff;
+  }
+  
+  // L - Blue/Yellow
+  &--blue:hover {
+    text-shadow: 
+      3px 0 #0066ff,
+      -3px 0 #ffee00;
+  }
+  
+  &--flip:hover {
     transform: scaleX(0.95) translateX(-2px);
   }
 }
