@@ -32,12 +32,12 @@ html:not([data-theme="light"]) {
 
   .view-toggle-btn.active {
     background: rgba(26, 115, 231, 0.25);
-    color: #4da3ff;
+    color: var(--primary);
   }
 
   .view-toggle-btn.feed-btn.active {
     background: rgba(167, 131, 255, 0.25);
-    color: #b89fff;
+    color: var(--secondary);
   }
 
   // Remove dark background strip from river labels container

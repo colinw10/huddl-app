@@ -51,7 +51,7 @@
 .view-toggle-btn.active {
   background: rgba(26, 115, 231, 0.15);
   border-color: rgba(26, 115, 231, 0.5);
-  color: #1a60c0;
+  color: var(--blue-primary);
   box-shadow: 0 4px 16px rgba(26, 115, 231, 0.2), 0 0 12px rgba(26, 115, 231, 0.1), inset 0 1px 3px rgba(255, 255, 255, 0.3);
 }
 
@@ -72,7 +72,7 @@
 .view-toggle-btn.feed-btn.active {
   background: rgba(167, 131, 255, 0.15);
   border-color: rgba(167, 131, 255, 0.5);
-  color: #7040b0;
+  color: var(--secondary);
   box-shadow: 0 4px 16px rgba(167, 131, 255, 0.2), 0 0 12px rgba(167, 131, 255, 0.1), inset 0 1px 3px rgba(255, 255, 255, 0.3);
 }
 

@@ -73,7 +73,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #dc08bc;
+  color: var(--magenta);
   font-size: var(--font-size-lg);
   font-weight: 400;
   line-height: 1;
@@ -99,7 +99,7 @@
 }
 
 .desktop-stack-close:hover {
-  border-color: #dc08bc;
+  border-color: var(--magenta);
   transform: scale(1.2) rotate(90deg);
   box-shadow: 
     0 0 20px rgba(220, 8, 188, 0.6),
@@ -144,8 +144,8 @@
 }
 
 .desktop-stack-btn:hover {
-  border-color: #1ae784;
-  color: #1ae784;
+  border-color: var(--accent);
+  color: var(--accent);
   transform: scale(1.15);
   box-shadow: 
     0 0 20px rgba(26, 231, 132, 0.5),

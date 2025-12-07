@@ -55,11 +55,11 @@
 
 /* Search icon - pink */
 .icon-search {
-  color: #ff6b9d;
+  color: var(--pink);
 }
 
 .icon-search:hover {
-  color: #ff8bb3;
+  color: var(--pink);
   background: rgba(255, 107, 157, 0.15);
   box-shadow: 0 0 15px rgba(255, 107, 157, 0.4);
   transform: scale(1.1);
@@ -71,7 +71,7 @@
 }
 
 .icon-messages:hover {
-  color: #4fffaa;
+  color: var(--accent);
   background: rgba(26, 231, 132, 0.15);
   box-shadow: 0 0 15px rgba(26, 231, 132, 0.4);
   transform: scale(1.1);
@@ -81,13 +81,13 @@
 .icon-logout {
   svg {
     path {
-      stroke: #00d4ff; /* Door - cyan */
+      stroke: var(--cyan); /* Door - cyan */
     }
     polyline {
-      stroke: #ff8c00; /* Arrow head - orange */
+      stroke: var(--amber); /* Arrow head - orange */
     }
     line {
-      stroke: #ff8c00; /* Arrow line - orange */
+      stroke: var(--amber); /* Arrow line - orange */
     }
   }
 }
@@ -99,7 +99,7 @@
 }
 
 .icon-placeholder:hover {
-  color: #1a73e7;
+  color: var(--blue-primary);
   background: rgba(26, 115, 231, 0.1);
   transform: scale(1.1);
   box-shadow: 0 0 15px rgba(26, 115, 231, 0.4);
@@ -161,7 +161,7 @@
   }
 
   .top-bar-logo {
-    color: #000000 !important;
+    color: var(--text-inverse) !important;
   }
 
   .icon-placeholder {
@@ -173,7 +173,7 @@
   }
 
   .icon-search:hover {
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
     background: rgba(26, 115, 231, 0.1) !important;
     box-shadow: 0 0 10px rgba(26, 115, 231, 0.2) !important;
   }
@@ -183,13 +183,13 @@
   }
 
   .icon-messages:hover {
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
     background: rgba(26, 115, 231, 0.1) !important;
     box-shadow: 0 0 10px rgba(26, 115, 231, 0.2) !important;
   }
 
   .icon-placeholder:hover {
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
     background: rgba(26, 115, 231, 0.1) !important;
     box-shadow: 0 0 10px rgba(26, 115, 231, 0.2) !important;
   }

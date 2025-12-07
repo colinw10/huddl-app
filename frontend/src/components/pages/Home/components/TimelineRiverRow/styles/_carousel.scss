@@ -82,7 +82,7 @@
   
   .carousel-btn:hover:not(:disabled) {
     border-color: rgba(26, 231, 132, 0.8);
-    color: #1ae784;
+    color: var(--accent);
     transform: scale(1.15);
     box-shadow: 
       0 0 20px rgba(26, 231, 132, 0.4),
@@ -126,9 +126,9 @@
     height: 6px;
     border-radius: 3px;
     background: linear-gradient(90deg, 
-      #1ae784 0%, 
-      #1a73e7 50%, 
-      #dc08bc 100%
+      var(--accent) 0%, 
+      var(--blue-primary) 50%, 
+      var(--magenta) 100%
     );
     box-shadow: 
       0 0 12px rgba(26, 231, 132, 0.5),

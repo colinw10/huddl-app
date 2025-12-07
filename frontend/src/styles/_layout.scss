@@ -10,8 +10,8 @@
   min-height: 100vh;
   width: 100%;
   max-width: 100%;
-  background: #000711ee;
-  color: #ffffff;
+  background: var(--bg-base);
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -63,6 +63,6 @@
 
   .main-content {
     background: transparent !important;
-    color: #000000 !important;
+    color: var(--text-inverse) !important;
   }
 }

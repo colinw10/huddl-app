@@ -86,15 +86,15 @@
   }
   
   .ring-progress {
-    stroke: #26def2f2;
+    stroke: var(--cyan);
     filter: drop-shadow(0 0 10px rgba(231, 221, 26, 0.8));
     /* Animate from empty (377) to ~12% filled (330) on load */
     animation: ringFill 1.5s ease-out 0.5s forwards;
   }
   
   .ring-spark {
-    fill: #1ae784;
-    filter: drop-shadow(0 0 8px #1ae784) drop-shadow(0 0 16px rgba(26, 231, 132, 0.8));
+    fill: var(--accent);
+    filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 16px rgba(26, 231, 132, 0.8));
     transform-origin: 65px 65px;
     /* Animate spark rotating around the ring */
     animation: sparkMove 1.5s ease-out 0.5s forwards, sparkPulse 1s ease-in-out infinite;
@@ -127,11 +127,11 @@
 /* Spark pulses/glows */
 @keyframes sparkPulse {
   0%, 100% {
-    filter: drop-shadow(0 0 6px #1ae784) drop-shadow(0 0 12px rgba(26, 231, 132, 0.6));
+    filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 12px rgba(26, 231, 132, 0.6));
     r: 5;
   }
   50% {
-    filter: drop-shadow(0 0 10px #1ae784) drop-shadow(0 0 20px rgba(26, 231, 132, 0.9));
+    filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 20px rgba(26, 231, 132, 0.9));
     r: 6;
   }
 }
@@ -424,7 +424,7 @@
 
 .stat-count {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 16px;
   line-height: 1;
   position: relative;

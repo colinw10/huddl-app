@@ -7,8 +7,8 @@
 
 [data-theme="light"] {
   .friends-page {
-    background: #f5f7fa;
-    color: #000000;
+    background: var(--bg-base);
+    color: var(--text-inverse);
     
     &::before {
       background: none !important;
@@ -25,7 +25,7 @@
   }
 
   .stat-value {
-    color: #000000;
+    color: var(--text-inverse);
     text-shadow: none;
   }
 
@@ -46,7 +46,7 @@
   .friend-avatar {
     background: linear-gradient(145deg, rgba(240, 245, 255, 0.95), rgba(230, 235, 245, 0.98));
     border-color: rgba(26, 115, 231, 0.3);
-    color: #1a73e7;
+    color: var(--blue-primary);
   }
 
   .friend-name {
@@ -58,7 +58,7 @@
   }
 
   .friend-username {
-    color: #1a73e7;
+    color: var(--blue-primary);
     text-shadow: none;
   }
 
@@ -67,7 +67,7 @@
   }
 
   .friend-action-btn {
-    color: #1a73e7;
+    color: var(--blue-primary);
     
     &:hover {
       filter: drop-shadow(0 0 8px rgba(26, 115, 231, 0.6));
@@ -81,7 +81,7 @@
   .btn-accept {
     background: rgba(26, 115, 231, 0.15);
     border: 1px solid rgba(26, 115, 231, 0.5);
-    color: #1a73e7;
+    color: var(--blue-primary);
     text-shadow: none;
     box-shadow: 0 2px 8px rgba(26, 115, 231, 0.2);
 
@@ -101,7 +101,7 @@
 
   .btn-add-friend {
     border-color: rgba(26, 115, 231, 0.4);
-    color: #1a73e7;
+    color: var(--blue-primary);
   }
 
   .tab-btn {
@@ -113,7 +113,7 @@
     border: 1.5px solid rgba(0, 0, 0, 0.15);
     
     /* Dark, readable text */
-    color: #1a1a2e;
+    color: var(--text-inverse);
     font-weight: 600;
     
     /* Soft shadow */
@@ -123,14 +123,14 @@
       background: rgba(255, 255, 255, 1);
       transform: translateY(-1px);
       border-color: rgba(26, 115, 231, 0.5);
-      color: #1a73e7;
+      color: var(--blue-primary);
       box-shadow: 0 4px 12px rgba(26, 115, 231, 0.2);
     }
 
     &.active {
-      background: #1a73e7;
-      border-color: #1a73e7;
-      color: #ffffff;
+      background: var(--blue-primary);
+      border-color: var(--blue-primary);
+      color: var(--text-primary);
       font-weight: 600;
       text-shadow: none;
       box-shadow: 

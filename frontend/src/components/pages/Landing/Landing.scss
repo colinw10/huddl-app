@@ -138,7 +138,7 @@
   position: relative;
   
   // Gradient text effect
-  background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+  background: linear-gradient(180deg, var(--text-primary) 22%, rgba(79, 88, 88, 0.699) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -739,7 +739,7 @@
 
 .landing-subtitle {
   font-size: var(--font-size-xl);
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 3rem;
   font-weight: 300;
 }
@@ -852,7 +852,7 @@
 /* Signup button - light filled with magenta/gold glow */
 .btn-signup {
   background: rgba(255, 255, 255, 0.9);
-  color: #333;
+  color: var(--text-dark);
   box-shadow: 0 4px 12px rgba(230, 129, 214, 0.4),
               0 8px 20px rgba(147, 219, 164, 0.3);
 }
@@ -1049,7 +1049,7 @@
 
   .btn-login:hover {
     background: rgba(255, 255, 255, 1) !important;
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
     border-color: rgba(26, 115, 231, 0.5) !important;
     box-shadow: 0 8px 24px rgba(26, 115, 231, 0.2) !important;
     transform: translateY(-5px) scale(1.05);
@@ -1062,8 +1062,8 @@
 
   /* Signup button - filled cyan/blue style */
   .btn-signup {
-    background: linear-gradient(135deg, #1a73e7, #1ae784) !important;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, var(--blue-primary), var(--accent)) !important;
+    color: var(--text-primary) !important;
     border: none !important;
     box-shadow: 0 4px 12px rgba(26, 115, 231, 0.3),
                 0 8px 20px rgba(26, 231, 132, 0.2) !important;

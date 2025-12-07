@@ -94,7 +94,7 @@
 .item-number {
   font-family: var(--font-display);
   font-size: 0.85rem;
-  color: #4fffff;
+  color: var(--cyan);
   letter-spacing: 2px;
   display: block;
   margin-bottom: 12px;
@@ -309,11 +309,11 @@
   }
   
   .item-number {
-    color: #1a73e7;
+    color: var(--blue-primary);
   }
   
   .pull-quote blockquote {
-    color: #1a73e7;
+    color: var(--blue-primary);
     
     &::before {
       color: rgba(26, 115, 231, 0.2);

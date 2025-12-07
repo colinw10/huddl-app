@@ -267,7 +267,7 @@
 /* Input with value */
 .form-input.has-value {
   border-color: rgba(109, 223, 246, 0.748);
-  color: #ffffff;
+  color: var(--text-primary);
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.8),
     0 0 12px rgba(0, 212, 255, 0.15),
@@ -277,7 +277,7 @@
 
 .form-input:focus.has-value {
   border-color: rgba(26, 115, 231, 0.6);
-  color: #ffffff;
+  color: var(--text-primary);
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.8),
     0 0 15px rgba(26, 115, 231, 0.25),
@@ -302,7 +302,7 @@
     0 0 0 1000px #0a0a0a inset,
     0 4px 8px rgba(0, 0, 0, 0.8),
     0 0 15px rgba(109, 223, 246, 0.2) !important;
-  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
   border-color: rgba(109, 223, 246, 0.748) !important;
   transition: background-color 5000s ease-in-out 0s;
 }
@@ -315,7 +315,7 @@
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.5px;
-  color: #ff5252;
+  color: var(--color-error);
   margin-top: 4px;
   animation: errorSlide 0.3s ease;
 }
@@ -325,7 +325,7 @@
   background: rgba(255, 82, 82, 0.15);
   border: 1px solid rgba(255, 82, 82, 0.4);
   border-radius: 8px;
-  color: #ff5252;
+  color: var(--color-error);
   font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
@@ -345,7 +345,7 @@
   font-weight: 400;
   letter-spacing: 1.25px;
   text-transform: uppercase;
-  color: #333;
+  color: var(--text-dark);
   background: rgba(255, 255, 255, 0.52);
   border: 2px solid rgba(255, 255, 255, 0.369);
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
@@ -439,7 +439,7 @@
   background: none;
   border: none;
   font-family: var(--font-main);
-  color: #1a73e7;
+  color: var(--blue-primary);
   font-weight: 400;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -450,7 +450,7 @@
 }
 
 .footer-link:hover {
-  color: #dcc008;
+  color: var(--gold);
   text-shadow: 0 0 20px rgba(220, 192, 8, 0.8);
   text-decoration: none;
 }

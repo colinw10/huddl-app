@@ -6,7 +6,7 @@
 [data-theme="light"] {
   /* River post cards */
   .river-post-card {
-    background: #ffffff !important;
+    background: var(--color-white) !important;
     color: #000000 !important;
     box-shadow: 
       0 2px 8px rgba(0, 0, 0, 0.1),
@@ -24,7 +24,7 @@
   }
 
   .river-post-card::after {
-    background: #ffffff !important;
+    background: var(--color-white) !important;
     background-image: none !important;
   }
 
@@ -76,7 +76,7 @@
 
   .river-author {
     /* Invert gradient for light mode - dark on top, lighter at bottom */
-    background: linear-gradient(180deg, #000000 22%, rgba(80, 80, 80, 0.7) 100%) !important;
+    background: linear-gradient(180deg, var(--text-inverse) 22%, rgba(80, 80, 80, 0.7) 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -130,7 +130,7 @@
   .carousel-btn:hover:not(:disabled) {
     background: rgba(26, 115, 231, 0.1) !important;
     border-color: rgba(26, 115, 231, 0.3) !important;
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
     box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15) !important;
   }
 
@@ -159,7 +159,7 @@
   .desktop-stack-btn:hover {
     background: rgba(26, 115, 231, 0.1) !important;
     border-color: rgba(26, 115, 231, 0.3) !important;
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
   }
 
   .desktop-stack-close {

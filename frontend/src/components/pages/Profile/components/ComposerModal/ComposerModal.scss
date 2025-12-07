@@ -106,7 +106,7 @@
   font-size: 1.75rem;
   font-weight: 700;
 
-  background: linear-gradient(135deg, #1a73e7, #dc08bc);
+  background: linear-gradient(135deg, var(--blue-primary), var(--magenta));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -626,7 +626,7 @@
   }
 
   .composer-modal-title {
-    color: #000000 !important;
+    color: var(--text-inverse) !important;
     text-shadow: none !important;
   }
 
@@ -638,7 +638,7 @@
 
   .composer-close-btn:hover {
     background: rgba(0, 0, 0, 0.1) !important;
-    color: #ff6b6b !important;
+    color: var(--color-error) !important;
   }
 
   .type-toggle-btn {
@@ -654,7 +654,7 @@
   .type-toggle-btn.active {
     background: rgba(26, 115, 231, 0.1) !important;
     border-color: rgba(26, 115, 231, 0.3) !important;
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
   }
 
   .composer-avatar-small {
@@ -663,7 +663,7 @@
   }
 
   .composer-user-name {
-    color: #000000 !important;
+    color: var(--text-inverse) !important;
   }
 
   .composer-privacy {
@@ -673,7 +673,7 @@
   .composer-post-btn {
     background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.8)) !important;
     border: none !important;
-    color: #ffffff !important;
+    color: var(--text-primary) !important;
   }
 
   .composer-post-btn:hover:not(:disabled) {
@@ -695,7 +695,7 @@
 
   .toolbar-btn:hover {
     background: rgba(0, 0, 0, 0.05) !important;
-    color: #1a73e7 !important;
+    color: var(--blue-primary) !important;
   }
 
   .char-counter {

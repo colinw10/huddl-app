@@ -60,17 +60,17 @@
 
 /* Type-specific icon colors */
 .smart-deck--thoughts .smart-deck-icon-svg {
-  color: #4fffff;
+  color: var(--cyan);
   filter: drop-shadow(0 0 6px rgba(79, 255, 255, 0.6));
 }
 
 .smart-deck--media .smart-deck-icon-svg {
-  color: #c9a8ff;
+  color: var(--post-media-badge);
   filter: drop-shadow(0 0 6px rgba(167, 131, 255, 0.6));
 }
 
 .smart-deck--milestones .smart-deck-icon-svg {
-  color: #1ae784;
+  color: var(--accent);
   filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.6));
 }
 
@@ -85,15 +85,15 @@
 
 /* Type-specific count colors */
 .smart-deck--thoughts .smart-deck-count {
-  color: #4fffff;
+  color: var(--cyan);
 }
 
 .smart-deck--media .smart-deck-count {
-  color: #c9a8ff;
+  color: var(--post-media-badge);
 }
 
 .smart-deck--milestones .smart-deck-count {
-  color: #1ae784;
+  color: var(--accent);
 }
 
 /* Type label */
@@ -109,17 +109,17 @@
 
 /* Type-specific label colors */
 .smart-deck--thoughts .smart-deck-label {
-  color: #4fffff;
+  color: var(--cyan);
   text-shadow: 0 0 8px rgba(79, 255, 255, 0.6);
 }
 
 .smart-deck--media .smart-deck-label {
-  color: #c9a8ff;
+  color: var(--post-media-badge);
   text-shadow: 0 0 8px rgba(201, 168, 255, 0.6);
 }
 
 .smart-deck--milestones .smart-deck-label {
-  color: #1ae784;
+  color: var(--accent);
   text-shadow: 0 0 8px rgba(26, 231, 132, 0.6);
 }
 
@@ -133,15 +133,15 @@
 }
 
 .smart-deck--thoughts .smart-deck-position {
-  color: #4fffff;
+  color: var(--cyan);
 }
 
 .smart-deck--media .smart-deck-position {
-  color: #c9a8ff;
+  color: var(--post-media-badge);
 }
 
 .smart-deck--milestones .smart-deck-position {
-  color: #1ae784;
+  color: var(--accent);
 }
 
 /* Card container */

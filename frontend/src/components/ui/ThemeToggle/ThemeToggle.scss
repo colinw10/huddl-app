@@ -61,7 +61,7 @@
   }
 
   .core-center {
-    stop-color: #7cc9ff;
+    stop-color: var(--primary);
   }
 
   .core-mid {
@@ -103,7 +103,7 @@
     }
 
     .core-center {
-      stop-color: #1ae784;
+      stop-color: var(--accent);
     }
 
     .core-mid {
@@ -115,13 +115,13 @@
     }
 
     .core-spark {
-      fill: #ffffff;
+      fill: var(--text-primary);
       filter: drop-shadow(0 0 4px rgba(26, 231, 132, 0.8));
     }
 
     &:hover {
       .core-ring {
-        stroke: #1ae784;
+        stroke: var(--accent);
         animation: core-spin 4s linear infinite;
       }
     }

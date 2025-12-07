@@ -14,8 +14,11 @@ import SignUp from './components/pages/Signup';
 import Profile from './components/pages/Profile';
 import About from './components/pages/About';
 import Friends from './components/pages/Friends';
+// Protected Route
+import ProtectedRoute from './components/ui/ProtectedRoute';
 // Contexts
 import { MessageProvider } from './contexts';
+import { AuthProvider } from './contexts/AuthContext';
 // Global styles now imported via main.scss in main.jsx
 
 function AppContent() {
@@ -47,12 +50,13 @@ function AppContent() {
       <div className="main-content">
         <Routes>
           <Route path="/" element={<Landing/>}/>
-          <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/profile" element={<Profile/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="/friends" element={<Friends/>}/>
+          {/* Protected Routes - require authentication */}
+          <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+          <Route path="/about" element={<ProtectedRoute><About/></ProtectedRoute>}/>
+          <Route path="/friends" element={<ProtectedRoute><Friends/></ProtectedRoute>}/>
         </Routes>
       </div>
 
@@ -65,9 +69,11 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>{/* 🟡 Enables routing (URL matching) */}
-      <MessageProvider>
-        <AppContent />
-      </MessageProvider>
+      <AuthProvider>
+        <MessageProvider>
+          <AppContent />
+        </MessageProvider>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
