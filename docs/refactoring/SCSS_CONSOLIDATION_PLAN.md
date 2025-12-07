@@ -9,23 +9,25 @@
 
 ## 📈 Progress Summary
 
-| Date       | Action                                      | Files Removed | Total |
-| ---------- | ------------------------------------------- | ------------- | ----- |
-| Dec 7      | Starting count                              | -             | 84    |
-| Dec 7      | Merged `_glass.scss` → `_utilities.scss`    | 1             | 83    |
-| Dec 7      | Consolidated Profile styles (8 partials)   | 8             | 75    |
-| Dec 7      | Added consistent veil overlay (no removal) | 0             | 75    |
-| **Current**| **Actual file count**                       | -             | **61**|
+| Date        | Action                                     | Files Removed | Total  |
+| ----------- | ------------------------------------------ | ------------- | ------ |
+| Dec 7       | Starting count                             | -             | 84     |
+| Dec 7       | Merged `_glass.scss` → `_utilities.scss`   | 1             | 83     |
+| Dec 7       | Consolidated Profile styles (8 partials)   | 8             | 75     |
+| Dec 7       | Added consistent veil overlay (no removal) | 0             | 75     |
+| **Current** | **Actual file count**                      | -             | **61** |
 
 > Note: Actual count is 61 due to Friends already being consolidated and other cleanup.
 
 ### ✅ Completed Work
 
 1. **Consistent Veil Overlay** - All pages now share `var(--bg-overlay)` pattern
+
    - Home, Profile, Login, Signup all use same `::before` veil
    - Blobs show through consistently across app
 
 2. **Global Styles Consolidation**
+
    - ✅ `_glass.scss` merged into `_utilities.scss`
 
 3. **Profile Page Consolidation**
@@ -250,14 +252,17 @@ src/components/
 ## 🚀 Stretch Goals (Future Work)
 
 ### Low Effort, High Value
+
 - [ ] Merge remaining global partials (`_buttons`, `_cards`, `_layout`) → saves 3 files
 - [ ] MediaLightbox consolidation (if partials exist) → saves ~5 files
 
 ### Medium Effort
+
 - [ ] MessageModal consolidation (~1000 lines, 8 files) → saves 7 files
 - [ ] Home page partial cleanup
 
 ### Not Recommended
+
 - ❌ TimelineRiverRow - 2000+ lines, keep modular for maintainability
 - ❌ ProfileCard components - already well-structured
 
@@ -265,13 +270,14 @@ src/components/
 
 ## 🎯 Decision: When to Consolidate vs Keep Modular
 
-| Lines | Partials | Recommendation |
-| ----- | -------- | -------------- |
-| <500  | 1-4      | Consolidate    |
-| 500-1000 | 4-8   | Consolidate if related |
-| >1000 | 8+       | Keep modular   |
+| Lines    | Partials | Recommendation         |
+| -------- | -------- | ---------------------- |
+| <500     | 1-4      | Consolidate            |
+| 500-1000 | 4-8      | Consolidate if related |
+| >1000    | 8+       | Keep modular           |
 
 **TimelineRiverRow** stays modular because:
+
 - 2000+ lines across 10 files
 - Each partial handles distinct concern (carousel, smart-deck, composer, etc.)
 - Easier to maintain and debug
