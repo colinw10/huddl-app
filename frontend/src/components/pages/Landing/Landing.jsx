@@ -3,6 +3,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useMemo, useState, useRef } from 'react';
+import { useAuth } from '../../../contexts/AuthContext';
 import './Landing.scss';
 
 // Golden ratio - the most aesthetically pleasing irrational number
@@ -10,6 +11,7 @@ const PHI = (1 + Math.sqrt(5)) / 2; // ≈ 1.618033988749895
 
 function Landing() {
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading } = useAuth();
   
   // Track which letters have been hovered (for "hover all" replay)
   const hoveredRef = useRef(new Set());
@@ -92,8 +94,16 @@ function Landing() {
         })}
       </h1>
       <div className="auth-buttons">
-        <button className="btn-login" onClick={() => navigate('/login')}>Login</button>
-        <button className="btn-signup" onClick={() => navigate('/signup')}>Sign Up</button>
+        {!isLoading && isAuthenticated ? (
+          <button className="btn-enter" onClick={() => navigate('/home')}>
+            Enter
+          </button>
+        ) : (
+          <>
+            <button className="btn-login" onClick={() => navigate('/login')}>Login</button>
+            <button className="btn-signup" onClick={() => navigate('/signup')}>Sign Up</button>
+          </>
+        )}
       </div>
     </div>
   );

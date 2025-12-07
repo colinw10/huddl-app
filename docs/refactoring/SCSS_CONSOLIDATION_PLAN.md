@@ -10,11 +10,13 @@
 ## ⚠️ Consolidation Approach
 
 **DO NOT:**
+
 - Delete partials before verifying merged file works
 - Make changes without testing both dark AND light mode
 - Skip visual verification of all card variants
 
 **DO:**
+
 1. Create consolidated file (keep partials)
 2. Test in browser - both themes
 3. Verify all variants render correctly
