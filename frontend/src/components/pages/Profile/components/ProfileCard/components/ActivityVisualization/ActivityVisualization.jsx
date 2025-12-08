@@ -19,7 +19,7 @@ function ActivityVisualization({
     <div className="activity-wave">
       <div className="activity-header">
         <div className="activity-title-row">
-          <h3 className="wave-title">Activity Overview</h3>
+          <h3 className="wave-title">Your Rhythm</h3>
           <div className="activity-meta">
             <span className="post-frequency">Avg. {(posts.length / 52).toFixed(1)} posts/week</span>
             <span className="peak-time">
@@ -258,7 +258,7 @@ function ActivityVisualization({
                             ? '1px solid rgba(255, 255, 255, 0.1)' 
                             : 'none'
                         }}
-                        title={`Activity level: ${level}`}
+                        title={level === 0 ? 'Quiet day' : level === 1 ? 'You showed up' : level === 2 ? 'Active day' : 'Busy day!'}
                       />
                     ))}
                   </div>
