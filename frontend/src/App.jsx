@@ -14,6 +14,7 @@ import SignUp from './components/pages/Signup';
 import Profile from './components/pages/Profile';
 import About from './components/pages/About';
 import Friends from './components/pages/Friends';
+import NotFound from './components/pages/NotFound';
 // Protected Route
 import ProtectedRoute from './components/ui/ProtectedRoute';
 // Contexts
@@ -57,6 +58,8 @@ function AppContent() {
           <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
           <Route path="/about" element={<ProtectedRoute><About/></ProtectedRoute>}/>
           <Route path="/friends" element={<ProtectedRoute><Friends/></ProtectedRoute>}/>
+          {/* 404 Catch-all - must be last */}
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </div>
 

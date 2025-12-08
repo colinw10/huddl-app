@@ -244,6 +244,16 @@
   animation: errorSlide 0.3s ease;
 }
 
+.login-redirect-message {
+  font-family: var(--font-main);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: var(--color-error, #ff5252);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+
 .form-options {
   display: flex;
   justify-content: space-between;

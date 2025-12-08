@@ -276,6 +276,148 @@
   font-weight: 500;
   margin: 0 0 6px 0;
   letter-spacing: 1px;
+  
+  // Interactive version with hoverable letters
+  &--interactive {
+    display: flex;
+    flex-wrap: wrap;
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+  
+  // Reset state for replay
+  &--reset .name-letter {
+    opacity: 0;
+  }
+  
+  // Replay animation
+  &--replay .name-letter {
+    animation: nameLetterReplay 4s linear forwards;
+  }
+}
+
+// Individual letter styling for profile name
+.name-letter {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 500;
+  cursor: default;
+  
+  // Gradient text effect
+  background: linear-gradient(180deg, var(--text-primary) 22%, rgba(79, 88, 88, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  // Scanline overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.3) 2px,
+      rgba(0, 0, 0, 0.3) 4px
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  // Hover effects
+  &:hover {
+    filter: brightness(1.2);
+    transform: translateX(2px);
+    transition: filter var(--hover-delay, 0.05s), 
+                text-shadow var(--hover-delay, 0.05s), 
+                transform var(--hover-delay, 0.05s);
+    
+    &::before {
+      opacity: 0.6;
+      animation: nameScanlineSweep 0.3s ease-in-out;
+      animation-delay: var(--hover-delay, 0.05s);
+    }
+    
+    // Long hover glitch
+    &::after {
+      content: attr(data-letter);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #ffffff 22%, rgba(79, 88, 88, 0.699) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      pointer-events: none;
+      opacity: 0;
+      animation: nameLongHoverGlitch 0.6s ease-in-out 1s;
+    }
+  }
+  
+  // Color variants - Magenta/Cyan
+  &--magenta:hover {
+    text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+  }
+  
+  // Cyan/Aqua
+  &--cyan:hover {
+    text-shadow: 2px 0 #1a73e7, -2px 0 #1ae784;
+  }
+  
+  // Aqua/Magenta
+  &--aqua:hover {
+    text-shadow: 2px 0 #1ae784, -2px 0 #dc08bc;
+  }
+  
+  // Purple/Cyan
+  &--purple:hover {
+    text-shadow: 2px 0 #a783ff, -2px 0 #00ffff;
+  }
+  
+  // Blue/Yellow
+  &--blue:hover {
+    text-shadow: 2px 0 #0066ff, -2px 0 #ffee00;
+  }
+}
+
+.name-space {
+  width: 0.3em;
+}
+
+// Keyframes for name hover effects
+@keyframes nameScanlineSweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes nameLongHoverGlitch {
+  0%, 100% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 0.8; transform: translateX(3px); text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+  20% { opacity: 0.6; transform: translateX(-2px); }
+  30% { opacity: 0.9; transform: translateX(1px); text-shadow: 1px 0 #dc08bc, -1px 0 #1ae784; }
+  40% { opacity: 0.4; transform: translateX(-1px); }
+  50% { opacity: 0.7; transform: translateX(2px); text-shadow: -2px 0 #1a73e7, 2px 0 #a783ff; }
+  60% { opacity: 0.5; transform: translateX(-1px); }
+  70% { opacity: 0.8; transform: translateX(1px); text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+  80% { opacity: 0.3; transform: translateX(0); }
+  90% { opacity: 0.6; transform: translateX(-1px); text-shadow: -1px 0 #1ae784, 1px 0 #dc08bc; }
+}
+
+@keyframes nameLetterReplay {
+  0% { opacity: 0; }
+  5% { opacity: 0; }
+  6% { opacity: 1; transform: translateX(3px); text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+  7% { opacity: 0.8; transform: translateX(-1px); clip-path: inset(20% 0 40% 0); }
+  8% { opacity: 1; transform: translateX(0); clip-path: none; text-shadow: none; }
+  100% { opacity: 1; }
 }
 
 .profile-handle {

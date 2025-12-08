@@ -27,10 +27,10 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  // Redirect to landing page if not authenticated
+  // Redirect to login page if not authenticated
+  // Pass the attempted URL so we can redirect back after login
   if (!isAuthenticated) {
-    // Save the attempted URL to redirect back after login
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location, message: 'Please sign in to access this page' }} replace />;
   }
 
   // User is authenticated, render the protected content

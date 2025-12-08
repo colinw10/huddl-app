@@ -1,9 +1,71 @@
 // ProfileCardFront.jsx - Public profile view (front of flip card)
 // 🔵 PABLO - UI/Styling
 
+import { useState, useRef } from 'react';
 import './ProfileCardFront.scss';
 
+// Color variants for interactive letters
+const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
+
 function ProfileCardFront({ setIsFlipped, posts }) {
+  // Track which letters have been hovered (for "hover all" replay)
+  const hoveredRef = useRef(new Set());
+  const isAnimatingRef = useRef(false);
+  const [replayGlitch, setReplayGlitch] = useState(false);
+  
+  // Hardcoded for now - would come from user data
+  const displayName = "Pvblo Cordero";
+  
+  // Track letter hovers - when all letters are hovered, trigger replay
+  const handleLetterHover = (index) => {
+    if (isAnimatingRef.current) return;
+    
+    hoveredRef.current.add(index);
+    
+    if (hoveredRef.current.size === displayName.replace(/\s/g, '').length) {
+      isAnimatingRef.current = true;
+      hoveredRef.current = new Set();
+      
+      setReplayGlitch('reset');
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setReplayGlitch('replay');
+          
+          setTimeout(() => {
+            setReplayGlitch(false);
+            isAnimatingRef.current = false;
+          }, 4000);
+        });
+      });
+    }
+  };
+  
+  // Render name with interactive letters
+  const renderInteractiveName = () => {
+    let letterIndex = 0;
+    return displayName.split('').map((char, i) => {
+      if (char === ' ') {
+        return <span key={i} className="name-space">&nbsp;</span>;
+      }
+      const currentIndex = letterIndex;
+      const colorVariant = colorVariants[letterIndex % colorVariants.length];
+      const hoverDelay = 0.05 + (letterIndex % 5) * 0.02; // Stagger delays
+      letterIndex++;
+      return (
+        <span
+          key={i}
+          className={`name-letter name-letter--${colorVariant}`}
+          style={{ '--hover-delay': `${hoverDelay}s` }}
+          data-letter={char}
+          onMouseEnter={() => handleLetterHover(currentIndex)}
+        >
+          {char}
+        </span>
+      );
+    });
+  };
+
   return (
     <div className="profile-card-front">
       <div className="profile-header river-header">
@@ -57,7 +119,9 @@ function ProfileCardFront({ setIsFlipped, posts }) {
         {/* LEFT COLUMN */}
         <div className="profile-left-column">
           <div className="profile-name-section">
-            <h1 className="profile-display-name">Pvblo Cordero</h1>
+            <h1 className={`profile-display-name profile-display-name--interactive ${replayGlitch === 'reset' ? 'profile-display-name--reset' : ''} ${replayGlitch === 'replay' ? 'profile-display-name--replay' : ''}`}>
+              {renderInteractiveName()}
+            </h1>
             <span className="profile-handle">@pabloPistola</span>
             <div className="profile-location">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

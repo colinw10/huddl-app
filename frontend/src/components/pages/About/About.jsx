@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
 import './About.scss';
 
 // 🟣 CRYSTAL - Friends System Lead
@@ -6,12 +7,63 @@ import './About.scss';
 
 function About() {
   const navigate = useNavigate();
+  
+  // Track which letters have been hovered (for "hover all" replay)
+  const hoveredRef = useRef(new Set());
+  const isAnimatingRef = useRef(false);
+  const [replayGlitch, setReplayGlitch] = useState(false);
+  
+  // Random-ish hover delays for each letter (50-150ms range)
+  const hoverDelays = [0.08, 0.12, 0.05, 0.14, 0.09];
+  
+  // Unique color variant for each letter
+  const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
+  
+  // Track letter hovers - when all 5 are hovered, trigger replay
+  const handleLetterHover = (index) => {
+    if (isAnimatingRef.current) return;
+    
+    hoveredRef.current.add(index);
+    
+    if (hoveredRef.current.size === 5) {
+      isAnimatingRef.current = true;
+      hoveredRef.current = new Set();
+      
+      setReplayGlitch('reset');
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setReplayGlitch('replay');
+          
+          setTimeout(() => {
+            setReplayGlitch(false);
+            isAnimatingRef.current = false;
+          }, 4000);
+        });
+      });
+    }
+  };
 
   return (
     <div className="about-page">
       <div className="about-hero">
         <span className="hero-label">About</span>
-        <h1 className="hero-title">HuddL</h1>
+        <h1 className={`hero-title hero-title--interactive ${replayGlitch === 'reset' ? 'hero-title--reset' : ''} ${replayGlitch === 'replay' ? 'hero-title--replay' : ''}`}>
+          {'HuddL'.split('').map((letter, index) => {
+            const isFlipped = index === 0 || index === 4; // H and L
+            return (
+              <span 
+                key={index} 
+                className={`title-letter ${isFlipped ? 'title-letter--flip' : ''} title-letter--${colorVariants[index]}`}
+                style={{ '--hover-delay': `${hoverDelays[index]}s` }}
+                data-letter={letter}
+                onMouseEnter={() => handleLetterHover(index)}
+              >
+                {letter}
+              </span>
+            );
+          })}
+        </h1>
         <p className="hero-sub">Not another social network.<br/>A digital neighborhood.</p>
       </div>
 

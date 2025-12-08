@@ -2,14 +2,20 @@
 // Login.jsx - User login page
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import './Login.scss';
 // BackButton styles now in main.scss
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+  
+  // Check if redirected from ProtectedRoute
+  const from = location.state?.from?.pathname || '/home';
+  const redirectMessage = location.state?.message;
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -64,7 +70,7 @@ function Login() {
     try {
       const result = await login(formData.email, formData.password);
       if (result.success) {
-        navigate('/home');
+        navigate(from, { replace: true }); // Go back to where they tried to access
       } else {
         setErrors({ submit: result.error });
       }
@@ -99,6 +105,13 @@ function Login() {
           <h1 className="login-title">Welcome Back</h1>
           <p className="login-subtitle">Sign in to continue to HuddL</p>
         </div>
+
+        {/* Show redirect message if user was redirected from protected route */}
+        {redirectMessage && (
+          <div className="login-redirect-message">
+            {redirectMessage}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
