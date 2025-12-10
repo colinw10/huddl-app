@@ -435,7 +435,7 @@ function TimelineRiver({
             </div>
             <div className="expanded-composer-body">
               <textarea
-                className="expanded-composer-textarea"
+                className="composer-textarea"
                 placeholder="Edit your post..."
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
@@ -444,18 +444,7 @@ function TimelineRiver({
             </div>
             <div className="expanded-composer-footer">
               <button 
-                className="cancel-btn"
-                onClick={() => {
-                  setIsComposerExpanded(false);
-                  setIsEditMode(false);
-                  setEditingPostId(null);
-                  setCommentText('');
-                }}
-              >
-                Cancel
-              </button>
-              <button 
-                className="submit-btn"
+                className="submit-btn icon-btn"
                 disabled={!commentText.trim()}
                 onClick={async () => {
                   if (commentText.trim() && editingPostId && onUpdatePost) {
@@ -470,11 +459,11 @@ function TimelineRiver({
                     }
                   }
                 }}
+                title="Save"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                Save
               </button>
             </div>
           </div>

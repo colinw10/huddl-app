@@ -256,14 +256,16 @@
   padding: var(--space-sm) var(--space-md);
   min-width: 32px;
   min-height: 32px;
-  color: var(--text-muted);
+  color: rgba(255, 100, 100, 0.8);
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'sweet-square-pro', sans-serif;
-  font-size: var(--font-size-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
-    color: var(--text-primary);
+    color: #ff4444;
+    transform: scale(1.15);
   }
 }
 
@@ -279,12 +281,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'sweet-square-pro', sans-serif;
-  font-size: 24px;
   
   &:hover:not(:disabled) {
     color: var(--accent);
     filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6));
+    transform: scale(1.15);
   }
   
   &:disabled {

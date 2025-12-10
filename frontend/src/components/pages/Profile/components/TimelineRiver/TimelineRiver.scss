@@ -1,4 +1,5 @@
 /* TimelineRiver Component Styles */
+@use '../ComposerModal/ComposerModal.scss';
 
 .timeline-river {
   width: 100%;
@@ -724,65 +725,29 @@
     color: var(--magenta);
     transform: scale(1.1);
   }
+  
+  .edit-mode & {
+    color: rgba(255, 100, 100, 0.7);
+    
+    &:hover {
+      color: #ff4444;
+    }
+  }
 }
 
 .expanded-composer-body {
   padding: 20px;
-}
-
-.expanded-composer-textarea {
-  width: 100%;
-  min-height: 150px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 16px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--text-primary);
-  resize: vertical;
   
-  &:focus {
-    outline: none;
-    border-color: var(--cyan);
-    box-shadow: 0 0 0 2px rgba(79, 255, 255, 0.2);
-  }
-  
-  .edit-mode & {
-    &:focus {
-      border-color: #ffc107;
-      box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
-    }
-  }
-  
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+  .composer-textarea {
+    margin-bottom: 0;
   }
 }
 
 .expanded-composer-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
   padding: 16px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.cancel-btn {
-  padding: 10px 20px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  font-family: var(--font-title);
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
 }
 
 .submit-btn {
@@ -815,6 +780,31 @@
     
     &:hover:not(:disabled) {
       box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    }
+  }
+  
+  &.icon-btn {
+    padding: var(--space-sm) var(--space-md);
+    min-width: 40px;
+    min-height: 40px;
+    justify-content: center;
+    background: transparent;
+    color: rgba(26, 231, 132, 0.6);
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+    
+    &:hover:not(:disabled) {
+      color: var(--accent);
+      filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6));
+      transform: none;
+      box-shadow: none;
+    }
+    
+    &:disabled {
+      opacity: 0.4;
     }
   }
 }

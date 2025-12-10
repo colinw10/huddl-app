@@ -50,6 +50,7 @@
   // Interactive version with hoverable letters
   &--interactive {
     display: flex;
+    justify-content: center;
     background: none;
     -webkit-text-fill-color: initial;
   }
