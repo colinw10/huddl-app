@@ -18,7 +18,7 @@ import { useAuth } from './AuthContext';
 const PostsContext = createContext(null);
 
 export const PostsProvider = ({ children }) => {
-  const { user, isLoading: authLoading } = useAuth(); // Get auth state
+  const { user, isLoading: authLoading, isAuthenticated } = useAuth(); // Get auth state
   
   // STATE - the "source of truth" for all posts data
   const [posts, setPosts] = useState([]); // Array of post objects
@@ -28,12 +28,12 @@ export const PostsProvider = ({ children }) => {
   // FETCH WHEN USER LOGS IN (and auth is done loading)
   useEffect(() => {
     if (authLoading) return; // Wait for auth to finish
-    if (user) {
+    if (user && isAuthenticated) {
       fetchPosts();
     } else {
       setPosts([]); // Clear posts when logged out
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, isAuthenticated]);
 
    // FETCH ALL POSTS
    const fetchPosts = async () => {

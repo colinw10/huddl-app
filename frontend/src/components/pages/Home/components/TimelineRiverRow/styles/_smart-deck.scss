@@ -8,6 +8,7 @@
   flex-direction: column;
   gap: 0;
   position: relative;
+  align-self: start; /* Prevent stretching to match sibling height in grid */
 }
 
 /* Header with type icon and count */

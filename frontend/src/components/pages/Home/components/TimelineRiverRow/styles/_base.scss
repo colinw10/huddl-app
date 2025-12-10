@@ -79,6 +79,18 @@
   max-width: 650px;
 }
 
+/* ============================================
+   COMPACT POST (short content < 80 chars)
+   Width fits content, centered in column
+   ============================================ */
+
+.post--compact {
+  width: fit-content;
+  min-width: 200px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .post--media.post--single {
   width: 75%;
   max-width: 750px;

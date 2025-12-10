@@ -19,7 +19,6 @@ import NotFound from './components/pages/NotFound';
 import ProtectedRoute from './components/ui/ProtectedRoute';
 // Contexts
 import { MessageProvider } from './contexts';
-import { AuthProvider } from './contexts/AuthContext';
 // Global styles now imported via main.scss in main.jsx
 
 function AppContent() {
@@ -72,11 +71,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>{/* 🟡 Enables routing (URL matching) */}
-      <AuthProvider>
-        <MessageProvider>
-          <AppContent />
-        </MessageProvider>
-      </AuthProvider>
+      <MessageProvider>
+        <AppContent />
+      </MessageProvider>
     </BrowserRouter>
   );
 }

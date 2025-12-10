@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './TimelineRiverRow.scss';
 import MediaLightbox from '../MediaLightbox/MediaLightbox';
+import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
+import { useAuth } from '../../../../../contexts';
 
 // Helper function to format relative time (e.g., "2h ago", "3d ago")
 const formatRelativeTime = (dateString) => {
@@ -29,9 +31,20 @@ const formatRelativeTime = (dateString) => {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 };
 
-function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commentText, setCommentText, setActiveCommentPostId }) {
+function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commentText, setCommentText, setActiveCommentPostId, onDeletePost, onUpdatePost }) {
   // 🔵 Extract data from props
   const { user, thoughts, media, milestones } = rowData;
+  const { user: currentUser } = useAuth();
+  
+  // State for edit mode
+  const [editingPostId, setEditingPostId] = useState(null);
+  const [editContent, setEditContent] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  
+  // State for delete modal
+  const [deleteModalPostId, setDeleteModalPostId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   // Which card showing on mobile
   const [isMobile, setIsMobile] = useState(false);
@@ -49,6 +62,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // Track expanded media lightbox
   const [isComposerExpanded, setIsComposerExpanded] = useState(false);
   // Track if comment composer is in fullscreen expanded mode
+  const [isEditMode, setIsEditMode] = useState(false);
+  // Track if expanded composer is for editing (vs commenting)
   
   // 🔵 Smart Deck state - which card index is showing for each type
   const [deckIndex, setDeckIndex] = useState({
@@ -124,6 +139,11 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
 
     const config = typeConfig[type]; // Get config for this type
     
+    // Auto-detect short content for compact width (under 80 chars, no media)
+    const contentLength = (post.content || '').length;
+    const hasNoMedia = !post.image && !post.media_url;
+    const isShortPost = contentLength < 80 && hasNoMedia;
+    
     // Determine if this is a single post in the row
     const isSinglePost = (type === 'thoughts' && thoughts.length === 1 && media.length === 0 && milestones.length === 0) ||
                          (type === 'media' && media.length === 1 && thoughts.length === 0 && milestones.length === 0) ||
@@ -135,7 +155,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     return (
       <div 
         key={post.id} 
-        className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} ${isCompact ? 'post--compact' : ''} fade-in hover-lift`}
+        className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} ${isShortPost ? 'post--compact' : ''} fade-in hover-lift`}
         onClick={() => setActivePostId(post.id)}
         style={{ zIndex: isActive ? 100 : 'auto' }}
       >
@@ -216,11 +236,6 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
             </svg>
           </button>
-          <button className="river-action-btn" title="Analytics">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(26,231,132,0.5)" strokeWidth="1.5">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
-          </button>
           <button className="river-action-btn" title="Bookmark">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
@@ -235,6 +250,50 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
             </svg>
           </button>
+          
+          {/* Analytics, Edit & Delete - only for your own posts */}
+          {currentUser && post.author?.id === currentUser.id && (
+            <>
+              <button className="river-action-btn" title="Analytics">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(26,231,132,0.5)" strokeWidth="1.5">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </button>
+              <button 
+                className="river-action-btn river-action-btn--edit" 
+                title="Edit"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditingPostId(post.id);
+                  setEditContent(post.content);
+                  setActiveCommentPostId(post.id);
+                  setCommentText(post.content);
+                  setIsEditMode(true);
+                  setIsComposerExpanded(true);
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,193,7,0.6)" strokeWidth="1.5">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </button>
+              <button 
+                className="river-action-btn river-action-btn--delete" 
+                title="Delete"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDeleteModalPostId(post.id);
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.6)" strokeWidth="1.5">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </button>
+            </>
+          )}
         </div>
 
         {/* Inline Comment Composer - only shown when NOT expanded */}
@@ -305,47 +364,52 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           <div className="expanded-composer-overlay">
             <div 
               className="composer-backdrop"
-              onClick={() => setIsComposerExpanded(false)}
+              onClick={() => {
+                setIsComposerExpanded(false);
+                setIsEditMode(false);
+              }}
             />
-            <div className="expanded-composer-modal">
-              {/* Original Post Context - what they're replying to */}
-              <div className="reply-context">
-                <div className="reply-context-avatar">
-                  {user.avatar}
-                </div>
-                <div className="reply-context-body">
-                  <div className="reply-context-header">
-                    <span className="reply-context-name">{user.display_name}</span>
-                    <span className="reply-context-handle">@{user.username}</span>
-                    <span className="reply-context-dot">·</span>
-                    <span className="reply-context-time">{post.timestamp}</span>
+            <div className={`expanded-composer-modal ${isEditMode ? 'edit-mode' : ''}`}>
+              {/* Original Post Context - only show when replying, not editing */}
+              {!isEditMode && (
+                <div className="reply-context">
+                  <div className="reply-context-avatar">
+                    {user.avatar}
                   </div>
-                  
-                  {/* Post content */}
-                  <p className="reply-context-content">{post.content}</p>
-                  
-                  {/* Media preview if applicable */}
-                  {type === 'media' && post.media_url && (
-                    <div className="reply-context-media">
-                      <img src={post.media_url} alt="Post media" />
+                  <div className="reply-context-body">
+                    <div className="reply-context-header">
+                      <span className="reply-context-name">{user.display_name}</span>
+                      <span className="reply-context-handle">@{user.username}</span>
+                      <span className="reply-context-dot">·</span>
+                      <span className="reply-context-time">{post.timestamp}</span>
                     </div>
-                  )}
+                    
+                    {/* Post content */}
+                    <p className="reply-context-content">{post.content}</p>
+                    
+                    {/* Media preview if applicable */}
+                    {type === 'media' && post.media_url && (
+                      <div className="reply-context-media">
+                        <img src={post.media_url} alt="Post media" />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Reply divider */}
+              {/* Divider - different text for edit vs reply */}
               <div className="reply-divider">
                 <span className="reply-divider-line"></span>
-                <span className="reply-divider-text">Replying</span>
+                <span className="reply-divider-text">{isEditMode ? 'Edit Post' : 'Replying'}</span>
                 <span className="reply-divider-line"></span>
               </div>
 
-              {/* Comment input area */}
+              {/* Comment/Edit input area */}
               <div className="modal-comment-area">
                 <div className="comment-input-wrapper">
                   <textarea
                     className="comment-input"
-                    placeholder="Share your thoughts..."
+                    placeholder={isEditMode ? "Edit your post..." : "Share your thoughts..."}
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     rows={4}
@@ -354,7 +418,15 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         if (commentText.trim()) {
-                          console.log('Comment posted:', commentText);
+                          if (isEditMode) {
+                            // Save edit
+                            onUpdatePost(editingPostId, { content: commentText.trim() });
+                            setEditingPostId(null);
+                            setEditContent('');
+                            setIsEditMode(false);
+                          } else {
+                            console.log('Comment posted:', commentText);
+                          }
                           setCommentText('');
                           setActiveCommentPostId(null);
                           setIsComposerExpanded(false);
@@ -362,13 +434,17 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       }
                       if (e.key === 'Escape') {
                         setIsComposerExpanded(false);
+                        setIsEditMode(false);
                       }
                     }}
                   />
                   {/* Minimize button - inside textarea */}
                   <button 
                     className="minimize-composer-btn"
-                    onClick={() => setIsComposerExpanded(false)}
+                    onClick={() => {
+                      setIsComposerExpanded(false);
+                      setIsEditMode(false);
+                    }}
                     title="Minimize"
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -379,21 +455,56 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                     </svg>
                   </button>
                 </div>
+                
+                {/* Media button - only show when replying, not editing */}
+                {!isEditMode && (
+                  <button 
+                    className="comment-media-btn"
+                    title="Add media"
+                    onClick={() => {
+                      // TODO: Implement media upload
+                      console.log('Media upload clicked');
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                      <circle cx="8.5" cy="8.5" r="1.5"/>
+                      <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                  </button>
+                )}
+                
                 <button 
-                  className="comment-submit-btn"
-                  disabled={!commentText.trim()}
-                  onClick={() => {
+                  className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
+                  disabled={!commentText.trim() || isSaving}
+                  onClick={async () => {
                     if (commentText.trim()) {
-                      console.log('Comment posted:', commentText);
+                      if (isEditMode) {
+                        // Save edit
+                        setIsSaving(true);
+                        await onUpdatePost(editingPostId, { content: commentText.trim() });
+                        setIsSaving(false);
+                        setEditingPostId(null);
+                        setEditContent('');
+                        setIsEditMode(false);
+                      } else {
+                        console.log('Comment posted:', commentText);
+                      }
                       setCommentText('');
                       setActiveCommentPostId(null);
                       setIsComposerExpanded(false);
                     }
                   }}
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 6 15 12 9 18"/>
-                  </svg>
+                  {isEditMode ? (
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  ) : (
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 6 15 12 9 18"/>
+                    </svg>
+                  )}
                 </button>
               </div>
             </div>
@@ -653,6 +764,19 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         onClose={() => setExpandedMediaPost(null)}
         commentText={commentText}
         setCommentText={setCommentText}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={deleteModalPostId !== null}
+        onClose={() => setDeleteModalPostId(null)}
+        onConfirm={async () => {
+          setIsDeleting(true);
+          await onDeletePost(deleteModalPostId);
+          setIsDeleting(false);
+          setDeleteModalPostId(null);
+        }}
+        isDeleting={isDeleting}
       />
     </div>
   );

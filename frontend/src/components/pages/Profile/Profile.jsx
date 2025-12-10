@@ -6,8 +6,10 @@ import './Profile.scss';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
 import TimelineRiver from './components/TimelineRiver';
+import { usePosts } from '../../../contexts';
 
 function Profile() {
+  const { deletePost, updatePost } = usePosts();
   const [isFlipped, setIsFlipped] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
   const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
@@ -128,6 +130,8 @@ function Profile() {
         feedTextPosts={feedTextPosts}
         feedMediaPosts={feedMediaPosts}
         feedAchievementPosts={feedAchievementPosts}
+        onDeletePost={deletePost}
+        onUpdatePost={updatePost}
       />
     </div>
   );

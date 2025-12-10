@@ -54,3 +54,22 @@
 .river-action-btn:active {
   transform: scale(0.95);
 }
+
+/* Edit button hover - yellow glow */
+.river-action-btn--edit:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.8));
+}
+
+.river-action-btn--edit:hover svg {
+  stroke: rgba(255, 193, 7, 1);
+}
+
+/* Delete button hover - red glow */
+.river-action-btn--delete:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 82, 82, 0.8));
+}
+
+.river-action-btn--delete:hover svg {
+  stroke: rgba(255, 82, 82, 1);
+}
+

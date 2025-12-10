@@ -6,7 +6,7 @@ import { groupPostsByUserAndDay, sortGroupedPosts } from '../../utils/groupPosts
 import TimelineRiverRow from '../TimelineRiverRow';
 import './TimelineRiverFeed.scss';
 
-function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText }) {
+function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText, onDeletePost, onUpdatePost }) {
   // Transform flat posts array into grouped structure
   const groupedAndSortedPosts = useMemo(() => {
   // 🔵 useMemo: Transform posts ONCE (not on every re-render)
@@ -71,6 +71,8 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
             commentText={commentText}
             setCommentText={setCommentText}
             setActiveCommentPostId={setActiveCommentPostId}
+            onDeletePost={onDeletePost}
+            onUpdatePost={onUpdatePost}
           />
         </div>
       ))}
