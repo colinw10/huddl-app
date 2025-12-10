@@ -1,21 +1,39 @@
-// 🔵 PABLO - UI/Styling | 🟡 NATALIA - API Logic
-// Login.jsx - User login page
+/**
+ * =============================================================================
+ * LOGIN PAGE
+ * =============================================================================
+ *
+ * 🔵 PABLO - UI/Styling ✅ DONE
+ * 🟡 NATALIA - Form Logic & Auth Integration ❌ TODO
+ *
+ * WHAT NATALIA NEEDS TO DO:
+ * 1. Import useAuth from contexts
+ * 2. Get the login function from useAuth()
+ * 3. Implement handleSubmit to call login(email, password)
+ * 4. Handle success → navigate to /home
+ * 5. Handle errors → show error message
+ *
+ * =============================================================================
+ */
 
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContext';
+// TODO: NATALIA - Import useAuth
+// import { useAuth } from '../../../contexts/AuthContext';
 import './Login.scss';
-// BackButton styles now in main.scss
 
 function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
   
-  // Check if redirected from ProtectedRoute
+  // TODO: NATALIA - Get login function from useAuth
+  // const { login } = useAuth();
+  
+  // Where to redirect after login (if came from protected route)
   const from = location.state?.from?.pathname || '/home';
   const redirectMessage = location.state?.message;
   
+  // Form state - PROVIDED FOR YOU
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -23,39 +41,35 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle input changes - PROVIDED FOR YOU
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+      setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
+  // Validation - PROVIDED FOR YOU
   const validateForm = () => {
     const newErrors = {};
-    
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
     return newErrors;
   };
 
+  // TODO: NATALIA - Implement handleSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -67,20 +81,24 @@ function Login() {
 
     setIsLoading(true);
     
-    try {
-      const result = await login(formData.email, formData.password);
-      if (result.success) {
-        navigate(from, { replace: true }); // Go back to where they tried to access
-      } else {
-        setErrors({ submit: result.error });
-      }
-    } catch {
-      setErrors({ submit: 'Login failed. Please try again.' });
-    } finally {
+    // TODO: NATALIA - Call login from AuthContext
+    // Steps:
+    // 1. Call: const result = await login(formData.email, formData.password)
+    // 2. If result.success → navigate(from, { replace: true })
+    // 3. If !result.success → setErrors({ submit: result.error })
+    
+    console.log('NATALIA: Implement login call here');
+    console.log('Email:', formData.email);
+    console.log('Password:', formData.password);
+    
+    // Placeholder - remove this when implementing
+    setTimeout(() => {
+      setErrors({ submit: 'Login not implemented yet - NATALIA TODO' });
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
+  // ========== JSX - STYLING DONE BY PABLO ==========
   return (
     <div className="login-container">
       <div className="login-card">
@@ -106,7 +124,6 @@ function Login() {
           <p className="login-subtitle">Sign in to continue to HuddL</p>
         </div>
 
-        {/* Show redirect message if user was redirected from protected route */}
         {redirectMessage && (
           <div className="login-redirect-message">
             {redirectMessage}

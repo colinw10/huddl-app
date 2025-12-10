@@ -1,26 +1,34 @@
-# Colin - Weekly Tasks
+# Colin - Posts System Tasks
 
-> **Note:** The Post model already exists! Check `backend/posts/models.py` before Week 1. You're building the API layer on top of it.
+> **Your Role:** Build the Posts API and frontend integration. The Post model already exists!
 
 ---
 
-## Week 1: Posts API Foundation
+## 📁 YOUR FILES
 
-### Task 1: Verify Post Model Exists
+| File | Status | What to do |
+|------|--------|-----------|
+| `backend/posts/serializers.py` | ❌ TODO | Create PostSerializer |
+| `backend/posts/views.py` | ❌ TODO | Create PostViewSet with CRUD |
+| `backend/posts/urls.py` | ❌ TODO | Set up router |
+| `backend/posts/admin.py` | ❌ TODO | Register Post model |
+| `frontend/src/services/postsService.js` | ❌ TODO | API calls for posts |
+| `frontend/src/contexts/PostsContext.jsx` | ❌ TODO | Posts state management |
 
-Open `backend/posts/models.py` - confirm the Post model is there with:
+---
 
+## Week 1: Verify Model & Admin
+
+### Task 1: Check Post Model Exists
+
+Open `backend/posts/models.py` - confirm the Post model has:
 - `author` (ForeignKey to User)
 - `content` (TextField)
 - `type` (CharField with choices)
 - `media_url` (URLField)
 - `created_at`, `updated_at`
 
-If it matches, skip to Task 2. If different, let Pablo know.
-
-### Task 2: Register Post in Admin
-
-Open `backend/posts/admin.py`:
+### Task 2: Register in Admin - `backend/posts/admin.py`
 
 ```python
 from django.contrib import admin
@@ -37,26 +45,19 @@ class PostAdmin(admin.ModelAdmin):
 
 ```bash
 cd backend
-python3 manage.py createsuperuser
+python manage.py createsuperuser
 # Username: admin, Password: admin123
 
-python3 manage.py runserver
+python manage.py runserver
 ```
 
-Go to http://127.0.0.1:8000/admin, login, create 2-3 test posts.
-
-**Commits:**
-
-1. "Register Post model in Django admin"
-2. "Create test posts via admin"
+Go to http://127.0.0.1:8000/admin, create 2-3 test posts.
 
 ---
 
-## Week 2: Posts API Endpoints
+## Week 2: Backend API
 
-### Task 1: Create Post Serializer
-
-Open `backend/posts/serializers.py`:
+### Task 1: Create Serializers - `backend/posts/serializers.py`
 
 ```python
 from rest_framework import serializers
@@ -99,215 +100,245 @@ class PostCreateSerializer(serializers.ModelSerializer):
         fields = ['content', 'type', 'media_url']
 ```
 
-### Task 2: Create Views
-
-Open `backend/posts/views.py`:
+### Task 2: Create Views - `backend/posts/views.py`
 
 ```python
-from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from .models import Post
 from .serializers import PostSerializer, PostCreateSerializer
 
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-def post_list_create(request):
-    if request.method == 'GET':
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all().order_by('-created_at')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    elif request.method == 'POST':
-        serializer = PostCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            post = serializer.save(author=request.user)
-            return Response(PostSerializer(post).data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PostCreateSerializer
+        return PostSerializer
 
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
-def post_detail(request, pk):
-    try:
-        post = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
-    if request.method == 'GET':
-        return Response(PostSerializer(post).data)
+    def update(self, request, *args, **kwargs):
+        post = self.get_object()
+        if post.author != request.user:
+            return Response(
+                {'error': 'You can only edit your own posts'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().update(request, *args, **kwargs)
 
-    if post.author != request.user:
-        return Response({'error': 'Not authorized'}, status=status.HTTP_403_FORBIDDEN)
-
-    if request.method == 'PUT':
-        serializer = PostCreateSerializer(post, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(PostSerializer(post).data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def user_posts(request, user_id):
-    posts = Post.objects.filter(author__id=user_id)
-    return Response(PostSerializer(posts, many=True).data)
+    def destroy(self, request, *args, **kwargs):
+        post = self.get_object()
+        if post.author != request.user:
+            return Response(
+                {'error': 'You can only delete your own posts'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().destroy(request, *args, **kwargs)
 ```
 
-### Task 3: Create URLs
-
-Open `backend/posts/urls.py`:
+### Task 3: Create URLs - `backend/posts/urls.py`
 
 ```python
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import PostViewSet
+
+router = DefaultRouter()
+router.register(r'', PostViewSet, basename='post')
 
 urlpatterns = [
-    path('', views.post_list_create, name='post_list_create'),
-    path('<int:pk>/', views.post_detail, name='post_detail'),
-    path('user/<int:user_id>/', views.user_posts, name='user_posts'),
+    path('', include(router.urls)),
 ]
 ```
 
-### Task 4: Test Endpoints
+### Task 4: Test with curl
 
 ```bash
-# Get token from login endpoint first, then:
-curl http://127.0.0.1:8000/api/posts/ \
-  -H "Authorization: Bearer YOUR_TOKEN"
+# Get all posts (no auth needed)
+curl http://127.0.0.1:8000/api/posts/
+
+# Create post (needs auth - get token from login first)
+curl -X POST http://127.0.0.1:8000/api/posts/ \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{"content":"Hello world!","type":"text"}'
 ```
-
-**Commits:**
-
-1. "Create Post serializers"
-2. "Build posts API views"
-3. "Add posts URL routing"
 
 ---
 
-## Week 3: Home Feed Integration
+## Week 3: Frontend Service & Context
 
-### Task 1: Connect Home.jsx to API
+### Task 1: Implement `frontend/src/services/postsService.js`
 
-Update `frontend/src/components/pages/Home/Home.jsx` - add the API connection logic. The UI is already built, you're adding the data fetching.
+```javascript
+const API_URL = 'http://localhost:8000/api/posts'\;
 
-Key changes:
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : '',
+  };
+};
 
-- Import `postsService` (Tito will create this)
-- Add `useState` for posts, loading, error
-- Add `useEffect` to fetch posts on mount
-- Pass real data to `TimelineRiverFeed`
+export const postsService = {
+  getAllPosts: async () => {
+    const response = await fetch(`${API_URL}/`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch posts');
+    return response.json();
+  },
 
-### Task 2: Wire Up ComposerModal
+  getPost: async (id) => {
+    const response = await fetch(`${API_URL}/${id}/`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch post');
+    return response.json();
+  },
 
-The ComposerModal UI exists. Add the logic to:
+  createPost: async (postData) => {
+    const response = await fetch(`${API_URL}/`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(postData),
+    });
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.detail || 'Failed to create post');
+    }
+    return response.json();
+  },
 
-- Call `postsService.createPost()` on submit
-- Handle loading/error states
-- Refresh feed after post creation
+  updatePost: async (id, postData) => {
+    const response = await fetch(`${API_URL}/${id}/`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(postData),
+    });
+    if (!response.ok) throw new Error('Failed to update post');
+    return response.json();
+  },
 
-**Commits:**
+  deletePost: async (id) => {
+    const response = await fetch(`${API_URL}/${id}/`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to delete post');
+    return true;
+  },
+};
 
-1. "Connect Home page to posts API"
-2. "Wire ComposerModal to create posts"
+export default postsService;
+```
+
+### Task 2: Implement `frontend/src/contexts/PostsContext.jsx`
+
+```javascript
+import { createContext, useContext, useState, useCallback } from 'react';
+import postsService from '../services/postsService';
+
+const PostsContext = createContext(null);
+
+export function PostsProvider({ children }) {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const loadPosts = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await postsService.getAllPosts();
+      setPosts(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const createPost = async (postData) => {
+    try {
+      const newPost = await postsService.createPost(postData);
+      setPosts(prev => [newPost, ...prev]);
+      return { success: true, post: newPost };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  const updatePost = async (id, postData) => {
+    try {
+      const updatedPost = await postsService.updatePost(id, postData);
+      setPosts(prev => prev.map(p => p.id === id ? updatedPost : p));
+      return { success: true, post: updatedPost };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  const deletePost = async (id) => {
+    try {
+      await postsService.deletePost(id);
+      setPosts(prev => prev.filter(p => p.id !== id));
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  return (
+    <PostsContext.Provider value={{
+      posts,
+      loading,
+      error,
+      loadPosts,
+      createPost,
+      updatePost,
+      deletePost,
+    }}>
+      {children}
+    </PostsContext.Provider>
+  );
+}
+
+export function usePosts() {
+  const context = useContext(PostsContext);
+  if (!context) {
+    throw new Error('usePosts must be used within PostsProvider');
+  }
+  return context;
+}
+
+export default PostsContext;
+```
 
 ---
 
-## Week 4: Likes & Comments
+## Testing Checklist
 
-### Task 1: Add Like Model
-
-Update `backend/posts/models.py` - ADD:
-
-```python
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ['user', 'post']
-```
-
-### Task 2: Add Comment Model
-
-```python
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comments')
-    content = models.TextField(max_length=300)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['created_at']
-```
-
-### Task 3: Run Migrations
-
-```bash
-python3 manage.py makemigrations
-python3 manage.py migrate
-```
-
-### Task 4: Add Like/Comment Endpoints
-
-Add to views.py:
-
-- `toggle_like(request, pk)` - POST to like/unlike
-- `post_comments(request, pk)` - GET/POST comments
-- `delete_comment(request, pk)` - DELETE comment
-
-### Task 5: Update URLs
-
-Add new routes for likes and comments.
-
-**Commits:**
-
-1. "Create Like and Comment models"
-2. "Add like/comment endpoints"
-3. "Run migrations"
+- [ ] Post model registered in admin
+- [ ] Can create posts in admin
+- [ ] GET /api/posts/ returns posts
+- [ ] POST /api/posts/ creates post (with auth)
+- [ ] PUT /api/posts/:id/ updates post (only own posts)
+- [ ] DELETE /api/posts/:id/ deletes post (only own posts)
+- [ ] PostsContext loads and manages state
 
 ---
 
-## Week 5: Polish & Bug Fixes
+## Commits to Make
 
-### Task 1: Add Post Stats Endpoint
-
-```python
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def post_stats(request):
-    user_posts = Post.objects.filter(author=request.user)
-    total_likes = Like.objects.filter(post__author=request.user).count()
-
-    return Response({
-        'total_posts': user_posts.count(),
-        'total_likes': total_likes
-    })
-```
-
-### Task 2: Test All Endpoints
-
-- GET /api/posts/ ✓
-- POST /api/posts/ ✓
-- GET /api/posts/:id/ ✓
-- PUT /api/posts/:id/ ✓
-- DELETE /api/posts/:id/ ✓
-- POST /api/posts/:id/like/ ✓
-- GET/POST /api/posts/:id/comments/ ✓
-
-### Task 3: Fix Bugs
-
-- Handle edge cases
-- Add proper error messages
-- Test with frontend
-
-**Commits:**
-
-1. "Add post stats endpoint"
-2. "Fix bugs and edge cases"
-3. "Final testing and cleanup"
+1. "Register Post model in admin"
+2. "Create PostSerializer and PostCreateSerializer"
+3. "Create PostViewSet with CRUD operations"
+4. "Set up posts URL routing"
+5. "Implement postsService.js"
+6. "Implement PostsContext"

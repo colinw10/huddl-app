@@ -2,7 +2,7 @@
 
 > **Legend:**  
 > 🔵 PABLO | 🟢 COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO  
-> ✅ = Done | 🔧 = Placeholder (needs review) | ❌ = Not Started
+> ✅ = Done | ❌ = TODO (needs implementation)
 
 ```
 huddl-app/
@@ -20,27 +20,27 @@ huddl-app/
 │   │   └── wsgi.py / asgi.py              ✅ (auto-generated)
 │   │
 │   ├── posts/                             # Posts app - COLIN
-│   │   ├── models.py                      🟢 COLIN ✅
-│   │   ├── serializers.py                 🟢 COLIN 🔧 (placeholder - review)
-│   │   ├── urls.py                        🟢 COLIN 🔧 (placeholder - review)
-│   │   ├── views.py                       🟢 COLIN 🔧 (placeholder - review)
-│   │   ├── admin.py                       🟢 COLIN ❌
+│   │   ├── models.py                      🔵 PABLO ✅
+│   │   ├── serializers.py                 🟢 COLIN ❌ TODO
+│   │   ├── urls.py                        🟢 COLIN ❌ TODO
+│   │   ├── views.py                       🟢 COLIN ❌ TODO
+│   │   ├── admin.py                       🟢 COLIN ❌ TODO
 │   │   └── migrations/                    ✅ (auto-generated)
 │   │
 │   ├── users/                             # Users/Auth app - NATALIA
-│   │   ├── models.py                      🟡 NATALIA ✅
-│   │   ├── serializers.py                 🟡 NATALIA ✅
-│   │   ├── urls.py                        🟡 NATALIA ✅
-│   │   ├── views.py                       🟡 NATALIA ✅
+│   │   ├── models.py                      🔵 PABLO ✅
+│   │   ├── serializers.py                 🔵 PABLO ✅
+│   │   ├── urls.py                        🔵 PABLO ✅
+│   │   ├── views.py                       🔵 PABLO ✅
 │   │   ├── apps.py                        ✅ (auto-generated)
 │   │   └── migrations/                    ✅ (auto-generated)
 │   │
 │   └── friends/                           # Friends app - CRYSTAL
-│       ├── models.py                      🟣 CRYSTAL 🔧 (placeholder - review)
-│       ├── serializers.py                 🟣 CRYSTAL 🔧 (placeholder - review)
-│       ├── urls.py                        🟣 CRYSTAL 🔧 (placeholder - review)
-│       ├── views.py                       🟣 CRYSTAL 🔧 (placeholder - review)
-│       ├── admin.py                       🟣 CRYSTAL ❌
+│       ├── models.py                      �� CRYSTAL ❌ TODO
+│       ├── serializers.py                 🟣 CRYSTAL ❌ TODO
+│       ├── urls.py                        🟣 CRYSTAL ❌ TODO
+│       ├── views.py                       🟣 CRYSTAL ❌ TODO
+│       ├── admin.py                       🟣 CRYSTAL ❌ TODO
 │       └── migrations/                    ✅ (auto-generated)
 │
 ├── frontend/
@@ -71,18 +71,18 @@ huddl-app/
 │       │   └── _light-mode.scss           🔵 PABLO ✅
 │       │
 │       ├── services/                      # API Layer
-│       │   ├── apiClient.js               🟠 TITO 🔧 (placeholder - review)
-│       │   ├── postsService.js            🟢 COLIN 🔧 (placeholder - review)
-│       │   ├── friendsService.js          🟣 CRYSTAL 🔧 (placeholder - review)
+│       │   ├── apiClient.js               🟠 TITO ❌ TODO
+│       │   ├── postsService.js            🟢 COLIN ❌ TODO
+│       │   ├── friendsService.js          🟣 CRYSTAL ❌ TODO
 │       │   └── README.md                  🔵 PABLO ✅
 │       │
 │       ├── contexts/                      # State Management
 │       │   ├── index.js                   🔵 PABLO ✅
 │       │   ├── ThemeContext.jsx           🔵 PABLO ✅
 │       │   ├── MessageContext.jsx         🔵 PABLO ✅
-│       │   ├── AuthContext.jsx            🟡 NATALIA 🔧 (placeholder - review)
-│       │   ├── PostsContext.jsx           🟢 COLIN 🔧 (placeholder - review)
-│       │   └── FriendsContext.jsx         🟣 CRYSTAL 🔧 (placeholder - review)
+│       │   ├── AuthContext.jsx            �� NATALIA ❌ TODO
+│       │   ├── PostsContext.jsx           🟢 COLIN ❌ TODO
+│       │   └── FriendsContext.jsx         🟣 CRYSTAL ❌ TODO
 │       │
 │       ├── utils/                         # Helpers
 │       │   └── README.md                  🔵 PABLO ✅
@@ -104,24 +104,24 @@ huddl-app/
 │       │       │   ├── Landing.jsx        🔵 PABLO ✅
 │       │       │   └── Landing.scss       🔵 PABLO ✅
 │       │       │
-│       │       ├── Login/                 
-│       │       │   ├── Login.jsx          🔵 PABLO ✅
+│       │       ├── Login/                 # NATALIA wires up auth logic
+│       │       │   ├── Login.jsx          🔵 UI ✅ | 🟡 LOGIC ❌
 │       │       │   └── Login.scss         🔵 PABLO ✅
 │       │       │
-│       │       ├── Signup/                
-│       │       │   ├── Signup.jsx         🔵 PABLO ✅
+│       │       ├── Signup/                # NATALIA wires up auth logic
+│       │       │   ├── Signup.jsx         🔵 UI ✅ | 🟡 LOGIC ❌
 │       │       │   └── Signup.scss        🔵 PABLO ✅
 │       │       │
-│       │       ├── Home/                  
+│       │       ├── Home/                  # PABLO (complex page)
 │       │       │   ├── Home.jsx           🔵 PABLO ✅
 │       │       │   └── Home.scss          🔵 PABLO ✅
 │       │       │
-│       │       ├── Profile/               
-│       │       │   ├── Profile.jsx        �� PABLO ✅
+│       │       ├── Profile/               # PABLO (complex page)
+│       │       │   ├── Profile.jsx        🔵 PABLO ✅
 │       │       │   └── Profile.scss       🔵 PABLO ✅
 │       │       │
-│       │       ├── Friends/               
-│       │       │   ├── Friends.jsx        🔵 PABLO ✅
+│       │       ├── Friends/               # CRYSTAL wires up friends logic
+│       │       │   ├── Friends.jsx        🔵 UI ✅ | 🟣 LOGIC ❌
 │       │       │   └── Friends.scss       🔵 PABLO ✅
 │       │       │
 │       │       ├── About/                 
@@ -152,61 +152,59 @@ huddl-app/
 - Layout components (Shell, TopBar, SideNav, BottomNav)
 - Theme system and animations
 - Documentation and project coordination
-- ProtectedRoute component
-- Main app structure (App.jsx, main.jsx)
+- Home.jsx and Profile.jsx (complex pages - full implementation)
+- Backend users/ app (models, serializers, views, urls)
 - Backend configuration (settings.py, urls.py)
 
-### 🟢 Colin (Posts) - ~20% 🔧
+### 🟢 Colin (Posts API + Frontend) - ~20%
 
-**HAS PLACEHOLDERS - NEEDS REVIEW:**
-- `backend/posts/serializers.py` - PostSerializer with reply_count
-- `backend/posts/views.py` - PostViewSet with CRUD + replies endpoint
-- `backend/posts/urls.py` - Router setup
-- `frontend/src/services/postsService.js` - API calls
-- `frontend/src/contexts/PostsContext.jsx` - State management
+**YOUR FILES TO IMPLEMENT:**
+| File | What to do |
+|------|-----------|
+| `backend/posts/serializers.py` | Create PostSerializer |
+| `backend/posts/views.py` | Create PostViewSet with CRUD |
+| `backend/posts/urls.py` | Set up router |
+| `backend/posts/admin.py` | Register Post model |
+| `frontend/src/services/postsService.js` | API calls for posts |
+| `frontend/src/contexts/PostsContext.jsx` | Posts state management |
 
-**TODO:**
-- [ ] Review placeholder code, ensure it works
-- [ ] Add admin.py for Posts
-- [ ] Test endpoints manually
+**SEE:** `docs/team-plan-v2/members/colin/TASKS.md` for code examples!
 
-### 🟡 Natalia (Auth & Users) - ~10% 🔧
+### 🟡 Natalia (Auth Frontend) - ~10%
 
-**COMPLETE (from scaffold):**
-- `backend/users/` - models, serializers, views, urls (email login, JWT)
+**YOUR FILES TO IMPLEMENT:**
+| File | What to do |
+|------|-----------|
+| `frontend/src/contexts/AuthContext.jsx` | Auth state management |
+| `frontend/src/components/pages/Login/Login.jsx` | Wire up handleSubmit (UI done!) |
+| `frontend/src/components/pages/Signup/Signup.jsx` | Wire up handleSubmit (UI done!) |
 
-**HAS PLACEHOLDERS - NEEDS REVIEW:**
-- `frontend/src/contexts/AuthContext.jsx` - Login, signup, logout
+**SEE:** `docs/team-plan-v2/members/natalia/TASKS.md` for code examples!
 
-**TODO:**
-- [ ] Review AuthContext placeholder
-- [ ] Test login/signup flow end-to-end
+### 🟣 Crystal (Friends System) - ~10%
 
-### 🟣 Crystal (Friends System) - ~10% 🔧
+**YOUR FILES TO IMPLEMENT:**
+| File | What to do |
+|------|-----------|
+| `backend/friends/models.py` | Create Friendship + FriendRequest models |
+| `backend/friends/serializers.py` | Create serializers |
+| `backend/friends/views.py` | Create friend endpoints |
+| `backend/friends/urls.py` | Set up routing |
+| `backend/friends/admin.py` | Register models |
+| `frontend/src/services/friendsService.js` | API calls for friends |
+| `frontend/src/contexts/FriendsContext.jsx` | Friends state management |
+| `frontend/src/components/pages/Friends/Friends.jsx` | Wire up handlers (UI done!) |
 
-**HAS PLACEHOLDERS - NEEDS REVIEW:**
-- `backend/friends/models.py` - Friendship + FriendRequest models
-- `backend/friends/serializers.py` - Serializers
-- `backend/friends/views.py` - All friend endpoints
-- `backend/friends/urls.py` - URL routing
-- `frontend/src/services/friendsService.js` - API calls
-- `frontend/src/contexts/FriendsContext.jsx` - State management
+**SEE:** `docs/team-plan-v2/members/crystal/TASKS.md` for code examples!
 
-**TODO:**
-- [ ] Review all placeholder files
-- [ ] Run migrations for friends app
-- [ ] Add admin.py for Friends
-- [ ] Test friend request flow
+### 🟠 Tito (API Client) - ~5%
 
-### 🟠 Tito (Infrastructure) - ~5% 🔧
+**YOUR FILES TO IMPLEMENT:**
+| File | What to do |
+|------|-----------|
+| `frontend/src/services/apiClient.js` | Axios setup + token refresh |
 
-**HAS PLACEHOLDERS - NEEDS REVIEW:**
-- `frontend/src/services/apiClient.js` - Axios with interceptors + token refresh
-
-**TODO:**
-- [ ] Review apiClient placeholder
-- [ ] Verify CORS working
-- [ ] Test token refresh flow
+**SEE:** `docs/team-plan-v2/members/tito/TASKS.md` for code examples!
 
 ---
 
@@ -224,15 +222,10 @@ npm install
 npm run dev
 ```
 
-## What "Placeholder" Means
+---
 
-Files marked as 🔧 have:
-- Complete code structure
-- TODO comments explaining what the code does
-- HINT comments with the actual implementation
-- The implementation IS already filled in (just needs testing)
+## File Status Key
 
-Your job is to:
-1. Review the code to understand it
-2. Test that it works
-3. Mark off the TODOs in your task list
+- **🔵 UI ✅ | 🟡 LOGIC ❌** = Pablo did the styling/JSX, teammate implements the logic
+- **❌ TODO** = File has placeholder structure, needs implementation
+- **✅** = Complete and working

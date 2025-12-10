@@ -1,13 +1,34 @@
-// 🔵 PABLO - UI/Styling | 🟡 NATALIA - API Logic
-// Signup.jsx - User registration page
+/**
+ * =============================================================================
+ * SIGNUP PAGE
+ * =============================================================================
+ *
+ * 🔵 PABLO - UI/Styling ✅ DONE
+ * 🟡 NATALIA - Form Logic & Auth Integration ❌ TODO
+ *
+ * WHAT NATALIA NEEDS TO DO:
+ * 1. Import useAuth from contexts
+ * 2. Get the signup function from useAuth()
+ * 3. Implement handleSubmit to call signup(username, email, password)
+ * 4. Handle success → navigate to /login (or auto-login)
+ * 5. Handle errors → show error message
+ *
+ * =============================================================================
+ */
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// TODO: NATALIA - Import useAuth
+// import { useAuth } from '../../../contexts/AuthContext';
 import './Signup.scss';
-// BackButton styles now in main.scss
 
 function Signup() {
   const navigate = useNavigate();
+  
+  // TODO: NATALIA - Get signup function from useAuth
+  // const { signup } = useAuth();
+  
+  // Form state - PROVIDED FOR YOU
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -17,54 +38,49 @@ function Signup() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle input changes - PROVIDED FOR YOU
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+      setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
+  // Validation - PROVIDED FOR YOU
   const validateForm = () => {
     const newErrors = {};
-    
     if (!formData.username) {
       newErrors.username = 'Username is required';
     } else if (formData.username.length < 3) {
       newErrors.username = 'Username must be at least 3 characters';
     }
-    
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-    
     return newErrors;
   };
 
+  // TODO: NATALIA - Implement handleSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validate form
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -73,33 +89,25 @@ function Signup() {
 
     setIsLoading(true);
     
-    try {
-      const response = await fetch('http://localhost:8000/api/auth/signup/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password
-        })
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        setErrors({ submit: data.error || 'Signup failed. Please try again.' });
-        return;
-      }
-      
-      // Navigate to login on success
-      navigate('/login');
-    } catch {
-      setErrors({ submit: 'Signup failed. Please try again.' });
-    } finally {
+    // TODO: NATALIA - Call signup from AuthContext
+    // Steps:
+    // 1. Call: const result = await signup(formData.username, formData.email, formData.password)
+    // 2. If result.success → navigate('/login') or navigate('/home') if auto-login
+    // 3. If !result.success → setErrors({ submit: result.error })
+    
+    console.log('NATALIA: Implement signup call here');
+    console.log('Username:', formData.username);
+    console.log('Email:', formData.email);
+    console.log('Password:', formData.password);
+    
+    // Placeholder - remove this when implementing
+    setTimeout(() => {
+      setErrors({ submit: 'Signup not implemented yet - NATALIA TODO' });
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
+  // ========== JSX - STYLING DONE BY PABLO ==========
   return (
     <div className="signup-container">
       <div className="signup-card">
@@ -138,7 +146,7 @@ function Signup() {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className={`form-input ${errors.username ? 'error' : ''} ${formData.username ? 'has-value' : ''}`}
+              className={`form-input ${errors.username ? 'error' : ''}`}
               placeholder="Choose a username…"
               autoComplete="username"
             />
@@ -153,7 +161,7 @@ function Signup() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`form-input ${errors.email ? 'error' : ''} ${formData.email ? 'has-value' : ''}`}
+              className={`form-input ${errors.email ? 'error' : ''}`}
               placeholder="Enter your email…"
               autoComplete="email"
             />
@@ -168,7 +176,7 @@ function Signup() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`form-input ${errors.password ? 'error' : ''} ${formData.password ? 'has-value' : ''}`}
+              className={`form-input ${errors.password ? 'error' : ''}`}
               placeholder="Create a password…"
               autoComplete="new-password"
             />
@@ -183,7 +191,7 @@ function Signup() {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className={`form-input ${errors.confirmPassword ? 'error' : ''} ${formData.confirmPassword ? 'has-value' : ''}`}
+              className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
               placeholder="Confirm your password…"
               autoComplete="new-password"
             />
@@ -209,9 +217,7 @@ function Signup() {
         </form>
 
         <div className="signup-footer">
-          <p className="footer-text">
-            Already have an account? <button onClick={() => navigate('/login')} className="footer-link">Sign in</button>
-          </p>
+          <p>Already have an account? <button onClick={() => navigate('/login')} className="link-button">Sign in</button></p>
         </div>
       </div>
     </div>

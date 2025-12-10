@@ -1,366 +1,254 @@
-# Tito - Weekly Tasks
+# Tito - API Client Tasks
 
-> **CRITICAL:** Your Week 1 CORS task blocks EVERYONE. Without CORS, the frontend cannot talk to the backend. Do this first!
+> **Your Role:** Create the central API client that handles all HTTP requests, authentication headers, and token refresh.
 
 ---
 
-## Week 1: CORS Configuration (BLOCKING)
+## 📁 YOUR FILES
 
-### Task 1: Install django-cors-headers
+| File | Status | What to do |
+|------|--------|-----------|
+| `frontend/src/services/apiClient.js` | ❌ TODO | Axios/fetch setup + token handling |
 
-```bash
-cd backend
-pip3 install django-cors-headers
-pip3 freeze > requirements.txt
-```
+---
 
-### Task 2: Update settings.py
+## Week 1: Verify CORS is Working
 
-Open `backend/huddl/settings.py`:
+### Task 1: Check Backend CORS
 
-**Add to INSTALLED_APPS:**
+Make sure `backend/huddl/settings.py` has CORS configured:
 
 ```python
 INSTALLED_APPS = [
-    # ... existing apps ...
-    'corsheaders',  # ADD THIS
-    # ... rest of apps ...
+    # ... other apps ...
+    'corsheaders',
 ]
-```
 
-**Add to TOP of MIDDLEWARE (MUST BE FIRST):**
-
-```python
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ADD THIS FIRST
+    'corsheaders.middleware.CorsMiddleware',  # MUST BE FIRST
     'django.middleware.security.SecurityMiddleware',
-    # ... rest of middleware ...
+    # ... other middleware ...
 ]
-```
 
-**Add at BOTTOM of file:**
-
-```python
-# CORS Configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React dev server
+    "http://localhost:5173",
 ]
-
-# REST Framework settings
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-}
 ```
 
-### Task 3: Create requirements.txt
+### Task 2: Test CORS
 
-```bash
-pip3 freeze > requirements.txt
-```
-
-### Task 4: Test CORS
-
-1. Start backend: `python3 manage.py runserver`
+1. Start backend: `cd backend && python manage.py runserver`
 2. Start frontend: `cd frontend && npm run dev`
 3. Open browser console - should NOT see CORS errors
 
-**Commits:**
-
-1. "Install and configure CORS"
-2. "Create requirements.txt"
-
 ---
 
-## Week 2: API Client & Posts Service
+## Week 2: Create API Client
 
-### Task 1: Create apiClient.js
-
-Create `frontend/src/services/apiClient.js`:
+### Task 1: Implement `frontend/src/services/apiClient.js`
 
 ```javascript
-const API_BASE_URL = "http://localhost:8000/api";
+/**
+ * API Client - Central HTTP client for all API requests
+ * Handles authentication headers and token refresh
+ */
 
-const getAuthToken = () => localStorage.getItem("token");
+const API_BASE_URL = 'http://localhost:8000/api'\;
 
-const fetchWithAuth = async (url, options = {}) => {
-  const token = getAuthToken();
+// Get token from localStorage
+const getToken = () => localStorage.getItem('token');
+const getRefreshToken = () => localStorage.getItem('refreshToken');
 
+// Set tokens
+const setTokens = (access, refresh) => {
+  localStorage.setItem('token', access);
+  if (refresh) {
+    localStorage.setItem('refreshToken', refresh);
+  }
+};
+
+// Clear tokens (logout)
+const clearTokens = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+};
+
+// Refresh the access token
+const refreshAccessToken = async () => {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/token/refresh/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh: refreshToken }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      setTokens(data.access, data.refresh);
+      return data.access;
+    } else {
+      // Refresh token expired, clear everything
+      clearTokens();
+      return null;
+    }
+  } catch (error) {
+    console.error('Token refresh failed:', error);
+    clearTokens();
+    return null;
+  }
+};
+
+// Main fetch wrapper with auth
+const apiClient = async (endpoint, options = {}) => {
+  const url = `${API_BASE_URL}${endpoint}`;
+  
+  // Build headers
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     ...options.headers,
   };
 
+  // Add auth token if available
+  const token = getToken();
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${url}`, {
+  // Make request
+  let response = await fetch(url, {
     ...options,
     headers,
   });
 
-  // Handle 401 - token expired
-  if (response.status === 401) {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-    throw new Error("Unauthorized");
+  // If 401, try refreshing token
+  if (response.status === 401 && token) {
+    const newToken = await refreshAccessToken();
+    if (newToken) {
+      // Retry with new token
+      headers['Authorization'] = `Bearer ${newToken}`;
+      response = await fetch(url, {
+        ...options,
+        headers,
+      });
+    }
   }
 
   return response;
 };
 
-export const apiClient = {
-  get: async (endpoint) => {
-    const response = await fetchWithAuth(endpoint);
-    if (!response.ok) throw new Error(`GET ${endpoint} failed`);
-    return await response.json();
-  },
-
-  post: async (endpoint, data) => {
-    const response = await fetchWithAuth(endpoint, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || "POST failed");
-    }
-    return await response.json();
-  },
-
-  put: async (endpoint, data) => {
-    const response = await fetchWithAuth(endpoint, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error("PUT failed");
-    return await response.json();
-  },
-
-  delete: async (endpoint) => {
-    const response = await fetchWithAuth(endpoint, { method: "DELETE" });
-    if (!response.ok) throw new Error("DELETE failed");
-    return true;
-  },
+// Convenience methods
+export const api = {
+  get: (endpoint) => apiClient(endpoint, { method: 'GET' }),
+  
+  post: (endpoint, data) => apiClient(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+  
+  put: (endpoint, data) => apiClient(endpoint, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  }),
+  
+  patch: (endpoint, data) => apiClient(endpoint, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  }),
+  
+  delete: (endpoint) => apiClient(endpoint, { method: 'DELETE' }),
 };
+
+// Export utilities for auth
+export const authUtils = {
+  getToken,
+  getRefreshToken,
+  setTokens,
+  clearTokens,
+  refreshAccessToken,
+};
+
+export default api;
 ```
 
-### Task 2: Create postsService.js
+---
 
-Create `frontend/src/services/postsService.js`:
+## Week 3: Test the API Client
+
+### Task 1: Test in Browser Console
+
+Open browser dev tools and test:
 
 ```javascript
-import { apiClient } from "./apiClient";
+// Import (if using modules)
+import api from './services/apiClient';
 
+// Test get posts (no auth needed)
+const response = await api.get('/posts/');
+const posts = await response.json();
+console.log(posts);
+
+// Test with auth (after logging in)
+const meResponse = await api.get('/auth/me/');
+const user = await meResponse.json();
+console.log(user);
+```
+
+### Task 2: Test Token Refresh
+
+1. Login to get tokens
+2. Manually expire the access token (or wait)
+3. Make a request - should auto-refresh
+4. Check localStorage for new token
+
+---
+
+## How Other Team Members Use Your API Client
+
+Once you're done, others can use it like this:
+
+```javascript
+import api from '../services/apiClient';
+
+// In postsService.js (Colin's code)
 export const postsService = {
-  getFeed: async () => {
-    return await apiClient.get("/posts/");
+  getAllPosts: async () => {
+    const response = await api.get('/posts/');
+    if (!response.ok) throw new Error('Failed to fetch posts');
+    return response.json();
   },
+};
 
-  createPost: async (content, type = "thoughts", mediaUrl = null) => {
-    return await apiClient.post("/posts/", {
-      content,
-      type,
-      media_url: mediaUrl,
-    });
-  },
-
-  getPost: async (postId) => {
-    return await apiClient.get(`/posts/${postId}/`);
-  },
-
-  updatePost: async (postId, data) => {
-    return await apiClient.put(`/posts/${postId}/`, data);
-  },
-
-  deletePost: async (postId) => {
-    return await apiClient.delete(`/posts/${postId}/`);
-  },
-
-  getUserPosts: async (userId) => {
-    return await apiClient.get(`/posts/user/${userId}/`);
+// In friendsService.js (Crystal's code)  
+export const friendsService = {
+  getFriends: async () => {
+    const response = await api.get('/friends/');
+    if (!response.ok) throw new Error('Failed to fetch friends');
+    return response.json();
   },
 };
 ```
-
-**Commits:**
-
-1. "Create apiClient with auth handling"
-2. "Create postsService"
 
 ---
 
-## Week 3: Utilities
+## Testing Checklist
 
-### Task 1: Create formatters.js
-
-Create `frontend/src/utils/formatters.js`:
-
-```javascript
-/**
- * Format date to relative time (e.g., "2h", "3d")
- */
-export const formatRelativeTime = (dateString) => {
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now - date;
-  const diffSec = Math.floor(diffMs / 1000);
-  const diffMin = Math.floor(diffSec / 60);
-  const diffHour = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHour / 24);
-
-  if (diffDay > 0) return `${diffDay}d`;
-  if (diffHour > 0) return `${diffHour}h`;
-  if (diffMin > 0) return `${diffMin}m`;
-  return "now";
-};
-
-/**
- * Format number with K/M suffix (1500 -> 1.5K)
- */
-export const formatCount = (num) => {
-  if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
-  if (num >= 1000) return (num / 1000).toFixed(1) + "K";
-  return num.toString();
-};
-
-/**
- * Truncate text to max length
- */
-export const truncateText = (text, maxLength) => {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + "...";
-};
-
-/**
- * Format full date (Jan 15, 2024)
- */
-export const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-};
-```
-
-### Task 2: Create validators.js
-
-Create `frontend/src/utils/validators.js`:
-
-```javascript
-/**
- * Validate email format
- */
-export const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-/**
- * Validate username (3-20 chars)
- */
-export const isValidUsername = (username) => {
-  return username.length >= 3 && username.length <= 20;
-};
-
-/**
- * Validate password (min 6 chars)
- */
-export const isValidPassword = (password) => {
-  return password.length >= 6;
-};
-
-/**
- * Validate URL format
- */
-export const isValidUrl = (url) => {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
-```
-
-**Commits:**
-
-1. "Create formatters utility"
-2. "Create validators utility"
+- [ ] CORS working (no console errors)
+- [ ] Can make GET requests without auth
+- [ ] Can make POST requests with auth
+- [ ] Token refresh works when access token expires
+- [ ] clearTokens properly logs out user
 
 ---
 
-## Week 4: Update Services + Documentation
+## Commits to Make
 
-### Task 1: Add Like/Comment Methods to postsService
-
-Update `postsService.js`:
-
-```javascript
-// Add these methods:
-toggleLike: async (postId) => {
-  return await apiClient.post(`/posts/${postId}/like/`);
-},
-
-getComments: async (postId) => {
-  return await apiClient.get(`/posts/${postId}/comments/`);
-},
-
-addComment: async (postId, content) => {
-  return await apiClient.post(`/posts/${postId}/comments/`, { content });
-},
-
-deleteComment: async (commentId) => {
-  return await apiClient.delete(`/posts/comments/${commentId}/`);
-}
-```
-
-### Task 2: Create TESTING.md
-
-Create `docs/TESTING.md` with:
-
-- How to start backend/frontend
-- How to test each endpoint
-- Common issues and fixes
-
-**Commits:**
-
-1. "Add like/comment to postsService"
-2. "Create testing documentation"
-
----
-
-## Week 5: Final Documentation & Fixes
-
-### Task 1: Create API_REFERENCE.md
-
-Document all endpoints:
-
-- Auth: signup, login, refresh, me, search
-- Posts: CRUD, likes, comments
-- Friends: list, requests, send, respond, remove
-
-### Task 2: Update Main README
-
-- Quick start guide
-- Project structure
-- Feature list
-- Team credits
-
-### Task 3: Bug Fixes
-
-Test all services work:
-
-- apiClient handles errors properly
-- 401 redirects to login
-- All formatters work correctly
-
-**Commits:**
-
-1. "Create API reference"
-2. "Update README"
-3. "Fix bugs and edge cases"
+1. "Verify CORS configuration"
+2. "Create apiClient with fetch wrapper"
+3. "Add token refresh logic"
+4. "Add convenience methods (get, post, put, delete)"
+5. "Test and document API client usage"

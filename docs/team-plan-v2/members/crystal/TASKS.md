@@ -1,23 +1,36 @@
-# Crystal - Weekly Tasks
+# Crystal - Friends System Tasks
 
-> **Note:** The friends app is empty - you're building from scratch! Start with the model, then API, then frontend.
+> **Your Role:** Build the entire friends system! Backend models + API + Frontend service + context + wire up the Friends page.
 
 ---
 
-## Week 1: Friendship Model
+## 📁 YOUR FILES
 
-### Task 1: Create Friendship Model
+| File | Status | What to do |
+|------|--------|-----------|
+| `backend/friends/models.py` | ❌ TODO | Create Friendship + FriendRequest models |
+| `backend/friends/serializers.py` | ❌ TODO | Create serializers |
+| `backend/friends/views.py` | ❌ TODO | Create API endpoints |
+| `backend/friends/urls.py` | ❌ TODO | Set up URL routing |
+| `backend/friends/admin.py` | ❌ TODO | Register models in admin |
+| `frontend/src/services/friendsService.js` | ❌ TODO | API calls |
+| `frontend/src/contexts/FriendsContext.jsx` | ❌ TODO | State management |
+| `frontend/src/components/pages/Friends/Friends.jsx` | 🔵 UI ✅ / 🟣 Logic ❌ | Wire up handlers |
 
-Open `backend/friends/models.py`:
+---
+
+## Week 1: Backend Models
+
+### Task 1: Create Models in `backend/friends/models.py`
 
 ```python
 from django.db import models
 from django.contrib.auth.models import User
 
 class Friendship(models.Model):
-    """User friendship connections"""
+    """Accepted friendship between two users"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships')
-    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends_of')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -25,399 +38,445 @@ class Friendship(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"{self.user.username} → {self.friend.username}"
+        return f"{self.user.username} ↔ {self.friend.username}"
+
+
+class FriendRequest(models.Model):
+    """Pending friend request"""
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('declined', 'Declined'),
+    ]
+    
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['from_user', 'to_user']
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.from_user.username} → {self.to_user.username} ({self.status})"
 ```
 
-### Task 2: Register in Admin
+### Task 2: Run Migrations
 
-Open `backend/friends/admin.py`:
+```bash
+cd backend
+python manage.py makemigrations friends
+python manage.py migrate
+```
+
+### Task 3: Register in Admin - `backend/friends/admin.py`
 
 ```python
 from django.contrib import admin
-from .models import Friendship
+from .models import Friendship, FriendRequest
 
 @admin.register(Friendship)
 class FriendshipAdmin(admin.ModelAdmin):
     list_display = ['user', 'friend', 'created_at']
     search_fields = ['user__username', 'friend__username']
+
+@admin.register(FriendRequest)
+class FriendRequestAdmin(admin.ModelAdmin):
+    list_display = ['from_user', 'to_user', 'status', 'created_at']
+    list_filter = ['status']
+    search_fields = ['from_user__username', 'to_user__username']
 ```
-
-### Task 3: Run Migrations
-
-```bash
-cd backend
-python3 manage.py makemigrations friends
-python3 manage.py migrate
-```
-
-### Task 4: Test in Admin
-
-Go to http://127.0.0.1:8000/admin, create a test friendship.
-
-**Commits:**
-
-1. "Create Friendship model"
-2. "Register in admin"
-3. "Run migrations"
 
 ---
 
-## Week 2: Basic Friends API
+## Week 2: Backend API
 
-### Task 1: Create Serializers
-
-Open `backend/friends/serializers.py`:
+### Task 1: Create Serializers - `backend/friends/serializers.py`
 
 ```python
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Friendship
+from .models import Friendship, FriendRequest
 
 class UserSerializer(serializers.ModelSerializer):
-    avatar = serializers.SerializerMethodField()
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'avatar']
-
-    def get_avatar(self, obj):
-        return obj.username[:2].upper()
+        fields = ['id', 'username', 'email']
 
 class FriendshipSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
     friend = UserSerializer(read_only=True)
 
     class Meta:
         model = Friendship
-        fields = ['id', 'user', 'friend', 'created_at']
+        fields = ['id', 'friend', 'created_at']
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+    from_user = UserSerializer(read_only=True)
+    to_user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = FriendRequest
+        fields = ['id', 'from_user', 'to_user', 'status', 'created_at']
 ```
 
-### Task 2: Create Basic View
-
-Open `backend/friends/views.py`:
+### Task 2: Create Views - `backend/friends/views.py`
 
 ```python
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Friendship
-from .serializers import FriendshipSerializer
+from rest_framework import status
+from django.contrib.auth.models import User
+from .models import Friendship, FriendRequest
+from .serializers import FriendshipSerializer, FriendRequestSerializer, UserSerializer
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def friend_list(request):
-    """Get user's friends"""
+def get_friends(request):
+    """Get all friends of current user"""
     friendships = Friendship.objects.filter(user=request.user)
     serializer = FriendshipSerializer(friendships, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_pending_requests(request):
+    """Get pending friend requests for current user"""
+    requests = FriendRequest.objects.filter(to_user=request.user, status='pending')
+    serializer = FriendRequestSerializer(requests, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_request(request):
+    """Send a friend request"""
+    to_user_id = request.data.get('to_user_id')
+    try:
+        to_user = User.objects.get(id=to_user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    if to_user == request.user:
+        return Response({'error': 'Cannot friend yourself'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Check if already friends or request exists
+    if FriendRequest.objects.filter(from_user=request.user, to_user=to_user).exists():
+        return Response({'error': 'Request already sent'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    friend_request = FriendRequest.objects.create(from_user=request.user, to_user=to_user)
+    serializer = FriendRequestSerializer(friend_request)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def accept_request(request, request_id):
+    """Accept a friend request"""
+    try:
+        friend_request = FriendRequest.objects.get(id=request_id, to_user=request.user, status='pending')
+    except FriendRequest.DoesNotExist:
+        return Response({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Create friendship both ways
+    Friendship.objects.create(user=request.user, friend=friend_request.from_user)
+    Friendship.objects.create(user=friend_request.from_user, friend=request.user)
+    
+    # Update request status
+    friend_request.status = 'accepted'
+    friend_request.save()
+    
+    return Response({'message': 'Friend request accepted'})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def decline_request(request, request_id):
+    """Decline a friend request"""
+    try:
+        friend_request = FriendRequest.objects.get(id=request_id, to_user=request.user, status='pending')
+    except FriendRequest.DoesNotExist:
+        return Response({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    friend_request.status = 'declined'
+    friend_request.save()
+    
+    return Response({'message': 'Friend request declined'})
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_friend(request, friend_id):
+    """Remove a friend"""
+    try:
+        friend = User.objects.get(id=friend_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Delete both directions
+    Friendship.objects.filter(user=request.user, friend=friend).delete()
+    Friendship.objects.filter(user=friend, friend=request.user).delete()
+    
+    return Response({'message': 'Friend removed'})
 ```
 
-### Task 3: Create URLs
-
-Open `backend/friends/urls.py`:
+### Task 3: Create URLs - `backend/friends/urls.py`
 
 ```python
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.friend_list, name='friend_list'),
+    path('', views.get_friends, name='friends-list'),
+    path('requests/', views.get_pending_requests, name='friend-requests'),
+    path('requests/send/', views.send_request, name='send-request'),
+    path('requests/<int:request_id>/accept/', views.accept_request, name='accept-request'),
+    path('requests/<int:request_id>/decline/', views.decline_request, name='decline-request'),
+    path('<int:friend_id>/remove/', views.remove_friend, name='remove-friend'),
 ]
 ```
 
-### Task 4: Test
-
-```bash
-curl http://127.0.0.1:8000/api/friends/ \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-**Commits:**
-
-1. "Create Friendship serializers"
-2. "Add friend list endpoint"
-3. "Create friends URLs"
-
 ---
 
-## Week 3: Friends Page Frontend
+## Week 3: Frontend Service & Context
 
-### Task 1: Create friendsService.js
-
-Create `frontend/src/services/friendsService.js`:
+### Task 1: Implement `frontend/src/services/friendsService.js`
 
 ```javascript
-import { apiClient } from "./apiClient";
+const API_URL = 'http://localhost:8000/api/friends'\;
+
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : '',
+  };
+};
 
 export const friendsService = {
   getFriends: async () => {
-    return await apiClient.get("/friends/");
+    const response = await fetch(`${API_URL}/`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch friends');
+    return response.json();
   },
 
-  // Placeholders for Week 4
-  sendFriendRequest: async (friendId) => {
-    return await apiClient.post("/friends/send/", { friend_id: friendId });
+  getPendingRequests: async () => {
+    const response = await fetch(`${API_URL}/requests/`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch requests');
+    return response.json();
   },
 
-  removeFriend: async (friendshipId) => {
-    return await apiClient.delete(`/friends/remove/${friendshipId}/`);
+  sendRequest: async (toUserId) => {
+    const response = await fetch(`${API_URL}/requests/send/`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ to_user_id: toUserId }),
+    });
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error || 'Failed to send request');
+    }
+    return response.json();
+  },
+
+  acceptRequest: async (requestId) => {
+    const response = await fetch(`${API_URL}/requests/${requestId}/accept/`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to accept request');
+    return response.json();
+  },
+
+  declineRequest: async (requestId) => {
+    const response = await fetch(`${API_URL}/requests/${requestId}/decline/`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to decline request');
+    return response.json();
+  },
+
+  removeFriend: async (friendId) => {
+    const response = await fetch(`${API_URL}/${friendId}/remove/`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to remove friend');
+    return response.json();
   },
 };
+
+export default friendsService;
 ```
 
-### Task 2: Update Friends.jsx
-
-Update `frontend/src/components/pages/Friends/Friends.jsx`:
+### Task 2: Implement `frontend/src/contexts/FriendsContext.jsx`
 
 ```javascript
-import { useState, useEffect } from "react";
-import { friendsService } from "../../../services/friendsService";
-import "./Friends.css";
+import { createContext, useContext, useState, useCallback } from 'react';
+import friendsService from '../services/friendsService';
 
-function Friends() {
+const FriendsContext = createContext(null);
+
+export function FriendsProvider({ children }) {
   const [friends, setFriends] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    loadFriends();
+  const loadFriends = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [friendsData, requestsData] = await Promise.all([
+        friendsService.getFriends(),
+        friendsService.getPendingRequests(),
+      ]);
+      setFriends(friendsData);
+      setPendingRequests(requestsData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const loadFriends = async () => {
-    setIsLoading(true);
+  const acceptRequest = async (requestId) => {
     try {
-      const data = await friendsService.getFriends();
-      setFriends(data);
+      await friendsService.acceptRequest(requestId);
+      await loadFriends(); // Refresh data
+      return { success: true };
     } catch (err) {
-      setError("Failed to load friends");
-    } finally {
-      setIsLoading(false);
+      return { success: false, error: err.message };
     }
   };
 
-  if (isLoading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">{error}</div>;
+  const declineRequest = async (requestId) => {
+    try {
+      await friendsService.declineRequest(requestId);
+      setPendingRequests(prev => prev.filter(r => r.id !== requestId));
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  const removeFriend = async (friendId) => {
+    try {
+      await friendsService.removeFriend(friendId);
+      setFriends(prev => prev.filter(f => f.friend.id !== friendId));
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
 
   return (
-    <div className="friends-container">
-      <h1>Friends</h1>
-
-      {friends.length === 0 ? (
-        <p>No friends yet</p>
-      ) : (
-        <div className="friends-grid">
-          {friends.map((f) => (
-            <div key={f.id} className="friend-card">
-              <div className="friend-avatar">{f.friend.avatar}</div>
-              <h3>{f.friend.username}</h3>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+    <FriendsContext.Provider value={{
+      friends,
+      pendingRequests,
+      loading,
+      error,
+      loadFriends,
+      acceptRequest,
+      declineRequest,
+      removeFriend,
+    }}>
+      {children}
+    </FriendsContext.Provider>
   );
 }
 
-export default Friends;
-```
-
-### Task 3: Create About.jsx
-
-Create `frontend/src/components/pages/About/About.jsx`:
-
-```javascript
-import "./About.css";
-
-function About() {
-  return (
-    <div className="about-container">
-      <h1>About HUDDL</h1>
-      <p>
-        HUDDL is a social platform for sharing thoughts, media, and milestones
-        with friends.
-      </p>
-      <h2>Features</h2>
-      <ul>
-        <li>Share posts with your network</li>
-        <li>Connect with friends</li>
-        <li>Track milestones</li>
-      </ul>
-    </div>
-  );
+export function useFriends() {
+  const context = useContext(FriendsContext);
+  if (!context) {
+    throw new Error('useFriends must be used within FriendsProvider');
+  }
+  return context;
 }
 
-export default About;
+export default FriendsContext;
 ```
-
-**Commits:**
-
-1. "Create friendsService"
-2. "Connect Friends page to API"
-3. "Create About page"
 
 ---
 
-## Week 4: Friend Requests System
+## Week 4: Wire Up Friends Page
 
-### Task 1: Update Friendship Model with Status
+### Task 1: Open `frontend/src/components/pages/Friends/Friends.jsx`
 
-Update `backend/friends/models.py`:
+Look for the TODO comments and make these changes:
 
-```python
-class Friendship(models.Model):
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('accepted', 'Accepted'),
-        ('rejected', 'Rejected'),
-    ]
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships')
-    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ['user', 'friend']
+1. **Uncomment the import:**
+```javascript
+import { useFriends } from '../../../contexts/FriendsContext';
 ```
 
-### Task 2: Run Migrations
-
-```bash
-python3 manage.py makemigrations
-python3 manage.py migrate
+2. **Replace the placeholder state with context:**
+```javascript
+const { 
+  friends, 
+  pendingRequests, 
+  loadFriends, 
+  acceptRequest, 
+  declineRequest,
+  removeFriend,
+  loading,
+  error 
+} = useFriends();
 ```
 
-### Task 3: Add Request Endpoints
+3. **Remove the mock useState calls and useEffect mock data**
 
-Add to `backend/friends/views.py`:
-
-```python
-from rest_framework import status
-from django.contrib.auth.models import User
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def friend_requests(request):
-    """Get pending requests received"""
-    requests = Friendship.objects.filter(friend=request.user, status='pending')
-    return Response(FriendshipSerializer(requests, many=True).data)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def send_friend_request(request):
-    """Send friend request"""
-    friend_id = request.data.get('friend_id')
-
-    try:
-        friend = User.objects.get(id=friend_id)
-    except User.DoesNotExist:
-        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    if friend == request.user:
-        return Response({'error': 'Cannot add yourself'}, status=status.HTTP_400_BAD_REQUEST)
-
-    friendship, created = Friendship.objects.get_or_create(
-        user=request.user,
-        friend=friend,
-        defaults={'status': 'pending'}
-    )
-
-    if not created:
-        return Response({'error': 'Request already exists'}, status=status.HTTP_400_BAD_REQUEST)
-
-    return Response(FriendshipSerializer(friendship).data, status=status.HTTP_201_CREATED)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def respond_friend_request(request, pk):
-    """Accept or reject request"""
-    action = request.data.get('action')  # 'accept' or 'reject'
-
-    try:
-        friendship = Friendship.objects.get(pk=pk, friend=request.user, status='pending')
-    except Friendship.DoesNotExist:
-        return Response({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    if action == 'accept':
-        friendship.status = 'accepted'
-        friendship.save()
-        # Create reverse friendship
-        Friendship.objects.create(user=friendship.friend, friend=friendship.user, status='accepted')
-    elif action == 'reject':
-        friendship.status = 'rejected'
-        friendship.save()
-
-    return Response(FriendshipSerializer(friendship).data)
-
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def remove_friend(request, pk):
-    """Remove friend"""
-    try:
-        friendship = Friendship.objects.get(pk=pk, user=request.user)
-        # Delete both directions
-        Friendship.objects.filter(user=friendship.friend, friend=request.user).delete()
-        friendship.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    except Friendship.DoesNotExist:
-        return Response({'error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+4. **Update the useEffect to call loadFriends:**
+```javascript
+useEffect(() => {
+  loadFriends();
+}, [loadFriends]);
 ```
 
-### Task 4: Update URLs
+5. **Update the handlers:**
+```javascript
+const handleAcceptRequest = async (requestId) => {
+  const result = await acceptRequest(requestId);
+  if (!result.success) {
+    alert(result.error);
+  }
+};
 
-```python
-urlpatterns = [
-    path('', views.friend_list, name='friend_list'),
-    path('requests/', views.friend_requests, name='friend_requests'),
-    path('send/', views.send_friend_request, name='send_friend_request'),
-    path('respond/<int:pk>/', views.respond_friend_request, name='respond_request'),
-    path('remove/<int:pk>/', views.remove_friend, name='remove_friend'),
-]
+const handleDeclineRequest = async (requestId) => {
+  const result = await declineRequest(requestId);
+  if (!result.success) {
+    alert(result.error);
+  }
+};
+
+const handleRemoveFriend = async (friendId) => {
+  const result = await removeFriend(friendId);
+  if (!result.success) {
+    alert(result.error);
+  }
+};
 ```
-
-**Commits:**
-
-1. "Add status to Friendship model"
-2. "Create friend request endpoints"
-3. "Update friendsService"
 
 ---
 
-## Week 5: Friend Requests UI
+## Testing Checklist
 
-### Task 1: Update friendsService.js
+- [ ] Models created and migrations run
+- [ ] Can see models in Django admin
+- [ ] API endpoints return correct data
+- [ ] Friends list loads on page
+- [ ] Can accept friend request
+- [ ] Can decline friend request
+- [ ] Can remove friend
 
-Add the new methods:
+---
 
-```javascript
-getFriendRequests: async () => {
-  return await apiClient.get('/friends/requests/');
-},
+## Commits to Make
 
-acceptRequest: async (requestId) => {
-  return await apiClient.post(`/friends/respond/${requestId}/`, { action: 'accept' });
-},
-
-rejectRequest: async (requestId) => {
-  return await apiClient.post(`/friends/respond/${requestId}/`, { action: 'reject' });
-}
-```
-
-### Task 2: Add Tabs to Friends Page
-
-- Friends tab (accepted)
-- Requests tab (pending)
-
-### Task 3: Test Full Flow
-
-1. User A sends request to User B
-2. User B sees request in "Requests" tab
-3. User B accepts
-4. Both see each other in "Friends" tab
-
-**Commits:**
-
-1. "Add friend request UI"
-2. "Test friend request flow"
-3. "Polish and bug fixes"
+1. "Create Friendship and FriendRequest models"
+2. "Add friends API endpoints"  
+3. "Implement friendsService.js"
+4. "Implement FriendsContext"
+5. "Wire up Friends page to context"
