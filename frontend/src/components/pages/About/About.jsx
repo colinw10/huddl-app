@@ -1,20 +1,132 @@
-/**
- * ABOUT PAGE
- * 
- * Purpose: Information about the HUDDL app
- * Owner: Anyone (Low priority)
- * Status: PLACEHOLDER - needs implementation
- * 
- * TODO:
- * - Add app description
- * - Add team member credits
- * - Add contact information
- * - Add version number
- * - Keep it simple
- * - NO STYLING for now (we can do this if we have time)
- */
+import { useNavigate } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import './About.scss';
 
-export default function About() {
-  // TODO: Add static content about the app
-  return <div>About Placeholder</div>;
+// 🟣 CRYSTAL - Friends System Lead
+// About.jsx - About page
+
+function About() {
+  const navigate = useNavigate();
+  
+  // Track which letters have been hovered (for "hover all" replay)
+  const hoveredRef = useRef(new Set());
+  const isAnimatingRef = useRef(false);
+  const [replayGlitch, setReplayGlitch] = useState(false);
+  
+  // Random-ish hover delays for each letter (50-150ms range)
+  const hoverDelays = [0.08, 0.12, 0.05, 0.14, 0.09];
+  
+  // Unique color variant for each letter
+  const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
+  
+  // Track letter hovers - when all 5 are hovered, trigger replay
+  const handleLetterHover = (index) => {
+    if (isAnimatingRef.current) return;
+    
+    hoveredRef.current.add(index);
+    
+    if (hoveredRef.current.size === 5) {
+      isAnimatingRef.current = true;
+      hoveredRef.current = new Set();
+      
+      setReplayGlitch('reset');
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setReplayGlitch('replay');
+          
+          setTimeout(() => {
+            setReplayGlitch(false);
+            isAnimatingRef.current = false;
+          }, 4000);
+        });
+      });
+    }
+  };
+
+  return (
+    <div className="about-page">
+      <div className="about-hero">
+        <span className="hero-label">About</span>
+        <h1 className={`hero-title hero-title--interactive ${replayGlitch === 'reset' ? 'hero-title--reset' : ''} ${replayGlitch === 'replay' ? 'hero-title--replay' : ''}`}>
+          {'HuddL'.split('').map((letter, index) => {
+            const isFlipped = index === 0 || index === 4; // H and L
+            return (
+              <span 
+                key={index} 
+                className={`title-letter ${isFlipped ? 'title-letter--flip' : ''} title-letter--${colorVariants[index]}`}
+                style={{ '--hover-delay': `${hoverDelays[index]}s` }}
+                data-letter={letter}
+                onMouseEnter={() => handleLetterHover(index)}
+              >
+                {letter}
+              </span>
+            );
+          })}
+        </h1>
+        <p className="hero-sub">Not another social network.<br/>A digital neighborhood.</p>
+      </div>
+
+      <div className="about-grid">
+        <div className="grid-item manifesto">
+          <span className="item-number">•</span>
+          <h2>We're tired of the same shit.</h2>
+          <p>
+            Algorithmic feeds. Dopamine-harvesting scroll holes. Platforms that treat your 
+            attention like a commodity to be auctioned. Your friends don't even see what you post anymore.
+          </p>
+        </div>
+
+        <div className="grid-item design">
+          <span className="item-number">••</span>
+          <h2>The aesthetic is the message.</h2>
+          <p>
+            If we had to name it—neo-punk. Technology that serves humans, not the other way around. The glows and gradients aren't a manifesto. They're just what felt right. That it doesn't look like every other app is a bonus.
+          </p>
+        </div>
+
+        <div className="grid-item pull-quote">
+          <blockquote>
+            We'd rather make something people actually love than something nobody hates.
+          </blockquote>
+        </div>
+
+        <div className="grid-item timing">
+          <span className="item-number">•••</span>
+          <h2>The internet used to work.</h2>
+          <p>
+            Your feed showed what your friends posted. In order. No algorithm deciding what 
+            you "need" to see. Revolutionary, right? We're just bringing it back.
+          </p>
+        </div>
+
+        <div className="grid-item honest">
+          <span className="item-number">••••</span>
+          <h2>Look</h2>
+          <p>
+            This won't replace Instagram. But not everything needs a billion users 
+            to be substantive.  But the best communities aren't the biggest — they're the ones where people actually show up.
+          </p>
+          <p>
+            The design is loud. The cyber aesthetic isn't for everyone. Good. Neither are we.
+          </p>
+        </div>
+
+        <div className="grid-item team">
+          <span className="item-number">―</span>
+          <h2>Who we are.</h2>
+          <p>
+            A small crew who got tired of complaining and decided to build. No VC money 
+            looking for 100x returns. Just people who think the internet could be better.
+          </p>
+        </div>
+
+        <div className="grid-item cta">
+          <span className="cta-text">Your feed should be yours.</span>
+        </div>
+      </div>
+    </div>
+  );
 }
+
+export default About;

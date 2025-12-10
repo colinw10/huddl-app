@@ -1,29 +1,32 @@
-# =============================================================================
-# FRIENDS APP - URLS
-# =============================================================================
-#
-# File: backend/friends/urls.py
-# Assigned to: CRYSTAL
-# Responsibility: Route /api/friends/ endpoints
-#
-# TODO:
-# - [ ] Import DefaultRouter from rest_framework
-# - [ ] Import FriendViewSet from views
-# - [ ] Register FriendViewSet with router
-# - [ ] Export urlpatterns
-#
-# Status: PLACEHOLDER
-# =============================================================================
+"""
+===============================================================================
+FRIENDS URLS
+===============================================================================
 
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-# TODO: Crystal - Import your viewset
-# from .views import FriendViewSet
+File: backend/friends/urls.py
+Assigned to: CRYSTAL 🟣
+Responsibility: URL routing for friends API
 
-router = DefaultRouter()
-# TODO: Crystal - Register your viewset
-# router.register(r'', FriendViewSet, basename='friend')
+ROUTES TO CREATE:
+- GET    /friends/                    → friend_list view
+- GET    /friends/pending/            → pending_requests view
+- POST   /friends/request/            → send_request view
+- POST   /friends/accept/<id>/        → accept_request view
+- POST   /friends/decline/<id>/       → decline_request view
+- DELETE /friends/remove/<id>/        → remove_friend view
+
+===============================================================================
+"""
+
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', include(router.urls)),
+    # TODO: Add URL patterns
+    # path('', views.friend_list, name='friend-list'),
+    # path('pending/', views.pending_requests, name='pending-requests'),
+    # path('request/', views.send_request, name='send-request'),
+    # path('accept/<int:request_id>/', views.accept_request, name='accept-request'),
+    # path('decline/<int:request_id>/', views.decline_request, name='decline-request'),
+    # path('remove/<int:user_id>/', views.remove_friend, name='remove-friend'),
 ]

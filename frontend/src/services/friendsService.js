@@ -4,70 +4,61 @@
  * =============================================================================
  *
  * File: frontend/src/services/friendsService.js
- * Assigned to: CRYSTAL
- * Responsibility: API calls for friends/connections
+ * Assigned to: CRYSTAL 🟣
+ * Responsibility: API calls for friends/requests operations
+ *
+ * WHAT THIS FILE DOES:
+ * - Provides functions to interact with the /friends/ API endpoints
+ * - Used by FriendsContext to manage friend list and requests
+ *
+ * ENDPOINTS (from backend):
+ * - GET    /friends/                    → get friend list
+ * - GET    /friends/pending/            → get pending friend requests
+ * - POST   /friends/request/            → send friend request (body: { to_user_id })
+ * - POST   /friends/accept/:requestId/  → accept friend request
+ * - POST   /friends/decline/:requestId/ → decline friend request
+ * - DELETE /friends/remove/:userId/     → remove friend
  *
  * TODO:
- * - [ ] Import apiClient
- * - [ ] Implement getAll() - GET /api/friends/
- * - [ ] Implement getRequests() - GET /api/friends/requests/
- * - [ ] Implement sendRequest(userId) - POST /api/friends/request/
- * - [ ] Implement acceptRequest(requestId) - POST /api/friends/accept/:id/
- * - [ ] Implement declineRequest(requestId) - POST /api/friends/decline/:id/
- * - [ ] Implement removeFriend(friendshipId) - DELETE /api/friends/:id/
+ * 1. Import apiClient from './apiClient'
+ * 2. Implement each function using apiClient
+ * 3. Return response.data from each function
  *
- * Status: PLACEHOLDER
  * =============================================================================
  */
 
-// TODO: Crystal - Import the API client
-// import apiClient from "./apiClient";
+// TODO: Import apiClient
 
 const friendsService = {
-  // TODO: Crystal - GET /api/friends/ => list user's friends
+  // TODO: Get all friends for current user
   getAll: async () => {
-    // const response = await apiClient.get('/friends/');
-    // return response.data;
-    console.log("Crystal: Implement getAll()");
-    return []; // Placeholder return
+    // GET /friends/
   },
 
-  // TODO: Crystal - GET /api/friends/requests/ => pending friend requests
-  getRequests: async () => {
-    // const response = await apiClient.get('/friends/requests/');
-    // return response.data;
-    console.log("Crystal: Implement getRequests()");
-    return []; // Placeholder return
+  // TODO: Get pending friend requests
+  getPendingRequests: async () => {
+    // GET /friends/pending/
   },
 
-  // TODO: Crystal - POST /api/friends/request/ → send friend request
+  // TODO: Send friend request to another user
+  // Need to send: { to_user_id: userId }
   sendRequest: async (userId) => {
-    // const response = await apiClient.post('/friends/request/', { user_id: userId });
-    // return response.data;
-    console.log("Crystal: Implement sendRequest()", userId);
-    return null; // Placeholder return
+    // POST /friends/request/
   },
 
-  // TODO: Crystal - POST /api/friends/accept/:id/ → accept request
+  // TODO: Accept a friend request
   acceptRequest: async (requestId) => {
-    // const response = await apiClient.post(`/friends/accept/${requestId}/`);
-    // return response.data;
-    console.log("Crystal: Implement acceptRequest()", requestId);
-    return null; // Placeholder return
+    // POST /friends/accept/${requestId}/
   },
 
-  // TODO: Crystal - POST /api/friends/decline/:id/ → decline request
+  // TODO: Decline a friend request
   declineRequest: async (requestId) => {
-    // const response = await apiClient.post(`/friends/decline/${requestId}/`);
-    // return response.data;
-    console.log("Crystal: Implement declineRequest()", requestId);
-    return null; // Placeholder return
+    // POST /friends/decline/${requestId}/
   },
 
-  // TODO: Crystal - DELETE /api/friends/:id/ → remove friend
-  removeFriend: async (friendshipId) => {
-    // await apiClient.delete(`/friends/${friendshipId}/`);
-    console.log("Crystal: Implement removeFriend()", friendshipId);
+  // TODO: Remove a friend
+  remove: async (userId) => {
+    // DELETE /friends/remove/${userId}/
   },
 };
 

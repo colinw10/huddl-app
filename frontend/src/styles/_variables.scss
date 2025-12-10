@@ -15,13 +15,18 @@
   // ============================================
   
   // Backgrounds
-  --bg-base: #0a0a0f;
-  --bg-card: rgba(15, 15, 25, 0.9);
+  --bg-base: #010102;
+  --bg-card: rgba(15, 15, 25, 0);
   --bg-card-solid: #0f0f19;
   --bg-card-hover: rgba(20, 20, 35, 0.95);
   --bg-glass: rgba(255, 255, 255, 0.04);
   --bg-glass-hover: rgba(255, 255, 255, 0.08);
   --bg-input: rgba(255, 255, 255, 0.05);
+  
+  // ============================================
+  // PAGE BACKGROUND VEIL OVERLAY
+  // Controls the semi-transparent overlay behind page content
+  // ============================================
   --bg-overlay: rgba(0, 0, 0, 0.6);
   
   // Text
@@ -402,7 +407,14 @@ $breakpoint-wide: 1280px;
   --bg-glass: rgba(255, 255, 255, 0.8);
   --bg-glass-hover: rgba(255, 255, 255, 0.9);
   --bg-input: rgba(255, 255, 255, 0.95);
-  --bg-overlay: rgba(0, 0, 0, 0.4);
+  
+  // ═══════════════════════════════════════════════════════════════
+  // 🔆 LIGHT MODE VEIL OVERLAY
+  // Controls the white overlay behind content (over the blobs)
+  // Higher opacity = more white/less visible blobs
+  // Lower opacity = more grey/more visible blobs
+  // ═══════════════════════════════════════════════════════════════
+  --bg-overlay: rgba(255, 255, 255, 0.482);
   
   // Surfaces (for cards using --surface)
   --surface: rgba(255, 255, 255, 0.95);

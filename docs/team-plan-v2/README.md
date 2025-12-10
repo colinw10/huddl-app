@@ -1,5 +1,7 @@
 # HUDDL Team Plan v2
 
+> ⚡ **New here?** Start with the **[QUICKSTART Guide](./QUICKSTART.md)** to get running in 2 minutes!
+
 ## Project Overview
 
 **Due Date:** January 24, 2026  
@@ -18,6 +20,7 @@
 
 ## Quick Links
 
+- ⚡ **[QUICKSTART Guide](./QUICKSTART.md)** - Get running fast!
 - [Project Tree with Responsibilities](./PROJECT_TREE.md)
 - [Individual Task Folders](./members/)
   - [Colin's Tasks](./members/colin/)
@@ -28,33 +31,28 @@
 
 ## Current Project Status
 
-### ✅ Completed (Pablo)
+### ✅ Completed
 
 - Django project structure with all apps registered
+- User/Profile models with migrations
+- Post model with migrations
 - JWT authentication setup (simplejwt installed)
+- Auth endpoints (signup, login, token refresh, current user)
 - Full frontend UI structure (Landing, Login, Signup, Home, Profile, Friends)
-- Design system (SCSS tokens, utilities, theme) ✅
-- All page styles (Home.scss, Profile.scss, Login.scss, etc.) ✅
-- ThemeContext (dark/light mode) ✅
+- Design system (CSS tokens, utilities, theme)
+- Timeline River feed architecture
 
-### 🎯 Team Tasks
+### 🔧 In Progress
 
-Each file has starter code with TODO comments. Follow the comments to implement!
+- Frontend-to-backend connection (CORS needed)
+- Frontend service layer (apiClient, postsService, etc.)
 
-| Member      | Backend Files                                                | Frontend Files                                                          |
-| ----------- | ------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| **Colin**   | `posts/models.py`, `views.py`, `serializers.py`, `urls.py`   | `postsService.js`, `PostsContext.jsx`, `Home.jsx`                       |
-| **Natalia** | `users/views.py`, `serializers.py`, `urls.py`                | `AuthContext.jsx`, `Login.jsx`, `Signup.jsx`                            |
-| **Crystal** | `friends/models.py`, `views.py`, `serializers.py`, `urls.py` | `friendsService.js`, `FriendsContext.jsx`, `Profile.jsx`, `Friends.jsx` |
-| **Tito**    | CORS config in `settings.py`                                 | `apiClient.js`, `MessageContext.jsx`                                    |
+### ❌ Not Started
 
-### 📝 How To Complete Your Tasks
-
-1. Open your assigned files (they have `Status: PLACEHOLDER`)
-2. Read the TODO comments - they tell you exactly what to do
-3. Uncomment the code and fill in the implementation
-4. Test that it works
-5. The SCSS styles are already done - just use the CSS classes!
+- Posts API endpoints (views, serializers, urls)
+- Friends model and API
+- Error handling in frontend
+- Auth flow wiring (forms → API calls)
 
 ## Development Workflow
 

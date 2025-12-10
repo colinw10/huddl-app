@@ -2,146 +2,131 @@
  * =============================================================================
  * FRIENDS CONTEXT
  * =============================================================================
- * 
+ *
  * File: frontend/src/contexts/FriendsContext.jsx
- * Assigned to: CRYSTAL
- * Responsibility: Global friends state management
- * 
+ * Assigned to: CRYSTAL 🟣
+ * Responsibility: Friends & friend requests state management
+ *
+ * WHAT THIS FILE DOES:
+ * - Stores friends list and pending requests in React state
+ * - Provides functions to send/accept/decline requests, remove friends
+ * - Makes friends state available via useFriends() hook
+ *
  * TODO:
- * - [ ] Import friendsService
- * - [ ] Implement fetchFriends() - load friends list
- * - [ ] Implement fetchRequests() - load pending requests
- * - [ ] Implement sendRequest(userId) - send friend request
- * - [ ] Implement acceptRequest(requestId) - accept request
- * - [ ] Implement declineRequest(requestId) - decline request
- * - [ ] Implement removeFriend(friendshipId) - remove friend
- * 
- * Status: PLACEHOLDER
+ * 1. Import friendsService
+ * 2. Implement fetchFriends() - get friends AND pending requests
+ * 3. Implement sendRequest(userId) - send friend request
+ * 4. Implement acceptRequest(requestId) - accept & add to friends
+ * 5. Implement declineRequest(requestId) - decline & remove from pending
+ * 6. Implement removeFriend(userId) - unfriend
+ *
  * =============================================================================
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-// TODO: Crystal - Import your friends service
-// import friendsService from '../services/friendsService';
+// TODO: import friendsService from '../services/friendsService';
 import { useAuth } from './AuthContext';
 
-// Create the context
 const FriendsContext = createContext(null);
 
 export const FriendsProvider = ({ children }) => {
-  const { user } = useAuth();
-  
-  // State for friends and requests
+  const { user, isLoading: authLoading } = useAuth();
+
+  // STATE - provided for you
   const [friends, setFriends] = useState([]);
-  const [requests, setRequests] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch friends when user logs in
+  // Fetch when user logs in
   useEffect(() => {
+    if (authLoading) return;
     if (user) {
       fetchFriends();
-      fetchRequests();
     } else {
       setFriends([]);
-      setRequests([]);
+      setPendingRequests([]);
     }
-  }, [user]);
+  }, [user, authLoading]);
 
-  // TODO: Crystal - Implement fetchFriends
+  // TODO: Implement fetchFriends
   const fetchFriends = async () => {
     setIsLoading(true);
+    setError(null);
     try {
-      // const data = await friendsService.getAll();
-      // setFriends(data);
-      console.log('Crystal: Implement fetchFriends()');
+      // 1. Call friendsService.getAll() - set to friends state
+      // 2. Call friendsService.getPendingRequests() - set to pendingRequests state
+      // Hint: You can use Promise.all() to do both at once
     } catch (err) {
-      setError('Failed to fetch friends');
+      setError(err.response?.data?.detail || 'Failed to fetch friends');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // TODO: Crystal - Implement fetchRequests
-  const fetchRequests = async () => {
-    try {
-      // const data = await friendsService.getRequests();
-      // setRequests(data);
-      console.log('Crystal: Implement fetchRequests()');
-    } catch (err) {
-      console.error('Failed to fetch requests:', err);
-    }
-  };
-
-  // TODO: Crystal - Implement sendRequest
+  // TODO: Implement sendRequest
   const sendRequest = async (userId) => {
     try {
-      // await friendsService.sendRequest(userId);
-      console.log('Crystal: Implement sendRequest()', userId);
+      // Call friendsService.sendRequest(userId)
       return { success: true };
     } catch (err) {
-      return { success: false, error: 'Failed to send request' };
+      return { success: false, error: err.response?.data?.detail || 'Failed to send' };
     }
   };
 
-  // TODO: Crystal - Implement acceptRequest
+  // TODO: Implement acceptRequest
   const acceptRequest = async (requestId) => {
     try {
-      // const newFriend = await friendsService.acceptRequest(requestId);
-      // setRequests(prev => prev.filter(r => r.id !== requestId));
-      // setFriends(prev => [...prev, newFriend]);
-      console.log('Crystal: Implement acceptRequest()', requestId);
+      // 1. Call friendsService.acceptRequest(requestId)
+      // 2. Add the new friend to friends state
+      // 3. Remove from pendingRequests state
       return { success: true };
     } catch (err) {
-      return { success: false, error: 'Failed to accept request' };
+      return { success: false, error: err.response?.data?.detail || 'Failed to accept' };
     }
   };
 
-  // TODO: Crystal - Implement declineRequest
+  // TODO: Implement declineRequest
   const declineRequest = async (requestId) => {
     try {
-      // await friendsService.declineRequest(requestId);
-      // setRequests(prev => prev.filter(r => r.id !== requestId));
-      console.log('Crystal: Implement declineRequest()', requestId);
+      // 1. Call friendsService.declineRequest(requestId)
+      // 2. Remove from pendingRequests state
       return { success: true };
     } catch (err) {
-      return { success: false, error: 'Failed to decline request' };
+      return { success: false, error: err.response?.data?.detail || 'Failed to decline' };
     }
   };
 
-  // TODO: Crystal - Implement removeFriend
-  const removeFriend = async (friendshipId) => {
+  // TODO: Implement removeFriend
+  const removeFriend = async (userId) => {
     try {
-      // await friendsService.removeFriend(friendshipId);
-      // setFriends(prev => prev.filter(f => f.id !== friendshipId));
-      console.log('Crystal: Implement removeFriend()', friendshipId);
+      // 1. Call friendsService.remove(userId)
+      // 2. Remove from friends state
       return { success: true };
     } catch (err) {
-      return { success: false, error: 'Failed to remove friend' };
+      return { success: false, error: err.response?.data?.detail || 'Failed to remove' };
     }
-  };
-
-  const value = {
-    friends,
-    requests,
-    isLoading,
-    error,
-    fetchFriends,
-    fetchRequests,
-    sendRequest,
-    acceptRequest,
-    declineRequest,
-    removeFriend,
   };
 
   return (
-    <FriendsContext.Provider value={value}>
+    <FriendsContext.Provider
+      value={{
+        friends,
+        pendingRequests,
+        isLoading,
+        error,
+        fetchFriends,
+        sendRequest,
+        acceptRequest,
+        declineRequest,
+        removeFriend,
+      }}
+    >
       {children}
     </FriendsContext.Provider>
   );
 };
 
-// Hook for easy access
 export const useFriends = () => {
   const context = useContext(FriendsContext);
   if (!context) {

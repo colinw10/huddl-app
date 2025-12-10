@@ -8,25 +8,20 @@ You're in charge of the **Posts system** - the heart of the app where users crea
 
 ### Backend (`backend/posts/`)
 
-All files have starter code with TODO comments. Follow the comments!
+| File             | Status   | Description                            |
+| ---------------- | -------- | -------------------------------------- |
+| `models.py`      | ✅ Done  | Post model already created             |
+| `serializers.py` | ❌ Build | Convert Post objects to JSON           |
+| `views.py`       | ❌ Build | API endpoints (GET, POST, PUT, DELETE) |
+| `urls.py`        | ❌ Build | Route definitions                      |
+| `admin.py`       | ❌ Build | Register Post in Django admin          |
 
-| File             | Status       | Description                            |
-| ---------------- | ------------ | -------------------------------------- |
-| `models.py`      | 📝 Implement | Post model - uncomment fields          |
-| `serializers.py` | 📝 Implement | Convert Post objects to JSON           |
-| `views.py`       | 📝 Implement | API endpoints (GET, POST, PUT, DELETE) |
-| `urls.py`        | 📝 Implement | Route definitions                      |
-| `admin.py`       | ✅ Done      | Already configured                     |
+### Frontend (Logic only - don't touch CSS)
 
-### Frontend (`src/services/` and `src/contexts/`)
-
-All files have starter code with TODO comments. Follow the comments!
-
-| File               | Status       | Description                          |
-| ------------------ | ------------ | ------------------------------------ |
-| `postsService.js`  | 📝 Implement | API calls for posts CRUD             |
-| `PostsContext.jsx` | 📝 Implement | Global posts state management        |
-| `Home.jsx`         | 📝 Implement | Connect to PostsContext, render feed |
+| File                | Your Part                                    |
+| ------------------- | -------------------------------------------- |
+| `Home.jsx`          | Connect to posts API, pass real data to feed |
+| `ComposerModal.jsx` | Wire up post creation to API                 |
 
 ## Week-by-Week Tasks
 

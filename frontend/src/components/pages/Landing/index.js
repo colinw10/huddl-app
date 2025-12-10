@@ -1,13 +1,2 @@
-/**
- * =============================================================================
- * LANDING PAGE INDEX
- * =============================================================================
- *
- * File: frontend/src/components/pages/Landing/index.js
- * Assigned to: NATALIA
- *
- * Status: PLACEHOLDER
- * =============================================================================
- */
-
+// 🔵 PABLO - UI Architect
 export { default } from "./Landing";

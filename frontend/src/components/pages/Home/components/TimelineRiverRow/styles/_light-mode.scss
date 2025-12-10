@@ -1,0 +1,249 @@
+/* ============================================
+   LIGHT MODE OVERRIDES
+   Theme-specific styling for light mode
+   ============================================ */
+
+[data-theme="light"] {
+  /* River post cards */
+  .river-post-card {
+    background: var(--color-white) !important;
+    color: #000000 !important;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .river-post-card::before {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.12) 0%,
+      rgba(0, 0, 0, 0.06) 50%,
+      rgba(0, 0, 0, 0.12) 100%
+    ) !important;
+  }
+
+  .river-post-card::after {
+    background: var(--color-white) !important;
+    background-image: none !important;
+  }
+
+  .river-post-card:hover {
+    background: rgba(248, 250, 252, 0.97) !important;
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 4px 12px rgba(26, 115, 231, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-2px);
+  }
+
+  .river-post-card:hover::before {
+    background: linear-gradient(
+      135deg,
+      rgba(26, 115, 231, 0.3) 0%,
+      rgba(26, 231, 132, 0.15) 50%,
+      rgba(26, 115, 231, 0.3) 100%
+    ) !important;
+  }
+
+  /* Post type-specific borders */
+  .post--thoughts {
+    border-left: 3px solid rgba(26, 115, 231, 0.5) !important;
+  }
+
+  .post--media {
+    border-left: 3px solid rgba(26, 231, 132, 0.5) !important;
+  }
+
+  .post--milestones {
+    border-left: 3px solid rgba(220, 8, 188, 0.5) !important;
+  }
+
+  /* Card header */
+  .river-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .river-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .river-avatar svg {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .river-author {
+    /* Invert gradient for light mode - dark on top, lighter at bottom */
+    background: linear-gradient(180deg, #000000 22%, rgba(120, 120, 120, 0.6) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-shadow: none !important;
+  }
+
+  .river-time {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Post content */
+  .river-post-text {
+    color: #000000 !important;
+  }
+
+  .river-post-content {
+    color: #000000 !important;
+  }
+
+  /* Column headers */
+  .river-type-header {
+    color: rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .type-icon {
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Date badge */
+  .river-date-badge {
+    background: var(--bg-glass) !important;
+    border: 1px solid var(--border-default) !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-card) !important;
+  }
+
+  .river-date-badge svg {
+    color: #1a73e7 !important;
+  }
+
+  /* Carousel controls - preserve hexagonal clip-path */
+  .carousel-btn {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-default) !important;
+    color: var(--text-secondary) !important;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
+  }
+
+  .carousel-btn:hover:not(:disabled) {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: var(--blue-primary) !important;
+    box-shadow: 0 4px 12px rgba(26, 115, 231, 0.15) !important;
+  }
+
+  .carousel-btn:disabled {
+    background: rgba(0, 0, 0, 0.02) !important;
+    color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .carousel-indicator {
+    background: rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .carousel-indicator--active {
+    background: linear-gradient(135deg, #1a73e7, #1ae784) !important;
+  }
+
+  /* Desktop stack navigation - preserve hexagonal shape */
+  .desktop-stack-btn {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-default) !important;
+    color: var(--text-secondary) !important;
+    box-shadow: var(--shadow-card) !important;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%) !important;
+  }
+
+  .desktop-stack-btn:hover {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border-color: rgba(26, 115, 231, 0.3) !important;
+    color: var(--blue-primary) !important;
+  }
+
+  .desktop-stack-close {
+    background: var(--bg-card) !important;
+    border: 1px solid rgba(220, 8, 188, 0.3) !important;
+    color: rgba(220, 8, 188, 0.8) !important;
+  }
+
+  .desktop-stack-close:hover {
+    background: rgba(220, 8, 188, 0.1) !important;
+  }
+
+  /* Media expand hint */
+  .media-expand-hint {
+    background: var(--bg-glass) !important;
+    color: var(--text-secondary) !important;
+  }
+
+  /* Smart deck header - darker borders for light mode */
+  .smart-deck--thoughts .smart-deck-header {
+    border-color: rgba(0, 153, 170, 0.4) !important;
+    box-shadow: 0 0 8px rgba(0, 153, 170, 0.1) !important;
+  }
+
+  .smart-deck--media .smart-deck-header {
+    border-color: rgba(139, 92, 246, 0.4) !important;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.1) !important;
+  }
+
+  .smart-deck--milestones .smart-deck-header {
+    border-color: rgba(5, 150, 105, 0.4) !important;
+    box-shadow: 0 0 8px rgba(5, 150, 105, 0.1) !important;
+  }
+
+  /* Smart deck labels - darker colors for light mode */
+  .smart-deck-label,
+  .smart-deck-count,
+  .smart-deck-position {
+    font-weight: 500;
+  }
+
+  .smart-deck--thoughts .smart-deck-label,
+  .smart-deck--thoughts .smart-deck-count,
+  .smart-deck--thoughts .smart-deck-position {
+    color: #0099aa !important; /* darker cyan */
+  }
+
+  .smart-deck--media .smart-deck-label,
+  .smart-deck--media .smart-deck-count,
+  .smart-deck--media .smart-deck-position {
+    color: #8b5cf6 !important; /* darker purple */
+  }
+
+  .smart-deck--milestones .smart-deck-label,
+  .smart-deck--milestones .smart-deck-count,
+  .smart-deck--milestones .smart-deck-position {
+    color: #059669 !important; /* darker green */
+  }
+
+  /* Reply context text in expanded composer modal */
+  .reply-context-avatar {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(220, 8, 188, 0.2)) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+  }
+
+  .reply-context-name {
+    color: #000000 !important;
+  }
+
+  .reply-context-handle,
+  .reply-context-time {
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .reply-context-dot {
+    color: rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .reply-context-content {
+    color: #000000 !important;
+  }
+
+  .reply-divider-text {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+}

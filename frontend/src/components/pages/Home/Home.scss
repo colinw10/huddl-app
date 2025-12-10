@@ -424,6 +424,26 @@ textarea.composer-input {
   }
 }
 
+.composer-post-icon {
+  color: rgba(0, 212, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+  
+  svg {
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover {
+    color: rgba(26, 231, 132, 1);
+    
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+}
+
 .composer-placeholder {
   color: var(--text-placeholder);
   font-size: var(--font-size-body);

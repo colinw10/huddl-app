@@ -4,61 +4,74 @@
  * =============================================================================
  *
  * File: frontend/src/services/postsService.js
- * Assigned to: COLIN
- * Responsibility: API calls for posts CRUD
+ * Assigned to: COLIN 🟢
+ * Responsibility: API calls for posts CRUD operations
+ *
+ * WHAT THIS FILE DOES:
+ * - Provides functions to interact with the /posts/ API endpoints
+ * - Used by PostsContext to fetch/create/update/delete posts
+ *
+ * ENDPOINTS (from backend):
+ * - GET    /posts/           → list all posts
+ * - POST   /posts/           → create new post
+ * - GET    /posts/:id/       → get single post
+ * - PUT    /posts/:id/       → update post
+ * - DELETE /posts/:id/       → delete post
+ * - GET    /posts/:id/replies/  → get replies to a post
+ * - POST   /posts/:id/replies/  → create reply to a post
  *
  * TODO:
- * - [ ] Import apiClient
- * - [ ] Implement getAll() - GET /api/posts/
- * - [ ] Implement getById(id) - GET /api/posts/:id/
- * - [ ] Implement create(content) - POST /api/posts/
- * - [ ] Implement update(id, data) - PATCH /api/posts/:id/
- * - [ ] Implement delete(id) - DELETE /api/posts/:id/
+ * 1. Import apiClient from './apiClient'
+ * 2. Implement each function using apiClient.get(), .post(), .put(), .delete()
+ * 3. Return response.data from each function
  *
- * Status: PLACEHOLDER
+ * EXAMPLE (for reference):
+ *   const getAll = async () => {
+ *     const response = await apiClient.get('/posts/');
+ *     return response.data;
+ *   };
+ *
  * =============================================================================
  */
 
-// TODO: Colin - Import the API client
-// import apiClient from "./apiClient";
+// TODO: Import apiClient
 
 const postsService = {
-  // TODO: Colin - GET /api/posts/ => lists all posts
+  // TODO: Get all posts
   getAll: async () => {
-    // const response = await apiClient.get('/posts/');
-    // return response.data;
-    console.log("Colin: Implement getAll()");
-    return []; // Placeholder return
+    // GET /posts/
   },
 
-  // TODO: Colin - GET /api/posts/:id/ → single post
+  // TODO: Get single post by ID
   getById: async (id) => {
-    // const response = await apiClient.get(`/posts/${id}/`);
-    // return response.data;
-    console.log("Colin: Implement getById()", id);
-    return null; // Placeholder return
+    // GET /posts/${id}/
   },
 
-  // TODO: Colin - POST /api/posts/ → create post
-  create: async (content) => {
-    // const response = await apiClient.post('/posts/', { content });
-    // return response.data;
-    console.log("Colin: Implement create()", content);
-    return null; // Placeholder return
+  // TODO: Create new post
+  // data should be: { content: "post text" }
+  create: async (data) => {
+    // POST /posts/
   },
 
-  // TODO: Colin - PATCH /api/posts/:id/ → update post
+  // TODO: Update existing post
   update: async (id, data) => {
-    // const response = await apiClient.patch(`/posts/${id}/`, data);
-    // return response.data;
-    console.log("Colin: Implement update()", id, data);
-    return null; // Placeholder return
+    // PUT /posts/${id}/
   },
 
-  // TODO: Colin - DELETE /api/posts/:id/ → delete post
+  // TODO: Delete post
   delete: async (id) => {
-    // await apiClient.delete(`/posts/${id}/`);
-    console.log("Colin: Implement delete()", id);
+    // DELETE /posts/${id}/
+  },
+
+  // TODO: Get replies to a post
+  getReplies: async (postId) => {
+    // GET /posts/${postId}/replies/
+  },
+
+  // TODO: Create reply to a post
+  // data should be: { content: "reply text" }
+  createReply: async (postId, data) => {
+    // POST /posts/${postId}/replies/
   },
 };
 

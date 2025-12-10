@@ -1,50 +1,51 @@
-# =============================================================================
-# FRIENDS APP - SERIALIZERS
-# =============================================================================
-#
-# File: backend/friends/serializers.py
-# Assigned to: CRYSTAL
-# Responsibility: Convert Friendship model ↔ JSON
-#
-# TODO:
-# - [ ] Import Friendship model
-# - [ ] Create FriendshipSerializer with ModelSerializer
-# - [ ] Include fields: id, user, friend, created_at
-# - [ ] Add nested user serializer for display
-#
-# Status: PLACEHOLDER
-# =============================================================================
+"""
+===============================================================================
+FRIENDS SERIALIZERS
+===============================================================================
+
+File: backend/friends/serializers.py
+Assigned to: CRYSTAL 🟣
+Responsibility: Convert Friend models to/from JSON
+
+SERIALIZERS TO CREATE:
+
+1. UserSerializer - for nested user data in responses
+2. FriendshipSerializer - for friend list
+3. FriendRequestSerializer - for pending requests
+
+===============================================================================
+"""
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
-# TODO: Crystal - Import your models
-# from .models import Friendship
+from django.contrib.auth import get_user_model
+# TODO: Import your models after creating them
+# from .models import Friendship, FriendRequest
+
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Simple user serializer for friend display"""
+    """Simple user serializer for nested data"""
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'email']
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
     """
-    Crystal: Serialize Friendship model to/from JSON
+    TODO: Implement FriendshipSerializer
     
-    Example output:
-    {
-        "id": 1,
-        "user": {"id": 1, "username": "crystal"},
-        "friend": {"id": 2, "username": "pablo"},
-        "created_at": "2024-01-15T10:30:00Z"
-    }
+    Should return the friend's info (the OTHER user, not current user)
+    
+    Tip: Use SerializerMethodField to get the correct friend
     """
-    # TODO: Crystal - Configure serializer
-    # user = UserSerializer(read_only=True)
-    # friend = UserSerializer(read_only=True)
-    # 
-    # class Meta:
-    #     model = Friendship
-    #     fields = ['id', 'user', 'friend', 'created_at']
-    pass
+    pass  # TODO: Implement after model is created
+
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+    """
+    TODO: Implement FriendRequestSerializer
+    
+    Should include nested from_user data
+    """
+    pass  # TODO: Implement after model is created

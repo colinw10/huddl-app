@@ -1,68 +1,80 @@
-/**
- * =============================================================================
- * APP COMPONENT (Main Router & Shell)
- * =============================================================================
- *
- * File: frontend/src/App.jsx
- * Assigned to: PABLO
- * Responsibility: Root component, routing, layout shell, theming
- *
- * TODO:
- * - [ ] Create Shell layout wrapper with SideNav, TopBar, BottomNav
- * - [ ] Set up authentication context provider
- * - [ ] Create PrivateRoute component for protected routes
- * - [ ] Implement theme context (dark/light mode)
- * - [ ] Add animated background blobs
- * - [ ] Wrap routes in proper layout components
- * - [ ] Add error boundary for graceful error handling
- * - [ ] Set up global state management if needed
- *
- * NOTE: Natalia handles auth logic, Pablo handles layout/styling integration
- *
- * Status: PLACEHOLDER
- * =============================================================================
- */
+// 🔵 PABLO - UI Architect
+// App.jsx - Main routing and layout structure
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Landing from './components/pages/Landing/Landing';
-import Login from './components/pages/Login/Login';
-import Signup from './components/pages/Signup/Signup';
-import Home from './components/pages/Home/Home';
-import Profile from './components/pages/Profile/Profile';
-import Friends from './components/pages/Friends/Friends';
-import About from './components/pages/About/About';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+// Layout components
+import TopBar from './components/layout/TopBar';
+import SideNav from './components/layout/SideNav';
+// Page components
+import Landing from './components/pages/Landing';
+import Home from './components/pages/Home';
+import Login from './components/pages/Login';
+import SignUp from './components/pages/Signup';
+import Profile from './components/pages/Profile';
+import About from './components/pages/About';
+import Friends from './components/pages/Friends';
+import NotFound from './components/pages/NotFound';
+// Protected Route
+import ProtectedRoute from './components/ui/ProtectedRoute';
+// Contexts
+import { MessageProvider } from './contexts';
+// Global styles now imported via main.scss in main.jsx
 
-// TODO: Pablo - Import layout components
-// import Shell from './components/layout/Shell/Shell';
-// import { ThemeProvider } from './contexts/ThemeContext';
-// import { AuthProvider } from './contexts/AuthContext';
+function AppContent() {
+  const location = useLocation();// 🔵 Gets current URL path
 
-function App() {
-  // TODO: Pablo - Wrap with providers
-  // TODO: Pablo - Create Shell wrapper for authenticated pages
-  // TODO: Pablo - Add animated background blobs
-  
+  // 🔵 Initialize theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.dataset.theme = savedTheme;
+  }, []);
+
+  // 🔵 Logic: Should we show nav bars?
+  const isAuthPage = location.pathname === '/login' ||
+  // "Is this a login or signup page?"
+   location.pathname === '/signup';
+  const isLandingPage = location.pathname === '/';
+  // "Is this the landing page?"
+
   return (
-    <Router>
-      <div className="app">
-        {/* TODO: Pablo - Add background blobs here */}
-        {/* <div className="background-blobs">...</div> */}
-        
+    <div className="App">
+    {/* 🔵 TopBar shows UNLESS on landing or auth pages */}
+      {!isLandingPage && !isAuthPage && <TopBar />}
+
+       {/* 🎨 Background decoration (always visible) */}
+      <div className="blob-left"></div>
+      <div className="blob-right"></div>
+
+       {/* 🟡 Main Content - Router decides which page to show */}
+      <div className="main-content">
         <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/about" element={<About />} />
-          
-          {/* TODO: Pablo - Wrap protected routes in Shell layout */}
-          {/* Protected routes - need PrivateRoute wrapper */}
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/friends" element={<Friends />} />
+          <Route path="/" element={<Landing/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          {/* Protected Routes - require authentication */}
+          <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+          <Route path="/about" element={<ProtectedRoute><About/></ProtectedRoute>}/>
+          <Route path="/friends" element={<ProtectedRoute><Friends/></ProtectedRoute>}/>
+          {/* 404 Catch-all - must be last */}
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </div>
-    </Router>
+
+       {/* 🔵 SideNav shows UNLESS on landing or auth pages */}
+      {!isAuthPage && !isLandingPage && <SideNav />}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>{/* 🟡 Enables routing (URL matching) */}
+      <MessageProvider>
+        <AppContent />
+      </MessageProvider>
+    </BrowserRouter>
   );
 }
 

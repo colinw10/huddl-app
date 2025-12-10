@@ -1,73 +1,165 @@
-/**
- * =============================================================================
- * BOTTOM NAV STYLES
- * =============================================================================
- *
- * File: frontend/src/components/layout/BottomNav/BottomNav.scss
- * Assigned to: PABLO
- * Responsibility: Bottom navigation styling for mobile
- *
- * TODO:
- * - [ ] Apply glassmorphism effect
- * - [ ] Fixed positioning at bottom
- * - [ ] Style nav items with icons
- * - [ ] Active state styling
- * - [ ] Safe area inset for notched phones
- * - [ ] Only visible on mobile
- *
- * Status: PLACEHOLDER
- * =============================================================================
- */
+/* Main Navigation */
 
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+/* Left Sidebar for Desktop */
+@media (min-width: 769px) {
+  .main-nav.left-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    width: 80px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2rem 0;
+    border-top: none;
+    border-right: 1px solid rgba(26, 115, 231, 0.3);
+    border-radius: 0 30px 30px 0;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2), 4px 0 40px rgba(26, 115, 231, 0.15), inset -1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .main-nav.left-nav .nav-item {
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem 0;
+    border-radius: 0;
+  }
+  
+  .main-nav.left-nav .nav-item span {
+    display: none;
+  }
+  
+  .main-nav.left-nav .nav-item:hover {
+    transform: translateX(2px);
+    border-radius: 0 12px 12px 0;
+  }
+  
+  .main-nav.left-nav .nav-item.active {
+    border-radius: 0 12px 12px 0;
+  }
+}
 
-.bottomnav {
-  display: none; /* Hidden by default, show on mobile */
+/* Bottom Navigation for Mobile */
+.main-nav.bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0rem 1rem;
+  background: rgba(0, 7, 17, 0.3);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-top: 1px solid rgba(26, 115, 231, 0.3);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2),
+              0 -1px 40px rgba(26, 115, 231, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
   z-index: 100;
-  padding: 0.5rem 0;
-  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-  
-  // TODO: Pablo - Apply glassmorphism
-  // @include glass-card;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  
-  &__item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
+}
+
+/* Shared Base Styles */
+.main-nav {
+  background: rgba(0, 7, 17, 0.3);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+  background: rgba(26, 115, 231, 0.1);
+  transform: translateY(-2px);
+}
+
+.nav-item.active {
+  color: #1a73e7;
+  background: rgba(26, 115, 231, 0.15);
+}
+
+.nav-item svg {
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover svg {
+  transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-nav.bottom-nav {
     padding: 0.5rem;
-    text-decoration: none;
-    color: inherit;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-    
-    &--active {
-      opacity: 1;
-      color: var(--primary-color, #7c3aed);
-    }
   }
-  
-  &__icon {
-    font-size: 1.5rem;
+
+  .nav-item {
+    padding: 0.4rem 0.8rem;
+    font-size: var(--font-size-xs);
   }
-  
-  &__label {
-    font-size: 0.7rem;
-    font-weight: 500;
+
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
-/* Show only on mobile */
-@media (max-width: 768px) {
-  .bottomnav {
-    display: flex;
-    justify-content: space-around;
+@media (max-width: 480px) {
+  .nav-item span {
+    display: none;
+  }
+
+  .nav-item {
+    padding: 0.5rem;
+  }
+}
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .main-nav {
+    background: var(--bg-glass) !important;
+  }
+
+  .main-nav.bottom-nav {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-top: 1px solid var(--border-default) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .main-nav.left-nav {
+    border-right: 1px solid var(--border-default) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .nav-item {
+    color: var(--text-secondary) !important;
+  }
+
+  .nav-item:hover {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.08) !important;
+  }
+
+  .nav-item.active {
+    color: #1a73e7 !important;
+    background: rgba(26, 115, 231, 0.1) !important;
   }
 }

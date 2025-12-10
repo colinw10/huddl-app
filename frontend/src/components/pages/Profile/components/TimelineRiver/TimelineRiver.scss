@@ -1,0 +1,810 @@
+/* TimelineRiver Component Styles */
+@use '../ComposerModal/ComposerModal.scss';
+
+.timeline-river {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 200px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1600px) {
+  .timeline-river {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .timeline-river {
+    max-width: 1800px;
+  }
+}
+
+/* River Column Labels */
+
+.river-labels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: 30px;
+  position: sticky;
+  top: 60px;
+  background: linear-gradient(180deg, var(--bg-base) 0%, var(--bg-base) 90%, transparent 100%);
+  padding: 20px 0;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.river-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: var(--space-md);
+  border-radius: 12px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-default);
+  transition: all 0.3s ease;
+}
+
+/* Thoughts - Blue outline */
+.left-label {
+  color: rgba(77, 171, 247, 1);
+  border: 1px solid rgba(77, 171, 247, 0.6);
+  box-shadow: 0 0 8px rgba(77, 171, 247, 0.25),
+              inset 0 0 12px rgba(77, 171, 247, 0.1);
+  text-shadow: 0 0 8px rgba(77, 171, 247, 0.5);
+}
+
+.left-label svg {
+  color: rgba(77, 171, 247, 1);
+  filter: drop-shadow(0 0 6px rgba(77, 171, 247, 0.6));
+}
+
+/* Media - Magenta outline */
+.center-label {
+  color: rgba(233, 78, 200, 1);
+  border: 1px solid rgba(233, 78, 200, 0.6);
+  box-shadow: 0 0 8px rgba(233, 78, 200, 0.25),
+              inset 0 0 12px rgba(233, 78, 200, 0.1);
+  text-shadow: 0 0 8px rgba(233, 78, 200, 0.5);
+}
+
+.center-label svg {
+  color: rgba(233, 78, 200, 1);
+  filter: drop-shadow(0 0 6px rgba(233, 78, 200, 0.6));
+}
+
+/* Milestones - Gold outline */
+.right-label {
+  color: rgba(255, 215, 0, 1);
+  border: 1px solid rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25),
+              inset 0 0 12px rgba(255, 215, 0, 0.1);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.right-label svg {
+  color: rgba(255, 215, 0, 1);
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+}
+
+/* River Streams Container */
+
+.river-streams {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Individual River Columns */
+
+.river-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.left-stream {
+  animation: floatInLeft 0.8s ease-out;
+}
+
+.center-stream {
+  animation: floatInCenter 1s ease-out;
+}
+
+.right-stream {
+  animation: floatInRight 1.2s ease-out;
+}
+
+@keyframes floatInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes floatInCenter {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* River Cards - Shared Styles */
+
+.river-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: var(--space-lg);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible;
+  /* Cyberpunk cut corners - matching feed posts */
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  /* Thick left border accent for 3D depth */
+  border-left: 3px solid var(--accent-color, rgba(79, 255, 255, 0.4));
+}
+
+/* Pseudo-element border - thick glowing border effect */
+.river-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    135deg,
+    var(--accent-color, rgba(79, 255, 255, 0.4)) 0%,
+    rgba(167, 131, 255, 0.2) 50%,
+    var(--accent-color, rgba(79, 255, 255, 0.4)) 100%
+  );
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+/* Inner background layer - cosmic black holographic */
+.river-card::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background:
+    linear-gradient(145deg, #0a0a0a, #000000),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.5), transparent 50%),
+    linear-gradient(
+      45deg,
+      rgba(138, 43, 226, 0.05),
+      rgba(0, 212, 255, 0.05),
+      rgba(138, 43, 226, 0.05)
+    );
+  background-size: 100% 100%, 150% 150%, 150% 150%, 200% 200%;
+  background-position: 0% 50%, 75% 75%, 75% 75%, 50% 50%;
+  background-blend-mode: overlay, multiply, overlay;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  z-index: -1;
+}
+
+.river-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 30px var(--accent-glow, rgba(79, 255, 255, 0.25));
+}
+
+.river-card:hover::before {
+  background: linear-gradient(
+    135deg,
+    var(--accent-color, rgba(79, 255, 255, 0.6)) 0%,
+    rgba(167, 131, 255, 0.4) 50%,
+    var(--accent-color, rgba(79, 255, 255, 0.6)) 100%
+  );
+  filter: brightness(1.4);
+}
+
+/* Text Cards (Left Column) - Blue accent */
+.text-card {
+  --accent-color: rgba(26, 115, 231, 0.8);
+  --accent-glow: rgba(26, 115, 231, 0.3);
+}
+
+/* Media Cards (Center Column) - Magenta accent */
+.media-card {
+  --accent-color: rgba(220, 8, 188, 0.8);
+  --accent-glow: rgba(220, 8, 188, 0.3);
+}
+
+/* Achievement Cards (Right Column) - Gold accent */
+.achievement-card {
+  --accent-color: rgba(255, 215, 0, 0.5);
+  --accent-glow: rgba(255, 215, 0, 0.2);
+}
+
+.river-card-media {
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.media-placeholder {
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(220, 8, 188, 0.15) 0%, rgba(26, 115, 231, 0.15) 100%);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.media-placeholder svg {
+  opacity: 0.5;
+}
+
+.achievement-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.achievement-badge svg {
+  color: rgba(255, 215, 0, 0.9);
+}
+
+/* River Card Content */
+
+.river-card-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.3), rgba(220, 8, 188, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+
+.author-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.river-card-content {
+  margin-bottom: 12px;
+}
+
+.river-post-text {
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.river-timestamp {
+  font-family: "new-science-mono", sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+}
+
+/* River Card Actions */
+
+.river-card-actions {
+  display: flex;
+  gap: var(--space-md);
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.river-action-btn {
+  background: transparent;
+  border: none;
+  color: rgba(201, 168, 255, 0.5);
+  cursor: pointer;
+  padding: 6px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.river-action-btn:hover {
+  color: #c9a8ff;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 255, 0.5));
+  transform: scale(1.1);
+}
+
+.text-card .river-action-btn {
+  color: rgba(79, 255, 255, 0.5);
+}
+.text-card .river-action-btn:hover {
+  color: #4fffff;
+  filter: drop-shadow(0 0 8px rgba(79, 255, 255, 0.5));
+}
+
+.media-card .river-action-btn {
+  color: rgba(201, 168, 255, 0.5);
+}
+.media-card .river-action-btn:hover {
+  color: #c9a8ff;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 255, 0.5));
+}
+
+.achievement-card .river-action-btn {
+  color: rgba(26, 231, 132, 0.5);
+}
+.achievement-card .river-action-btn:hover {
+  color: #1ae784;
+  filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.5));
+}
+
+/* SVG River Flow Lines */
+
+.river-flow-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.flow-line {
+  stroke: url(#riverGradient);
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: flowAnimation 3s ease-in forwards;
+}
+
+.flow-line-1 {
+  stroke: rgba(26, 115, 231, 0.4);
+  animation-delay: 0.5s;
+}
+
+.flow-line-2 {
+  stroke: rgba(220, 8, 188, 0.4);
+  animation-delay: 1s;
+}
+
+.flow-line-3 {
+  stroke: rgba(255, 215, 0, 0.4);
+  animation-delay: 1.5s;
+}
+
+@keyframes flowAnimation {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* River Responsive Design */
+
+@media (max-width: 1024px) {
+  .river-streams {
+    gap: var(--space-lg);
+  }
+  
+  .river-card {
+    padding: var(--space-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .river-streams {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  
+  .river-labels {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    position: static;
+    background: transparent;
+    padding: 10px 0 20px;
+  }
+  
+  .river-label {
+    justify-content: flex-start;
+  }
+  
+  .left-stream,
+  .center-stream,
+  .right-stream {
+    animation: none;
+  }
+  
+  .river-flow-lines {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .river-card,
+  .river-action-btn,
+  .flow-line {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+[data-theme="light"] {
+  .timeline-river-container {
+    background: transparent !important;
+  }
+
+  /* River labels */
+  .river-labels {
+    background: transparent !important;
+    border-top: none !important;
+    padding-top: 24px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .river-labels::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0.4) 80%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .river-label {
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Thoughts - darker blue for light mode */
+  .left-label {
+    color: #1a5bc7 !important;
+    border: 1px solid rgba(26, 91, 199, 0.4) !important;
+  }
+
+  .left-label svg {
+    color: #1a5bc7 !important;
+    filter: none !important;
+  }
+
+  /* Media - darker magenta for light mode */
+  .center-label {
+    color: #b0078a !important;
+    border: 1px solid rgba(176, 7, 138, 0.4) !important;
+  }
+
+  .center-label svg {
+    color: #b0078a !important;
+    filter: none !important;
+  }
+
+  /* Milestones - darker gold for light mode */
+  .right-label {
+    color: #b8860b !important;
+    border: 1px solid rgba(184, 134, 11, 0.4) !important;
+  }
+
+  .right-label svg {
+    color: #b8860b !important;
+    filter: none !important;
+  }
+
+  /* River cards */
+  .river-card {
+    background: #ffffff !important;
+  }
+
+  .river-card::before {
+    background: linear-gradient(
+      135deg,
+      var(--accent-color, rgba(26, 115, 231, 0.3)) 0%,
+      rgba(26, 231, 132, 0.2) 50%,
+      var(--accent-color, rgba(26, 115, 231, 0.3)) 100%
+    ) !important;
+  }
+
+  .river-card::after {
+    background: #ffffff !important;
+  }
+
+  .river-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /* Card content */
+  .river-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .river-avatar {
+    background: rgba(26, 115, 231, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .river-author {
+    color: #000000 !important;
+  }
+
+  .river-time {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .river-content {
+    color: #000000 !important;
+  }
+
+  /* Flow lines - subtle in light mode */
+  .flow-line {
+    opacity: 0.3 !important;
+  }
+}
+
+/* ========================================
+   EDIT & DELETE BUTTON STYLES
+======================================== */
+
+.river-action-btn--edit {
+  &:hover {
+    background: rgba(255, 193, 7, 0.15) !important;
+    svg {
+      stroke: rgba(255, 193, 7, 1) !important;
+      filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.6));
+    }
+  }
+}
+
+.river-action-btn--delete {
+  &:hover {
+    background: rgba(255, 82, 82, 0.15) !important;
+    svg {
+      stroke: rgba(255, 82, 82, 1) !important;
+      filter: drop-shadow(0 0 6px rgba(255, 82, 82, 0.6));
+    }
+  }
+}
+
+/* ========================================
+   EXPANDED COMPOSER MODAL (Edit Mode)
+======================================== */
+
+.expanded-composer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.expanded-composer-modal {
+  width: 100%;
+  max-width: 600px;
+  /* Holographic cosmic black background - matching main composer modal */
+  background:
+    linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.85)),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.5), transparent 50%),
+    linear-gradient(
+      45deg,
+      rgba(26, 115, 231, 0.05),
+      rgba(220, 8, 188, 0.05),
+      rgba(26, 115, 231, 0.05)
+    );
+  background-size: 100% 100%, 150% 150%, 150% 150%, 200% 200%;
+  background-blend-mode: overlay, multiply, overlay;
+  background-position: 0% 50%, 75% 75%, 75% 75%, 50% 50%;
+  
+  border: 1px solid rgba(26, 115, 231, 0.4);
+  border-radius: 24px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(26, 115, 231, 0.15),
+    inset 0 1px 3px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  
+  &.edit-mode {
+    border-color: rgba(255, 193, 7, 0.4);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(255, 193, 7, 0.15),
+      inset 0 1px 3px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.expanded-composer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--cyan);
+    
+    svg {
+      color: var(--cyan);
+    }
+  }
+  
+  .edit-mode & h3 {
+    color: #ffc107;
+    
+    svg {
+      color: #ffc107;
+    }
+  }
+}
+
+.close-expanded-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: var(--magenta);
+    transform: scale(1.1);
+  }
+  
+  .edit-mode & {
+    color: rgba(255, 100, 100, 0.7);
+    
+    &:hover {
+      color: #ff4444;
+    }
+  }
+}
+
+.expanded-composer-body {
+  padding: 20px;
+  
+  .composer-textarea {
+    margin-bottom: 0;
+  }
+}
+
+.expanded-composer-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 255, 255, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .edit-mode & {
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    
+    &:hover:not(:disabled) {
+      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    }
+  }
+  
+  &.icon-btn {
+    padding: var(--space-sm) var(--space-md);
+    min-width: 40px;
+    min-height: 40px;
+    justify-content: center;
+    background: transparent;
+    color: rgba(26, 231, 132, 0.6);
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+    
+    &:hover:not(:disabled) {
+      color: var(--accent);
+      filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6));
+      transform: none;
+      box-shadow: none;
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+    }
+  }
+}

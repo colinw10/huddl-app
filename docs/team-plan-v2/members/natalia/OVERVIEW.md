@@ -8,25 +8,23 @@ You're responsible for the **authentication system** - how users sign up, log in
 
 ### Backend (`backend/users/`)
 
-All files have starter code with TODO comments. Follow the comments!
+| File             | Status   | Description                      |
+| ---------------- | -------- | -------------------------------- |
+| `models.py`      | ✅ Done  | Profile model exists             |
+| `serializers.py` | ✅ Done  | User/Profile serializers exist   |
+| `views.py`       | ✅ Done  | signup, current_user views exist |
+| `urls.py`        | ✅ Done  | Auth routes configured           |
+| `admin.py`       | ❌ Build | Register Profile in Django admin |
 
-| File             | Status       | Description              |
-| ---------------- | ------------ | ------------------------ |
-| `models.py`      | ✅ Done      | Profile model exists     |
-| `serializers.py` | 📝 Implement | User/Profile serializers |
-| `views.py`       | 📝 Implement | signup, me endpoints     |
-| `urls.py`        | 📝 Implement | Auth routes              |
-| `admin.py`       | ✅ Done      | Already configured       |
+### Frontend (Create new + add logic)
 
-### Frontend (`src/contexts/` and pages)
-
-All files have starter code with TODO comments. Follow the comments!
-
-| File              | Status       | Description                     |
-| ----------------- | ------------ | ------------------------------- |
-| `AuthContext.jsx` | 📝 Implement | Auth state, login/signup/logout |
-| `Login.jsx`       | 📝 Implement | Connect form to AuthContext     |
-| `Signup.jsx`      | 📝 Implement | Connect form to AuthContext     |
+| File                                 | Status       | Description                       |
+| ------------------------------------ | ------------ | --------------------------------- |
+| `services/authService.js`            | ❌ Create    | API calls for login/signup/logout |
+| `components/auth/ProtectedRoute.jsx` | ❌ Create    | Redirect if not logged in         |
+| `Login.jsx`                          | ❌ Add logic | Connect form to authService       |
+| `Signup.jsx`                         | ❌ Add logic | Connect form to authService       |
+| `Profile.jsx`                        | ❌ Add logic | Load/edit user profile            |
 
 ## Week-by-Week Tasks
 

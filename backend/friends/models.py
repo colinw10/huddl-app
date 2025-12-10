@@ -1,45 +1,80 @@
-# =============================================================================
-# FRIENDS APP - MODELS
-# =============================================================================
-#
-# File: backend/friends/models.py
-# Assigned to: CRYSTAL
-# Responsibility: Friendship data model
-#
-# TODO:
-# - [ ] Create Friendship model with fields:
-#       - user (ForeignKey to User)
-#       - friend (ForeignKey to User)
-#       - created_at (DateTimeField, auto_now_add)
-# - [ ] Add unique_together constraint
-# - [ ] Add __str__ method
-# - [ ] Optional: Create FriendRequest model for pending requests
-#
-# Status: PLACEHOLDER
-# =============================================================================
+"""
+===============================================================================
+FRIENDS MODELS
+===============================================================================
+
+File: backend/friends/models.py
+Assigned to: CRYSTAL 🟣
+Responsibility: Database models for friendships
+
+MODELS TO CREATE:
+
+1. Friendship - represents a mutual friendship
+   Fields:
+   - user1 (ForeignKey to User)
+   - user2 (ForeignKey to User)
+   - created_at (DateTimeField)
+   
+2. FriendRequest - represents a pending request
+   Fields:
+   - from_user (ForeignKey to User)
+   - to_user (ForeignKey to User)
+   - status (CharField: 'pending', 'accepted', 'declined')
+   - created_at (DateTimeField)
+   - updated_at (DateTimeField)
+
+RESOURCES:
+- Django Models: https://docs.djangoproject.com/en/5.0/topics/db/models/
+- ForeignKey: https://docs.djangoproject.com/en/5.0/ref/models/fields/\#foreignkey
+
+===============================================================================
+"""
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Friendship(models.Model):
     """
-    Crystal: Represents a friendship between two users
+    TODO: Implement Friendship model
     
-    Example:
-        friendship = Friendship.objects.create(user=user1, friend=user2)
+    Represents a mutual friendship between two users.
+    
+    Fields needed:
+    - user1: ForeignKey to User (on_delete=CASCADE)
+    - user2: ForeignKey to User (on_delete=CASCADE)
+    - created_at: DateTimeField(auto_now_add=True)
+    
+    Tips:
+    - Use settings.AUTH_USER_MODEL for the User reference
+    - Add related_name to avoid clashes (e.g., 'friendships_as_user1')
+    - Add unique_together = ['user1', 'user2'] in Meta to prevent duplicates
     """
-    # TODO: Crystal - Add fields
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships')
-    # friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends')
-    # created_at = models.DateTimeField(auto_now_add=True)
+    pass  # TODO: Add fields
+
+
+class FriendRequest(models.Model):
+    """
+    TODO: Implement FriendRequest model
     
-    class Meta:
-        # TODO: Crystal - Prevent duplicate friendships
-        # unique_together = ['user', 'friend']
-        ordering = ['-created_at']
+    Represents a pending friend request.
     
-    def __str__(self):
-        # TODO: Crystal - Return meaningful string
-        # return f"{self.user.username} ↔ {self.friend.username}"
-        return "Friendship placeholder"
+    Fields needed:
+    - from_user: ForeignKey to User
+    - to_user: ForeignKey to User
+    - status: CharField with choices ('pending', 'accepted', 'declined')
+    - created_at: DateTimeField(auto_now_add=True)
+    - updated_at: DateTimeField(auto_now=True)
+    
+    Tips:
+    - Use related_name like 'sent_requests' and 'received_requests'
+    - Default status should be 'pending'
+    """
+    
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('declined', 'Declined'),
+    ]
+    
+    pass  # TODO: Add fields

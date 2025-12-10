@@ -1,13 +1,2 @@
-/**
- * =============================================================================
- * SIGNUP PAGE INDEX
- * =============================================================================
- *
- * File: frontend/src/components/pages/Signup/index.js
- * Assigned to: NATALIA
- *
- * Status: PLACEHOLDER
- * =============================================================================
- */
-
+// 🔵 PABLO - UI Architect
 export { default } from "./Signup";
