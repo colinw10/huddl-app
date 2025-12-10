@@ -74,11 +74,25 @@ function Signup() {
     setIsLoading(true);
     
     try {
-      // TODO: Add actual API call here
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
-      console.log('Signup submitted:', formData);
-      // Navigate to feed on success
-      navigate('/home');
+      const response = await fetch('http://localhost:8000/api/auth/signup/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setErrors({ submit: data.error || 'Signup failed. Please try again.' });
+        return;
+      }
+      
+      // Navigate to login on success
+      navigate('/login');
     } catch {
       setErrors({ submit: 'Signup failed. Please try again.' });
     } finally {

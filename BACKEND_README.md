@@ -259,20 +259,120 @@ POST   /api/friends/respond/ → Accept/reject
 
 ## Common Commands
 
+We use a **Makefile** for quick shortcuts. Instead of typing long commands, just use `make <shortcut>`.
+
+> **Important:** You must be in the project root folder (`huddl-app/`) to use these.
+
+### Quick Reference
+
+```bash
+# SERVERS
+make b              # Start backend at http://localhost:8000
+make f              # Start frontend at http://localhost:5173
+
+# DATABASE
+make migrate        # Apply database migrations
+make makemigrations # Create new migrations after model changes
+make seed           # Populate database with test data
+make shell          # Open Django Python shell
+make dbshell        # Open SQLite shell (raw SQL)
+
+# USERS
+make superuser      # Create admin user for Django admin panel
+make users          # List all users in database
+
+# DEPENDENCIES
+make install        # Install both frontend and backend deps
+make install-frontend
+make install-backend
+
+# GIT
+make status         # git status
+make push           # Push current branch
+make pull           # Pull current branch
+
+# CLEANUP
+make clean          # Remove Python cache files
+```
+
+### Accessing the Database
+
+**Option 1: Django Admin Panel (GUI)**
+
+```bash
+make superuser      # Create admin account (first time only)
+make b              # Start backend
+# Go to http://localhost:8000/admin
+# Login with your superuser credentials
+```
+
+**Option 2: Django Shell (Python)**
+
+```bash
+make shell
+```
+
+Then in the shell:
+
+```python
+# List all users
+from django.contrib.auth.models import User
+User.objects.all()
+
+# Find specific user
+User.objects.get(username='pablo')
+
+# List all posts
+from posts.models import Post
+Post.objects.all()
+
+# Create a user manually
+User.objects.create_user('testuser', 'test@test.com', 'password123')
+
+# Exit shell
+exit()
+```
+
+**Option 3: SQLite Shell (Raw SQL)**
+
+```bash
+make dbshell
+```
+
+Then in SQLite:
+
+```sql
+-- List all tables
+.tables
+
+-- See users
+SELECT * FROM auth_user;
+
+-- See posts
+SELECT * FROM posts_post;
+
+-- Exit
+.quit
+```
+
+### Manual Commands (Without Makefile)
+
+If you need to run commands manually:
+
 ```bash
 # Activate virtual environment
 source venv/bin/activate
 
 # Run server
-python3 manage.py runserver
+cd backend && python3 manage.py runserver
 
 # Create migration after model change
-python3 manage.py makemigrations
-python3 manage.py migrate
+cd backend && python3 manage.py makemigrations
+cd backend && python3 manage.py migrate
 
 # Create admin user
-python3 manage.py createsuperuser
+cd backend && python3 manage.py createsuperuser
 
 # Check for errors
-python3 manage.py check
+cd backend && python3 manage.py check
 ```

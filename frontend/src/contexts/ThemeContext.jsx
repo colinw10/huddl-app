@@ -7,15 +7,15 @@
  * Assigned to: PABLO
  * Responsibility: Global theme state (dark/light mode)
  *
- * TODO:
- * - [ ] Store theme in state ('dark' or 'light')
- * - [ ] Initialize from localStorage or system preference
- * - [ ] Provide toggleTheme function
- * - [ ] Apply data-theme attribute to document root
- * - [ ] Persist preference to localStorage
- * - [ ] Export useTheme hook
+ * COMPLETED:
+ * - [x] Store theme in state ('dark' or 'light')
+ * - [x] Initialize from localStorage or system preference
+ * - [x] Provide toggleTheme function
+ * - [x] Apply data-theme attribute to document root
+ * - [x] Persist preference to localStorage
+ * - [x] Export useTheme hook
  *
- * Status: PLACEHOLDER
+ * Status: IMPLEMENTED ✅
  * =============================================================================
  */
 

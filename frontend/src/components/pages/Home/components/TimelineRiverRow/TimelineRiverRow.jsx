@@ -689,7 +689,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                     className="comment-media-btn"
                     title="Add media"
                     onClick={() => {
-                      // TODO: Implement media upload
+                      // STRETCH GOAL: Media upload in replies
                       console.log('Media upload clicked');
                     }}
                   >
