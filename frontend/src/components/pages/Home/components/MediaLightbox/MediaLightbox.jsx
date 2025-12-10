@@ -31,7 +31,15 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
               </svg>
             </div>
             <div>
-              <div className="media-lightbox-author">{post.author}</div>
+              <div className="media-lightbox-author">
+                {post.author?.first_name && post.author?.last_name
+                  ? `${post.author.first_name} ${post.author.last_name}`
+                  : post.author?.first_name
+                    ? post.author.first_name
+                    : post.author?.username
+                      ? post.author.username.charAt(0).toUpperCase() + post.author.username.slice(1)
+                      : post.author}
+              </div>
               <div className="media-lightbox-timestamp">{post.timestamp}</div>
             </div>
           </div>

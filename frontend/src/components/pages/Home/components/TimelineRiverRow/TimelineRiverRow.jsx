@@ -35,10 +35,11 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // 🔵 Extract data from props
   const { user, thoughts, media, milestones } = rowData;
   const { user: currentUser } = useAuth();
-  const { fetchReplies, createReply, deletePost } = usePosts();
+  const { fetchReplies, createReply, deletePost, updatePost } = usePosts();
   
   // State for edit mode
   const [editingPostId, setEditingPostId] = useState(null);
+  const [editingReplyParentId, setEditingReplyParentId] = useState(null); // Track parent if editing a reply
   const [editContent, setEditContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   
@@ -460,6 +461,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setEditingPostId(reply.id);
+                                setEditingReplyParentId(post.id);
                                 setEditContent(reply.content);
                               }}
                             >
@@ -486,7 +488,64 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                           </div>
                         )}
                       </div>
-                      <p className="reply-content">{reply.content}</p>
+                      
+                      {/* Reply content - show edit form if editing this reply */}
+                      {editingPostId === reply.id ? (
+                        <div className="reply-edit-form">
+                          <textarea
+                            className="reply-edit-input"
+                            value={editContent}
+                            onChange={(e) => setEditContent(e.target.value)}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === 'Escape') {
+                                setEditingPostId(null);
+                                setEditingReplyParentId(null);
+                                setEditContent('');
+                              }
+                            }}
+                          />
+                          <div className="reply-edit-actions">
+                            <button 
+                              className="reply-edit-cancel"
+                              onClick={() => {
+                                setEditingPostId(null);
+                                setEditingReplyParentId(null);
+                                setEditContent('');
+                              }}
+                              title="Cancel"
+                            >
+                              ✕
+                            </button>
+                            <button 
+                              className="reply-edit-save"
+                              disabled={!editContent.trim() || isSaving}
+                              onClick={async () => {
+                                setIsSaving(true);
+                                const result = await updatePost(reply.id, { content: editContent.trim() });
+                                if (result.success) {
+                                  // Update local threadReplies state
+                                  setThreadReplies(prev => ({
+                                    ...prev,
+                                    [editingReplyParentId]: (prev[editingReplyParentId] || []).map(r => 
+                                      r.id === reply.id ? { ...r, content: editContent.trim() } : r
+                                    )
+                                  }));
+                                  setEditingPostId(null);
+                                  setEditingReplyParentId(null);
+                                  setEditContent('');
+                                }
+                                setIsSaving(false);
+                              }}
+                              title="Save"
+                            >
+                              {isSaving ? '...' : '✓'}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="reply-content">{reply.content}</p>
+                      )}
                     </div>
                   </div>
                 ))}
