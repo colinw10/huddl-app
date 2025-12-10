@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import './TimelineRiverRow.scss';
 import MediaLightbox from '../MediaLightbox/MediaLightbox';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
-import { useAuth } from '../../../../../contexts';
+import { useAuth, usePosts } from '../../../../../contexts';
 
 // Helper function to format relative time (e.g., "2h ago", "3d ago")
 const formatRelativeTime = (dateString) => {
@@ -35,6 +35,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // 🔵 Extract data from props
   const { user, thoughts, media, milestones } = rowData;
   const { user: currentUser } = useAuth();
+  const { fetchReplies, createReply, deletePost } = usePosts();
   
   // State for edit mode
   const [editingPostId, setEditingPostId] = useState(null);
@@ -43,7 +44,14 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   
   // State for delete modal
   const [deleteModalPostId, setDeleteModalPostId] = useState(null);
+  const [deleteModalParentId, setDeleteModalParentId] = useState(null); // Track if deleting a reply (has parent)
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // State for thread view (expanded replies)
+  const [expandedThreadId, setExpandedThreadId] = useState(null);
+  const [threadReplies, setThreadReplies] = useState({});
+  const [loadingThread, setLoadingThread] = useState(null);
+  const [showAllReplies, setShowAllReplies] = useState({}); // Track which posts show all replies
   
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   // Which card showing on mobile
@@ -127,6 +135,39 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     
     setTouchStartX(0);
     setTouchEndX(0);
+  };
+  
+  // Toggle thread view and load replies
+  const toggleThread = async (postId) => {
+    if (expandedThreadId === postId) {
+      // Collapse if already open
+      setExpandedThreadId(null);
+    } else {
+      // Expand and load replies
+      setExpandedThreadId(postId);
+      if (!threadReplies[postId]) {
+        setLoadingThread(postId);
+        const result = await fetchReplies(postId);
+        if (result.success) {
+          setThreadReplies(prev => ({ ...prev, [postId]: result.data }));
+        }
+        setLoadingThread(null);
+      }
+    }
+  };
+  
+  // Handle reply submission
+  const handleReplySubmit = async (postId, content) => {
+    const result = await createReply(postId, { content, type: 'thoughts' });
+    if (result.success) {
+      // Add new reply to local state
+      setThreadReplies(prev => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), result.data]
+      }));
+      return true;
+    }
+    return false;
   };
   
   const renderPostCard = (post, type, isCompact = false) => {
@@ -220,13 +261,14 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         {/* Post Actions */} 
         <div className="river-post-actions">
           <button 
-            className="river-action-btn" 
+            className={`river-action-btn ${post.reply_count > 0 ? 'has-replies' : ''}`}
             title="Comment"
             onClick={() => onCommentClick(post.id)}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
+            {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
           </button>
           <button className="river-action-btn" title="Repost">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(79,255,255,0.5)" strokeWidth="1.5">
@@ -344,11 +386,15 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             <button 
               className="comment-submit-btn"
               disabled={!commentText.trim()}
-              onClick={() => {
+              onClick={async () => {
                 if (commentText.trim()) {
-                  console.log('Comment posted:', commentText);
-                  setCommentText('');
-                  setActiveCommentPostId(null);
+                  const success = await handleReplySubmit(post.id, commentText);
+                  if (success) {
+                    setCommentText('');
+                    setActiveCommentPostId(null);
+                    // Auto-expand thread to show new reply
+                    setExpandedThreadId(post.id);
+                  }
                 }
               }}
             >
@@ -356,6 +402,119 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                 <polyline points="9 6 15 12 9 18"/>
               </svg>
             </button>
+          </div>
+        )}
+
+        {/* View Thread Link - show when post has replies */}
+        {post.reply_count > 0 && expandedThreadId !== post.id && (
+          <button 
+            className="view-thread-btn"
+            onClick={() => toggleThread(post.id)}
+          >
+            <span className="thread-line" />
+            View {post.reply_count} {post.reply_count === 1 ? 'reply' : 'replies'}
+          </button>
+        )}
+
+        {/* Thread View - Twitter-style inline replies */}
+        {expandedThreadId === post.id && (
+          <div className="thread-view">
+            <button 
+              className="collapse-thread-btn"
+              onClick={() => setExpandedThreadId(null)}
+            >
+              Hide replies
+            </button>
+            
+            {loadingThread === post.id ? (
+              <div className="thread-loading">Loading replies...</div>
+            ) : (
+              <div className="thread-replies">
+                {(() => {
+                  const allReplies = threadReplies[post.id] || [];
+                  const visibleReplies = showAllReplies[post.id] ? allReplies : allReplies.slice(0, 3);
+                  const hasMore = allReplies.length > 3;
+                  
+                  return (
+                    <>
+                      {visibleReplies.map((reply, index) => (
+                  <div key={reply.id} className="thread-reply">
+                    <div className="thread-connector">
+                      <div className="thread-line-vertical" />
+                    </div>
+                    <div className="reply-card">
+                      <div className="reply-header">
+                        <div className="reply-avatar">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                          </svg>
+                        </div>
+                        <span className="reply-author">{reply.author?.username || 'User'}</span>
+                        <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
+                        {/* Edit/Delete for owner */}
+                        {currentUser && reply.author?.id === currentUser.id && (
+                          <div className="reply-actions">
+                            <button 
+                              className="reply-action-btn"
+                              title="Edit"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingPostId(reply.id);
+                                setEditContent(reply.content);
+                              }}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                              </svg>
+                            </button>
+                            <button 
+                              className="reply-action-btn reply-action-btn--delete"
+                              title="Delete"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                console.log('Delete button clicked for reply:', reply.id, 'parent post:', post.id);
+                                setDeleteModalPostId(reply.id);
+                                setDeleteModalParentId(post.id); // Mark as reply deletion
+                              }}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                              </svg>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <p className="reply-content">{reply.content}</p>
+                    </div>
+                  </div>
+                ))}
+                
+                      {/* Show more/less button */}
+                      {hasMore && (
+                        <button 
+                          className="show-more-replies-btn"
+                          onClick={() => setShowAllReplies(prev => ({ 
+                            ...prev, 
+                            [post.id]: !prev[post.id] 
+                          }))}
+                        >
+                          {showAllReplies[post.id] 
+                            ? 'Show less' 
+                            : `Show ${allReplies.length - 3} more ${allReplies.length - 3 === 1 ? 'reply' : 'replies'}`
+                          }
+                        </button>
+                      )}
+                      
+                      {allReplies.length === 0 && (
+                        <div className="no-replies">No replies yet</div>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
+            )}
           </div>
         )}
 
@@ -769,12 +928,34 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
       {/* Delete Confirmation Modal */}
       <DeleteConfirmModal
         isOpen={deleteModalPostId !== null}
-        onClose={() => setDeleteModalPostId(null)}
+        onClose={() => {
+          setDeleteModalPostId(null);
+          setDeleteModalParentId(null);
+        }}
         onConfirm={async () => {
+          console.log('Delete confirm clicked', { deleteModalPostId, deleteModalParentId });
           setIsDeleting(true);
-          await onDeletePost(deleteModalPostId);
+          
+          if (deleteModalParentId) {
+            // Deleting a reply - use deletePost from context and update local state
+            console.log('Deleting reply:', deleteModalPostId, 'from parent:', deleteModalParentId);
+            const result = await deletePost(deleteModalPostId);
+            console.log('Delete result:', result);
+            if (result.success) {
+              // Remove reply from local threadReplies state
+              setThreadReplies(prev => ({
+                ...prev,
+                [deleteModalParentId]: (prev[deleteModalParentId] || []).filter(r => r.id !== deleteModalPostId)
+              }));
+            }
+          } else {
+            // Deleting a main post
+            await onDeletePost(deleteModalPostId);
+          }
+          
           setIsDeleting(false);
           setDeleteModalPostId(null);
+          setDeleteModalParentId(null);
         }}
         isDeleting={isDeleting}
       />

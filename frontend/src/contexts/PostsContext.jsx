@@ -92,6 +92,39 @@ const deletePost = async (id) => {
     };
   }
 };
+
+// FETCH REPLIES for a post
+const fetchReplies = async (postId) => {
+  try {
+    const replies = await postsService.getReplies(postId);
+    return { success: true, data: replies };
+  } catch (err) {
+    return {
+      success: false,
+      error: err.response?.data?.detail || 'Failed to fetch replies'
+    };
+  }
+};
+
+// CREATE REPLY to a post
+const createReply = async (parentId, content) => {
+  try {
+    const newReply = await postsService.createReply(parentId, content);
+    // Update reply_count on the parent post
+    setPosts(prev => prev.map(post =>
+      post.id === parentId 
+        ? { ...post, reply_count: (post.reply_count || 0) + 1 }
+        : post
+    ));
+    return { success: true, data: newReply };
+  } catch (err) {
+    return {
+      success: false,
+      error: err.response?.data?.detail || 'Failed to create reply'
+    };
+  }
+};
+
 // PROVIDER - wraps app and exposes state + actions to all children
 return (
   <PostsContext.Provider
@@ -105,6 +138,8 @@ return (
      createPost,
      updatePost,
      deletePost,
+     fetchReplies,
+     createReply,
   }}
   >
   {children}

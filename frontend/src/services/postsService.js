@@ -13,7 +13,7 @@
 import apiClient from "./apiClient"; // Axios instance with JWT interceptors
 
 const postsService = {
-  // GET /api/posts/ => lists all posts
+  // GET /api/posts/ => lists all posts (top-level only)
   getAll: async () => {
     const response = await apiClient.get("/posts/"); // Sends GET, token added automatically
     return response.data; // Return just the JSON array, not full axios response
@@ -23,12 +23,26 @@ const postsService = {
     const response = await apiClient.get(`/posts/${id}/`); // Template literal inserts id into URL
     return response.data;
   },
+  // GET /api/posts/:id/replies/ → get replies for a post
+  getReplies: async (id) => {
+    const response = await apiClient.get(`/posts/${id}/replies/`);
+    return response.data;
+  },
   // POST /api/posts/ → create post
   create: async (data) => {
     // data is an object like { content: "text", type: "thought" }
+    // For replies, include parent_id: parentPostId
     const response = await apiClient.post("/posts/", data);
     return response.data;
     // Returns the new post object with id, author, timestamps
+  },
+  // POST reply to a specific post
+  createReply: async (parentId, data) => {
+    const response = await apiClient.post("/posts/", {
+      ...data,
+      parent_id: parentId,
+    });
+    return response.data;
   },
   // PATCH /api/posts/:id/ → update post (partial update, not full replace)
   update: async (id, data) => {

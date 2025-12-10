@@ -39,6 +39,17 @@ class Post(models.Model):
     # blank=True, null=True = this field is OPTIONAL
     media_url = models.URLField(max_length=500, blank=True, null=True)
 
+    # Parent post for threading/replies
+    # null=True = top-level posts have no parent
+    # related_name='replies' = lets you do post.replies.all()
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='replies'
+    )
+
     # Timestamps - track when post was created and last updated
     # auto_now_add=True = set to NOW when post first created (never changes)
     created_at = models.DateTimeField(auto_now_add=True)
