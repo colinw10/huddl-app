@@ -37,145 +37,318 @@ Please teach me using:
 
 ```
 huddl-app/
+├── .gitignore
+├── BACKEND_README.md
+├── BACKEND_SETUP.md
+├── Makefile
+├── README.md
+│
 ├── backend/
-│   ├── manage.py
 │   ├── db.sqlite3
-│   ├── huddl/           # Django project settings
-│   │   ├── __init__.py
-│   │   ├── settings.py  # CORS, installed apps, database config
-│   │   ├── urls.py      # Main URL router (includes app URLs)
-│   │   ├── wsgi.py
-│   │   └── asgi.py
+│   ├── manage.py
+│   ├── seed_posts.py
 │   │
-│   ├── api/             # Core API app
+│   ├── huddl/                    # Django project settings
 │   │   ├── __init__.py
-│   │   ├── models.py
+│   │   ├── asgi.py
+│   │   ├── settings.py           # CORS, installed apps, database config
+│   │   ├── urls.py               # Main URL router (includes app URLs)
+│   │   └── wsgi.py
+│   │
+│   ├── users/                    # User management
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py             # User model (extends Django User)
 │   │   ├── serializers.py
-│   │   ├── views.py
 │   │   ├── urls.py
-│   │   └── apps.py
+│   │   ├── views.py
+│   │   ├── management/
+│   │   │   └── commands/
+│   │   │       └── create_test_user.py
+│   │   └── migrations/
+│   │       ├── __init__.py
+│   │       └── 0001_initial.py
 │   │
-│   ├── users/           # User management
+│   ├── posts/                    # Posts CRUD
 │   │   ├── __init__.py
-│   │   ├── models.py    # User model (extends Django User)
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py             # Post model (with parent for replies)
 │   │   ├── serializers.py
-│   │   ├── views.py
 │   │   ├── urls.py
-│   │   └── apps.py
-│   │
-│   ├── posts/           # Posts CRUD
-│   │   ├── __init__.py
-│   │   ├── models.py    # Post model
-│   │   ├── serializers.py
 │   │   ├── views.py
-│   │   ├── urls.py
-│   │   └── apps.py
+│   │   └── migrations/
+│   │       ├── __init__.py
+│   │       ├── 0001_initial.py
+│   │       └── 0002_post_parent.py
 │   │
-│   └── friends/         # Friend relationships
+│   └── friends/                  # Friend relationships
 │       ├── __init__.py
-│       ├── models.py    # Friendship model
+│       ├── admin.py
+│       ├── apps.py
+│       ├── models.py             # Friendship model
 │       ├── serializers.py
-│       ├── views.py
 │       ├── urls.py
-│       └── apps.py
+│       ├── views.py
+│       └── migrations/
+│           ├── __init__.py
+│           └── 0001_initial.py
+│
+├── docs/
+│   ├── huddl-app-summary.md
+│   ├── prompt.md
+│   ├── study.md
+│   │
+│   ├── features/
+│   │   ├── ActivityVisualization.md
+│   │   ├── ProfileCardFeatures.md
+│   │   └── VisualIdentitySystem.md
+│   │
+│   ├── refactoring/
+│   │   ├── CSS_REFACTOR_TODO.md
+│   │   └── SCSS_CONSOLIDATION_PLAN.md
+│   │
+│   ├── stretch-goals/
+│   │   ├── AdvancedAnalytics.md
+│   │   ├── MySpaceEasterEgg.md
+│   │   └── Posts.md
+│   │
+│   ├── study/
+│   │   └── ActivityVisualizationDeepDive.md
+│   │
+│   └── team-plan-v2/
+│       ├── PROJECT_TREE.md
+│       ├── README.md
+│       └── members/
+│           ├── colin/
+│           │   ├── OVERVIEW.md
+│           │   └── TASKS.md
+│           ├── crystal/
+│           │   ├── OVERVIEW.md
+│           │   └── TASKS.md
+│           ├── natalia/
+│           │   ├── OVERVIEW.md
+│           │   └── TASKS.md
+│           ├── pablo/
+│           │   ├── OVERVIEW.md
+│           │   └── TASKS.md
+│           └── tito/
+│               ├── OVERVIEW.md
+│               └── TASKS.md
 │
 └── frontend/
-    ├── package.json         # Dependencies (react, react-router-dom, vite)
-    ├── vite.config.js       # Vite bundler config
-    ├── index.html           # Entry HTML
+    ├── .gitignore
     ├── eslint.config.js
+    ├── index.html
+    ├── package.json
+    ├── package-lock.json
+    ├── README.md
+    ├── vite.config.js
+    │
+    ├── public/
+    │   └── vite.svg
     │
     └── src/
-        ├── main.jsx         # React app entry point (ReactDOM.render)
-        ├── App.jsx          # Root component with routing
-        ├── index.css        # Global CSS reset and base styles
+        ├── App.jsx                # Root component with routing
+        ├── main.jsx               # React app entry point
         │
-        ├── assets/          # Images, icons
+        ├── assets/
+        │   ├── Atepixels.svg
+        │   ├── huddl-logo.svg
+        │   └── react.svg
         │
         ├── components/
         │   │
-        │   ├── layout/      # Persistent UI components
+        │   ├── layout/            # Persistent UI components
         │   │   │
-        │   │   ├── TopBar/
-        │   │   │   ├── TopBar.jsx        # Header with logo
-        │   │   │   ├── TopBar.css
+        │   │   ├── BottomNav/
+        │   │   │   ├── BottomNav.jsx
+        │   │   │   ├── BottomNav.scss
         │   │   │   └── index.js
         │   │   │
-        │   │   └── SideNav/
-        │   │       ├── SideNav.jsx       # Main nav (responsive: left sidebar on desktop, bottom bar on mobile)
-        │   │       ├── SideNav.css       # .main-nav, .left-nav, .bottom-nav
-        │   │       └── index.js
+        │   │   ├── SideNav/
+        │   │   │   ├── SideNav.jsx
+        │   │   │   ├── SideNav.scss
+        │   │   │   └── index.js
+        │   │   │
+        │   │   └── TopBar/
+        │   │       ├── TopBar.jsx
+        │   │       ├── TopBar.scss
+        │   │       ├── index.js
+        │   │       └── MessageModal/
+        │   │           ├── MessageModal.jsx
+        │   │           ├── MessageModal.scss
+        │   │           └── styles/
+        │   │               ├── _animations.scss
+        │   │               ├── _chat.scss
+        │   │               ├── _composer.scss
+        │   │               ├── _conversations.scss
+        │   │               ├── _header.scss
+        │   │               ├── _light-mode.scss
+        │   │               ├── _overlay.scss
+        │   │               └── _responsive.scss
         │   │
-        │   ├── pages/       # Route-level components
+        │   ├── pages/             # Route-level components
         │   │   │
-        │   │   ├── Landing/
-        │   │   │   ├── Landing.jsx       # Public homepage
-        │   │   │   └── Landing.css
+        │   │   ├── About/
+        │   │   │   ├── About.jsx
+        │   │   │   ├── About.scss
+        │   │   │   └── index.js
         │   │   │
-        │   │   ├── Login/
-        │   │   │   ├── Login.jsx         # Auth form with holographic inputs
-        │   │   │   └── Login.css
-        │   │   │
-        │   │   ├── Signup/
-        │   │   │   ├── Signup.jsx        # Registration form
-        │   │   │   └── Signup.css
+        │   │   ├── Friends/
+        │   │   │   ├── Friends.jsx
+        │   │   │   ├── Friends.scss
+        │   │   │   └── index.js
         │   │   │
         │   │   ├── Home/
-        │   │   │   ├── Home.jsx          # Main feed
-        │   │   │   ├── Home.css          # Story cards, composer, feed container
-        │   │   │   ├── FeedAdditions.css
+        │   │   │   ├── Home.jsx
+        │   │   │   ├── Home.scss
         │   │   │   ├── index.js
         │   │   │   │
         │   │   │   ├── components/
-        │   │   │   │   ├── TimelineRiverFeed.jsx   # Groups posts by time
-        │   │   │   │   ├── TimelineRiverFeed.css
-        │   │   │   │   ├── TimelineRiverRow.jsx    # Renders post groups
-        │   │   │   │   ├── TimelineRiverRow.css
-        │   │   │   │   └── index.js
+        │   │   │   │   ├── DeleteConfirmModal/
+        │   │   │   │   │   ├── DeleteConfirmModal.jsx
+        │   │   │   │   │   └── DeleteConfirmModal.scss
+        │   │   │   │   │
+        │   │   │   │   ├── MediaLightbox/
+        │   │   │   │   │   ├── MediaLightbox.jsx
+        │   │   │   │   │   ├── MediaLightbox.scss
+        │   │   │   │   │   └── styles/
+        │   │   │   │   │       ├── _animations.scss
+        │   │   │   │   │       ├── _comments.scss
+        │   │   │   │   │       ├── _image.scss
+        │   │   │   │   │       ├── _info-panel.scss
+        │   │   │   │   │       ├── _light-mode.scss
+        │   │   │   │   │       ├── _overlay.scss
+        │   │   │   │   │       └── _responsive.scss
+        │   │   │   │   │
+        │   │   │   │   ├── TimelineRiverFeed/
+        │   │   │   │   │   ├── TimelineRiverFeed.jsx
+        │   │   │   │   │   ├── TimelineRiverFeed.scss
+        │   │   │   │   │   └── index.js
+        │   │   │   │   │
+        │   │   │   │   └── TimelineRiverRow/
+        │   │   │   │       ├── TimelineRiverRow.jsx
+        │   │   │   │       ├── TimelineRiverRow.scss
+        │   │   │   │       ├── index.js
+        │   │   │   │       └── styles/
+        │   │   │   │           ├── _base.scss
+        │   │   │   │           ├── _carousel.scss
+        │   │   │   │           ├── _composer.scss
+        │   │   │   │           ├── _desktop-stack-nav.scss
+        │   │   │   │           ├── _light-mode.scss
+        │   │   │   │           ├── _post-actions.scss
+        │   │   │   │           ├── _post-card.scss
+        │   │   │   │           ├── _post-media.scss
+        │   │   │   │           ├── _responsive.scss
+        │   │   │   │           ├── _smart-deck.scss
+        │   │   │   │           └── _thread.scss
         │   │   │   │
         │   │   │   └── utils/
-        │   │   │       └── groupPosts.js  # Post grouping logic
+        │   │   │       └── groupPosts.js
+        │   │   │
+        │   │   ├── Landing/
+        │   │   │   ├── Landing.jsx
+        │   │   │   ├── Landing.scss
+        │   │   │   └── index.js
+        │   │   │
+        │   │   ├── Login/
+        │   │   │   ├── Login.jsx
+        │   │   │   ├── Login.scss
+        │   │   │   └── index.js
+        │   │   │
+        │   │   ├── NotFound/
+        │   │   │   ├── NotFound.jsx
+        │   │   │   ├── NotFound.scss
+        │   │   │   └── index.js
         │   │   │
         │   │   ├── Profile/
-        │   │   │   ├── Profile.jsx        # User profile with view toggle
-        │   │   │   ├── Profile.css        # Timeline/Friends buttons
-        │   │   │   ├── Profile-backup.css
+        │   │   │   ├── Profile.jsx
+        │   │   │   ├── Profile.scss
         │   │   │   ├── index.js
         │   │   │   │
         │   │   │   └── components/
         │   │   │       │
+        │   │   │       ├── ComposerModal/
+        │   │   │       │   ├── ComposerModal.jsx
+        │   │   │       │   ├── ComposerModal.scss
+        │   │   │       │   └── index.js
+        │   │   │       │
         │   │   │       ├── ProfileCard/
-        │   │   │       │   ├── ProfileCard.jsx   # User info, avatar, stats
-        │   │   │       │   ├── ProfileCard.css
-        │   │   │       │   └── index.js
+        │   │   │       │   ├── ProfileCard.jsx
+        │   │   │       │   ├── ProfileCard.scss
+        │   │   │       │   ├── index.js
+        │   │   │       │   │
+        │   │   │       │   └── components/
+        │   │   │       │       ├── ActivityVisualization/
+        │   │   │       │       │   ├── ActivityVisualization.jsx
+        │   │   │       │       │   ├── ActivityVisualization.scss
+        │   │   │       │       │   └── index.js
+        │   │   │       │       │
+        │   │   │       │       ├── PostTypeBreakdown/
+        │   │   │       │       │   ├── PostTypeBreakdown.jsx
+        │   │   │       │       │   ├── PostTypeBreakdown.scss
+        │   │   │       │       │   └── index.js
+        │   │   │       │       │
+        │   │   │       │       ├── ProfileCardBack/
+        │   │   │       │       │   ├── ProfileCardBack.jsx
+        │   │   │       │       │   ├── ProfileCardBack.scss
+        │   │   │       │       │   └── index.js
+        │   │   │       │       │
+        │   │   │       │       ├── ProfileCardFront/
+        │   │   │       │       │   ├── ProfileCardFront.jsx
+        │   │   │       │       │   ├── ProfileCardFront.scss
+        │   │   │       │       │   └── index.js
+        │   │   │       │       │
+        │   │   │       │       └── QuickSettings/
+        │   │   │       │           ├── QuickSettings.jsx
+        │   │   │       │           ├── QuickSettings.scss
+        │   │   │       │           └── index.js
         │   │   │       │
-        │   │   │       ├── TimelineRiver/
-        │   │   │       │   ├── TimelineRiver.jsx  # User's posts timeline
-        │   │   │       │   ├── TimelineRiver.css
-        │   │   │       │   └── index.js
-        │   │   │       │
-        │   │   │       └── ComposerModal/
-        │   │   │           ├── ComposerModal.jsx  # Post creation modal
-        │   │   │           ├── ComposerModal.css
+        │   │   │       └── TimelineRiver/
+        │   │   │           ├── TimelineRiver.jsx
+        │   │   │           ├── TimelineRiver.scss
         │   │   │           └── index.js
         │   │   │
-        │   │   ├── Friends/
-        │   │   │   └── Friends.jsx        # Friends list
-        │   │   │
-        │   │   └── About/
-        │   │       └── About.jsx          # About page
+        │   │   └── Signup/
+        │   │       ├── Signup.jsx
+        │   │       ├── Signup.scss
+        │   │       └── index.js
         │   │
-        │   └── ui/          # Reusable UI components (future)
+        │   └── ui/                # Reusable UI components
+        │       ├── ProtectedRoute.jsx
+        │       └── ThemeToggle/
+        │           ├── ThemeToggle.jsx
+        │           ├── ThemeToggle.scss
+        │           └── index.js
         │
-        └── styles/          # Global CSS modules
-            ├── design-const.css # Design tokens (colors, spacing, typography)
-            ├── utilities.css    # Utility classes (buttons, cards, animations)
-            ├── theme.css        # Theme system (future)
-            ├── App.css
-            ├── Buttons.css      # Legacy button styles
-            ├── Logo.css
-            ├── Blobs.css        # Animated background blobs
-            └── BackButton.css
+        ├── contexts/              # React Context providers
+        │   ├── AuthContext.jsx
+        │   ├── FriendsContext.jsx
+        │   ├── MessageContext.jsx
+        │   ├── PostsContext.jsx
+        │   ├── ThemeContext.jsx
+        │   └── index.js
+        │
+        ├── services/              # API service layer
+        │   ├── apiClient.js
+        │   ├── friendsService.js
+        │   └── postsService.js
+        │
+        └── styles/                # Global SCSS modules
+            ├── main.scss          # Main entry (imports all partials)
+            ├── _animations.scss
+            ├── _blobs.scss
+            ├── _buttons.scss
+            ├── _cards.scss
+            ├── _layout.scss
+            ├── _light-mode.scss
+            ├── _mixins.scss
+            ├── _reset.scss
+            ├── _theme.scss
+            ├── _typography.scss
+            ├── _utilities.scss
+            └── _variables.scss
 ```
 
 ---
