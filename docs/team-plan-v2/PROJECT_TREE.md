@@ -1,7 +1,7 @@
 # HUDDL Project Tree - Responsibility Matrix
 
 > **Legend:**  
-> 🔵 PABLO | 🟢 COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO  
+> � COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO | 🔵 PABLO  
 > ✅ = Done | ❌ = TODO (needs implementation)
 
 ```
@@ -143,20 +143,7 @@ huddl-app/
 
 ## Summary by Person
 
-### 🔵 Pablo (UI Architect) - ~60% ✅
-
-**COMPLETE:**
-- All CSS/SCSS styling across the entire project
-- All page component structure (JSX layout)
-- Design system (`styles/` folder)
-- Layout components (Shell, TopBar, SideNav, BottomNav)
-- Theme system and animations
-- Documentation and project coordination
-- Home.jsx and Profile.jsx (complex pages - full implementation)
-- Backend users/ app (models, serializers, views, urls)
-- Backend configuration (settings.py, urls.py)
-
-### 🟢 Colin (Posts API + Frontend) - ~20%
+### � Colin (Posts System) - ~22.5%
 
 **YOUR FILES TO IMPLEMENT:**
 | File | What to do |
@@ -170,7 +157,7 @@ huddl-app/
 
 **SEE:** `docs/team-plan-v2/members/colin/TASKS.md` for code examples!
 
-### 🟡 Natalia (Auth Frontend) - ~10%
+### 🟡 Natalia (Auth System) - ~22.5%
 
 **YOUR FILES TO IMPLEMENT:**
 | File | What to do |
@@ -178,10 +165,11 @@ huddl-app/
 | `frontend/src/contexts/AuthContext.jsx` | Auth state management |
 | `frontend/src/components/pages/Login/Login.jsx` | Wire up handleSubmit (UI done!) |
 | `frontend/src/components/pages/Signup/Signup.jsx` | Wire up handleSubmit (UI done!) |
+| `frontend/src/components/ui/ProtectedRoute.jsx` | Auth guard logic |
 
 **SEE:** `docs/team-plan-v2/members/natalia/TASKS.md` for code examples!
 
-### 🟣 Crystal (Friends System) - ~10%
+### 🟣 Crystal (Friends System) - ~22.5%
 
 **YOUR FILES TO IMPLEMENT:**
 | File | What to do |
@@ -197,14 +185,25 @@ huddl-app/
 
 **SEE:** `docs/team-plan-v2/members/crystal/TASKS.md` for code examples!
 
-### 🟠 Tito (API Client) - ~5%
+### 🟠 Tito (Infrastructure) - ~10%
 
 **YOUR FILES TO IMPLEMENT:**
 | File | What to do |
 |------|-----------|
 | `frontend/src/services/apiClient.js` | Axios setup + token refresh |
+| `frontend/src/utils/` | Helper functions (formatters, validators) |
 
 **SEE:** `docs/team-plan-v2/members/tito/TASKS.md` for code examples!
+
+### 🔵 Pablo (UI Architecture) - ~22.5%
+
+**COMPLETE:**
+- All CSS/SCSS styling across the entire project
+- All page component structure (JSX layout)
+- Design system (`styles/` folder)
+- Layout components (Shell, TopBar, SideNav, BottomNav)
+- Theme system and animations
+- Documentation and project coordination
 
 ---
 

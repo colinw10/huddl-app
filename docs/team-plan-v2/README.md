@@ -12,11 +12,11 @@
 
 | Member      | Role                   | Primary Domain                                  |
 | ----------- | ---------------------- | ----------------------------------------------- |
-| **Pablo**   | UI Architect & Lead    | Frontend design, styling, component structure   |
-| **Colin**   | Posts Backend Lead     | Posts API, CRUD operations, feed logic          |
+| **Colin**   | Posts Lead             | Posts API, CRUD operations, feed logic          |
 | **Natalia** | Auth & Users Lead      | Authentication, user profiles, protected routes |
 | **Crystal** | Friends System Lead    | Friends/connections, social features            |
 | **Tito**    | Infrastructure & Utils | API client, services layer, utilities, config   |
+| **Pablo**   | UI Architect & Lead    | Frontend design, styling, component structure   |
 
 ## Quick Links
 
