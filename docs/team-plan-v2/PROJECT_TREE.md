@@ -1,7 +1,7 @@
 # HUDDL Project Tree - Responsibility Matrix
 
 > **Legend:**  
-> 🔵 PABLO | 🟢 COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO  
+> � COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO | 🔵 PABLO  
 > ✅ = Done | ❌ = TODO (needs implementation)
 
 ```
