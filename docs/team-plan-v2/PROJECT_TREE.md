@@ -1,230 +1,127 @@
-# HUDDL Project Tree - Responsibility Matrix
+# HUDDL Frontend - Task Distribution
 
-> **Legend:**  
-> � COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO | 🔵 PABLO  
-> ✅ = Done | ❌ = TODO (needs implementation)
+> **FRONTEND ONLY BRANCH**  
+> Legend: 🔵 PABLO | 🟢 COLIN | 🟡 NATALIA | 🟣 CRYSTAL | 🟠 TITO
+
+---
+
+## Distribution Summary
+
+| Person | Files | Lines | % |
+|--------|-------|-------|---|
+| Pablo | 1 | ~1034 | ~21% |
+| Colin | 6 | ~978 | ~20% |
+| Natalia | 7 | ~987 | ~20% |
+| Crystal | 6 | ~995 | ~20% |
+| Tito | 7 | ~867 | ~18% |
+
+---
+
+## File Assignments
 
 ```
-huddl-app/
-├── README.md                              🔵 PABLO ✅
-├── BACKEND_README.md                      🔵 PABLO ✅
-├── Makefile                               🔵 PABLO ✅
+frontend/src/components/
 │
-├── backend/
-│   ├── manage.py                          ✅ (auto-generated)
-│   ├── db.sqlite3                         ✅ (auto-generated)
-│   │
-│   ├── huddl/                             # Project settings
-│   │   ├── settings.py                    🔵 PABLO ✅ (CORS configured)
-│   │   ├── urls.py                        🔵 PABLO ✅
-│   │   └── wsgi.py / asgi.py              ✅ (auto-generated)
-│   │
-│   ├── posts/                             # Posts app - COLIN
-│   │   ├── models.py                      🔵 PABLO ✅
-│   │   ├── serializers.py                 🟢 COLIN ❌ TODO
-│   │   ├── urls.py                        🟢 COLIN ❌ TODO
-│   │   ├── views.py                       🟢 COLIN ❌ TODO
-│   │   ├── admin.py                       🟢 COLIN ❌ TODO
-│   │   └── migrations/                    ✅ (auto-generated)
-│   │
-│   ├── users/                             # Users/Auth app - NATALIA
-│   │   ├── models.py                      🔵 PABLO ✅
-│   │   ├── serializers.py                 🔵 PABLO ✅
-│   │   ├── urls.py                        🔵 PABLO ✅
-│   │   ├── views.py                       🔵 PABLO ✅
-│   │   ├── apps.py                        ✅ (auto-generated)
-│   │   └── migrations/                    ✅ (auto-generated)
-│   │
-│   └── friends/                           # Friends app - CRYSTAL
-│       ├── models.py                      �� CRYSTAL ❌ TODO
-│       ├── serializers.py                 🟣 CRYSTAL ❌ TODO
-│       ├── urls.py                        🟣 CRYSTAL ❌ TODO
-│       ├── views.py                       🟣 CRYSTAL ❌ TODO
-│       ├── admin.py                       🟣 CRYSTAL ❌ TODO
-│       └── migrations/                    ✅ (auto-generated)
+├── layout/
+│   ├── Shell/
+│   │   └── Shell.jsx                      🟢 COLIN
+│   ├── SideNav/
+│   │   └── SideNav.jsx                    🟡 NATALIA
+│   └── TopBar/
+│       ├── TopBar.jsx                     🟠 TITO
+│       └── MessageModal/
+│           └── MessageModal.jsx           🟣 CRYSTAL
 │
-├── frontend/
-│   ├── index.html                         🔵 PABLO ✅
-│   ├── package.json                       🔵 PABLO ✅
-│   ├── vite.config.js                     🔵 PABLO ✅
-│   ├── eslint.config.js                   🔵 PABLO ✅
-│   │
-│   └── src/
-│       ├── main.jsx                       🔵 PABLO ✅
-│       ├── App.jsx                        🔵 PABLO ✅
-│       ├── index.css                      🔵 PABLO ✅
-│       │
-│       ├── styles/                        # Design System [ALL PABLO ✅]
-│       │   ├── main.scss                  🔵 PABLO ✅
-│       │   ├── _variables.scss            🔵 PABLO ✅
-│       │   ├── _theme.scss                🔵 PABLO ✅
-│       │   ├── _mixins.scss               🔵 PABLO ✅
-│       │   ├── _reset.scss                🔵 PABLO ✅
-│       │   ├── _typography.scss           🔵 PABLO ✅
-│       │   ├── _layout.scss               🔵 PABLO ✅
-│       │   ├── _buttons.scss              🔵 PABLO ✅
-│       │   ├── _cards.scss                🔵 PABLO ✅
-│       │   ├── _glass.scss                🔵 PABLO ✅
-│       │   ├── _blobs.scss                🔵 PABLO ✅
-│       │   ├── _animations.scss           🔵 PABLO ✅
-│       │   ├── _utilities.scss            🔵 PABLO ✅
-│       │   └── _light-mode.scss           🔵 PABLO ✅
-│       │
-│       ├── services/                      # API Layer
-│       │   ├── apiClient.js               🟠 TITO ❌ TODO
-│       │   ├── postsService.js            🟢 COLIN ❌ TODO
-│       │   ├── friendsService.js          🟣 CRYSTAL ❌ TODO
-│       │   └── README.md                  🔵 PABLO ✅
-│       │
-│       ├── contexts/                      # State Management
-│       │   ├── index.js                   🔵 PABLO ✅
-│       │   ├── ThemeContext.jsx           🔵 PABLO ✅
-│       │   ├── MessageContext.jsx         🔵 PABLO ✅
-│       │   ├── AuthContext.jsx            �� NATALIA ❌ TODO
-│       │   ├── PostsContext.jsx           🟢 COLIN ❌ TODO
-│       │   └── FriendsContext.jsx         🟣 CRYSTAL ❌ TODO
-│       │
-│       ├── utils/                         # Helpers
-│       │   └── README.md                  🔵 PABLO ✅
-│       │
-│       ├── components/
-│       │   │
-│       │   ├── layout/                    # Layout [ALL PABLO ✅]
-│       │   │   ├── Shell/                 🔵 PABLO ✅
-│       │   │   ├── TopBar/                🔵 PABLO ✅
-│       │   │   ├── SideNav/               🔵 PABLO ✅
-│       │   │   └── BottomNav/             🔵 PABLO ✅
-│       │   │
-│       │   ├── ui/                        # Shared UI Components
-│       │   │   ├── ThemeToggle/           🔵 PABLO ✅
-│       │   │   └── ProtectedRoute.jsx     🔵 PABLO ✅
-│       │   │
-│       │   └── pages/
-│       │       ├── Landing/               🔵 PABLO ✅
-│       │       │   ├── Landing.jsx        🔵 PABLO ✅
-│       │       │   └── Landing.scss       🔵 PABLO ✅
-│       │       │
-│       │       ├── Login/                 # NATALIA wires up auth logic
-│       │       │   ├── Login.jsx          🔵 UI ✅ | 🟡 LOGIC ❌
-│       │       │   └── Login.scss         🔵 PABLO ✅
-│       │       │
-│       │       ├── Signup/                # NATALIA wires up auth logic
-│       │       │   ├── Signup.jsx         🔵 UI ✅ | 🟡 LOGIC ❌
-│       │       │   └── Signup.scss        🔵 PABLO ✅
-│       │       │
-│       │       ├── Home/                  # PABLO (complex page)
-│       │       │   ├── Home.jsx           🔵 PABLO ✅
-│       │       │   └── Home.scss          🔵 PABLO ✅
-│       │       │
-│       │       ├── Profile/               # PABLO (complex page)
-│       │       │   ├── Profile.jsx        🔵 PABLO ✅
-│       │       │   └── Profile.scss       🔵 PABLO ✅
-│       │       │
-│       │       ├── Friends/               # CRYSTAL wires up friends logic
-│       │       │   ├── Friends.jsx        🔵 UI ✅ | 🟣 LOGIC ❌
-│       │       │   └── Friends.scss       🔵 PABLO ✅
-│       │       │
-│       │       ├── About/                 
-│       │       │   ├── About.jsx          🔵 PABLO ✅
-│       │       │   └── About.scss         🔵 PABLO ✅
-│       │       │
-│       │       └── NotFound/              
-│       │           ├── NotFound.jsx       🔵 PABLO ✅
-│       │           └── NotFound.scss      🔵 PABLO ✅
+├── ui/
+│   ├── ThemeToggle/
+│   │   └── ThemeToggle.jsx                🟠 TITO
+│   ├── ProtectedRoute.jsx                 🟢 COLIN
+│   └── MessageModal/
+│       └── MessageModal.jsx               🟡 NATALIA
 │
-└── docs/                                  🔵 PABLO ✅
-    ├── huddl-app-summary.md               🔵 PABLO ✅
-    ├── features/                          🔵 PABLO ✅
-    ├── stretch-goals/                     🔵 PABLO ✅
-    └── team-plan-v2/                      🔵 PABLO ✅
+└── pages/
+    ├── Landing/
+    │   └── Landing.jsx                    🟠 TITO
+    ├── Login/
+    │   └── Login.jsx                      🟢 COLIN
+    ├── Signup/
+    │   └── Signup.jsx                     🟣 CRYSTAL
+    ├── Home/
+    │   ├── Home.jsx                       🟠 TITO
+    │   └── components/
+    │       ├── TimelineRiverRow/
+    │       │   └── TimelineRiverRow.jsx   🔵 PABLO
+    │       ├── TimelineRiverFeed/
+    │       │   └── TimelineRiverFeed.jsx  🟠 TITO
+    │       ├── MediaLightbox/
+    │       │   └── MediaLightbox.jsx      🟢 COLIN
+    │       └── DeleteConfirmModal/
+    │           └── DeleteConfirmModal.jsx 🟡 NATALIA
+    ├── Profile/
+    │   ├── Profile.jsx                    🟠 TITO
+    │   └── components/
+    │       ├── TimelineRiver/
+    │       │   └── TimelineRiver.jsx      🟢 COLIN
+    │       ├── ComposerModal/
+    │       │   └── ComposerModal.jsx      🟣 CRYSTAL
+    │       └── ProfileCard/
+    │           ├── ProfileCard.jsx        🟣 CRYSTAL
+    │           └── components/
+    │               ├── ActivityVisualization/
+    │               │   └── ActivityVisualization.jsx  🟡 NATALIA
+    │               ├── ProfileCardFront/
+    │               │   └── ProfileCardFront.jsx       🟡 NATALIA
+    │               ├── ProfileCardBack/
+    │               │   └── ProfileCardBack.jsx        🟡 NATALIA
+    │               ├── QuickSettings/
+    │               │   └── QuickSettings.jsx          🟡 NATALIA
+    │               └── PostTypeBreakdown/
+    │                   └── PostTypeBreakdown.jsx      🟣 CRYSTAL
+    ├── Friends/
+    │   └── Friends.jsx                    🟣 CRYSTAL
+    ├── About/
+    │   └── About.jsx                      🟠 TITO
+    └── NotFound/
+        └── NotFound.jsx                   🟢 COLIN
 ```
 
 ---
 
-## Summary by Person
+## Per-Person Summary
 
-### � Colin (Posts System) - ~22.5%
+### 🔵 PABLO (~21%)
+- `TimelineRiverRow.jsx` (1034 lines)
 
-**YOUR FILES TO IMPLEMENT:**
-| File | What to do |
-|------|-----------|
-| `backend/posts/serializers.py` | Create PostSerializer |
-| `backend/posts/views.py` | Create PostViewSet with CRUD |
-| `backend/posts/urls.py` | Set up router |
-| `backend/posts/admin.py` | Register Post model |
-| `frontend/src/services/postsService.js` | API calls for posts |
-| `frontend/src/contexts/PostsContext.jsx` | Posts state management |
+### 🟢 COLIN (~20%)
+- `TimelineRiver.jsx` (477)
+- `Login.jsx` (198)
+- `MediaLightbox.jsx` (162)
+- `Shell.jsx` (71)
+- `ProtectedRoute.jsx` (40)
+- `NotFound.jsx` (30)
 
-**SEE:** `docs/team-plan-v2/members/colin/TASKS.md` for code examples!
+### 🟡 NATALIA (~20%)
+- `ActivityVisualization.jsx` (288)
+- `ProfileCardFront.jsx` (201)
+- `SideNav.jsx` (159)
+- `ProfileCardBack.jsx` (119)
+- `MessageModal.jsx` (ui) (103)
+- `QuickSettings.jsx` (61)
+- `DeleteConfirmModal.jsx` (56)
 
-### 🟡 Natalia (Auth System) - ~22.5%
+### 🟣 CRYSTAL (~20%)
+- `Friends.jsx` (228)
+- `Signup.jsx` (227)
+- `ProfileCard.jsx` (168)
+- `MessageModal.jsx` (TopBar) (154)
+- `ComposerModal.jsx` (147)
+- `PostTypeBreakdown.jsx` (71)
 
-**YOUR FILES TO IMPLEMENT:**
-| File | What to do |
-|------|-----------|
-| `frontend/src/contexts/AuthContext.jsx` | Auth state management |
-| `frontend/src/components/pages/Login/Login.jsx` | Wire up handleSubmit (UI done!) |
-| `frontend/src/components/pages/Signup/Signup.jsx` | Wire up handleSubmit (UI done!) |
-| `frontend/src/components/ui/ProtectedRoute.jsx` | Auth guard logic |
-
-**SEE:** `docs/team-plan-v2/members/natalia/TASKS.md` for code examples!
-
-### 🟣 Crystal (Friends System) - ~22.5%
-
-**YOUR FILES TO IMPLEMENT:**
-| File | What to do |
-|------|-----------|
-| `backend/friends/models.py` | Create Friendship + FriendRequest models |
-| `backend/friends/serializers.py` | Create serializers |
-| `backend/friends/views.py` | Create friend endpoints |
-| `backend/friends/urls.py` | Set up routing |
-| `backend/friends/admin.py` | Register models |
-| `frontend/src/services/friendsService.js` | API calls for friends |
-| `frontend/src/contexts/FriendsContext.jsx` | Friends state management |
-| `frontend/src/components/pages/Friends/Friends.jsx` | Wire up handlers (UI done!) |
-
-**SEE:** `docs/team-plan-v2/members/crystal/TASKS.md` for code examples!
-
-### 🟠 Tito (Infrastructure) - ~10%
-
-**YOUR FILES TO IMPLEMENT:**
-| File | What to do |
-|------|-----------|
-| `frontend/src/services/apiClient.js` | Axios setup + token refresh |
-| `frontend/src/utils/` | Helper functions (formatters, validators) |
-
-**SEE:** `docs/team-plan-v2/members/tito/TASKS.md` for code examples!
-
-### 🔵 Pablo (UI Architecture) - ~22.5%
-
-**COMPLETE:**
-- All CSS/SCSS styling across the entire project
-- All page component structure (JSX layout)
-- Design system (`styles/` folder)
-- Layout components (Shell, TopBar, SideNav, BottomNav)
-- Theme system and animations
-- Documentation and project coordination
-
----
-
-## Quick Start Commands
-
-```bash
-# Backend
-cd backend
-python manage.py migrate
-python manage.py runserver
-
-# Frontend (separate terminal)
-cd frontend
-npm install
-npm run dev
-```
-
----
-
-## File Status Key
-
-- **🔵 UI ✅ | 🟡 LOGIC ❌** = Pablo did the styling/JSX, teammate implements the logic
-- **❌ TODO** = File has placeholder structure, needs implementation
-- **✅** = Complete and working
+### 🟠 TITO (~18%)
+- `Home.jsx` (216)
+- `Profile.jsx` (139)
+- `Landing.jsx` (112)
+- `About.jsx` (132)
+- `ThemeToggle.jsx` (93)
+- `TopBar.jsx` (92)
+- `TimelineRiverFeed.jsx` (83)

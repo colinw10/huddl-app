@@ -1,222 +1,178 @@
-# Natalia - Auth Tasks
+# Natalia - Frontend Tasks
 
-> **Your Role:** Wire up the authentication frontend. The backend auth is DONE. The UI is DONE. You just need to connect them!
+> **Your Role:** ~20% of frontend work (7 files, ~987 lines)
 
 ---
 
 ## 📁 YOUR FILES
 
-| File | Status | What to do |
-|------|--------|-----------|
-| `frontend/src/contexts/AuthContext.jsx` | ❌ TODO | Implement auth state management |
-| `frontend/src/components/pages/Login/Login.jsx` | 🔵 UI ✅ / 🟡 Logic ❌ | Wire up handleSubmit |
-| `frontend/src/components/pages/Signup/Signup.jsx` | 🔵 UI ✅ / 🟡 Logic ❌ | Wire up handleSubmit |
+| File | Lines |
+|------|-------|
+| `components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.jsx` | 288 |
+| `components/pages/Profile/components/ProfileCard/components/ProfileCardFront/ProfileCardFront.jsx` | 201 |
+| `components/layout/SideNav/SideNav.jsx` | 159 |
+| `components/pages/Profile/components/ProfileCard/components/ProfileCardBack/ProfileCardBack.jsx` | 119 |
+| `components/ui/MessageModal/MessageModal.jsx` | 103 |
+| `components/pages/Profile/components/ProfileCard/components/QuickSettings/QuickSettings.jsx` | 61 |
+| `components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx` | 56 |
 
 ---
 
-## Week 1: Test Backend Auth
+## Task 1: ActivityVisualization.jsx
 
-### Task 1: Verify Backend Auth Works
+Visual display of user activity (posts over time).
 
-Test the existing endpoints:
+**Requirements:**
+- Show activity as a chart/graph
+- Display post frequency data
+- Handle empty state
+- Animate on load
 
-```bash
-# Signup
-curl -X POST http://127.0.0.1:8000/api/auth/signup/ \
-  -H "Content-Type: application/json" \
-  -d '{"username":"testuser","email":"test@test.com","password":"test123"}'
-
-# Login (uses EMAIL, not username!)
-curl -X POST http://127.0.0.1:8000/api/auth/login/ \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@test.com","password":"test123"}'
-```
-
-You should get JWT tokens back from login.
-
----
-
-## Week 2: Implement AuthContext
-
-### Task 1: Open `frontend/src/contexts/AuthContext.jsx`
-
-The file has TODO comments. Here's the code to implement:
-
-```javascript
-import { createContext, useContext, useState, useEffect } from 'react';
-
-const AuthContext = createContext(null);
-
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  // Check if user is logged in on mount
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Fetch current user
-      fetchCurrentUser(token);
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const fetchCurrentUser = async (token) => {
-    try {
-      const response = await fetch('http://localhost:8000/api/auth/me/', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        // Token invalid, clear it
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-      }
-    } catch (error) {
-      console.error('Failed to fetch user:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const login = async (email, password) => {
-    try {
-      const response = await fetch('http://localhost:8000/api/auth/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.access) {
-        localStorage.setItem('token', data.access);
-        localStorage.setItem('refreshToken', data.refresh);
-        await fetchCurrentUser(data.access);
-        return { success: true };
-      }
-
-      return { success: false, error: data.detail || 'Login failed' };
-    } catch (error) {
-      return { success: false, error: 'Network error' };
-    }
-  };
-
-  const signup = async (username, email, password) => {
-    try {
-      const response = await fetch('http://localhost:8000/api/auth/signup/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        return { success: true };
-      }
-
-      // Handle validation errors
-      const errorMsg = data.email?.[0] || data.username?.[0] || data.password?.[0] || 'Signup failed';
-      return { success: false, error: errorMsg };
-    } catch (error) {
-      return { success: false, error: 'Network error' };
-    }
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    setUser(null);
-  };
+**Example pattern:**
+```jsx
+const ActivityVisualization = ({ posts }) => {
+  const activityData = useMemo(() => {
+    // TODO: Process posts into chart data
+  }, [posts]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <div className="activity-viz">
+      {/* TODO: Render visualization */}
+    </div>
   );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
-  return context;
-}
-
-export default AuthContext;
+};
 ```
 
 ---
 
-## Week 3: Wire Up Login Page
+## Task 2: ProfileCardFront.jsx
 
-### Task 1: Open `frontend/src/components/pages/Login/Login.jsx`
+Front side of flippable profile card.
 
-Find the `handleSubmit` function and implement it. Look for the TODO comments!
+**Requirements:**
+- Display avatar, username, bio
+- Show stats (posts count, friends count)
+- Flip trigger button
 
-**What to change:**
+---
 
-1. Uncomment the `useAuth` import at the top
-2. Uncomment `const { login } = useAuth();`
-3. Replace the placeholder in `handleSubmit`:
+## Task 3: SideNav.jsx
 
-```javascript
-// In handleSubmit, replace the placeholder with:
-const result = await login(formData.email, formData.password);
+Side navigation for desktop view.
 
-if (result.success) {
-  navigate(from, { replace: true });
-} else {
-  setErrors({ submit: result.error });
-}
-setIsLoading(false);
+**Requirements:**
+- Navigation links (Home, Profile, Friends, About)
+- Active state highlighting
+- Message button
+- Responsive behavior
+
+---
+
+## Task 4: ProfileCardBack.jsx
+
+Back side of flippable profile card.
+
+**Requirements:**
+- Settings or additional info
+- Flip back trigger
+
+---
+
+## Task 5: MessageModal.jsx (ui)
+
+Modal for direct messaging.
+
+**Requirements:**
+- Message input textarea
+- Send button
+- Message history display
+
+---
+
+## Task 6: QuickSettings.jsx
+
+Quick settings panel on profile card.
+
+**Requirements:**
+- Theme toggle
+- Basic settings options
+
+---
+
+## Task 7: DeleteConfirmModal.jsx
+
+Confirmation modal before deleting a post.
+
+**Requirements:**
+- Warning message
+- Confirm/Cancel buttons
+- Handle delete action
+
+---
+
+## Testing
+
+```bash
+cd frontend && npm run dev
 ```
 
 ---
 
-## Week 4: Wire Up Signup Page
+## 🎨 STYLING YOUR COMPONENTS
 
-### Task 1: Open `frontend/src/components/pages/Signup/Signup.jsx`
+Each JSX file has a matching `.scss` file. Your SCSS files:
+- `ActivityVisualization.scss`
+- `ProfileCardFront.scss`
+- `SideNav.scss`
+- `ProfileCardBack.scss`
+- `MessageModal.scss` (in `/ui/`)
+- `QuickSettings.scss`
+- `DeleteConfirmModal.scss`
 
-Same pattern as Login!
+### How It Works
 
-1. Uncomment the `useAuth` import at the top
-2. Uncomment `const { signup } = useAuth();`
-3. Replace the placeholder in `handleSubmit`:
+The **structure and layout CSS is already written**. You just plug in the global design system.
 
-```javascript
-// In handleSubmit, replace the placeholder with:
-const result = await signup(formData.username, formData.email, formData.password);
+**Global styles location:** `frontend/src/styles/`
+- `_variables.scss` - colors, spacing, fonts
+- `_mixins.scss` - reusable patterns
+- `_glass.scss` - glassmorphism effects
+- `_buttons.scss` - button styles
+- `_cards.scss` - card styles
 
-if (result.success) {
-  navigate('/login');
-} else {
-  setErrors({ submit: result.error });
+### Example
+
+**You'll see this (TODOs):**
+```scss
+// TODO: @use '../../../styles/variables' as *;
+// TODO: @use '../../../styles/mixins' as *;
+
+.side-nav {
+  // TODO: @include glass-card;
+  position: fixed;
+  left: 0;
+  width: 80px;
+  // TODO: background: $glass-bg;
+  // TODO: border-right: 1px solid $glass-border;
 }
-setIsLoading(false);
 ```
 
----
+**You change it to:**
+```scss
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
 
-## Testing Checklist
+.side-nav {
+  @include glass-card;
+  position: fixed;
+  left: 0;
+  width: 80px;
+  background: $glass-bg;
+  border-right: 1px solid $glass-border;
+}
+```
 
-- [ ] Can sign up with new account
-- [ ] Get redirected to login after signup
-- [ ] Can log in with email/password
-- [ ] Get redirected to /home after login
-- [ ] User stays logged in on page refresh
-- [ ] Logout clears token and redirects
-
----
-
-## Commits to Make
-
-1. "Implement AuthContext with login/signup/logout"
-2. "Wire up Login page to AuthContext"
-3. "Wire up Signup page to AuthContext"
-4. "Test auth flow end-to-end"
+### Tips
+- Check `_variables.scss` to see available variables (`$spacing-md`, `$glass-bg`, etc.)
+- Check `_mixins.scss` to see available mixins (`@include glass-card`, etc.)
+- The path `../../../styles/` may vary — count your folder depth
