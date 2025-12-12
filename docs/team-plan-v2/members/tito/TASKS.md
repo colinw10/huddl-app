@@ -6,27 +6,26 @@
 
 ## 📁 YOUR FILES
 
-| File | Status | What to do |
-|------|--------|-----------|
-| `backend/huddl/urls.py` | ❌ TODO | Wire up all app routes |
-| `backend/posts/urls.py` | ❌ TODO | Set up posts router |
-| `backend/friends/admin.py` | ❌ TODO | Register Friend models |
+| File | Status |
+|------|--------|
+| `backend/huddl/urls.py` | ❌ TODO |
+| `backend/posts/urls.py` | ❌ TODO |
+| `backend/friends/admin.py` | ❌ TODO |
 
 ---
 
 ## Task 1: huddl/urls.py
 
-Wire up all app routes:
+Include app URLs:
+- /api/auth/ -> users.urls
+- /api/posts/ -> posts.urls
+- /api/friends/ -> friends.urls
+- /api/token/ -> JWT token views
 
+**Example pattern:**
 ```python
-from django.contrib import admin
-from django.urls import path, include
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/auth/', include('users.urls')),
-    path('api/posts/', include('posts.urls')),
-    path('api/friends/', include('friends.urls')),
+    path('api/myapp/', include('myapp.urls')),
 ]
 ```
 
@@ -34,51 +33,34 @@ urlpatterns = [
 
 ## Task 2: posts/urls.py
 
-Set up posts router:
+Create router and register PostViewSet at 'posts'
 
+**Example pattern:**
 ```python
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import PostViewSet
-
 router = DefaultRouter()
-router.register(r'', PostViewSet, basename='post')
-
-urlpatterns = [
-    path('', include(router.urls)),
-]
+router.register('items', ItemViewSet, basename='item')
+urlpatterns = router.urls
 ```
 
 ---
 
 ## Task 3: friends/admin.py
 
-Register Friend models:
+Register models:
+- Friendship with list_display
+- FriendRequest with list_display and list_filter
 
+**Example pattern:**
 ```python
-from django.contrib import admin
-from .models import Friendship, FriendRequest
-
-@admin.register(Friendship)
-class FriendshipAdmin(admin.ModelAdmin):
-    list_display = ['user', 'friend', 'created_at']
-    list_filter = ['created_at']
-    search_fields = ['user__username', 'friend__username']
-
-@admin.register(FriendRequest)
-class FriendRequestAdmin(admin.ModelAdmin):
-    list_display = ['from_user', 'to_user', 'status', 'created_at']
-    list_filter = ['status', 'created_at']
-    search_fields = ['from_user__username', 'to_user__username']
+@admin.register(MyModel)
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ['field1', 'field2']
 ```
 
 ---
 
 ## Testing
 
-After implementation, test:
 ```bash
-cd backend
-python manage.py runserver
-# Visit http://localhost:8000/admin/
+cd backend && python manage.py runserver
 ```
