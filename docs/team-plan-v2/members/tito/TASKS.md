@@ -1,6 +1,6 @@
-# Tito - API Client Tasks
+# Tito - Backend Tasks
 
-> **Your Role:** Create the central API client that handles all HTTP requests, authentication headers, and token refresh.
+> **Your Role:** ~17% of backend work
 
 ---
 
@@ -8,247 +8,77 @@
 
 | File | Status | What to do |
 |------|--------|-----------|
-| `frontend/src/services/apiClient.js` | ❌ TODO | Axios/fetch setup + token handling |
+| `backend/huddl/urls.py` | ❌ TODO | Wire up all app routes |
+| `backend/posts/urls.py` | ❌ TODO | Set up posts router |
+| `backend/friends/admin.py` | ❌ TODO | Register Friend models |
 
 ---
 
-## Week 1: Verify CORS is Working
+## Task 1: huddl/urls.py
 
-### Task 1: Check Backend CORS
-
-Make sure `backend/huddl/settings.py` has CORS configured:
+Wire up all app routes:
 
 ```python
-INSTALLED_APPS = [
-    # ... other apps ...
-    'corsheaders',
-]
+from django.contrib import admin
+from django.urls import path, include
 
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # MUST BE FIRST
-    'django.middleware.security.SecurityMiddleware',
-    # ... other middleware ...
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/auth/', include('users.urls')),
+    path('api/posts/', include('posts.urls')),
+    path('api/friends/', include('friends.urls')),
 ]
 ```
 
-### Task 2: Test CORS
-
-1. Start backend: `cd backend && python manage.py runserver`
-2. Start frontend: `cd frontend && npm run dev`
-3. Open browser console - should NOT see CORS errors
-
 ---
 
-## Week 2: Create API Client
+## Task 2: posts/urls.py
 
-### Task 1: Implement `frontend/src/services/apiClient.js`
+Set up posts router:
 
-```javascript
-/**
- * API Client - Central HTTP client for all API requests
- * Handles authentication headers and token refresh
- */
+```python
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import PostViewSet
 
-const API_BASE_URL = 'http://localhost:8000/api'\;
+router = DefaultRouter()
+router.register(r'', PostViewSet, basename='post')
 
-// Get token from localStorage
-const getToken = () => localStorage.getItem('token');
-const getRefreshToken = () => localStorage.getItem('refreshToken');
-
-// Set tokens
-const setTokens = (access, refresh) => {
-  localStorage.setItem('token', access);
-  if (refresh) {
-    localStorage.setItem('refreshToken', refresh);
-  }
-};
-
-// Clear tokens (logout)
-const clearTokens = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('refreshToken');
-};
-
-// Refresh the access token
-const refreshAccessToken = async () => {
-  const refreshToken = getRefreshToken();
-  if (!refreshToken) {
-    return null;
-  }
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/auth/token/refresh/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refresh: refreshToken }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setTokens(data.access, data.refresh);
-      return data.access;
-    } else {
-      // Refresh token expired, clear everything
-      clearTokens();
-      return null;
-    }
-  } catch (error) {
-    console.error('Token refresh failed:', error);
-    clearTokens();
-    return null;
-  }
-};
-
-// Main fetch wrapper with auth
-const apiClient = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
-  
-  // Build headers
-  const headers = {
-    'Content-Type': 'application/json',
-    ...options.headers,
-  };
-
-  // Add auth token if available
-  const token = getToken();
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  // Make request
-  let response = await fetch(url, {
-    ...options,
-    headers,
-  });
-
-  // If 401, try refreshing token
-  if (response.status === 401 && token) {
-    const newToken = await refreshAccessToken();
-    if (newToken) {
-      // Retry with new token
-      headers['Authorization'] = `Bearer ${newToken}`;
-      response = await fetch(url, {
-        ...options,
-        headers,
-      });
-    }
-  }
-
-  return response;
-};
-
-// Convenience methods
-export const api = {
-  get: (endpoint) => apiClient(endpoint, { method: 'GET' }),
-  
-  post: (endpoint, data) => apiClient(endpoint, {
-    method: 'POST',
-    body: JSON.stringify(data),
-  }),
-  
-  put: (endpoint, data) => apiClient(endpoint, {
-    method: 'PUT',
-    body: JSON.stringify(data),
-  }),
-  
-  patch: (endpoint, data) => apiClient(endpoint, {
-    method: 'PATCH',
-    body: JSON.stringify(data),
-  }),
-  
-  delete: (endpoint) => apiClient(endpoint, { method: 'DELETE' }),
-};
-
-// Export utilities for auth
-export const authUtils = {
-  getToken,
-  getRefreshToken,
-  setTokens,
-  clearTokens,
-  refreshAccessToken,
-};
-
-export default api;
+urlpatterns = [
+    path('', include(router.urls)),
+]
 ```
 
 ---
 
-## Week 3: Test the API Client
+## Task 3: friends/admin.py
 
-### Task 1: Test in Browser Console
+Register Friend models:
 
-Open browser dev tools and test:
+```python
+from django.contrib import admin
+from .models import Friendship, FriendRequest
 
-```javascript
-// Import (if using modules)
-import api from './services/apiClient';
+@admin.register(Friendship)
+class FriendshipAdmin(admin.ModelAdmin):
+    list_display = ['user', 'friend', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['user__username', 'friend__username']
 
-// Test get posts (no auth needed)
-const response = await api.get('/posts/');
-const posts = await response.json();
-console.log(posts);
-
-// Test with auth (after logging in)
-const meResponse = await api.get('/auth/me/');
-const user = await meResponse.json();
-console.log(user);
-```
-
-### Task 2: Test Token Refresh
-
-1. Login to get tokens
-2. Manually expire the access token (or wait)
-3. Make a request - should auto-refresh
-4. Check localStorage for new token
-
----
-
-## How Other Team Members Use Your API Client
-
-Once you're done, others can use it like this:
-
-```javascript
-import api from '../services/apiClient';
-
-// In postsService.js (Colin's code)
-export const postsService = {
-  getAllPosts: async () => {
-    const response = await api.get('/posts/');
-    if (!response.ok) throw new Error('Failed to fetch posts');
-    return response.json();
-  },
-};
-
-// In friendsService.js (Crystal's code)  
-export const friendsService = {
-  getFriends: async () => {
-    const response = await api.get('/friends/');
-    if (!response.ok) throw new Error('Failed to fetch friends');
-    return response.json();
-  },
-};
+@admin.register(FriendRequest)
+class FriendRequestAdmin(admin.ModelAdmin):
+    list_display = ['from_user', 'to_user', 'status', 'created_at']
+    list_filter = ['status', 'created_at']
+    search_fields = ['from_user__username', 'to_user__username']
 ```
 
 ---
 
-## Testing Checklist
+## Testing
 
-- [ ] CORS working (no console errors)
-- [ ] Can make GET requests without auth
-- [ ] Can make POST requests with auth
-- [ ] Token refresh works when access token expires
-- [ ] clearTokens properly logs out user
-
----
-
-## Commits to Make
-
-1. "Verify CORS configuration"
-2. "Create apiClient with fetch wrapper"
-3. "Add token refresh logic"
-4. "Add convenience methods (get, post, put, delete)"
-5. "Test and document API client usage"
+After implementation, test:
+```bash
+cd backend
+python manage.py runserver
+# Visit http://localhost:8000/admin/
+```
