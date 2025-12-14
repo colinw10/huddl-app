@@ -137,7 +137,7 @@
 }
 
 .title-word-right {
-  @include huddl-title;
+  @include numeneon-title;
   position: relative;
   letter-spacing: 2px;
   animation: slideInFromRight 1.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -288,6 +288,46 @@
   box-shadow:
     inset 0 0 20px rgba(0, 0, 0, 0.3),
     0 0 20px rgba(255, 82, 82, 0.2);
+}
+
+/* Password input wrapper for toggle button */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+  .form-input {
+    padding-right: 48px; // Make room for the eye icon
+  }
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  &:focus {
+    outline: none;
+  }
+  
+  svg {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }
 
 /* Prevent autofill from changing background */

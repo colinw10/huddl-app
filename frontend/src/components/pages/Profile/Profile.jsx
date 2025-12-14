@@ -6,10 +6,11 @@ import './Profile.scss';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
 import TimelineRiver from './components/TimelineRiver';
-import { usePosts } from '../../../contexts';
+import { usePosts, useAuth } from '../../../contexts';
 
 function Profile() {
   const { deletePost, updatePost } = usePosts();
+  const { user } = useAuth();
   const [isFlipped, setIsFlipped] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
   const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
@@ -54,7 +55,7 @@ function Profile() {
       <div className="page-blob-bottom"></div>
 
       {/* Flippable Profile Header Card */}
-      <ProfileCard isFlipped={isFlipped} setIsFlipped={setIsFlipped} posts={posts} />
+      <ProfileCard isFlipped={isFlipped} setIsFlipped={setIsFlipped} posts={posts} user={user} />
 
       {/* View Mode Toggle */}
       <div className="view-mode-toggle">

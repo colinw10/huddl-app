@@ -220,6 +220,46 @@
     inset 0 -1px 5px rgba(0, 0, 0, 0.6);
 }
 
+/* Password input wrapper for toggle button */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+  .form-input {
+    padding-right: 48px; // Make room for the eye icon
+  }
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  &:focus {
+    outline: none;
+  }
+  
+  svg {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
 /* Autofill styling */
 .form-input:-webkit-autofill,
 .form-input:-webkit-autofill:hover,

@@ -25,7 +25,7 @@ function Landing() {
   const PAGE_FADE_DURATION = 0.8; // Page fade-in duration
   const TOTAL_WAIT = BLOB_FADE_DELAY + PAGE_FADE_DURATION; // ~1.8s total before title
   const letterDelays = useMemo(() => {
-    const letters = 'HUDDL'.split('');
+    const letters = 'NUMENEON'.split('');
     return letters.map((_, i) => {
       // Weyl sequence with golden ratio - spreads evenly yet appears random
       const weyl = ((i + 1) * PHI) % 1;
@@ -35,10 +35,10 @@ function Landing() {
   }, []);
 
   // Random-ish hover delays for each letter (50-150ms range)
-  const hoverDelays = [0.08, 0.12, 0.05, 0.14, 0.09];
+  const hoverDelays = [0.08, 0.12, 0.05, 0.14, 0.09, 0.11, 0.07, 0.13];
   
-  // Unique color variant for each letter
-  const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
+  // Unique color variant for each letter (8 letters in NUMENEON)
+  const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue', 'orange', 'pink', 'green'];
   
   // Track letter hovers - when all 5 are hovered, trigger replay
   const handleLetterHover = (index) => {
@@ -48,8 +48,8 @@ function Landing() {
     // Add this letter to hovered set
     hoveredRef.current.add(index);
     
-    // Check if all 5 letters have been hovered
-    if (hoveredRef.current.size === 5) {
+    // Check if all 8 letters have been hovered
+    if (hoveredRef.current.size === 8) {
       isAnimatingRef.current = true;
       
       // Reset tracking immediately
@@ -75,8 +75,8 @@ function Landing() {
   return (
     <div className="landing-container">
       <h1 className={`landing-title ${replayGlitch === 'reset' ? 'landing-title--reset' : ''} ${replayGlitch === 'replay' ? 'landing-title--replay' : ''}`}>
-        {'HUDDL'.split('').map((letter, index) => {
-          const isFlipped = index === 0 || index === 4; // H and L
+        {'NUMENEON'.split('').map((letter, index) => {
+          const isFlipped = index === 0 || index === 7; // First N and last N
           return (
             <span 
               key={index} 

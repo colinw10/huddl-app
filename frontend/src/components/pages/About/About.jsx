@@ -14,10 +14,10 @@ function About() {
   const [replayGlitch, setReplayGlitch] = useState(false);
   
   // Random-ish hover delays for each letter (50-150ms range)
-  const hoverDelays = [0.08, 0.12, 0.05, 0.14, 0.09];
+  const hoverDelays = [0.08, 0.12, 0.05, 0.14, 0.09, 0.11, 0.07, 0.13];
   
-  // Unique color variant for each letter
-  const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
+  // Unique color variant for each letter (8 letters in NUMENEON)
+  const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue', 'orange', 'pink', 'green'];
   
   // Track letter hovers - when all 5 are hovered, trigger replay
   const handleLetterHover = (index) => {
@@ -25,7 +25,7 @@ function About() {
     
     hoveredRef.current.add(index);
     
-    if (hoveredRef.current.size === 5) {
+    if (hoveredRef.current.size === 8) {
       isAnimatingRef.current = true;
       hoveredRef.current = new Set();
       
@@ -49,8 +49,8 @@ function About() {
       <div className="about-hero">
         <span className="hero-label">About</span>
         <h1 className={`hero-title hero-title--interactive ${replayGlitch === 'reset' ? 'hero-title--reset' : ''} ${replayGlitch === 'replay' ? 'hero-title--replay' : ''}`}>
-          {'HuddL'.split('').map((letter, index) => {
-            const isFlipped = index === 0 || index === 4; // H and L
+          {'NUMENEON'.split('').map((letter, index) => {
+            const isFlipped = index === 0 || index === 7; // First N and last N
             return (
               <span 
                 key={index} 

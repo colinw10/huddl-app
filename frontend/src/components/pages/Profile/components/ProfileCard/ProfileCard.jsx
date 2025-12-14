@@ -7,7 +7,7 @@ import './ProfileCard.scss';
 import ProfileCardFront from './components/ProfileCardFront';
 import ProfileCardBack from './components/ProfileCardBack';
 
-function ProfileCard({ isFlipped, setIsFlipped, posts }) {
+function ProfileCard({ isFlipped, setIsFlipped, posts, user }) {
   const [viewMode, setViewMode] = useState('wave'); // 'wave' or 'heatmap'
 
   // Seeded random number generator for consistent data
@@ -144,7 +144,8 @@ function ProfileCard({ isFlipped, setIsFlipped, posts }) {
       <div className={`profile-flip-card ${isFlipped ? 'flipped' : ''}`}>
         <ProfileCardFront 
           setIsFlipped={setIsFlipped} 
-          posts={posts} 
+          posts={posts}
+          user={user}
         />
         <ProfileCardBack
           setIsFlipped={setIsFlipped}

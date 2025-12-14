@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Test user credentials
         username = 'pabloPistola'
-        email = 'pablo@huddl.com'
+        email = 'pablo@test.com'
         password = 'test123'
 
         # Check if user already exists

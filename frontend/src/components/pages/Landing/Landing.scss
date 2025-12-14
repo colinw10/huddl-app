@@ -87,7 +87,7 @@
    2. Animation delays are calculated in Landing.jsx using golden ratio
       - Uses Weyl sequence: (n * φ) mod 1 for pseudo-random stagger
       - φ (phi) ≈ 1.618 creates aesthetically pleasing distribution
-   3. "H" and "L" letters get --flip modifier for mirror effect
+   3. First "N" and last "N" letters get --flip modifier for mirror effect
    
    Timing controls:
    - DURATION: Change "5s" in animation property (currently 5 seconds)
@@ -97,8 +97,8 @@
    ============================================ */
 
 .landing-title {
-  @include huddl-title;
-  font-size: 5rem;
+  @include numeneon-title;
+  font-size: 3.5rem;
   margin: 3rem 0 1rem;
   letter-spacing: 1px;
   transform: translateX(10px);    // Optical centering adjustment
@@ -210,7 +210,7 @@
     animation: longHoverGlitchFlip 0.6s ease-in-out 1s;
   }
   
-  // H - Magenta/Cyan
+  // N (first) - Magenta/Cyan
   &--magenta:hover {
     text-shadow: 
       3px 0 #ff00ff,
@@ -224,25 +224,46 @@
       -3px 0 #1ae784;
   }
   
-  // D - Aqua/Magenta
+  // M - Aqua/Magenta
   &--aqua:hover {
     text-shadow: 
       3px 0 #1ae784,
       -3px 0 #dc08bc;
   }
   
-  // D - Purple/Cyan
+  // E - Purple/Cyan
   &--purple:hover {
     text-shadow: 
       3px 0 #a783ff,
       -3px 0 #00ffff;
   }
   
-  // L - Blue/Yellow
+  // N (middle) - Blue/Yellow
   &--blue:hover {
     text-shadow: 
       3px 0 #0066ff,
       -3px 0 #ffee00;
+  }
+  
+  // E - Orange/Purple
+  &--orange:hover {
+    text-shadow: 
+      3px 0 #ff8c00,
+      -3px 0 #a783ff;
+  }
+  
+  // O - Pink/Cyan
+  &--pink:hover {
+    text-shadow: 
+      3px 0 #ff69b4,
+      -3px 0 #00ffff;
+  }
+  
+  // N (last) - Green/Magenta
+  &--green:hover {
+    text-shadow: 
+      3px 0 #33ff33,
+      -3px 0 #ff00ff;
   }
   
   &--flip:hover {

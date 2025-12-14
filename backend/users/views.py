@@ -33,13 +33,19 @@ def signup(request):
     Creates a new user account
     
     Frontend sends: POST /api/auth/signup/
-    Body: { "username": "pablo", "email": "pablo@huddl.com", "password": "pass123" }
-    Returns: { "id": 1, "username": "pablo", "email": "pablo@huddl.com" }
+    Body: { "username": "pablo", "display_name": "Pablo Cordero", "email": "pablo@test.com", "password": "pass123" }
+    Returns: { "id": 1, "username": "pablo", "email": "pablo@test.com" }
     """
     # Get data from request
     username = request.data.get('username')
+    display_name = request.data.get('display_name', '')
     email = request.data.get('email')
     password = request.data.get('password')
+    
+    # Parse display name into first/last
+    name_parts = display_name.strip().split(' ', 1) if display_name else ['', '']
+    first_name = name_parts[0]
+    last_name = name_parts[1] if len(name_parts) > 1 else ''
     
     # Validate required fields
     if not username or not email or not password:
@@ -66,7 +72,9 @@ def signup(request):
     user = User.objects.create_user(
         username=username,
         email=email,
-        password=password  # Django auto-hashes this!
+        password=password,  # Django auto-hashes this!
+        first_name=first_name,
+        last_name=last_name
     )
     
     # Create a profile for the user
@@ -135,5 +143,7 @@ def current_user(request):
         'id': user.id,
         'username': user.username,
         'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
         'profile': profile_data
     })

@@ -7,14 +7,14 @@ import './ProfileCardFront.scss';
 // Color variants for interactive letters
 const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
 
-function ProfileCardFront({ setIsFlipped, posts }) {
+function ProfileCardFront({ setIsFlipped, posts, user }) {
   // Track which letters have been hovered (for "hover all" replay)
   const hoveredRef = useRef(new Set());
   const isAnimatingRef = useRef(false);
   const [replayGlitch, setReplayGlitch] = useState(false);
   
-  // Hardcoded for now - would come from user data
-  const displayName = "Pvblo Cordero";
+  // Username IS the display name
+  const displayName = user?.username || 'User';
   
   // Track letter hovers - when all letters are hovered, trigger replay
   const handleLetterHover = (index) => {

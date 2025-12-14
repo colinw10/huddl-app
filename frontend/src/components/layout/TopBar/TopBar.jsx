@@ -26,7 +26,7 @@ function TopBar() {
           style={{ cursor: 'pointer' }}
           title="Go to Landing"
         >
-          HUDDL
+          NUMENEON
         </div>
         <div className="top-bar-icons">
           <ThemeToggle />
