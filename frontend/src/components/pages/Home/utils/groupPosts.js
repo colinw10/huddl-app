@@ -24,20 +24,12 @@ export const groupPostsByUserAndDay = (posts) => {
     const authorObj = typeof post.author === "object" ? post.author : null;
     const userId = post.userId || (authorObj ? authorObj.id : post.author);
 
-    // Get display name - prefer first_name + last_name, fall back to username
+    // Get display name - always use username
     const getDisplayName = (author) => {
       if (!author) return "Unknown";
       if (typeof author === "string") return author;
-      if (author.first_name && author.last_name) {
-        return `${author.first_name} ${author.last_name}`;
-      }
-      if (author.first_name) {
-        return author.first_name;
-      }
-      // Capitalize username as fallback
-      return author.username
-        ? author.username.charAt(0).toUpperCase() + author.username.slice(1)
-        : "Unknown";
+      // Always return username
+      return author.username || "Unknown";
     };
 
     // Generate avatar initials from name

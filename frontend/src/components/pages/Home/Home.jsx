@@ -96,12 +96,12 @@ function Home() {
     return username.slice(0, 2).toUpperCase();
   };
 
-  // Build stories from friends (real data)
+  // Build stories from friends (real data) - always use username
   const stories = [
     { id: 0, name: "Your Story", avatar: "YS", hasStory: false, isYours: true },
     ...friends.map(friend => ({
       id: friend.id,
-      name: friend.first_name || friend.username,
+      name: friend.username,
       avatar: getInitials(friend.first_name, friend.last_name, friend.username),
       hasStory: true,
     }))

@@ -83,7 +83,7 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
                 cx="65" cy="65" r="60" 
                 fill="none" 
                 stroke="rgba(255,255,255,0.15)" 
-                strokeWidth="4"
+                strokeWidth="6"
               />
               {/* Progress ring - animates on load */}
               <circle 
@@ -91,18 +91,11 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
                 cx="65" cy="65" r="60" 
                 fill="none" 
                 stroke="#1ae784"
-                strokeWidth="4"
+                strokeWidth="6"
                 strokeLinecap="round"
                 strokeDasharray="377"
                 strokeDashoffset="377"
                 transform="rotate(-90 65 65)"
-              />
-              {/* Spark/particle at the end of progress */}
-              <circle 
-                className="ring-spark"
-                cx="65" cy="5"
-                r="5"
-                fill="#1ae784"
               />
             </svg>
           </div>

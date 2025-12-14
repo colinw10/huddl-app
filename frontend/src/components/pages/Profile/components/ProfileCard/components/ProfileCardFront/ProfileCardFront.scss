@@ -73,6 +73,7 @@
   position: absolute;
   width: 130px;
   height: 130px;
+  z-index: 3;
   
   svg {
     display: block;
@@ -88,51 +89,17 @@
   .ring-progress {
     stroke: var(--cyan);
     filter: drop-shadow(0 0 10px rgba(231, 221, 26, 0.8));
-    /* Animate from empty (377) to ~12% filled (330) on load */
     animation: ringFill 1.5s ease-out 0.5s forwards;
-  }
-  
-  .ring-spark {
-    fill: var(--accent);
-    filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 16px rgba(26, 231, 132, 0.8));
-    transform-origin: 65px 65px;
-    /* Animate spark rotating around the ring */
-    animation: sparkMove 1.5s ease-out 0.5s forwards, sparkPulse 1s ease-in-out infinite;
-    opacity: 0;
   }
 }
 
-/* Ring fills from 0 to target (377 = empty, 330 = ~12% filled) */
+/* Ring fills from 0 to target */
 @keyframes ringFill {
   0% {
     stroke-dashoffset: 377;
   }
   100% {
     stroke-dashoffset: 330;
-  }
-}
-
-/* Spark rotates to follow the ring progress */
-@keyframes sparkMove {
-  0% {
-    transform: rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: rotate(45deg);  /* ~12% of 360deg */
-    opacity: 1;
-  }
-}
-
-/* Spark pulses/glows */
-@keyframes sparkPulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 12px rgba(26, 231, 132, 0.6));
-    r: 5;
-  }
-  50% {
-    filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 20px rgba(26, 231, 132, 0.9));
-    r: 6;
   }
 }
 
@@ -601,12 +568,7 @@
     
     .ring-bg,
     .ring-progress {
-      stroke-width: 3.5;
-    }
-    
-    .ring-spark {
-      transform-origin: 55px 55px;
-      r: 4.5;
+      stroke-width: 5;
     }
   }
   
@@ -699,12 +661,7 @@
     
     .ring-bg,
     .ring-progress {
-      stroke-width: 2.5;
-    }
-    
-    .ring-spark {
-      transform-origin: 40px 40px;
-      r: 3.5;
+      stroke-width: 4;
     }
   }
 }

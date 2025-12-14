@@ -22,15 +22,9 @@ const getInitials = (firstName, lastName, username) => {
   return username.slice(0, 2).toUpperCase();
 };
 
-// Helper to get display name
+// Helper to get display name - always use username
 const getDisplayName = (friend) => {
-  if (friend.first_name && friend.last_name) {
-    return `${friend.first_name} ${friend.last_name}`;
-  }
-  if (friend.first_name) {
-    return friend.first_name;
-  }
-  return friend.username;
+  return friend.username || 'Unknown';
 };
 
 function Friends() {

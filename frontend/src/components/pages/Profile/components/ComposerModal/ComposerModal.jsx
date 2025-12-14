@@ -3,8 +3,11 @@
 
 import React from 'react';
 import './ComposerModal.scss';
+import { useAuth } from '../../../../../contexts';
 
 function ComposerModal({ showComposer, setShowComposer, composerType, setComposerType }) {
+  const { user } = useAuth();
+  
   if (!showComposer) return null;
 
   return (
@@ -34,7 +37,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
               </svg>
             </div>
             <div className="composer-user-info">
-              <span className="composer-user-name">Pvblo Cordero</span>
+              <span className="composer-user-name">{user?.username || 'User'}</span>
               <span className="composer-privacy">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="12" cy="12" r="10"/>

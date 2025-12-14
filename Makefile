@@ -1,5 +1,5 @@
 # =============================================================================
-# MAKEFILE - Command Shortcuts for HUDDL App
+# MAKEFILE - Command Shortcuts for NUMENEON App
 # =============================================================================
 # 
 # WHAT IS A MAKEFILE?
@@ -16,6 +16,7 @@
 # EXAMPLES:
 #   make b          → starts the backend server
 #   make f          → starts the frontend server
+#   make dev        → starts BOTH servers (in separate terminals)
 #   make migrate    → applies database migrations
 #   make users      → lists all users in database
 #
@@ -26,16 +27,23 @@
 # IMPORTANT: The indentation before commands MUST be a TAB, not spaces!
 # =============================================================================
 
+# Get the directory where this Makefile is located
+ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # -----------------------------------------------------------------------------
 # SERVER COMMANDS - Start your development servers
 # -----------------------------------------------------------------------------
 
 b:  # Start backend (Django) server at http://localhost:8000
-	cd backend && python manage.py runserver 8000
+	cd $(ROOT_DIR)/backend && python manage.py runserver 8000
 
 f:  # Start frontend (Vite/React) server at http://localhost:5173
-	cd frontend && npm run dev
+	cd $(ROOT_DIR)/frontend && npm run dev
+
+dev:  # Start both servers (opens new terminal for frontend)
+	@echo "Starting backend..."
+	@osascript -e 'tell app "Terminal" to do script "cd $(ROOT_DIR)/frontend && npm run dev"'
+	cd $(ROOT_DIR)/backend && python manage.py runserver 8000
 
 
 # -----------------------------------------------------------------------------
@@ -43,19 +51,19 @@ f:  # Start frontend (Vite/React) server at http://localhost:5173
 # -----------------------------------------------------------------------------
 
 migrate:  # Apply pending database migrations (run after changing models)
-	cd backend && python manage.py migrate
+	cd $(ROOT_DIR)/backend && python manage.py migrate
 
 makemigrations:  # Create new migration files after changing models
-	cd backend && python manage.py makemigrations
+	cd $(ROOT_DIR)/backend && python manage.py makemigrations
 
 seed:  # Populate database with test data
-	cd backend && python seed_posts.py
+	cd $(ROOT_DIR)/backend && python seed_posts.py
 
 shell:  # Open Django interactive shell (to query database manually)
-	cd backend && python manage.py shell
+	cd $(ROOT_DIR)/backend && python manage.py shell
 
 dbshell:  # Open SQLite shell (raw SQL queries)
-	cd backend && sqlite3 db.sqlite3
+	cd $(ROOT_DIR)/backend && sqlite3 db.sqlite3
 
 
 # -----------------------------------------------------------------------------
@@ -63,10 +71,10 @@ dbshell:  # Open SQLite shell (raw SQL queries)
 # -----------------------------------------------------------------------------
 
 superuser:  # Create an admin user for Django admin panel
-	cd backend && python manage.py createsuperuser
+	cd $(ROOT_DIR)/backend && python manage.py createsuperuser
 
 users:  # List all users in database
-	cd backend && python manage.py shell -c "from django.contrib.auth.models import User; [print(f'ID: {u.id}, Username: {u.username}, Email: {u.email}') for u in User.objects.all()]"
+	cd $(ROOT_DIR)/backend && python manage.py shell -c "from django.contrib.auth.models import User; [print(f'ID: {u.id}, Username: {u.username}, Email: {u.email}') for u in User.objects.all()]"
 
 
 # -----------------------------------------------------------------------------
@@ -74,13 +82,13 @@ users:  # List all users in database
 # -----------------------------------------------------------------------------
 
 status:  # Check git status
-	git status
+	cd $(ROOT_DIR) && git status
 
 push:  # Push current branch to origin
-	git push origin $$(git branch --show-current)
+	cd $(ROOT_DIR) && git push origin $$(git branch --show-current)
 
 pull:  # Pull latest changes from origin
-	git pull origin $$(git branch --show-current)
+	cd $(ROOT_DIR) && git pull origin $$(git branch --show-current)
 
 
 # -----------------------------------------------------------------------------
@@ -88,14 +96,14 @@ pull:  # Pull latest changes from origin
 # -----------------------------------------------------------------------------
 
 install-frontend:  # Install frontend npm packages
-	cd frontend && npm install
+	cd $(ROOT_DIR)/frontend && npm install
 
 install-backend:  # Install backend Python packages
-	cd backend && pip install -r requirements.txt
+	cd $(ROOT_DIR)/backend && pip install -r requirements.txt
 
 install:  # Install both frontend and backend dependencies
-	cd frontend && npm install
-	cd backend && pip install -r requirements.txt
+	cd $(ROOT_DIR)/frontend && npm install
+	cd $(ROOT_DIR)/backend && pip install -r requirements.txt
 
 
 # -----------------------------------------------------------------------------
@@ -103,7 +111,7 @@ install:  # Install both frontend and backend dependencies
 # -----------------------------------------------------------------------------
 
 test:  # Run Django tests
-	cd backend && python manage.py test
+	cd $(ROOT_DIR)/backend && python manage.py test
 
 
 # -----------------------------------------------------------------------------

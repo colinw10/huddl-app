@@ -121,6 +121,78 @@
   box-sizing: border-box;
 }
 
+/* Import global smart-deck styles for carousel navigation */
+@import '../../../Home/components/TimelineRiverRow/styles/_smart-deck';
+
+/* Friends Feed Rows - Each friend in their own row */
+.friends-feed-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.friend-row {
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.friend-row .river-streams {
+  gap: var(--space-md);
+  min-height: auto;
+}
+
+.friend-row .river-column {
+  gap: var(--space-md);
+}
+
+.friend-row-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-left: var(--space-sm);
+}
+
+.friend-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(26, 115, 231, 0.4), rgba(220, 8, 188, 0.4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(79, 255, 255, 0.3);
+}
+
+.friend-name {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.empty-column {
+  padding: var(--space-xl);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 12px;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.smart-deck-count {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 30px;
+  text-align: center;
+}
+
 .left-stream {
   animation: floatInLeft 0.8s ease-out;
 }

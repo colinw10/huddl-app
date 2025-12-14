@@ -9,7 +9,7 @@ import TimelineRiver from './components/TimelineRiver';
 import { usePosts, useAuth } from '../../../contexts';
 
 function Profile() {
-  const { deletePost, updatePost } = usePosts();
+  const { posts, deletePost, updatePost } = usePosts();
   const { user } = useAuth();
   const [isFlipped, setIsFlipped] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
@@ -17,36 +17,33 @@ function Profile() {
   const [composerText, setComposerText] = useState('');
   const [viewMode, setViewMode] = useState('timeline'); // 'timeline' or 'feed'
   
-  // Sample data - in real app, this would come from API
-  const [posts] = useState([
-    { id: 1, type: 'text', content: 'Just shipped a new feature! The profile page is looking amazing.', timestamp: '2 hours ago' },
-    { id: 2, type: 'media', content: 'Working on some cool UI experiments with React and modern CSS.', timestamp: '5 hours ago', hasImage: true },
-    { id: 3, type: 'achievement', content: 'Completed 30-day coding streak!', timestamp: '1 day ago', milestone: true },
-    { id: 4, type: 'text', content: 'The glassmorphism effect creates such a clean aesthetic.', timestamp: '1 day ago' },
-    { id: 5, type: 'media', content: 'Sunset views from the office.', timestamp: '2 days ago', hasImage: true },
-    { id: 6, type: 'achievement', content: 'Hit 1K followers! Thank you all.', timestamp: '3 days ago', milestone: true },
-    { id: 7, type: 'text', content: 'Sometimes the simplest solution is the best solution', timestamp: '4 days ago' },
-    { id: 8, type: 'media', content: 'New setup for maximum productivity.', timestamp: '5 days ago', hasImage: true },
-  ]);
+  // Filter posts by current user for "My Timeline"
+  const myPosts = posts.filter(p => p.author?.username === user?.username);
+  
+  // Friends' posts for "Friends Feed"  
+  const friendsPosts = posts.filter(p => p.author?.username !== user?.username);
 
-  // Sample feed posts from friends
-  const [feedPosts] = useState([
-    { id: 101, author: 'Pablo Cordero', avatar: 'PC', content: 'Just finished an amazing workout!', timestamp: '1h ago', type: 'text' },
-    { id: 102, author: 'Colin Weir', avatar: 'CW', content: 'Beach day with the crew.', timestamp: '2h ago', type: 'media', hasImage: true },
-    { id: 103, author: 'Tito', avatar: 'T', content: 'New PR on deadlifts!', timestamp: '3h ago', type: 'achievement', milestone: true },
-    { id: 104, author: 'Crystal Ruiz', avatar: 'CR', content: 'Coffee and code.', timestamp: '5h ago', type: 'text' },
-    { id: 105, author: 'Arthur Bernier', avatar: 'AB', content: 'Sunset yoga session.', timestamp: '6h ago', type: 'media', hasImage: true },
-  ]);
+  // Categorize MY posts into river columns
+  const textPosts = myPosts.filter(p => p.type === 'thoughts');
+  const mediaPosts = myPosts.filter(p => p.type === 'media');
+  const achievementPosts = myPosts.filter(p => p.type === 'milestones');
 
-  // Categorize posts into river columns
-  const textPosts = posts.filter(p => p.type === 'text');
-  const mediaPosts = posts.filter(p => p.type === 'media');
-  const achievementPosts = posts.filter(p => p.type === 'achievement');
+  // Categorize friends' posts
+  const feedTextPosts = friendsPosts.filter(p => p.type === 'thoughts');
+  const feedMediaPosts = friendsPosts.filter(p => p.type === 'media');
+  const feedAchievementPosts = friendsPosts.filter(p => p.type === 'milestones');
 
-  // Categorize feed posts
-  const feedTextPosts = feedPosts.filter(p => p.type === 'text');
-  const feedMediaPosts = feedPosts.filter(p => p.type === 'media');
-  const feedAchievementPosts = feedPosts.filter(p => p.type === 'achievement');
+  // Debug: log friends posts counts
+  console.log('Profile Friends Feed Debug:', {
+    currentUser: user?.username,
+    totalPosts: posts.length,
+    friendsPosts: friendsPosts.length,
+    feedTextPosts: feedTextPosts.length,
+    feedMediaPosts: feedMediaPosts.length,
+    feedAchievementPosts: feedAchievementPosts.length,
+    friendsUsernames: [...new Set(friendsPosts.map(p => p.author?.username))],
+    allPostAuthors: posts.map(p => p.author?.username)
+  });
 
   return (
     <div className="user-profile-page river-profile">
@@ -55,7 +52,7 @@ function Profile() {
       <div className="page-blob-bottom"></div>
 
       {/* Flippable Profile Header Card */}
-      <ProfileCard isFlipped={isFlipped} setIsFlipped={setIsFlipped} posts={posts} user={user} />
+      <ProfileCard isFlipped={isFlipped} setIsFlipped={setIsFlipped} posts={myPosts} user={user} />
 
       {/* View Mode Toggle */}
       <div className="view-mode-toggle">
