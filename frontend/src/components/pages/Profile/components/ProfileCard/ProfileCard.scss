@@ -35,10 +35,10 @@
   }
 }
 
-/* Desktop: shift card left to center between nav and viewport edge */
+/* Desktop: shift card right to center between nav and viewport edge */
 @media (min-width: 481px) {
   .profile-flip-container {
-    transform: translateX(-8px);
+    transform: translateX(2px);
   }
 }
 

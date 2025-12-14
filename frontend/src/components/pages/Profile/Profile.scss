@@ -69,8 +69,11 @@
 
 @media (min-width: 481px) {
   .user-profile-page {
-    padding-left: 80px;
-    width: 100%;
+    margin-left: 56px;
+    width: calc(100% - 56px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -205,22 +208,10 @@
 .quick-composer-buttons {
   display: flex;
   gap: var(--space-lg);
-  max-width: 1400px;
+  width: calc(100% - 40px);
   margin: 0 auto 30px;
   padding: 0 20px;
   box-sizing: border-box;
-}
-
-@media (min-width: 1600px) {
-  .quick-composer-buttons {
-    max-width: 1600px;
-  }
-}
-
-@media (min-width: 1920px) {
-  .quick-composer-buttons {
-    max-width: 1800px;
-  }
 }
 
 .quick-composer-section {
@@ -252,8 +243,6 @@
 .quick-composer-section.unified-composer {
   background: linear-gradient(135deg, rgba(26, 115, 231, 0.12), rgba(220, 8, 188, 0.12));
   border-color: rgba(140, 100, 240, 0.4);
-  max-width: 1000px;
-  margin: 0 auto;
 }
 
 .quick-composer-section:hover {
