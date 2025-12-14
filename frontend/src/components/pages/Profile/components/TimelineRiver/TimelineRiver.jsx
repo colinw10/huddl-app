@@ -127,6 +127,12 @@ function TimelineRiver({
       {viewMode === 'timeline' && (
         <div className="river-streams">
           <div className="river-column left-stream">
+            <div className="river-column-label mobile-only">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Thoughts</span>
+            </div>
             {textPosts.map((post) => (
               <div key={post.id} className="river-card text-card">
                 <div className="river-card-content">
@@ -154,6 +160,14 @@ function TimelineRiver({
             ))}
           </div>
           <div className="river-column center-stream">
+            <div className="river-column-label mobile-only">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Media</span>
+            </div>
             {mediaPosts.map((post) => (
               <div key={post.id} className="river-card media-card">
                 <div className="river-card-media">
@@ -187,6 +201,13 @@ function TimelineRiver({
             ))}
           </div>
           <div className="river-column right-stream">
+            <div className="river-column-label mobile-only">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span>Milestones</span>
+            </div>
             {achievementPosts.map((post) => (
               <div key={post.id} className="river-card achievement-card">
                 <div className="achievement-badge">

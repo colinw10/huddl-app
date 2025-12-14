@@ -517,22 +517,65 @@
   }
 }
 
+/* Mobile-only column labels - hidden on desktop */
+.river-column-label.mobile-only {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .river-streams {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
   }
   
+  /* Hide the separate labels row on mobile */
   .river-labels {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    position: static;
-    background: transparent;
-    padding: 10px 0 20px;
+    display: none;
   }
   
-  .river-label {
-    justify-content: flex-start;
+  /* Show inline labels on mobile */
+  .river-column-label.mobile-only {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    font-family: var(--font-title);
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-md);
+    border-radius: 8px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-default);
+  }
+  
+  .left-stream .river-column-label {
+    color: rgba(77, 171, 247, 1);
+    border-color: rgba(77, 171, 247, 0.4);
+  }
+  
+  .left-stream .river-column-label svg {
+    stroke: rgba(77, 171, 247, 1);
+  }
+  
+  .center-stream .river-column-label {
+    color: rgba(233, 78, 200, 1);
+    border-color: rgba(233, 78, 200, 0.4);
+  }
+  
+  .center-stream .river-column-label svg {
+    stroke: rgba(233, 78, 200, 1);
+  }
+  
+  .right-stream .river-column-label {
+    color: rgba(255, 215, 0, 1);
+    border-color: rgba(255, 215, 0, 0.4);
+  }
+  
+  .right-stream .river-column-label svg {
+    stroke: rgba(255, 215, 0, 1);
   }
   
   .left-stream,
