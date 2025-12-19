@@ -2,7 +2,6 @@
 # serializers.py - Data conversion between Django models and JSON
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import Friendship, FriendRequest
 from users.serializers import UserSerializer
 
