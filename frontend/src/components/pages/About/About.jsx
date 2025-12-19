@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import './About.scss';
 
@@ -6,7 +5,6 @@ import './About.scss';
 // About.jsx - About page
 
 function About() {
-  const navigate = useNavigate();
   
   // Track which letters have been hovered (for "hover all" replay)
   const hoveredRef = useRef(new Set());

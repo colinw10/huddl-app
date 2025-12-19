@@ -1,5 +1,5 @@
 """
-HUDDL Main URL Configuration
+NUMENEON Main URL Configuration
 This is the ENTRY POINT for all API requests
 """
 from django.contrib import admin

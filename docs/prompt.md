@@ -153,18 +153,11 @@ huddl-app/
         ├── main.jsx               # React app entry point
         │
         ├── assets/
-        │   ├── Atepixels.svg
-        │   ├── huddl-logo.svg
-        │   └── react.svg
+        │   └── huddl-logo.svg
         │
         ├── components/
         │   │
         │   ├── layout/            # Persistent UI components
-        │   │   │
-        │   │   ├── BottomNav/
-        │   │   │   ├── BottomNav.jsx
-        │   │   │   ├── BottomNav.scss
-        │   │   │   └── index.js
         │   │   │
         │   │   ├── SideNav/
         │   │   │   ├── SideNav.jsx

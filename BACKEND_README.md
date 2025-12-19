@@ -1,6 +1,6 @@
 # Backend Guide
 
-This is the Django REST API for HUDDL.
+This is the Django REST API for NUMENEON.
 
 ---
 

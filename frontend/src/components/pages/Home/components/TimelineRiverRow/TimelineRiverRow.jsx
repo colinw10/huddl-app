@@ -171,16 +171,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     return false;
   };
   
-  const renderPostCard = (post, type, isCompact = false) => {
-    // 🔵 Config for each post type (label only - colors handled in CSS)
-    const typeConfig = {
-      thoughts: { label: 'Thought' },
-      media: { label: 'Media' },
-      milestones: { label: 'Milestone' }
-    };
-
-    const config = typeConfig[type]; // Get config for this type
-    
+  const renderPostCard = (post, type) => {
     // Auto-detect short content for compact width (under 80 chars, no media)
     const contentLength = (post.content || '').length;
     const hasNoMedia = !post.image && !post.media_url;
@@ -438,7 +429,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                   
                   return (
                     <>
-                      {visibleReplies.map((reply, index) => (
+                      {visibleReplies.map((reply) => (
                   <div key={reply.id} className="thread-reply">
                     <div className="thread-connector">
                       <div className="thread-line-vertical" />

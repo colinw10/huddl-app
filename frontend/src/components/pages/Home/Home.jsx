@@ -9,7 +9,7 @@ import { usePosts, useFriends } from '../../../contexts';
 
 function Home() {
   // Get real data from contexts
-  const { posts, isLoading: postsLoading, createPost, deletePost, updatePost } = usePosts();
+  const { posts, createPost, deletePost, updatePost } = usePosts();
   const { friends } = useFriends();
     
    // 🔵 STATE 1: Controls if the big composer modal is open/closed

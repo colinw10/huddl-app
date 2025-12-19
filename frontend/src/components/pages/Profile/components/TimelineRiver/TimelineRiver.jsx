@@ -88,13 +88,14 @@ function TimelineRiver({
     }
   };
 
-  const handleCommentSubmit = () => {
-    if (commentText.trim()) {
-      console.log('Comment posted:', commentText);
-      setCommentText('');
-      setActiveCommentPostId(null);
-    }
-  };
+  // TODO: Wire up comment submission
+  // const handleCommentSubmit = () => {
+  //   if (commentText.trim()) {
+  //     console.log('Comment posted:', commentText);
+  //     setCommentText('');
+  //     setActiveCommentPostId(null);
+  //   }
+  // };
 
   return (
     <div className="timeline-river">
