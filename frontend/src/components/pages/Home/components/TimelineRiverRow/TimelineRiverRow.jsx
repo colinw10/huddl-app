@@ -68,12 +68,13 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // Is screen < 650px?
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
-  // 🔵 State for mobile carousel
-  const [activePostId, setActivePostId] = useState(null);  
-  // Which column clicked
+  // 🔵 State for mobile tab navigation
+  const [mobileActiveTab, setMobileActiveTab] = useState('thoughts'); // 'thoughts' | 'media' | 'milestones'
+  const [mobileCardIndex, setMobileCardIndex] = useState({ thoughts: 0, media: 0, milestones: 0 });
   
   // 🔵 State for desktop column interaction
   const [activeColumnType, setActiveColumnType] = useState(null); // Track which column is active
+  const [activePostId, setActivePostId] = useState(null); // Track which post card is active
   const [expandedMediaPost, setExpandedMediaPost] = useState(null); 
   // Which media expanded
   // Track expanded media lightbox
@@ -778,66 +779,115 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     setActiveColumnType(null);
   };
   
-  // 🔵 Build flat array for mobile
-  const allPosts = [];
-  if (hasThoughts) allPosts.push(...thoughts.map(p => ({ ...p, type: 'thoughts' })));
-  if (hasMedia) allPosts.push(...media.map(p => ({ ...p, type: 'media' })));
-  if (hasMilestones) allPosts.push(...milestones.map(p => ({ ...p, type: 'milestones' })));
+  // 🔵 Build arrays for mobile tabs
+  const postsByType = {
+    thoughts: hasThoughts ? thoughts : [],
+    media: hasMedia ? media : [],
+    milestones: hasMilestones ? milestones : []
+  };
+  
+  // Get available tabs (only show tabs for types that have posts)
+  const availableTabs = [];
+  if (hasThoughts) availableTabs.push('thoughts');
+  if (hasMedia) availableTabs.push('media');
+  if (hasMilestones) availableTabs.push('milestones');
+  
+  // Set initial tab if current one has no posts
+  const effectiveTab = postsByType[mobileActiveTab]?.length > 0 ? mobileActiveTab : availableTabs[0] || 'thoughts';
+  const currentTabPosts = postsByType[effectiveTab] || [];
+  const currentTabIndex = mobileCardIndex[effectiveTab] || 0;
 
-  // 🟢 MOBILE: Carousel (swipe through cards)
-  if (isMobile && allPosts.length > 1) {
+  // 🟢 MOBILE: Tab-based navigation (category tabs + carousel per category)
+  if (isMobile && availableTabs.length > 0) {
+    const tabConfig = {
+      thoughts: { label: 'Thoughts', icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      )},
+      media: { label: 'Media', icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        </svg>
+      )},
+      milestones: { label: 'Milestones', icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      )}
+    };
+    
     return (
-      <div className="timeline-river-row-wrapper">
-        <div 
-          className="timeline-river-row timeline-river-row--carousel"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div className="carousel-track" style={{ transform: `translateX(-${activeCardIndex * 100}%)` }}>
-            {allPosts.map((post) => (
-              <div key={post.id} className="carousel-card">
-                {renderPostCard(post, post.type)}
+      <div className="timeline-river-row-wrapper timeline-river-row-wrapper--mobile">
+        {/* Category Tab Navigation */}
+        <div className="mobile-tab-nav">
+          {availableTabs.map(tab => (
+            <button
+              key={tab}
+              className={`mobile-tab ${effectiveTab === tab ? 'mobile-tab--active' : ''} mobile-tab--${tab}`}
+              onClick={() => setMobileActiveTab(tab)}
+            >
+              {tabConfig[tab].icon}
+              <span className="mobile-tab-label">{tabConfig[tab].label}</span>
+              <span className="mobile-tab-count">{postsByType[tab].length}</span>
+            </button>
+          ))}
+        </div>
+        
+        {/* Card Display Area */}
+        <div className="mobile-card-area">
+          {currentTabPosts.length > 0 && (
+            <>
+              <div className="mobile-card-container">
+                {renderPostCard(currentTabPosts[currentTabIndex], effectiveTab)}
               </div>
-            ))}
-          </div>
-           {/* Prev/Next buttons */}
-           {/* Dot indicators */}
+              
+              {/* Carousel controls for this category */}
+              {currentTabPosts.length > 1 && (
+                <div className="mobile-card-controls">
+                  <button 
+                    className="mobile-nav-btn mobile-nav-btn--prev"
+                    onClick={() => setMobileCardIndex(prev => ({
+                      ...prev,
+                      [effectiveTab]: prev[effectiveTab] === 0 ? currentTabPosts.length - 1 : prev[effectiveTab] - 1
+                    }))}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                  </button>
+                  
+                  <div className="mobile-card-indicators">
+                    {currentTabPosts.map((_, index) => (
+                      <div 
+                        key={index} 
+                        className={`mobile-indicator ${index === currentTabIndex ? 'mobile-indicator--active' : ''}`}
+                        onClick={() => setMobileCardIndex(prev => ({ ...prev, [effectiveTab]: index }))}
+                      />
+                    ))}
+                  </div>
+                  
+                  <button 
+                    className="mobile-nav-btn mobile-nav-btn--next"
+                    onClick={() => setMobileCardIndex(prev => ({
+                      ...prev,
+                      [effectiveTab]: (prev[effectiveTab] + 1) % currentTabPosts.length
+                    }))}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
         
-        <div className="carousel-controls">
-          <button 
-            className="carousel-btn carousel-btn--prev"
-            onClick={() => setActiveCardIndex(prev => Math.max(0, prev - 1))}
-            disabled={activeCardIndex === 0}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-          </button>
-          
-          <div className="carousel-indicators">
-            {allPosts.map((_, index) => (
-              <div 
-                key={index} 
-                className={`carousel-indicator ${index === activeCardIndex ? 'carousel-indicator--active' : ''}`}
-                onClick={() => setActiveCardIndex(index)}
-              />
-            ))}
-          </div>
-          
-          <button 
-            className="carousel-btn carousel-btn--next"
-            onClick={() => setActiveCardIndex(prev => Math.min(allPosts.length - 1, prev + 1))}
-            disabled={activeCardIndex === allPosts.length - 1}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </button>
-        </div>
-        
-        {/* Media Lightbox (fullscreen image view) - also needed in mobile */}
+        {/* Media Lightbox */}
         <MediaLightbox 
           post={expandedMediaPost ? (posts.find(p => p.id === expandedMediaPost.id) || expandedMediaPost) : null}
           onClose={() => setExpandedMediaPost(null)}
