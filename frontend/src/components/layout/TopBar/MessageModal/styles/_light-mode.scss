@@ -139,20 +139,44 @@
     background: rgba(0, 0, 0, 0.02) !important;
   }
 
+  /* Received messages - light glass style */
   .chat-message.received {
+    background: rgba(240, 242, 245, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    
     p {
       color: #1a1a2e !important;
     }
   }
 
   .chat-message.received .message-bubble {
-    background: rgba(0, 0, 0, 0.05) !important;
+    background: rgba(240, 242, 245, 0.95) !important;
     color: #1a1a2e !important;
+  }
+
+  .chat-message.received .message-time {
+    color: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Sent messages - blue/green gradient */
+  .chat-message.sent {
+    background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 200, 132, 0.85)) !important;
+    border: none !important;
+    box-shadow: 0 2px 12px rgba(26, 115, 231, 0.25) !important;
+    
+    p {
+      color: #ffffff !important;
+    }
   }
 
   .chat-message.sent .message-bubble {
     background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.8)) !important;
     color: #ffffff !important;
+  }
+
+  .chat-message.sent .message-time {
+    color: rgba(255, 255, 255, 0.7) !important;
   }
 
   .chat-message p {
