@@ -126,19 +126,19 @@ function Home() {
             rows={1}
             disabled={isPosting}
           />
+          {/* Post icon - shows when there's text */}
+          {composerText.trim() && !isPosting && (
+            <span 
+              className="composer-post-icon"
+              onClick={handleInlinePost}
+              title="Post"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12,3 21,19 3,19"/>
+              </svg>
+            </span>
+          )}
         </div>
-        {/* Post icon - shows when there's text */}
-        {composerText.trim() && !isPosting && (
-          <span 
-            className="composer-post-icon"
-            onClick={handleInlinePost}
-            title="Post"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="12,3 21,19 3,19"/>
-            </svg>
-          </span>
-        )}
         <button 
           className="composer-expand-btn"
           onClick={() => setShowComposer(true)}

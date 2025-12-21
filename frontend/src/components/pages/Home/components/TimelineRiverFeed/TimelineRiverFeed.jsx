@@ -1,19 +1,14 @@
 // 🔵 PABLO - UI/Styling | 🟢 COLIN + 🟠 TITO - Posts Data Logic
 // TimelineRiverFeed.jsx - Main timeline feed with 3-column river layout
 
-import { useMemo } from 'react';
 import { groupPostsByUserAndDay, sortGroupedPosts } from '../../utils/groupPosts';
 import TimelineRiverRow from '../TimelineRiverRow';
 import './TimelineRiverFeed.scss';
 
 function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText, onDeletePost, onUpdatePost }) {
-  // Transform flat posts array into grouped structure
-  const groupedAndSortedPosts = useMemo(() => {
-  // 🔵 useMemo: Transform posts ONCE (not on every re-render)
-    const grouped = groupPostsByUserAndDay(posts);
-    // Step 1: Group posts by user + date
-    return sortGroupedPosts(grouped); // Step 2: Sort by newest first
-  }, [posts]); // Only re-run if posts array changes
+  // Transform flat posts array into grouped structure (no memoization - always fresh)
+  const grouped = groupPostsByUserAndDay(posts);
+  const groupedAndSortedPosts = sortGroupedPosts(grouped);
 
   // 🔵 Handle comment toggle (open/close comment box)
   const handleCommentClick = (postId) => {

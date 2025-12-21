@@ -119,13 +119,7 @@
   .river-post-card {
     background: #ffffff !important;
     border: none !important;
-    color: #000000 !important;
-    position: relative;
-    box-shadow: 
-      0 2px 8px rgba(0, 0, 0, 0.08),
-      0 1px 3px rgba(0, 0, 0, 0.05) !important;
-    /* Keep cyberpunk clip-path - match base style sizes */
-    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+   
   }
 
   .river-post-card::before {

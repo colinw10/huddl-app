@@ -38,7 +38,29 @@ for u in friend_users:
 users = {u.username: u for u in User.objects.all()}
 print('Users:', list(users.keys()))
 
-# Mock posts data - from frontend
+# ============================================================================
+# MOCK POSTS DATA
+# ============================================================================
+# Frontend file: src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx
+#
+# HOW THIS DATA AFFECTS ANALYTICS:
+# 
+# WAVE CHART (engagement over 52 weeks):
+#   - Uses: likes_count, comment_count, shares_count
+#   - Liking posts via API increments likes_count → changes wave height
+#
+# HEATMAP (posting frequency calendar):
+#   - Uses: created_at timestamps
+#   - Creating posts with varied dates → fills in the activity grid
+#
+# POST TYPE BREAKDOWN (pie chart):
+#   - Uses: type field ('thoughts', 'media', 'milestones')
+#   - Distribution of post types → changes percentage breakdown
+#
+# To see interesting analytics, modify posts below with:
+#   - Varied 'created_at' dates (spread across weeks)
+#   - Initial 'likes_count', 'comment_count', 'shares_count' values
+# ============================================================================
 mock_posts = [
     {'author': 'pabloPistola', 'content': 'Just finished an amazing workout session! Feeling pumped.', 'type': 'thoughts'},
     {'author': 'pabloPistola', 'content': 'Check out this amazing northern lights view!', 'type': 'media', 'media_url': 'https://ustoa.com/blog/wp-content/uploads/2019/07/northern-lights2-1024x678.jpg'},

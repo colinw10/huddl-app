@@ -270,6 +270,8 @@
   overflow: hidden;
   border-radius: 8px;
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  display: flex;
+  align-items: center;
 }
 
 /* Animated scan line for composer input */
@@ -425,21 +427,38 @@ textarea.composer-input {
 }
 
 .composer-post-icon {
-  color: rgba(0, 212, 255, 0.7);
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(30, 234, 76, 0.8);
   cursor: pointer;
   display: flex;
   align-items: center;
-  transition: color 0.2s ease, transform 0.2s ease;
+  justify-content: center;
+  height: 80%;
+  aspect-ratio: 1/1;
+  min-width: 30px;
+  min-height: 36px;
+  max-height: 40%;
+  width: auto;
+  border-radius: 10%;
+  background: rgba(1, 61, 81, 0.247);
+  transition: all 0.2s ease;
+  z-index: 5;
   
   svg {
+    transform: rotate(180deg);
     transition: transform 0.2s ease;
   }
   
   &:hover {
-    color: rgba(26, 231, 132, 1);
+    color: rgb(30, 234, 207);
+    background: rgba(2, 126, 128, 0.25);
+    box-shadow: 0 0 12px rgba(44, 45, 2, 0.4);
     
     svg {
-      transform: rotate(90deg);
+      transform: rotate(180deg) scale(1.1);
     }
   }
 }

@@ -9,13 +9,37 @@ import TimelineRiver from './components/TimelineRiver';
 import { usePosts, useAuth } from '../../../contexts';
 
 function Profile() {
-  const { posts, deletePost, updatePost } = usePosts();
+  const { posts, deletePost, updatePost, createPost } = usePosts();
   const { user } = useAuth();
   const [isFlipped, setIsFlipped] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
   const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
   const [composerText, setComposerText] = useState('');
   const [viewMode, setViewMode] = useState('timeline'); // 'timeline' or 'feed'
+  const [isPosting, setIsPosting] = useState(false);
+
+  // HANDLER: Submit from inline composer (Cmd/Ctrl + Enter)
+  const handleInlineKeyDown = async (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handleInlinePost();
+    }
+  };
+
+  // HANDLER: Post from inline composer
+  const handleInlinePost = async () => {
+    if (!composerText.trim() || isPosting) return;
+    
+    setIsPosting(true);
+    const result = await createPost({ content: composerText.trim(), type: 'thoughts' });
+    setIsPosting(false);
+    
+    if (result.success) {
+      setComposerText('');
+    } else {
+      alert(result.error || 'Failed to create post');
+    }
+  };
   
   // Filter posts by current user for "My Timeline"
   const myPosts = posts.filter(p => p.author?.username === user?.username);
@@ -93,8 +117,22 @@ function Profile() {
               placeholder="Share something…"
               value={composerText}
               onChange={(e) => setComposerText(e.target.value)}
+              onKeyDown={handleInlineKeyDown}
               rows={1}
+              disabled={isPosting}
             />
+            {/* Post icon - shows when there's text */}
+            {composerText.trim() && !isPosting && (
+              <span 
+                className="quick-composer-post-icon"
+                onClick={handleInlinePost}
+                title="Post"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="12,3 21,19 3,19"/>
+                </svg>
+              </span>
+            )}
           </div>
           <button 
             className="quick-composer-expand-btn"

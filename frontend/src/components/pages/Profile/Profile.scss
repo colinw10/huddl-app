@@ -300,6 +300,8 @@
   overflow: hidden;
   border-radius: 8px;
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  display: flex;
+  align-items: center;
 }
 
 /* Animated scan line for quick composer input */
@@ -330,7 +332,7 @@
 .quick-composer-textarea {
   width: 100%;
   padding: 0.7rem 1rem;
-  min-height: 40px;
+  min-height: 60px;
   max-height: 200px;
   overflow-y: auto;
   
@@ -350,7 +352,7 @@
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   
   color: #ffffff;
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-title);
   font-family: inherit;
   resize: none;
   outline: none;
@@ -369,6 +371,43 @@
       0 0 12px rgba(26, 115, 231, 0.2),
       inset 0 1px 3px rgba(0, 0, 0, 0.3),
       inset 0 -1px 3px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.quick-composer-post-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(30, 234, 78, 0.665);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+  aspect-ratio: 1/1;
+  min-width: 36px;
+  min-height: 36px;
+  max-height: 50%;
+  width: auto;
+  border-radius: 10%;
+  background: rgba(30, 220, 234, 0.069);
+  transition: all 0.2s ease;
+  z-index: 5;
+  
+  svg {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover {
+    color: rgba(107, 250, 221, 0.856);
+    background: rgba(8, 123, 132, 0.169);
+    box-shadow: 0 0 12px rgba(44, 30, 234, 0.4);
+    
+    svg {
+      transform: rotate(180deg) scale(1.1);
+    }
   }
 }
 
