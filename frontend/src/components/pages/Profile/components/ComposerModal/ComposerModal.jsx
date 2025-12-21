@@ -1,14 +1,52 @@
 // 🔵 PABLO - UI/Styling | 🟢 COLIN - Post Creation Logic
 // ComposerModal.jsx - Modal for creating new posts
 
-import React from 'react';
+import React, { useState } from 'react';
 import './ComposerModal.scss';
-import { useAuth } from '../../../../../contexts';
+import { useAuth, usePosts } from '../../../../../contexts';
 
 function ComposerModal({ showComposer, setShowComposer, composerType, setComposerType }) {
   const { user } = useAuth();
+  const { createPost } = usePosts();
+  const [content, setContent] = useState('');
+  const [isPosting, setIsPosting] = useState(false);
   
   if (!showComposer) return null;
+
+  const handlePost = async () => {
+    if (!content.trim() || isPosting) return;
+    
+    setIsPosting(true);
+    
+    // Map composerType to post type
+    const postType = composerType === 'thought' ? 'thoughts' : 
+                     composerType === 'media' ? 'media' : 'milestones';
+    
+    const result = await createPost({ content: content.trim(), type: postType });
+    
+    setIsPosting(false);
+    
+    if (result.success) {
+      setContent('');
+      setShowComposer(false);
+    } else {
+      alert(result.error || 'Failed to create post');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handlePost();
+    }
+  };
+
+  const getButtonText = () => {
+    if (isPosting) return 'Posting...';
+    if (composerType === 'thought') return 'Post Thought';
+    if (composerType === 'media') return 'Post Media';
+    return 'Post Milestone';
+  };
 
   return (
     <div className="composer-modal-overlay" onClick={() => setShowComposer(false)}>
@@ -51,7 +89,11 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
             className={`composer-textarea ${composerType === 'media' ? 'media-mode' : ''}`}
             placeholder={composerType === 'thought' ? "What's on your mind?" : composerType === 'media' ? "Add a caption to your media..." : "Describe your milestone..."}
             rows={composerType === 'media' ? 2 : 6}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onKeyDown={handleKeyDown}
             autoFocus
+            disabled={isPosting}
           />
 
           {composerType === 'media' && (
@@ -138,8 +180,12 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
               </svg>
             </button>
           </div>
-          <button className="composer-post-btn">
-            Post Thoughts
+          <button 
+            className="composer-post-btn"
+            onClick={handlePost}
+            disabled={!content.trim() || isPosting}
+          >
+            {getButtonText()}
           </button>
         </div>
       </div>

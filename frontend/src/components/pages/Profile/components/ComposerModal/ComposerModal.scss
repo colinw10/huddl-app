@@ -345,10 +345,12 @@
   border-radius: 12px;
   margin-top: 16px;
   border: 1px solid var(--border-default);
+  overflow: hidden; // Prevent overflow
 }
 
 .type-toggle-btn {
   flex: 1;
+  min-width: 0; // Allow flex items to shrink below content size
   background: transparent;
   padding: 0.35rem 0.9rem;
   border-radius: 8px;
@@ -361,6 +363,9 @@
   justify-content: center;
   gap: var(--space-sm);
   transition: all 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .type-toggle-btn svg {
@@ -459,10 +464,8 @@
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #ffffff 22%, rgba(140, 150, 150, 0.85) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: white !important;
+  background: rgba(0, 0, 0, 0.963) !important;
   border: 2px solid rgba(255, 255, 255, 0.588);
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
   cursor: pointer;
@@ -472,15 +475,21 @@
   overflow: hidden;
 }
 
-.composer-post-btn:hover {
-  background: linear-gradient(135deg, #1a73e7, #dc08bc) !important;
+.composer-post-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 1) !important;
   border-color: rgba(255, 255, 255, 1);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(26, 115, 231, 0.4);
+  box-shadow: none;
 }
 
-.composer-post-btn:active {
+.composer-post-btn:active:not(:disabled) {
   transform: translateY(-2px) scale(0.98);
+}
+
+.composer-post-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 @media (max-width: 768px) {
@@ -544,6 +553,22 @@
     min-height: 90px;
     font-size: 0.85rem;
     padding: 0.875rem 1rem;
+  }
+  
+  .composer-type-toggle {
+    gap: 4px;
+    padding: 4px;
+  }
+  
+  .type-toggle-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 10px;
+    gap: 4px;
+    
+    svg {
+      width: 12px;
+      height: 12px;
+    }
   }
   
   .composer-post-btn {
@@ -663,7 +688,11 @@
   }
 
   .composer-user-name {
-    color: var(--text-inverse) !important;
+    /* Invert gradient for light mode - dark on top, lighter at bottom */
+    background: linear-gradient(180deg, #000000 22%, rgba(120, 120, 120, 0.6) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
   }
 
   .composer-privacy {
@@ -671,13 +700,20 @@
   }
 
   .composer-post-btn {
-    background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.8)) !important;
-    border: none !important;
+    background: linear-gradient(135deg, var(--blue-primary), var(--accent)) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box !important;
     color: var(--text-primary) !important;
+    border: 2px solid rgba(26, 115, 231, 0.3) !important;
+    box-shadow: 0 4px 16px rgba(26, 115, 231, 0.25) !important;
   }
 
   .composer-post-btn:hover:not(:disabled) {
-    box-shadow: 0 4px 16px rgba(26, 115, 231, 0.3) !important;
+    background: var(--blue-primary) !important;
+    background-clip: padding-box !important;
+    color: white !important;
+    border: 2px solid var(--blue-primary) !important;
+    box-shadow: 0 6px 24px rgba(26, 115, 231, 0.4) !important;
   }
 
   .composer-post-btn:disabled {

@@ -42,21 +42,6 @@
   }
 }
 
-@media (min-width: 481px) {
-  .feed-container {
-    margin-left: 70px;
-    width: calc(100% - 70px);
-  }
-}
-
-/* Thinner side nav on smaller tablets */
-@media (min-width: 481px) and (max-width: 768px) {
-  .feed-container {
-    margin-left: 50px;
-    width: calc(100% - 50px);
-  }
-}
-
 // ============================================
 // STORIES SECTION
 // ============================================

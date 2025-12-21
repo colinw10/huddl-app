@@ -6,10 +6,16 @@
 .river-post-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  justify-content: space-between;
   padding-top: 10px;
   margin-top: 4px;
   position: relative;
+}
+
+/* Align likes (heart + count) with other action buttons */
+.river-post-actions .river-post-likes {
+  position: relative;
+  top: -1px;
 }
 
 /* Gradient separator line */

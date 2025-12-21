@@ -73,26 +73,43 @@ export const groupPostsByUserAndDay = (posts) => {
 
 /**
  * Converts grouped posts into sorted array for rendering
+ * Sorts by most recent post timestamp - whoever posted most recently appears first
  * @param {Object} grouped - Result from groupPostsByUserAndDay
- * @returns {Array} Sorted array of { date, userId, data }
+ * @returns {Array} Sorted array of { date, userId, data, mostRecentTimestamp }
  */
 export const sortGroupedPosts = (grouped) => {
-  const sorted = []; // 🔵 Empty array to store sorted results
+  const rows = []; // 🔵 Array to store all user rows with timestamps
 
-  // Sort dates newest first
-  Object.keys(grouped) // ["2024-01-15", "2024-01-14"]
-    .sort((a, b) => new Date(b) - new Date(a)) // Sort dates: newest first
-    .forEach((dateKey) => {
-      // For each date, add all user rows
-      // Step 2: For each date, loop through all users
-      Object.keys(grouped[dateKey]).forEach((userId) => {
-        sorted.push({
-          date: dateKey,
-          userId,
-          data: grouped[dateKey][userId], // Contains user + posts arrays
-        });
+  // Collect all user rows with their most recent post timestamp
+  Object.keys(grouped).forEach((dateKey) => {
+    Object.keys(grouped[dateKey]).forEach((userId) => {
+      const userData = grouped[dateKey][userId];
+
+      // Find the most recent post timestamp across all types
+      const allPosts = [
+        ...userData.thoughts,
+        ...userData.media,
+        ...userData.milestones,
+      ];
+
+      const mostRecentTimestamp = allPosts.reduce((latest, post) => {
+        const postTime = new Date(
+          post.createdAt || post.created_at || 0
+        ).getTime();
+        return postTime > latest ? postTime : latest;
+      }, 0);
+
+      rows.push({
+        date: dateKey,
+        userId,
+        data: userData,
+        mostRecentTimestamp,
       });
     });
+  });
 
-  return sorted; // 🔵 Return sorted array
+  // Sort by most recent timestamp (newest first)
+  rows.sort((a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp);
+
+  return rows; // 🔵 Return sorted array
 };

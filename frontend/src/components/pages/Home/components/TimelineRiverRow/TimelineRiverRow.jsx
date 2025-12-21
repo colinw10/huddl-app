@@ -45,6 +45,33 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const media = (rowData.media || []).map(p => getFreshPost(p.id) || p);
   const milestones = (rowData.milestones || []).map(p => getFreshPost(p.id) || p);
   
+  // 🔵 Calculate which post type was most recently posted
+  const getMostRecentType = () => {
+    const getLatestTimestamp = (arr) => {
+      if (!arr.length) return 0;
+      return Math.max(...arr.map(p => new Date(p.createdAt || p.created_at || 0).getTime()));
+    };
+    
+    const timestamps = {
+      thoughts: getLatestTimestamp(thoughts),
+      media: getLatestTimestamp(media),
+      milestones: getLatestTimestamp(milestones)
+    };
+    
+    // Find the type with the highest timestamp
+    let mostRecent = null;
+    let maxTime = 0;
+    for (const [type, time] of Object.entries(timestamps)) {
+      if (time > maxTime) {
+        maxTime = time;
+        mostRecent = type;
+      }
+    }
+    return mostRecent;
+  };
+  
+  const mostRecentType = getMostRecentType();
+  
   // State for edit mode
   const [editingPostId, setEditingPostId] = useState(null);
   const [editingReplyParentId, setEditingReplyParentId] = useState(null); // Track parent if editing a reply
@@ -248,29 +275,28 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         )}
          {/* Post Content */}
         <p className="river-post-content">{post.content}</p>
-         
-         {/* Likes - Clickable Icon */}
-        <div 
-          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
-          onClick={async (e) => {
-            e.stopPropagation();
-            await likePost(post.id);
-          }}
-          title={post.is_liked ? 'Unlike' : 'Like'}
-          style={{ cursor: 'pointer' }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                  fill={post.is_liked ? "#3b82f6" : "none"} 
-                  stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
-                  strokeWidth="1.5"/>
-          </svg>
-          {post.likes_count || 0}
-        </div>
 
         {/* Action Buttons */}
         {/* Post Actions */} 
         <div className="river-post-actions">
+          {/* Likes - Clickable Icon */}
+          <div 
+            className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+            onClick={async (e) => {
+              e.stopPropagation();
+              await likePost(post.id);
+            }}
+            title={post.is_liked ? 'Unlike' : 'Like'}
+            style={{ cursor: 'pointer' }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                    fill={post.is_liked ? "#3b82f6" : "none"} 
+                    stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
+                    strokeWidth="1.5"/>
+            </svg>
+            {post.likes_count || 0}
+          </div>
           <button 
             className={`river-action-btn ${post.reply_count > 0 ? 'has-replies' : ''}`}
             title="Comment"
@@ -292,15 +318,6 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           <button className="river-action-btn" title="Bookmark">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
-          </button>
-          <button className="river-action-btn" title="Share">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(79,255,255,0.5)" strokeWidth="1.5">
-              <circle cx="18" cy="5" r="3"/>
-              <circle cx="6" cy="12" r="3"/>
-              <circle cx="18" cy="19" r="3"/>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
             </svg>
           </button>
           
@@ -935,7 +952,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     };
     
     return (
-      <div className={`smart-deck smart-deck--${type}`}>
+      <div className={`smart-deck smart-deck--${type}${mostRecentType === type ? ' smart-deck--recent' : ''}`}>
         {/* Deck Header with count and navigation */}
         <div className="smart-deck-header">
           <span className="smart-deck-icon">{typeIcons[type]}</span>

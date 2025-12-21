@@ -1,25 +1,23 @@
 // ================================================
 // THEME TOGGLE COMPONENT
-// Power/Energy Core - glowing orb toggle
+// Simplified elegant toggle - sun/moon style
 // ================================================
 
-@keyframes pulse-glow {
+@keyframes gentle-pulse {
   0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
+    box-shadow: 0 0 8px rgba(124, 201, 255, 0.4);
   }
   50% {
-    opacity: 1;
-    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(124, 201, 255, 0.6);
   }
 }
 
-@keyframes core-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes gentle-pulse-light {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(26, 231, 132, 0.5);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    box-shadow: 0 0 16px rgba(26, 231, 132, 0.8);
   }
 }
 
@@ -27,17 +25,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  border: none;
+  border: 1px solid rgba(124, 201, 255, 0.3);
   border-radius: 50%;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
   
   &:hover {
-    transform: scale(1.1);
+    border-color: rgba(124, 201, 255, 0.6);
+    background: rgba(124, 201, 255, 0.1);
+    animation: gentle-pulse 2s ease-in-out infinite;
   }
   
   &:active {
@@ -49,14 +49,14 @@
     transition: all 0.4s ease;
   }
 
-  // Dark mode (dim glow) - cyan/magenta spectral
+  // Dark mode - cyan spectral
   .core-ring {
-    stroke: rgba(124, 201, 255, 0.3);
+    stroke: rgba(124, 201, 255, 0.4);
     transition: all 0.4s ease;
   }
 
   .core-orb {
-    opacity: 0.7;
+    opacity: 0.8;
     transition: all 0.4s ease;
   }
 
@@ -73,33 +73,33 @@
   }
 
   .core-spark {
-    fill: rgba(255, 255, 255, 0.5);
+    fill: rgba(255, 255, 255, 0.6);
     transition: all 0.4s ease;
   }
 
   &:hover {
     .core-ring {
-      stroke: rgba(124, 201, 255, 0.6);
-      animation: core-spin 8s linear infinite;
+      stroke: rgba(124, 201, 255, 0.8);
     }
     .core-orb {
-      opacity: 0.9;
+      opacity: 1;
     }
     .core-spark {
-      fill: rgba(255, 255, 255, 0.8);
+      fill: rgba(255, 255, 255, 0.9);
     }
   }
 
-  // Light mode (bright pulsing glow) - full power!
+  // Light mode (active state) - green accent
   &--active {
+    border-color: rgba(26, 231, 132, 0.5);
+    background: rgba(26, 231, 132, 0.1);
+    
     .core-ring {
-      stroke: rgba(26, 231, 132, 0.8);
-      stroke-width: 2;
+      stroke: rgba(26, 231, 132, 0.6);
     }
 
     .core-orb {
       opacity: 1;
-      animation: pulse-glow 2s ease-in-out infinite;
     }
 
     .core-center {
@@ -116,13 +116,14 @@
 
     .core-spark {
       fill: var(--text-primary);
-      filter: drop-shadow(0 0 4px rgba(26, 231, 132, 0.8));
     }
 
     &:hover {
+      border-color: rgba(26, 231, 132, 0.8);
+      animation: gentle-pulse-light 2s ease-in-out infinite;
+      
       .core-ring {
         stroke: var(--accent);
-        animation: core-spin 4s linear infinite;
       }
     }
   }
@@ -131,11 +132,19 @@
 // Light mode document-level overrides
 [data-theme="light"] {
   .theme-toggle {
+    border-color: rgba(26, 231, 132, 0.5);
+    background: rgba(255, 255, 255, 0.8);
+    
     .core-ring {
-      stroke: rgba(26, 231, 132, 0.8);
+      stroke: rgba(26, 231, 132, 0.7);
     }
     .core-spark {
-      filter: drop-shadow(0 0 6px rgba(26, 231, 132, 1));
+      fill: rgba(26, 231, 132, 1);
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(26, 231, 132, 0.8);
     }
   }
 }

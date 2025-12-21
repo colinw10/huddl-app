@@ -30,20 +30,21 @@
 .top-bar-logo {
   @include numeneon-title;
   font-size: 1rem;
-  margin-bottom: 1rem;
   margin-left: 2.5rem;
   letter-spacing: 2px;
 }
 
 .top-bar-icons {
   display: flex;
+  align-items: center;
   gap: 1rem;
-  padding-bottom: .7rem;
+  flex-shrink: 0; // Prevent icon group from shrinking
 }
 
 .icon-placeholder {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0; // Prevent individual icons from distorting
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,11 +99,15 @@
   transform: scale(1.1);
 }
 
-.icon-placeholder:hover {
-  color: var(--blue-primary);
-  background: rgba(26, 115, 231, 0.1);
+/* Login icon - cyan */
+.icon-login {
+  color: var(--cyan);
+}
+
+.icon-login:hover {
+  background: rgba(124, 201, 255, 0.15);
+  box-shadow: 0 0 15px rgba(124, 201, 255, 0.4);
   transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(26, 115, 231, 0.4);
 }
 
 /* Mobile adjustments */
@@ -116,12 +121,10 @@
     font-size: 0.6rem;
     letter-spacing: 1.5px;
     margin-left: 0.5rem;
-    margin-bottom: 0;
   }
   
   .top-bar-icons {
     gap: 0.5rem;
-    padding-bottom: 0;
   }
   
   .icon-placeholder {
@@ -132,21 +135,6 @@
   .icon-placeholder svg {
     width: 16px;
     height: 16px;
-  }
-}
-
-/* Narrow desktop (min browser width with side nav) - shorter top bar */
-@media (min-width: 481px) and (max-width: 600px) {
-  .top-bar {
-    height: 44px;
-  }
-  
-  .top-bar-logo {
-    margin-bottom: 0;
-  }
-  
-  .top-bar-icons {
-    padding-bottom: 0;
   }
 }
 
