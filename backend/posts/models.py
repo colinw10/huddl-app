@@ -71,3 +71,17 @@ class Post(models.Model):
     class Meta:
         # Order posts newest first (- means descending)
         ordering = ['-created_at']
+
+
+# Like model - tracks who liked what post
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Each user can only like a post once
+        unique_together = ('user', 'post')
+
+    def __str__(self):
+        return f"{self.user.username} likes post {self.post.id}"

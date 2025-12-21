@@ -1,10 +1,10 @@
 # 🟢 COLIN - Posts Backend Lead
 # views.py - API endpoints for posts (using ViewSet approach)
 
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Post
+from .models import Post, Like
 from .serializers import PostSerializer
 
 # Create your views here.
@@ -49,5 +49,45 @@ class PostViewSet(viewsets.ModelViewSet):
         """
         post = self.get_object()
         replies = post.replies.all().order_by('created_at')
-        serializer = PostSerializer(replies, many=True)
+        serializer = PostSerializer(replies, many=True, context={'request': request})
+        return Response(serializer.data)
+    
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+        """
+        POST /api/posts/{id}/like/ - toggle like on a post
+        Returns the updated post with new like count and is_liked status
+        """
+        post = self.get_object()
+        user = request.user
+        
+        # Check if already liked
+        existing_like = Like.objects.filter(user=user, post=post).first()
+        
+        if existing_like:
+            # Unlike - remove the like
+            existing_like.delete()
+            post.likes_count = max(0, post.likes_count - 1)
+            post.save()
+            is_liked = False
+        else:
+            # Like - create new like
+            Like.objects.create(user=user, post=post)
+            post.likes_count += 1
+            post.save()
+            is_liked = True
+        
+        serializer = PostSerializer(post, context={'request': request})
+        return Response(serializer.data)
+    
+    @action(detail=True, methods=['post'])
+    def share(self, request, pk=None):
+        """
+        POST /api/posts/{id}/share/ - increment share count
+        """
+        post = self.get_object()
+        post.shares_count += 1
+        post.save()
+        
+        serializer = PostSerializer(post, context={'request': request})
         return Response(serializer.data)

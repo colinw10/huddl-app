@@ -2,7 +2,7 @@
 # serializers.py - Data conversion between Django models and JSON
 
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Like
 from users.serializers import UserSerializer  # nested author data
 
 # Create your serializers here.
@@ -17,6 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
     
     # For threading - include reply count and parent reference
     reply_count = serializers.SerializerMethodField()
+    is_liked = serializers.SerializerMethodField()
     parent_id = serializers.PrimaryKeyRelatedField(
         queryset=Post.objects.all(),
         source='parent',
@@ -27,6 +28,13 @@ class PostSerializer(serializers.ModelSerializer):
     
     def get_reply_count(self, obj):
         return obj.replies.count()
+    
+    def get_is_liked(self, obj):
+        """Check if the current user has liked this post"""
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Like.objects.filter(user=request.user, post=obj).exists()
+        return False
    
     class Meta:
         model = Post
@@ -46,6 +54,7 @@ class PostSerializer(serializers.ModelSerializer):
             'likes_count',      # For ProfileCard analytics
             'comment_count',    # For ProfileCard analytics
             'shares_count',     # For ProfileCard analytics
+            'is_liked',         # Whether current user liked this post
         ]
         # These fields are auto-generated and can't be modified via API
-        read_only_fields = ['author', 'created_at', 'updated_at', 'parent', 'reply_count']
+        read_only_fields = ['author', 'created_at', 'updated_at', 'parent', 'reply_count', 'is_liked']

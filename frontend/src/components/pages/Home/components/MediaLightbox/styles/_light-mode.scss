@@ -96,6 +96,22 @@
     border-color: rgba(26, 231, 132, 0.3) !important;
     color: #1ae784 !important;
   }
+  
+  /* Liked state in light mode - blue filled heart */
+  .media-action-btn--liked {
+    color: #2563eb !important;
+    border-color: rgba(37, 99, 235, 0.4) !important;
+    background: rgba(37, 99, 235, 0.1) !important;
+  }
+  
+  .media-action-btn--liked .action-count {
+    color: #2563eb !important;
+  }
+  
+  .media-action-btn--liked:hover {
+    background: rgba(37, 99, 235, 0.15) !important;
+    border-color: rgba(37, 99, 235, 0.5) !important;
+  }
 
   .media-action-btn svg {
     stroke: currentColor !important;

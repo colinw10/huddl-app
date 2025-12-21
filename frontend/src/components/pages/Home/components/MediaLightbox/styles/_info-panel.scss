@@ -153,6 +153,22 @@
   padding: 8px 12px;
 }
 
+/* Liked state - filled blue heart */
+.media-action-btn--liked {
+  color: #3b82f6 !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+.media-action-btn--liked .action-count {
+  color: #3b82f6 !important;
+}
+
+.media-action-btn--liked:hover {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
 .media-action-btn .action-count {
   font-family: 'sweet-square-pro', monospace;
   font-size: var(--font-size-xs);

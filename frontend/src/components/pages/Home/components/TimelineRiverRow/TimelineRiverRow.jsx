@@ -35,7 +35,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // 🔵 Extract data from props
   const { user, thoughts, media, milestones } = rowData;
   const { user: currentUser } = useAuth();
-  const { fetchReplies, createReply, deletePost, updatePost } = usePosts();
+  const { posts, fetchReplies, createReply, deletePost, updatePost } = usePosts();
   
   // State for edit mode
   const [editingPostId, setEditingPostId] = useState(null);
@@ -821,7 +821,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         
         {/* Media Lightbox (fullscreen image view) - also needed in mobile */}
         <MediaLightbox 
-          post={expandedMediaPost}
+          post={expandedMediaPost ? (posts.find(p => p.id === expandedMediaPost.id) || expandedMediaPost) : null}
           onClose={() => setExpandedMediaPost(null)}
           commentText={commentText}
           setCommentText={setCommentText}
@@ -978,7 +978,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
 
        {/* Media Lightbox (fullscreen image view) */}
       <MediaLightbox 
-        post={expandedMediaPost}
+        post={expandedMediaPost ? (posts.find(p => p.id === expandedMediaPost.id) || expandedMediaPost) : null}
         onClose={() => setExpandedMediaPost(null)}
         commentText={commentText}
         setCommentText={setCommentText}

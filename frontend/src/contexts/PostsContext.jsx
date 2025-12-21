@@ -125,6 +125,40 @@ const createReply = async (parentId, content) => {
   }
 };
 
+// LIKE/UNLIKE a post
+const likePost = async (id) => {
+  try {
+    const updatedPost = await postsService.like(id);
+    // Update the post in state with new like count and is_liked status
+    setPosts(prev => prev.map(post =>
+      post.id === id ? updatedPost : post
+    ));
+    return { success: true, data: updatedPost };
+  } catch (err) {
+    return {
+      success: false,
+      error: err.response?.data?.detail || 'Failed to like post'
+    };
+  }
+};
+
+// SHARE a post
+const sharePost = async (id) => {
+  try {
+    const updatedPost = await postsService.share(id);
+    // Update the post in state with new share count
+    setPosts(prev => prev.map(post =>
+      post.id === id ? updatedPost : post
+    ));
+    return { success: true, data: updatedPost };
+  } catch (err) {
+    return {
+      success: false,
+      error: err.response?.data?.detail || 'Failed to share post'
+    };
+  }
+};
+
 // PROVIDER - wraps app and exposes state + actions to all children
 return (
   <PostsContext.Provider
@@ -140,6 +174,8 @@ return (
      deletePost,
      fetchReplies,
      createReply,
+     likePost,
+     sharePost,
   }}
   >
   {children}
