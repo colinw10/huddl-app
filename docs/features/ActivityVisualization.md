@@ -4,6 +4,78 @@
 
 The Activity Visualization component provides users with visual analytics of their posting activity over time, rendered on the back of the profile flip card.
 
+---
+
+## 📊 What Each Visualization Shows (Simple Explanation)
+
+### 🌊 Wave Chart - "Your Engagement Over Time"
+
+**What it shows:** How much people interacted with your posts over the past year.
+
+**In plain English:**
+
+- Imagine a mountain range where taller peaks = more engagement
+- **Top wave (blue/cyan):** Total engagement (likes + comments + shares combined)
+- **Middle wave (pink):** Just your likes
+- **Bottom wave (orange):** Just your comments
+
+**How to read it:**
+
+- Higher peaks = weeks when your posts got lots of attention
+- Flat areas = quiet weeks with less interaction
+- Green dots mark your best weeks
+
+**Example:** If you posted something viral in March, you'll see a big spike in that area of the chart.
+
+---
+
+### 📅 Heatmap - "When Do You Post?"
+
+**What it shows:** A calendar view of how often you posted each day over the past year.
+
+**In plain English:**
+
+- It's like a GitHub contribution graph but for your posts
+- Each tiny square = one day
+- Darker squares = you posted more that day
+- Lighter/empty squares = you didn't post much
+
+**How to read it:**
+
+- **Rows:** Days of the week (Monday at top, Sunday at bottom)
+- **Columns:** Weeks of the year (oldest on left, newest on right)
+- **Colors:** Empty → Light blue → Cyan → Bright cyan (more posts)
+
+**Example:** If you always post on Saturdays, you'll see a horizontal stripe of dark squares on the Saturday row.
+
+---
+
+### 🍩 Content Mix Donut Chart
+
+**What it shows:** What types of posts you create most.
+
+**In plain English:**
+
+- A pie chart showing the breakdown of your content
+- **Green:** Thoughts (text-only posts)
+- **Blue:** Media (posts with images)
+- **Pink:** Milestones (achievement posts)
+
+**Example:** If 60% of your posts are Thoughts, the green section will be the biggest slice.
+
+---
+
+### ⚡ Peak Posting Time
+
+**What it shows:** When you're most active.
+
+**In plain English:**
+
+- Analyzes your posting history to find your busiest day and time
+- Shows something like "Sat 6PM" meaning you tend to be most active Saturday evenings
+
+---
+
 ## Visual Components
 
 ### Wave View
@@ -40,26 +112,54 @@ Both views display the same analytics header:
 
 ### Data Source
 
-All activity data comes from YOUR Django backend - no external APIs required.
+All visualization data is calculated from the `posts` array passed to ProfileCard. No separate API call needed!
 
-**Example API endpoint:**
+**Data comes from PostsContext:**
 
 ```javascript
-// In ActivityVisualization.jsx
-const response = await apiClient.get("/api/user/activity");
+// ProfileCard receives posts from parent
+function ProfileCard({ posts, user }) {
+  // Calculate visualizations from posts array
+}
 ```
 
-**Expected Django response:**
+**Required Post Fields:**
 
 ```json
 {
-  "daily_posts": [
-    { "date": "2024-01-01", "count": 3 },
-    { "date": "2024-01-02", "count": 7 }
-  ],
-  "weekly_summary": [...],
-  "peak_time": "Sat 7PM"
+  "id": 1,
+  "type": "thought", // For donut chart
+  "created_at": "2024-12-19", // For heatmap calendar
+  "likes_count": 42, // For wave chart
+  "comments_count": 7, // For wave chart
+  "shares_count": 3 // For wave chart
 }
+```
+
+### How Each Visualization is Calculated
+
+**Wave Chart (waveData):**
+
+```javascript
+// Sum engagement per week for the past 52 weeks
+posts.forEach((post) => {
+  const engagement = post.likes_count + post.comments_count + post.shares_count;
+  weeklyEngagement[weekIndex] += engagement;
+});
+```
+
+**Heatmap (heatmapData):**
+
+```javascript
+// Count posts per day, convert to 0-3 intensity levels
+// 0 posts = level 0, 1 post = level 1, 2-3 posts = level 2, 4+ posts = level 3
+```
+
+**Donut Chart (postTypeData):**
+
+```javascript
+// Count posts by type, calculate percentages
+const thoughtsPercent = (counts.thoughts / total) * 100;
 ```
 
 ### Rendering
@@ -157,11 +257,22 @@ But for core HUDDL user activity visualization: **No 3rd party APIs required.**
 ## Component Files
 
 - `/frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/`
-  - `ActivityVisualization.jsx` - Main component
+  - `ActivityVisualization.jsx` - Renders wave chart and heatmap
   - `ActivityVisualization.scss` - Styles
+- `/frontend/src/components/pages/Profile/components/ProfileCard/components/PostTypeBreakdown/`
+  - `PostTypeBreakdown.jsx` - Renders donut chart
 - Parent: `ProfileCardBack.jsx`
-- Data generation: `ProfileCard.jsx` (seeded random for demo)
+- Data calculation: `ProfileCard.jsx` (from real post data)
 
 ## Summary
 
-This is a **visualization library** rendering **your own data**, not a 3rd party API integration. The component transforms user activity data from your Django backend into beautiful, interactive charts - all processed client-side in the browser.
+This is a **visualization system** that transforms your real post data into beautiful, interactive charts:
+
+| Visualization | Data Used                                       | What It Shows              |
+| ------------- | ----------------------------------------------- | -------------------------- |
+| Wave Chart    | `likes_count`, `comments_count`, `shares_count` | Engagement over 52 weeks   |
+| Heatmap       | `created_at`                                    | Posting frequency calendar |
+| Donut Chart   | `type`                                          | Content type breakdown     |
+| Peak Time     | Heatmap analysis                                | Most active day/time       |
+
+All processing happens **client-side in the browser** - no external APIs needed!

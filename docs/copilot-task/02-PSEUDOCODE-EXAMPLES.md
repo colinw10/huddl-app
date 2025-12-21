@@ -3,7 +3,9 @@ This file contains all 11 detailed examples that Copilot praised as "Chef's Kiss
 markdown# NUMENEON TEAM REBUILD - Part 2: Pseudocode Examples
 
 ## HOW TO USE THESE FILES
+
 This is Part 2 of 5. Read these files in order:
+
 1. `01-CONTEXT-AND-STRATEGY.md` - Background, strategy, assignments
 2. `02-PSEUDOCODE-EXAMPLES.md` ← YOU ARE HERE
 3. `03-BACKEND-INSTRUCTIONS.md` - Backend pseudocode tasks
@@ -13,6 +15,7 @@ This is Part 2 of 5. Read these files in order:
 ---
 
 ## EXAMPLE 1: Backend Model File
+
 ```python
 """
 TODO: Create the Post model - this is the core content type for NUMENEON
@@ -31,6 +34,14 @@ Fields you need:
 - image: Optional image file
 - parent: Is this a reply to another post? (can be null)
 - created_at: When was it made? (should auto-set on creation)
+- likes_count: Number of likes (integer, default 0)
+- comments_count: Number of comments (integer, default 0)
+- shares_count: Number of shares (integer, default 0)
+
+Engagement metrics are used by Pablo's ProfileCard analytics:
+- Wave chart calculates weekly engagement totals
+- Heatmap shows posting frequency calendar
+- All three metrics contribute to engagement visualization
 
 Integration points:
 - Frontend TimelineRiverFeed (Pablo's component) expects posts with these exact fields
@@ -61,6 +72,7 @@ class Post(models.Model):
 ---
 
 ## EXAMPLE 2: Backend View File
+
 ```python
 """
 TODO: Create Posts API Views - handles all HTTP requests for posts
@@ -92,9 +104,15 @@ Expected response format for GET /api/posts/:
     "content": "This is a post",
     "image": null,
     "parent": null,
-    "created_at": "2024-12-19T10:00:00Z"
+    "created_at": "2024-12-19T10:00:00Z",
+    "likes_count": 42,
+    "comments_count": 7,
+    "shares_count": 3
   }
 ]
+
+IMPORTANT: Engagement fields (likes_count, comments_count, shares_count)
+are REQUIRED by Pablo's ProfileCard.jsx for analytics visualizations.
 
 Think about:
 - How do you restrict endpoints to authenticated users only?
@@ -122,6 +140,7 @@ class PostViewSet(viewsets.ModelViewSet):
 ---
 
 ## EXAMPLE 3: Frontend Context File
+
 ```javascript
 // TODO: Create PostsContext - manages all post data for the app
 //
@@ -156,8 +175,17 @@ class PostViewSet(viewsets.ModelViewSet):
 //   content: string,
 //   image: string | null,
 //   created_at: ISO timestamp string,
-//   parent: number | null
+//   parent: number | null,
+//   likes_count: number,      // REQUIRED for ProfileCard analytics
+//   comments_count: number,   // REQUIRED for ProfileCard analytics
+//   shares_count: number      // REQUIRED for ProfileCard analytics
 // }
+//
+// NOTE: Engagement fields (likes_count, comments_count, shares_count) are
+// required by Pablo's ProfileCard.jsx for the analytics visualizations:
+// - Wave chart uses weekly engagement totals
+// - Heatmap shows posting frequency
+// - Post type breakdown counts by type
 //
 // Think about:
 // - How do you update state after a successful API call?
@@ -172,8 +200,8 @@ class PostViewSet(viewsets.ModelViewSet):
 // Hint: Look at AuthContext.jsx (Natalia builds) as a reference for structure
 // Hint: For async operations, use async/await for cleaner code
 
-import { createContext, useState, useEffect, useContext } from 'react';
-import * as postsService from '../services/postsService';
+import { createContext, useState, useEffect, useContext } from "react";
+import * as postsService from "../services/postsService";
 
 export const PostsContext = createContext();
 
@@ -189,6 +217,7 @@ export function usePosts() {
 ---
 
 ## EXAMPLE 4: Frontend Service File
+
 ```javascript
 // TODO: Create Posts Service - handles all API calls related to posts
 //
@@ -232,7 +261,7 @@ export function usePosts() {
 // Hint: Return response.data, not the whole response object
 // Hint: For image uploads, create FormData and append fields
 
-import apiClient from './apiClient';
+import apiClient from "./apiClient";
 
 export async function getPosts() {
   // Your code here
@@ -258,6 +287,7 @@ export async function getReplies(parentId) {
 ---
 
 ## EXAMPLE 5: Simple Frontend Component (JSX)
+
 ```javascript
 // TODO: Create Login component - user authentication form
 //
@@ -306,10 +336,10 @@ export async function getReplies(parentId) {
 // Hint: useNavigate() hook from react-router-dom for programmatic navigation
 // Hint: Look at Signup.jsx structure (you'll build that too) - similar pattern
 
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
-import './Login.scss';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import "./Login.scss";
 
 export default function Login() {
   // Your code here
@@ -319,6 +349,7 @@ export default function Login() {
 ---
 
 ## EXAMPLE 6: Simple Component SCSS File
+
 ```scss
 // TODO: Style the Login page
 //
@@ -365,8 +396,8 @@ export default function Login() {
 //   }
 // }
 
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 
 .login-container {
   // Your code here
@@ -392,12 +423,13 @@ export default function Login() {
 ---
 
 ## EXAMPLE 7: Utility Function File (Reference Only)
+
 ```javascript
 /**
  * UTILITY REFERENCE (Pablo's Implementation - DO NOT MODIFY)
- * 
+ *
  * Purpose: Organizes posts by user and date for Timeline River display
- * 
+ *
  * Input format (array of posts from API):
  * [
  *   { id: 1, author: { id: 5, username: "alice" }, created_at: "2024-12-19T10:00:00Z", type: "thought", ... },
@@ -419,7 +451,7 @@ export default function Login() {
  * - Called by Pablo's TimelineRiverFeed component
  * - Input comes from PostsContext (Colin's array of posts)
  * - Output feeds TimelineRiverRow components
- * 
+ *
  * Team Reference:
  * - Colin: Your PostsContext provides the input array
  * - This function transforms it for Pablo's UI display
@@ -431,6 +463,7 @@ export default function Login() {
 ---
 
 ## EXAMPLE 8: Simple Export File (index.js)
+
 ```javascript
 // TODO: Export the Login component
 //
@@ -446,12 +479,13 @@ export default function Login() {
 //
 // Just export the default export from Login.jsx
 
-export { default } from './Login';
+export { default } from "./Login";
 ```
 
 ---
 
 ## EXAMPLE 9: Collaborative File (Backend URLs)
+
 ```python
 """
 TODO: Root URL configuration for NUMENEON backend
@@ -472,15 +506,15 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+
     # TODO (Natalia): Add users app URLs
     # Uncomment and complete this line:
     # path('api/auth/', include('users.urls')),
-    
+
     # TODO (Colin): Add posts app URLs
     # Uncomment and complete this line:
     # path('api/posts/', include('posts.urls')),
-    
+
     # TODO (Crystal): Add friends app URLs
     # Uncomment and complete this line:
     # path('api/friends/', include('friends.urls')),
@@ -490,6 +524,7 @@ urlpatterns = [
 ---
 
 ## EXAMPLE 10: Collaborative File (Frontend Context Exports)
+
 ```javascript
 // TODO: Export all context providers and hooks
 //
@@ -529,20 +564,21 @@ urlpatterns = [
 ---
 
 ## EXAMPLE 11: Pablo's Component (Usage Comment Only)
+
 ```javascript
 /**
  * COMPONENT USAGE (For Team Reference)
- * 
+ *
  * Purpose: Main feed component that displays posts in a 3-column "river" layout
  * - Left column: 'thought' posts (text-only)
  * - Center column: 'media' posts (with images)
  * - Right column: 'milestone' posts (achievements)
- * 
+ *
  * Data Requirements:
  * - Consumes: PostsContext via usePosts() hook
  * - Expects: posts array from context
  * - Uses: groupPosts utility (Pablo's utility) to organize posts by user+date
- * 
+ *
  * Post Format Expected (from backend):
  * {
  *   id: number,
@@ -553,27 +589,27 @@ urlpatterns = [
  *   created_at: ISO timestamp string (e.g., "2024-12-19T10:00:00Z"),
  *   parent: number | null
  * }
- * 
+ *
  * Integration Points:
  * - Used by: Home.jsx (Pablo's page component)
  * - Renders: TimelineRiverRow components (Pablo's component) for each user/date group
  * - Calls: PostsContext.fetchPosts() on component mount
- * 
+ *
  * Team Integration:
  * - Colin: Build PostsContext to provide the posts array in above format
  * - Colin: Build postsService to fetch from /api/posts/
  * - Colin: Ensure backend /api/posts/ returns posts matching above format
  * - Natalia: Ensure author data includes id, username, profile_picture
- * 
+ *
  * DO NOT MODIFY THIS FILE
  * This is Pablo's complete UI implementation. Your job is to build the
  * backend and contexts that provide data in the format this component expects.
  */
 
-import { usePosts } from '../../../contexts/PostsContext';
-import { groupPosts } from '../utils/groupPosts';
-import TimelineRiverRow from './TimelineRiverRow';
-import './TimelineRiverFeed.scss';
+import { usePosts } from "../../../contexts/PostsContext";
+import { groupPosts } from "../utils/groupPosts";
+import TimelineRiverRow from "./TimelineRiverRow";
+import "./TimelineRiverFeed.scss";
 
 // ... Pablo's complete implementation follows (DO NOT MODIFY) ...
 ```

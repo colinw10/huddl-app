@@ -5,7 +5,9 @@ This file contains specific instructions for adding pseudocode to frontend files
 markdown# NUMENEON TEAM REBUILD - Part 4: Frontend Instructions
 
 ## HOW TO USE THESE FILES
+
 This is Part 4 of 5. Read these files in order:
+
 1. `01-CONTEXT-AND-STRATEGY.md` - Background, strategy, assignments
 2. `02-PSEUDOCODE-EXAMPLES.md` - All 11 example templates
 3. `03-BACKEND-INSTRUCTIONS.md` - Backend pseudocode tasks
@@ -17,6 +19,7 @@ This is Part 4 of 5. Read these files in order:
 ## BRANCH: `team-shell-frontend`
 
 Before starting:
+
 1. Create branch `team-shell-frontend` from main
 2. Delete the entire `backend/` folder
 3. Keep `frontend/` folder with all files
@@ -27,6 +30,7 @@ Before starting:
 ## FRONTEND FILE CATEGORIES
 
 ### CATEGORY A: Full Pseudocode (Team Rebuilds)
+
 - Contexts: AuthContext, PostsContext, FriendsContext, ThemeContext
 - Services: apiClient.js, postsService.js, friendsService.js
 - Simple UI: Login, Signup, Friends, ProtectedRoute, ThemeToggle
@@ -34,6 +38,7 @@ Before starting:
 - Collaborative: contexts/index.js
 
 ### CATEGORY B: Usage Comments Only (Pablo's UI - Keep Intact)
+
 - All ~75 component files in Pablo's domain
 - Add USAGE comment block at top
 - Keep ALL implementation code intact
@@ -46,6 +51,7 @@ Before starting:
 ### NATALIA'S FRONTEND FILES
 
 #### `frontend/src/contexts/AuthContext.jsx`
+
 ```javascript
 // TODO: Create AuthContext - manages user authentication state
 //
@@ -104,8 +110,8 @@ Before starting:
 // Hint: Get token: localStorage.getItem('token')
 // Hint: Remove token: localStorage.removeItem('token')
 
-import { createContext, useState, useEffect, useContext } from 'react';
-import apiClient from '../services/apiClient';
+import { createContext, useState, useEffect, useContext } from "react";
+import apiClient from "../services/apiClient";
 
 export const AuthContext = createContext();
 
@@ -119,6 +125,7 @@ export function useAuth() {
 ```
 
 #### `frontend/src/components/pages/Login/Login.jsx`
+
 ```javascript
 // TODO: Create Login component - user authentication form
 //
@@ -164,10 +171,10 @@ export function useAuth() {
 // Hint: After login succeeds, navigate('/home');
 // Hint: Use useEffect to redirect when user becomes truthy
 
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContext';
-import './Login.scss';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import "./Login.scss";
 
 export default function Login() {
   // Your code here
@@ -175,6 +182,7 @@ export default function Login() {
 ```
 
 #### `frontend/src/components/pages/Login/Login.scss`
+
 ```scss
 // TODO: Style the Login page
 //
@@ -219,8 +227,8 @@ export default function Login() {
 //   @include neon-glow;
 // }
 
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .login-page {
   // Your code here
@@ -256,16 +264,18 @@ export default function Login() {
 ```
 
 #### `frontend/src/components/pages/Login/index.js`
+
 ```javascript
 // TODO: Export Login component (barrel export)
 //
 // This makes imports cleaner:
 // import Login from './Login' instead of import Login from './Login/Login'
 
-export { default } from './Login';
+export { default } from "./Login";
 ```
 
 #### `frontend/src/components/pages/Signup/Signup.jsx`
+
 ```javascript
 // TODO: Create Signup component - new user registration form
 //
@@ -304,10 +314,10 @@ export { default } from './Login';
 // Hint: Validate before calling signup()
 // Hint: if (password !== confirmPassword) setLocalError('Passwords do not match')
 
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContext';
-import './Signup.scss';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import "./Signup.scss";
 
 export default function Signup() {
   // Your code here
@@ -315,6 +325,7 @@ export default function Signup() {
 ```
 
 #### `frontend/src/components/pages/Signup/Signup.scss`
+
 ```scss
 // TODO: Style the Signup page
 //
@@ -333,8 +344,8 @@ export default function Signup() {
 //
 // Same patterns as Login.scss apply here.
 
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .signup-page {
   // Your code here
@@ -348,13 +359,15 @@ export default function Signup() {
 ```
 
 #### `frontend/src/components/pages/Signup/index.js`
+
 ```javascript
 // TODO: Export Signup component (barrel export)
 
-export { default } from './Signup';
+export { default } from "./Signup";
 ```
 
 #### `frontend/src/components/ui/ProtectedRoute.jsx`
+
 ```javascript
 // TODO: Create ProtectedRoute component - guards authenticated routes
 //
@@ -386,11 +399,11 @@ export { default } from './Signup';
 //
 // Hint: const { user, loading } = useAuth();
 // Hint: if (loading) return Loading... or null
-// Hint: if (!user) return 
+// Hint: if (!user) return
 // Hint: return children;
 
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function ProtectedRoute({ children }) {
   // Your code here
@@ -402,6 +415,7 @@ export default function ProtectedRoute({ children }) {
 ### COLIN'S FRONTEND FILES
 
 #### `frontend/src/contexts/PostsContext.jsx`
+
 ```javascript
 // TODO: Create PostsContext - manages all post data for the app
 //
@@ -435,8 +449,16 @@ export default function ProtectedRoute({ children }) {
 //   content: string,
 //   image: string | null,
 //   parent: number | null,
-//   created_at: string (ISO timestamp)
+//   created_at: string (ISO timestamp),
+//   likes_count: number,      // REQUIRED for ProfileCard analytics
+//   comments_count: number,   // REQUIRED for ProfileCard analytics
+//   shares_count: number      // REQUIRED for ProfileCard analytics
 // }
+//
+// IMPORTANT: Engagement fields are used by Pablo's ProfileCard.jsx:
+// - Wave chart calculates weekly engagement totals
+// - Heatmap shows posting frequency calendar
+// - These fields MUST be included in the API response!
 //
 // Think about:
 // - When should fetchPosts() run? (On mount, or let components trigger it?)
@@ -450,8 +472,8 @@ export default function ProtectedRoute({ children }) {
 // Hint: After delete: setPosts(prev => prev.filter(p => p.id !== id));
 // Hint: After update: setPosts(prev => prev.map(p => p.id === id ? updated : p));
 
-import { createContext, useState, useEffect, useContext } from 'react';
-import * as postsService from '../services/postsService';
+import { createContext, useState, useEffect, useContext } from "react";
+import * as postsService from "../services/postsService";
 
 export const PostsContext = createContext();
 
@@ -465,6 +487,7 @@ export function usePosts() {
 ```
 
 #### `frontend/src/services/postsService.js`
+
 ```javascript
 // TODO: Create Posts Service - handles all posts API calls
 //
@@ -502,7 +525,7 @@ export function usePosts() {
 //   formData.append('content', postData.content);
 //   if (postData.image) formData.append('image', postData.image);
 
-import apiClient from './apiClient';
+import apiClient from "./apiClient";
 
 export async function getPosts() {
   // Your code here
@@ -534,6 +557,7 @@ export async function getReplies(postId) {
 ### CRYSTAL'S FRONTEND FILES
 
 #### `frontend/src/contexts/FriendsContext.jsx`
+
 ```javascript
 // TODO: Create FriendsContext - manages friends list and requests
 //
@@ -582,8 +606,8 @@ export async function getReplies(postId) {
 // Hint: Similar pattern to PostsContext
 // Hint: After accept: setFriends(prev => [...prev, newFriend]); setRequests(prev => prev.filter(...))
 
-import { createContext, useState, useEffect, useContext } from 'react';
-import * as friendsService from '../services/friendsService';
+import { createContext, useState, useEffect, useContext } from "react";
+import * as friendsService from "../services/friendsService";
 
 export const FriendsContext = createContext();
 
@@ -597,6 +621,7 @@ export function useFriends() {
 ```
 
 #### `frontend/src/services/friendsService.js`
+
 ```javascript
 // TODO: Create Friends Service - handles all friends API calls
 //
@@ -616,7 +641,7 @@ export function useFriends() {
 // Hint: apiClient.post(`/friends/request/${userId}/`)
 // Hint: apiClient.delete(`/friends/remove/${userId}/`)
 
-import apiClient from './apiClient';
+import apiClient from "./apiClient";
 
 export async function getFriends() {
   // Your code here
@@ -644,6 +669,7 @@ export async function removeFriend(userId) {
 ```
 
 #### `frontend/src/components/pages/Friends/Friends.jsx`
+
 ```javascript
 // TODO: Create Friends component - displays friends list and requests
 //
@@ -678,9 +704,9 @@ export async function removeFriend(userId) {
 // Hint: const { friends, requests, acceptRequest, declineRequest, removeFriend } = useFriends();
 // Hint: Map over friends and requests to render lists
 
-import { useEffect } from 'react';
-import { useFriends } from '../../../contexts/FriendsContext';
-import './Friends.scss';
+import { useEffect } from "react";
+import { useFriends } from "../../../contexts/FriendsContext";
+import "./Friends.scss";
 
 export default function Friends() {
   // Your code here
@@ -688,6 +714,7 @@ export default function Friends() {
 ```
 
 #### `frontend/src/components/pages/Friends/Friends.scss`
+
 ```scss
 // TODO: Style the Friends page
 //
@@ -712,8 +739,8 @@ export default function Friends() {
 // Hint: Use flexbox or grid for layout
 // Hint: Button colors: accept = primary/success, decline/remove = danger
 
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .friends-page {
   // Your code here
@@ -731,10 +758,11 @@ export default function Friends() {
 ```
 
 #### `frontend/src/components/pages/Friends/index.js`
+
 ```javascript
 // TODO: Export Friends component (barrel export)
 
-export { default } from './Friends';
+export { default } from "./Friends";
 ```
 
 ---
@@ -742,6 +770,7 @@ export { default } from './Friends';
 ### TITO'S FRONTEND FILES
 
 #### `frontend/src/main.jsx`
+
 ```javascript
 // TODO: Create React entry point - bootstraps the entire app
 //
@@ -777,11 +806,11 @@ export { default } from './Friends';
 // Hint: Import providers from '../contexts' (the index.js exports them)
 // Hint: Or import individually: import { AuthProvider } from '../contexts/AuthContext'
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import './styles/main.scss';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./styles/main.scss";
 
 // Import providers (uncomment as they're built)
 // import { ThemeProvider } from './contexts/ThemeContext';
@@ -790,17 +819,13 @@ import './styles/main.scss';
 // import { FriendsProvider } from './contexts/FriendsContext';
 // import { MessageProvider } from './contexts/MessageContext';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  
-    
-      {/* Nest providers here - uncomment as built */}
-      
-    
-  
-);
+ReactDOM.createRoot(document.getElementById("root")).render({
+  /* Nest providers here - uncomment as built */
+});
 ```
 
 #### `frontend/src/services/apiClient.js`
+
 ```javascript
 // TODO: Create API Client - axios instance with JWT authentication
 //
@@ -819,7 +844,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 //
 // Request interceptor:
 // - Before each request, check localStorage for token
-// - If token exists, add header: Authorization: Bearer 
+// - If token exists, add header: Authorization: Bearer
 //
 // Response interceptor:
 // - If response is 401 (unauthorized), token is invalid/expired
@@ -837,12 +862,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // Hint: apiClient.interceptors.request.use((config) => { ... });
 // Hint: apiClient.interceptors.response.use((response) => response, (error) => { ... });
 
-import axios from 'axios';
+import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: "http://localhost:8000/api",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -868,6 +893,7 @@ export default apiClient;
 ```
 
 #### `frontend/src/contexts/ThemeContext.jsx`
+
 ```javascript
 // TODO: Create ThemeContext - manages light/dark theme state
 //
@@ -905,7 +931,7 @@ export default apiClient;
 // Hint: localStorage.getItem('theme') / localStorage.setItem('theme', theme)
 // Hint: window.matchMedia('(prefers-color-scheme: light)').matches
 
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from "react";
 
 export const ThemeContext = createContext();
 
@@ -919,6 +945,7 @@ export function useTheme() {
 ```
 
 #### `frontend/src/components/ui/ThemeToggle/ThemeToggle.jsx`
+
 ```javascript
 // TODO: Create ThemeToggle component - button to switch themes
 //
@@ -940,8 +967,8 @@ export function useTheme() {
 // Hint: const { theme, toggleTheme } = useTheme();
 // Hint: {theme === 'dark' ? '☀️' : '🌙'}
 
-import { useTheme } from '../../../contexts/ThemeContext';
-import './ThemeToggle.scss';
+import { useTheme } from "../../../contexts/ThemeContext";
+import "./ThemeToggle.scss";
 
 export default function ThemeToggle() {
   // Your code here
@@ -949,6 +976,7 @@ export default function ThemeToggle() {
 ```
 
 #### `frontend/src/components/ui/ThemeToggle/ThemeToggle.scss`
+
 ```scss
 // TODO: Style the ThemeToggle button
 //
@@ -964,8 +992,8 @@ export default function ThemeToggle() {
 // - Clear clickable affordance
 // - Icon should be visible in both themes
 
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
 
 .theme-toggle {
   // Your code here
@@ -973,10 +1001,11 @@ export default function ThemeToggle() {
 ```
 
 #### `frontend/src/components/ui/ThemeToggle/index.js`
+
 ```javascript
 // TODO: Export ThemeToggle component (barrel export)
 
-export { default } from './ThemeToggle';
+export { default } from "./ThemeToggle";
 ```
 
 ---
@@ -984,6 +1013,7 @@ export { default } from './ThemeToggle';
 ### COLLABORATIVE FILE
 
 #### `frontend/src/contexts/index.js`
+
 ```javascript
 // TODO: Export all context providers and hooks
 //
@@ -1021,28 +1051,29 @@ For ALL of Pablo's ~75 component files, add a USAGE comment block at the top.
 Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 
 ### Template for Pablo's Components:
+
 ```javascript
 /**
  * COMPONENT USAGE (For Team Reference)
  * DO NOT MODIFY THIS FILE
- * 
+ *
  * Purpose: [What this component does]
- * 
+ *
  * Data Requirements:
  * - Consumes: [Which context(s) via which hook(s)]
  * - Expects: [What data format]
- * 
+ *
  * Props: [If any]
  * - propName: type - description
- * 
+ *
  * Integration Points:
  * - Used by: [Parent component(s)]
  * - Renders: [Child component(s)]
  * - Calls: [What context functions it uses]
- * 
+ *
  * Team Integration:
  * - [Name]: [What they need to build for this to work]
- * 
+ *
  * This is Pablo's complete UI implementation.
  * Your job is to build the backend and contexts that provide data
  * in the format this component expects.
@@ -1054,12 +1085,14 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 ### Files to Add Usage Comments:
 
 **Layout Components:**
+
 - `frontend/src/App.jsx`
 - `frontend/src/components/layout/TopBar/TopBar.jsx`
 - `frontend/src/components/layout/TopBar/MessageModal/MessageModal.jsx`
 - `frontend/src/components/layout/SideNav/SideNav.jsx`
 
 **Home Page System:**
+
 - `frontend/src/components/pages/Home/Home.jsx`
 - `frontend/src/components/pages/Home/utils/groupPosts.js`
 - `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx`
@@ -1068,6 +1101,7 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 - `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`
 
 **Profile Page System:**
+
 - `frontend/src/components/pages/Profile/Profile.jsx`
 - `frontend/src/components/pages/Profile/components/ComposerModal/ComposerModal.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx`
@@ -1079,11 +1113,13 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 - `frontend/src/components/pages/Profile/components/TimelineRiver/TimelineRiver.jsx`
 
 **Other Pages:**
+
 - `frontend/src/components/pages/About/About.jsx`
 - `frontend/src/components/pages/Landing/Landing.jsx`
 - `frontend/src/components/pages/NotFound/NotFound.jsx`
 
 **Contexts:**
+
 - `frontend/src/contexts/MessageContext.jsx`
 
 **Also add usage comments to all index.js files in Pablo's domain.**
@@ -1093,6 +1129,7 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 ## SHARED FILES (DO NOT TOUCH)
 
 These files are pre-configured:
+
 - `frontend/eslint.config.js`
 - `frontend/vite.config.js`
 - `frontend/package.json`

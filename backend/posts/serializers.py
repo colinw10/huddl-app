@@ -43,6 +43,9 @@ class PostSerializer(serializers.ModelSerializer):
             'parent',
             'parent_id',
             'reply_count',
+            'likes_count',      # For ProfileCard analytics
+            'comment_count',    # For ProfileCard analytics
+            'shares_count',     # For ProfileCard analytics
         ]
         # These fields are auto-generated and can't be modified via API
         read_only_fields = ['author', 'created_at', 'updated_at', 'parent', 'reply_count']

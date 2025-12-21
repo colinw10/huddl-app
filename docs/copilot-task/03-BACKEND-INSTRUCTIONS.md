@@ -3,7 +3,9 @@ This file contains specific instructions for adding pseudocode to all backend Py
 markdown# NUMENEON TEAM REBUILD - Part 3: Backend Instructions
 
 ## HOW TO USE THESE FILES
+
 This is Part 3 of 5. Read these files in order:
+
 1. `01-CONTEXT-AND-STRATEGY.md` - Background, strategy, assignments
 2. `02-PSEUDOCODE-EXAMPLES.md` - All 11 example templates
 3. `03-BACKEND-INSTRUCTIONS.md` ← YOU ARE HERE
@@ -15,6 +17,7 @@ This is Part 3 of 5. Read these files in order:
 ## BRANCH: `team-shell-backend`
 
 Before starting:
+
 1. Create branch `team-shell-backend` from main
 2. Delete the entire `frontend/` folder
 3. Keep `backend/` folder with all files
@@ -26,54 +29,54 @@ Before starting:
 
 ### NATALIA - Users App (11 files)
 
-| File | Action |
-|------|--------|
-| `backend/users/models.py` | Full pseudocode |
-| `backend/users/views.py` | Full pseudocode |
-| `backend/users/serializers.py` | Full pseudocode |
-| `backend/users/urls.py` | Full pseudocode |
-| `backend/users/apps.py` | Minimal pseudocode (just config) |
-| `backend/users/__init__.py` | Empty with comment |
-| `backend/users/management/__init__.py` | Empty with comment |
-| `backend/users/management/commands/__init__.py` | Empty with comment |
-| `backend/users/management/commands/create_test_user.py` | Full pseudocode |
-| `backend/users/migrations/__init__.py` | Empty with comment |
-| `backend/users/migrations/0001_initial.py` | Reference comment (auto-generated) |
+| File                                                    | Action                             |
+| ------------------------------------------------------- | ---------------------------------- |
+| `backend/users/models.py`                               | Full pseudocode                    |
+| `backend/users/views.py`                                | Full pseudocode                    |
+| `backend/users/serializers.py`                          | Full pseudocode                    |
+| `backend/users/urls.py`                                 | Full pseudocode                    |
+| `backend/users/apps.py`                                 | Minimal pseudocode (just config)   |
+| `backend/users/__init__.py`                             | Empty with comment                 |
+| `backend/users/management/__init__.py`                  | Empty with comment                 |
+| `backend/users/management/commands/__init__.py`         | Empty with comment                 |
+| `backend/users/management/commands/create_test_user.py` | Full pseudocode                    |
+| `backend/users/migrations/__init__.py`                  | Empty with comment                 |
+| `backend/users/migrations/0001_initial.py`              | Reference comment (auto-generated) |
 
 ---
 
 ### COLIN - Posts App (7 files)
 
-| File | Action |
-|------|--------|
-| `backend/posts/models.py` | Full pseudocode |
-| `backend/posts/views.py` | Full pseudocode |
-| `backend/posts/serializers.py` | Full pseudocode |
-| `backend/posts/urls.py` | Full pseudocode |
-| `backend/posts/apps.py` | Minimal pseudocode |
-| `backend/posts/__init__.py` | Empty with comment |
-| `backend/posts/admin.py` | Minimal pseudocode |
+| File                           | Action             |
+| ------------------------------ | ------------------ |
+| `backend/posts/models.py`      | Full pseudocode    |
+| `backend/posts/views.py`       | Full pseudocode    |
+| `backend/posts/serializers.py` | Full pseudocode    |
+| `backend/posts/urls.py`        | Full pseudocode    |
+| `backend/posts/apps.py`        | Minimal pseudocode |
+| `backend/posts/__init__.py`    | Empty with comment |
+| `backend/posts/admin.py`       | Minimal pseudocode |
 
 ---
 
 ### CRYSTAL - Friends App (7 files)
 
-| File | Action |
-|------|--------|
-| `backend/friends/models.py` | Full pseudocode |
-| `backend/friends/views.py` | Full pseudocode |
-| `backend/friends/serializers.py` | Full pseudocode |
-| `backend/friends/urls.py` | Full pseudocode |
-| `backend/friends/apps.py` | Minimal pseudocode |
-| `backend/friends/__init__.py` | Empty with comment |
-| `backend/friends/admin.py` | Minimal pseudocode |
+| File                             | Action             |
+| -------------------------------- | ------------------ |
+| `backend/friends/models.py`      | Full pseudocode    |
+| `backend/friends/views.py`       | Full pseudocode    |
+| `backend/friends/serializers.py` | Full pseudocode    |
+| `backend/friends/urls.py`        | Full pseudocode    |
+| `backend/friends/apps.py`        | Minimal pseudocode |
+| `backend/friends/__init__.py`    | Empty with comment |
+| `backend/friends/admin.py`       | Minimal pseudocode |
 
 ---
 
 ### COLLABORATIVE - Project URLs (1 file)
 
-| File | Action |
-|------|--------|
+| File                    | Action                        |
+| ----------------------- | ----------------------------- |
 | `backend/huddl/urls.py` | TODO comments for each person |
 
 ---
@@ -83,6 +86,7 @@ Before starting:
 ### NATALIA'S FILES
 
 #### `backend/users/models.py`
+
 ```python
 """
 TODO: Create the Profile model - extends Django's built-in User
@@ -131,6 +135,7 @@ class Profile(models.Model):
 ```
 
 #### `backend/users/views.py`
+
 ```python
 """
 TODO: Create Authentication Views - signup, login, and current user endpoints
@@ -212,6 +217,7 @@ def current_user(request):
 ```
 
 #### `backend/users/serializers.py`
+
 ```python
 """
 TODO: Create User Serializers - validate and format user data
@@ -283,6 +289,7 @@ class LoginSerializer(serializers.Serializer):
 ```
 
 #### `backend/users/urls.py`
+
 ```python
 """
 TODO: Configure URL routes for authentication endpoints
@@ -318,6 +325,7 @@ urlpatterns = [
 ```
 
 #### `backend/users/apps.py`
+
 ```python
 """
 TODO: Django app configuration for users app
@@ -332,29 +340,33 @@ from django.apps import AppConfig
 class UsersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'users'
-    
+
     # Optional: Add ready() method if using signals for auto-creating profiles
 ```
 
 #### `backend/users/__init__.py`
+
 ```python
 # Users app package marker
 # This file can be empty - it just tells Python this folder is a package
 ```
 
 #### `backend/users/management/__init__.py`
+
 ```python
 # Management commands package marker
 # This file can be empty
 ```
 
 #### `backend/users/management/commands/__init__.py`
+
 ```python
 # Commands subpackage marker
 # This file can be empty
 ```
 
 #### `backend/users/management/commands/create_test_user.py`
+
 ```python
 """
 TODO: Create management command to generate test user
@@ -395,12 +407,14 @@ class Command(BaseCommand):
 ```
 
 #### `backend/users/migrations/__init__.py`
+
 ```python
 # Migrations package marker
 # This file can be empty
 ```
 
 #### `backend/users/migrations/0001_initial.py`
+
 ```python
 """
 NOTE: This file is auto-generated by Django
@@ -427,6 +441,7 @@ This placeholder shows what to expect, but Django creates the actual content.
 ### COLIN'S FILES
 
 #### `backend/posts/models.py`
+
 ```python
 """
 TODO: Create the Post model - core content type for NUMENEON
@@ -445,11 +460,18 @@ Fields you need:
 - image: Optional image (ImageField, only for media posts)
 - parent: Reply to which post? (ForeignKey to self, null for top-level posts)
 - created_at: When created? (DateTimeField, auto-set)
+- likes_count: Number of likes (IntegerField, default=0)
+- comments_count: Number of comments (IntegerField, default=0)
+- shares_count: Number of shares (IntegerField, default=0)
 
 Integration points:
 - PostsContext (Colin's frontend) fetches and manages these
 - Pablo's TimelineRiverFeed displays posts grouped by author and date
 - Pablo's TimelineRiverRow renders individual posts by type
+- Pablo's ProfileCard.jsx uses engagement metrics for analytics:
+  * Wave chart calculates weekly engagement totals (likes + comments + shares)
+  * Heatmap shows posting frequency calendar
+  * Post type breakdown counts posts by type
 - Each column of the Timeline River shows one post type
 
 Expected JSON format (from serializer):
@@ -464,8 +486,13 @@ Expected JSON format (from serializer):
   "content": "Hello NUMENEON!",
   "image": null,
   "parent": null,
-  "created_at": "2024-12-19T10:30:00Z"
+  "created_at": "2024-12-19T10:30:00Z",
+  "likes_count": 42,
+  "comments_count": 7,
+  "shares_count": 3
 }
+
+IMPORTANT: Engagement fields are REQUIRED for ProfileCard analytics!
 
 Think about:
 - How do you restrict 'type' to only 3 values? (choices parameter)
@@ -479,6 +506,9 @@ Hint: POST_TYPE_CHOICES = [('thought', 'Thought'), ('media', 'Media'), ('milesto
 Hint: type = models.CharField(max_length=10, choices=POST_TYPE_CHOICES)
 Hint: parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 Hint: created_at = models.DateTimeField(auto_now_add=True)
+Hint: likes_count = models.IntegerField(default=0)
+Hint: comments_count = models.IntegerField(default=0)
+Hint: shares_count = models.IntegerField(default=0)
 """
 
 from django.db import models
@@ -490,6 +520,7 @@ class Post(models.Model):
 ```
 
 #### `backend/posts/views.py`
+
 ```python
 """
 TODO: Create Posts API Views - full CRUD for posts
@@ -546,6 +577,7 @@ class PostViewSet(viewsets.ModelViewSet):
 ```
 
 #### `backend/posts/serializers.py`
+
 ```python
 """
 TODO: Create Post Serializer - formats post data for API responses
@@ -559,10 +591,11 @@ Key requirement: Nested author data
 
 For input (creating posts):
 - Accept: type, content, image, parent
-- Don't accept: author, created_at (these are auto-set)
+- Don't accept: author, created_at, engagement counts (these are auto-set)
 
 For output (returning posts):
 - Include: id, author (nested), type, content, image, parent, created_at
+- Include: likes_count, comments_count, shares_count (REQUIRED for ProfileCard analytics!)
 - Author should include: id, username, and profile.profile_picture
 
 Think about:
@@ -594,6 +627,7 @@ class PostSerializer(serializers.ModelSerializer):
 ```
 
 #### `backend/posts/urls.py`
+
 ```python
 """
 TODO: Configure URL routes for posts API
@@ -629,6 +663,7 @@ from .views import PostViewSet
 ```
 
 #### `backend/posts/apps.py`
+
 ```python
 """
 TODO: Django app configuration for posts app
@@ -644,12 +679,14 @@ class PostsConfig(AppConfig):
 ```
 
 #### `backend/posts/__init__.py`
+
 ```python
 # Posts app package marker
 # This file can be empty
 ```
 
 #### `backend/posts/admin.py`
+
 ```python
 """
 TODO: Register Post model with Django admin
@@ -678,6 +715,7 @@ from .models import Post
 ### CRYSTAL'S FILES
 
 #### `backend/friends/models.py`
+
 ```python
 """
 TODO: Create Friendship models - friend connections and requests
@@ -731,6 +769,7 @@ class FriendRequest(models.Model):
 ```
 
 #### `backend/friends/views.py`
+
 ```python
 """
 TODO: Create Friends API Views - manage friendships and requests
@@ -790,6 +829,7 @@ from .serializers import FriendshipSerializer, FriendRequestSerializer, UserFrie
 ```
 
 #### `backend/friends/serializers.py`
+
 ```python
 """
 TODO: Create Friends Serializers - format friendship data
@@ -834,6 +874,7 @@ class FriendRequestSerializer(serializers.ModelSerializer):
 ```
 
 #### `backend/friends/urls.py`
+
 ```python
 """
 TODO: Configure URL routes for friends API
@@ -866,6 +907,7 @@ urlpatterns = [
 ```
 
 #### `backend/friends/apps.py`
+
 ```python
 """
 TODO: Django app configuration for friends app
@@ -881,12 +923,14 @@ class FriendsConfig(AppConfig):
 ```
 
 #### `backend/friends/__init__.py`
+
 ```python
 # Friends app package marker
 # This file can be empty
 ```
 
 #### `backend/friends/admin.py`
+
 ```python
 """
 TODO: Register Friends models with Django admin
@@ -909,6 +953,7 @@ from .models import Friendship, FriendRequest
 ### COLLABORATIVE FILE
 
 #### `backend/huddl/urls.py`
+
 ```python
 """
 TODO: Root URL configuration for NUMENEON backend
@@ -933,13 +978,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+
     # TODO (Natalia): Add users/auth URLs
     # path('api/auth/', include('users.urls')),
-    
-    # TODO (Colin): Add posts URLs  
+
+    # TODO (Colin): Add posts URLs
     # path('api/posts/', include('posts.urls')),
-    
+
     # TODO (Crystal): Add friends URLs
     # path('api/friends/', include('friends.urls')),
 ]
@@ -954,6 +999,7 @@ if settings.DEBUG:
 ## SHARED FILES (DO NOT TOUCH)
 
 These files are pre-configured and should not be modified:
+
 - `backend/manage.py`
 - `backend/db.sqlite3`
 - `backend/seed_posts.py`

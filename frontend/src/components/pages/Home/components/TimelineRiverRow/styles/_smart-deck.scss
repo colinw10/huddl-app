@@ -155,9 +155,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   margin-top: 10px;
   padding: 6px 0;
+  flex-wrap: nowrap;
 }
 
 .smart-deck-nav-btn {
@@ -166,6 +167,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
+  min-width: 28px;
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   color: var(--text-secondary);
@@ -174,6 +176,7 @@
   position: relative;
   overflow: hidden;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  flex-shrink: 0;
 }
 
 .smart-deck-nav-btn:hover {
@@ -187,15 +190,29 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  max-width: 100px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 2px;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  flex-shrink: 1;
+}
+
+.smart-deck-dots::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .smart-deck-dot {
   width: 6px;
   height: 6px;
+  min-width: 6px;
   border-radius: 50%;
   background: var(--border-default);
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .smart-deck-dot:hover {
@@ -204,6 +221,7 @@
 
 .smart-deck-dot--active {
   width: 16px;
+  min-width: 16px;
   border-radius: 3px;
   background: var(--accent-primary, #1ae784);
 }

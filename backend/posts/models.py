@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 class Post(models.Model):
     # Links post to the user that created it
     # ForeignKey = many posts can belong to one user
+
     # on_delete=CASCADE = if user deleted, delete their posts too
     # related_name='posts' = lets you do user.posts.all()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
@@ -55,6 +56,11 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # auto_now=True = update to NOW every time post is saved
     updated_at = models.DateTimeField(auto_now=True)
+
+    #Engagement metrics for analytics
+    likes_count = models.IntegerField(default=0)
+    comment_count = models.IntegerField(default=0)
+    shares_count = models.IntegerField(default=0)
 
     # String representation = how post displays in admin panel
     # Shows first 50 chars of content with author's name
