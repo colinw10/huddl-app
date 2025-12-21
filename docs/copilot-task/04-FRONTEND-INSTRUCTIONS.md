@@ -432,7 +432,14 @@ export default function ProtectedRoute({ children }) {
 // - createPost(postData): Create new post, add to state
 // - updatePost(id, updates): Edit existing post
 // - deletePost(id): Remove post from API and state
+// - likePost(id): Toggle like on a post, update state with new likes_count
 // - getPostsByUser(userId): Filter posts by author (optional helper)
+//
+// likePost behavior:
+// - Calls postsService.likePost(id) which hits POST /api/posts/:id/like/
+// - Backend returns updated post with new likes_count and is_liked
+// - Update that post in local state so UI reflects change immediately
+// - Timeline River shows filled/empty heart based on is_liked
 //
 // Integration points:
 // - Uses postsService.js (you build this too) for API calls
@@ -440,6 +447,7 @@ export default function ProtectedRoute({ children }) {
 // - Pablo's Profile.jsx consumes posts filtered by user
 // - Pablo's ComposerModal calls createPost()
 // - Pablo's DeleteConfirmModal calls deletePost()
+// - Pablo's TimelineRiverRow calls likePost() on heart icon click
 //
 // Post object format:
 // {
@@ -452,7 +460,8 @@ export default function ProtectedRoute({ children }) {
 //   created_at: string (ISO timestamp),
 //   likes_count: number,      // REQUIRED for ProfileCard analytics
 //   comments_count: number,   // REQUIRED for ProfileCard analytics
-//   shares_count: number      // REQUIRED for ProfileCard analytics
+//   shares_count: number,     // REQUIRED for ProfileCard analytics
+//   is_liked: boolean         // Has current user liked this post?
 // }
 //
 // IMPORTANT: Engagement fields are used by Pablo's ProfileCard.jsx:
@@ -463,6 +472,7 @@ export default function ProtectedRoute({ children }) {
 // Think about:
 // - When should fetchPosts() run? (On mount, or let components trigger it?)
 // - After createPost, refetch all or just add to array? (Add to array is faster)
+// - After likePost, how do you update just that one post? (map and replace)
 // - How do you handle optimistic updates vs waiting for API?
 // - Should posts be sorted? (Newest first: sort by created_at descending)
 // - How do you update a single post in the array? (map and replace)
@@ -470,7 +480,7 @@ export default function ProtectedRoute({ children }) {
 // Hint: useEffect(() => { fetchPosts(); }, []); for initial load
 // Hint: After create: setPosts(prev => [newPost, ...prev]);
 // Hint: After delete: setPosts(prev => prev.filter(p => p.id !== id));
-// Hint: After update: setPosts(prev => prev.map(p => p.id === id ? updated : p));
+// Hint: After update/like: setPosts(prev => prev.map(p => p.id === id ? updated : p));
 
 import { createContext, useState, useEffect, useContext } from "react";
 import * as postsService from "../services/postsService";
@@ -501,6 +511,13 @@ export function usePosts() {
 // - updatePost(id, updates): PATCH /api/posts/:id/ → returns updated post
 // - deletePost(id): DELETE /api/posts/:id/ → returns nothing (204)
 // - getReplies(postId): GET /api/posts/:id/replies/ → returns array of replies
+// - likePost(id): POST /api/posts/:id/like/ → toggles like, returns updated post
+//
+// likePost behavior:
+// - Sends POST to /api/posts/:id/like/
+// - Backend toggles the like (creates or deletes Like record)
+// - Returns updated post with new likes_count and is_liked boolean
+// - Frontend uses is_liked to show filled/empty heart icon
 //
 // Integration points:
 // - Uses apiClient.js (Tito builds) - already has JWT headers configured
@@ -519,6 +536,7 @@ export function usePosts() {
 // Hint: import apiClient from './apiClient';
 // Hint: const response = await apiClient.get('/posts/');
 // Hint: return response.data;
+// Hint: For likePost: await apiClient.post(`/posts/${id}/like/`);
 // Hint: For FormData:
 //   const formData = new FormData();
 //   formData.append('type', postData.type);
@@ -548,6 +566,10 @@ export async function deletePost(id) {
 }
 
 export async function getReplies(postId) {
+  // Your code here
+}
+
+export async function likePost(id) {
   // Your code here
 }
 ```

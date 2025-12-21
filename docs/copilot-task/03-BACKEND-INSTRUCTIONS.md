@@ -517,13 +517,34 @@ from django.contrib.auth.models import User
 class Post(models.Model):
     # Your code here
     pass
+
+
+# TODO: Create the Like model - tracks which users liked which posts
+#
+# This enables the like/unlike toggle functionality.
+# Each user can only like a post once (enforced by unique_together).
+#
+# Fields you need:
+# - user: Who liked it? (ForeignKey to User)
+# - post: Which post? (ForeignKey to Post)
+# - created_at: When did they like it? (DateTimeField, auto-set)
+#
+# CRITICAL: Use unique_together = ('user', 'post') in Meta class
+# This prevents duplicate likes and allows toggle logic in views.
+#
+# Hint: class Meta: unique_together = ('user', 'post')
+# Hint: related_name='likes' on both ForeignKeys for easy access
+
+class Like(models.Model):
+    # Your code here
+    pass
 ```
 
 #### `backend/posts/views.py`
 
 ```python
 """
-TODO: Create Posts API Views - full CRUD for posts
+TODO: Create Posts API Views - full CRUD for posts + like toggle
 
 This ViewSet handles all post operations via REST API.
 Use ModelViewSet for automatic CRUD operations.
@@ -536,31 +557,49 @@ Endpoints (automatic from ModelViewSet):
 - PATCH /api/posts/:id/ - Partial update
 - DELETE /api/posts/:id/ - Delete post
 
-Custom endpoint needed:
+Custom endpoints needed:
 - GET /api/posts/:id/replies/ - Get all replies to a post
+- POST /api/posts/:id/like/ - Toggle like on a post (NEW!)
+
+Like endpoint behavior:
+- If user hasn't liked → create Like, increment likes_count
+- If user already liked → delete Like, decrement likes_count
+- Return updated post with is_liked: true/false
 
 Permissions:
 - List/Retrieve: Allow any (or authenticated only - your choice)
 - Create: Authenticated only (need to know who's posting)
 - Update/Delete: Author only (can't edit others' posts)
+- Like: Authenticated only
 
 For create:
 - Automatically set author to request.user
 - Don't let users specify author in request body
 
-Expected response format: (see models.py for full format)
+Expected response format for like endpoint:
+{
+  "id": 1,
+  "likes_count": 43,
+  "is_liked": true,
+  ... (rest of post fields)
+}
 
 Think about:
 - How do you auto-set author on create? (Override perform_create())
 - How do you restrict update/delete to author only? (Custom permission class)
 - For /replies/, how do you filter by parent? (@action decorator + queryset filter)
+- For /like/, how do you check if Like already exists? (Like.objects.filter())
+- How do you toggle? (If exists → delete, else → create)
 - Should posts be ordered newest first? (queryset ordering)
 - How do you include nested author data? (Serializer handles this)
 
 Hint: Use ModelViewSet for automatic CRUD
 Hint: Override perform_create(self, serializer): serializer.save(author=self.request.user)
-Hint: Use @action(detail=True, methods=['get']) for custom /replies/ endpoint
+Hint: Use @action(detail=True, methods=['get']) for /replies/
+Hint: Use @action(detail=True, methods=['post']) for /like/
 Hint: Filter replies: Post.objects.filter(parent=pk)
+Hint: Toggle like: existing = Like.objects.filter(user=user, post=post).first()
+Hint: If existing: existing.delete() else: Like.objects.create(user=user, post=post)
 Hint: For author-only permissions, check obj.author == request.user
 """
 
@@ -596,7 +635,13 @@ For input (creating posts):
 For output (returning posts):
 - Include: id, author (nested), type, content, image, parent, created_at
 - Include: likes_count, comments_count, shares_count (REQUIRED for ProfileCard analytics!)
+- Include: is_liked (Boolean - has current user liked this post?)
 - Author should include: id, username, and profile.profile_picture
+
+NEW: is_liked field
+- SerializerMethodField that checks if current user has liked this post
+- Returns true/false
+- Used by frontend to show filled vs empty heart icon
 
 Think about:
 - How do you nest author data? (Create AuthorSerializer, use it as field)
@@ -604,15 +649,19 @@ Think about:
 - Should author be read-only? (Yes - set automatically, not by user)
 - How do you handle image field? (ImageField serializes to URL automatically)
 - For parent field, should it return nested post or just ID? (Just ID is fine)
+- How do you get current user in serializer? (self.context['request'].user)
+- How do you check if user liked post? (Like.objects.filter(user=user, post=obj).exists())
 
 Hint: Create a simple AuthorSerializer for nested user data
 Hint: In AuthorSerializer, add: profile_picture = serializers.ImageField(source='profile.profile_picture')
 Hint: In PostSerializer: author = AuthorSerializer(read_only=True)
+Hint: is_liked = serializers.SerializerMethodField()
+Hint: def get_is_liked(self, obj): user = self.context['request'].user; return Like.objects.filter(...)
 Hint: Make author read_only so users can't set it manually
 """
 
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Like
 from django.contrib.auth.models import User
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -622,6 +671,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     pass
 
 class PostSerializer(serializers.ModelSerializer):
+    # Include is_liked = SerializerMethodField()
     # Your code here
     pass
 ```
