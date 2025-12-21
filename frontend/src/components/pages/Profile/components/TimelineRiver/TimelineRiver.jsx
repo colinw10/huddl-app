@@ -276,6 +276,20 @@ function TimelineRiver({
                   <span className="river-timestamp">{post.timestamp}</span>
                 </div>
                 <div className="river-card-actions">
+                  <div 
+                    className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+                    onClick={async () => await likePost(post.id)}
+                    title={post.is_liked ? 'Unlike' : 'Like'}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                            fill={post.is_liked ? "#3b82f6" : "none"} 
+                            stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
+                            strokeWidth="1.5"/>
+                    </svg>
+                    {post.likes_count || 0}
+                  </div>
                   <button className="river-action-btn river-action-btn--edit" aria-label="Edit" onClick={() => { setEditingPostId(post.id); setCommentText(post.content); setIsEditMode(true); setIsComposerExpanded(true); }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,193,7,0.6)" strokeWidth="1.5">
                       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>

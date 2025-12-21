@@ -417,9 +417,71 @@
 
 .river-card-actions {
   display: flex;
+  align-items: center;
   gap: var(--space-md);
   padding-top: 12px;
   border-top: 1px solid var(--border-subtle);
+}
+
+/* Post likes - aligned with action buttons */
+.river-post-likes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'sweet-square-pro', sans-serif;
+  font-size: var(--font-size-sm);
+  color: rgba(201, 168, 255, 0.6);
+  padding: 6px;
+  transition: all 0.25s ease;
+  
+  svg {
+    transition: all 0.25s ease;
+  }
+  
+  &:hover {
+    color: #c9a8ff;
+    
+    svg path {
+      stroke: #c9a8ff;
+      filter: drop-shadow(0 0 6px rgba(201, 168, 255, 0.5));
+    }
+  }
+  
+  &.is-liked {
+    color: #3b82f6;
+    
+    svg path {
+      fill: #3b82f6;
+      stroke: #3b82f6;
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+    }
+  }
+}
+
+.text-card .river-post-likes {
+  color: rgba(79, 255, 255, 0.6);
+  
+  &:hover {
+    color: #4fffff;
+    
+    svg path {
+      stroke: #4fffff;
+      filter: drop-shadow(0 0 6px rgba(79, 255, 255, 0.5));
+    }
+  }
+}
+
+.achievement-card .river-post-likes {
+  color: rgba(26, 231, 132, 0.6);
+  
+  &:hover {
+    color: #1ae784;
+    
+    svg path {
+      stroke: #1ae784;
+      filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.5));
+    }
+  }
 }
 
 .river-action-btn {
