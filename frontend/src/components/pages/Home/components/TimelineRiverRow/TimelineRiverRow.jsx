@@ -33,9 +33,17 @@ const formatRelativeTime = (dateString) => {
 
 function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commentText, setCommentText, setActiveCommentPostId, onDeletePost, onUpdatePost }) {
   // 🔵 Extract data from props
-  const { user, thoughts, media, milestones } = rowData;
+  const { user } = rowData;
   const { user: currentUser } = useAuth();
   const { posts, fetchReplies, createReply, deletePost, updatePost, likePost, sharePost } = usePosts();
+  
+  // Get fresh post data from context (rowData may have stale snapshots)
+  const getFreshPost = (postId) => posts.find(p => p.id === postId);
+  
+  // Map rowData posts to fresh versions from context
+  const thoughts = (rowData.thoughts || []).map(p => getFreshPost(p.id) || p);
+  const media = (rowData.media || []).map(p => getFreshPost(p.id) || p);
+  const milestones = (rowData.milestones || []).map(p => getFreshPost(p.id) || p);
   
   // State for edit mode
   const [editingPostId, setEditingPostId] = useState(null);

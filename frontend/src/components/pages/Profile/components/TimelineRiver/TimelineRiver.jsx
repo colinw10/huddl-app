@@ -10,9 +10,9 @@ import { usePosts } from '../../../../../contexts';
 
 function TimelineRiver({ 
   viewMode, 
-  textPosts, 
-  mediaPosts, 
-  achievementPosts,
+  textPosts: textPostsProps, 
+  mediaPosts: mediaPostsProps, 
+  achievementPosts: achievementPostsProps,
   feedTextPosts,
   feedMediaPosts,
   feedAchievementPosts,
@@ -21,6 +21,14 @@ function TimelineRiver({
 }) {
   // Get likePost from context
   const { posts: allPosts, likePost } = usePosts();
+  
+  // Get fresh post data from context (props may have stale snapshots)
+  const getFreshPost = (postId) => allPosts.find(p => p.id === postId);
+  
+  // Map prop posts to fresh versions from context
+  const textPosts = (textPostsProps || []).map(p => getFreshPost(p.id) || p);
+  const mediaPosts = (mediaPostsProps || []).map(p => getFreshPost(p.id) || p);
+  const achievementPosts = (achievementPostsProps || []).map(p => getFreshPost(p.id) || p);
   
   // Group friends' posts by username for feed mode
   const friendsGrouped = useMemo(() => {
