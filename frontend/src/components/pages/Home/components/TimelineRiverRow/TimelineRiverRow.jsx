@@ -35,7 +35,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   // 🔵 Extract data from props
   const { user, thoughts, media, milestones } = rowData;
   const { user: currentUser } = useAuth();
-  const { posts, fetchReplies, createReply, deletePost, updatePost } = usePosts();
+  const { posts, fetchReplies, createReply, deletePost, updatePost, likePost, sharePost } = usePosts();
   
   // State for edit mode
   const [editingPostId, setEditingPostId] = useState(null);
@@ -240,13 +240,23 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
          {/* Post Content */}
         <p className="river-post-content">{post.content}</p>
          
-         {/* Likes */}
-        <div className="river-post-likes">
+         {/* Likes - Clickable Icon */}
+        <div 
+          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+          onClick={async (e) => {
+            e.stopPropagation();
+            await likePost(post.id);
+          }}
+          title={post.is_liked ? 'Unlike' : 'Like'}
+          style={{ cursor: 'pointer' }}
+        >
           <svg width="18" height="18" viewBox="0 0 24 24">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                  fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5"/>
+                  fill={post.is_liked ? "#3b82f6" : "none"} 
+                  stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
+                  strokeWidth="1.5"/>
           </svg>
-          {post.likes}
+          {post.likes_count || 0}
         </div>
 
         {/* Action Buttons */}
