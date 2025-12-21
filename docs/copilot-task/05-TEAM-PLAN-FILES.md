@@ -313,9 +313,17 @@ You're building the posts system - the core content that users create and view. 
 - [ ] comments_count field (IntegerField, default=0)
 - [ ] shares_count field (IntegerField, default=0)
 - [ ] Ordered by newest first
+- [ ] Like model with user, post ForeignKeys and unique_together constraint
 
 **IMPORTANT:** Engagement fields are REQUIRED for Pablo's ProfileCard analytics!
 The wave chart and heatmap use these metrics to visualize user activity.
+
+**Like Model Requirements:**
+
+- user: ForeignKey to User (who liked)
+- post: ForeignKey to Post (which post)
+- created_at: DateTimeField (auto_now_add)
+- unique_together: ('user', 'post') - prevents duplicate likes
 
 **Think about:**
 
@@ -340,9 +348,12 @@ The wave chart and heatmap use these metrics to visualize user activity.
 - [ ] PATCH /api/posts/:id/ updates post (author only)
 - [ ] DELETE /api/posts/:id/ deletes post (author only)
 - [ ] GET /api/posts/:id/replies/ gets replies
+- [ ] POST /api/posts/:id/like/ toggles like (creates/deletes Like, updates likes_count)
+- [ ] POST /api/posts/:id/share/ increments shares_count
 - [ ] Author auto-set from request.user
 - [ ] Nested author data in response (id, username, profile_picture)
 - [ ] Include engagement fields in response (likes_count, comments_count, shares_count)
+- [ ] Include `is_liked` boolean in response (has current user liked this post?)
 
 **Think about:**
 
@@ -383,9 +394,12 @@ The wave chart and heatmap use these metrics to visualize user activity.
 - [ ] `createPost(data)` creates and adds to state
 - [ ] `updatePost(id, data)` updates in state
 - [ ] `deletePost(id)` removes from state
+- [ ] `likePost(id)` toggles like, updates post in state
+- [ ] `sharePost(id)` increments share count, updates post in state
 - [ ] Custom `usePosts()` hook exported
 - [ ] Posts sorted newest first
 - [ ] Post objects include engagement fields (likes_count, comments_count, shares_count)
+- [ ] Post objects include `is_liked` boolean for current user
 
 **NOTE:** Pablo's ProfileCard.jsx consumes posts for analytics visualizations.
 Posts must include engagement fields for the wave chart and heatmap to work!
@@ -413,6 +427,8 @@ Posts must include engagement fields for the wave chart and heatmap to work!
 - [ ] `updatePost(id, data)` updates
 - [ ] `deletePost(id)` deletes
 - [ ] `getReplies(postId)` fetches replies
+- [ ] `likePost(id)` toggles like, returns updated post
+- [ ] `sharePost(id)` increments share count, returns updated post
 - [ ] Uses Tito's apiClient
 - [ ] Handles FormData for image uploads
 

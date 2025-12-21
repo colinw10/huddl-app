@@ -433,6 +433,7 @@ export default function ProtectedRoute({ children }) {
 // - updatePost(id, updates): Edit existing post
 // - deletePost(id): Remove post from API and state
 // - likePost(id): Toggle like on a post, update state with new likes_count
+// - sharePost(id): Increment share count, update state with new shares_count
 // - getPostsByUser(userId): Filter posts by author (optional helper)
 //
 // likePost behavior:
@@ -441,6 +442,11 @@ export default function ProtectedRoute({ children }) {
 // - Update that post in local state so UI reflects change immediately
 // - Timeline River shows filled/empty heart based on is_liked
 //
+// sharePost behavior:
+// - Calls postsService.sharePost(id) which hits POST /api/posts/:id/share/
+// - Backend increments shares_count and returns updated post
+// - Update that post in local state
+//
 // Integration points:
 // - Uses postsService.js (you build this too) for API calls
 // - Pablo's Home.jsx consumes posts for TimelineRiverFeed
@@ -448,6 +454,7 @@ export default function ProtectedRoute({ children }) {
 // - Pablo's ComposerModal calls createPost()
 // - Pablo's DeleteConfirmModal calls deletePost()
 // - Pablo's TimelineRiverRow calls likePost() on heart icon click
+// - Pablo's TimelineRiverRow calls sharePost() on share icon click
 //
 // Post object format:
 // {
@@ -512,12 +519,18 @@ export function usePosts() {
 // - deletePost(id): DELETE /api/posts/:id/ → returns nothing (204)
 // - getReplies(postId): GET /api/posts/:id/replies/ → returns array of replies
 // - likePost(id): POST /api/posts/:id/like/ → toggles like, returns updated post
+// - sharePost(id): POST /api/posts/:id/share/ → increments share count, returns updated post
 //
 // likePost behavior:
 // - Sends POST to /api/posts/:id/like/
 // - Backend toggles the like (creates or deletes Like record)
 // - Returns updated post with new likes_count and is_liked boolean
 // - Frontend uses is_liked to show filled/empty heart icon
+//
+// sharePost behavior:
+// - Sends POST to /api/posts/:id/share/
+// - Backend increments shares_count (no toggle - each call adds)
+// - Returns updated post with new shares_count
 //
 // Integration points:
 // - Uses apiClient.js (Tito builds) - already has JWT headers configured
@@ -537,6 +550,7 @@ export function usePosts() {
 // Hint: const response = await apiClient.get('/posts/');
 // Hint: return response.data;
 // Hint: For likePost: await apiClient.post(`/posts/${id}/like/`);
+// Hint: For sharePost: await apiClient.post(`/posts/${id}/share/`);
 // Hint: For FormData:
 //   const formData = new FormData();
 //   formData.append('type', postData.type);
@@ -570,6 +584,10 @@ export async function getReplies(postId) {
 }
 
 export async function likePost(id) {
+  // Your code here
+}
+
+export async function sharePost(id) {
   // Your code here
 }
 ```

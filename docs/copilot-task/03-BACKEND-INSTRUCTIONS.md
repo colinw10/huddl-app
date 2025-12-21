@@ -559,18 +559,24 @@ Endpoints (automatic from ModelViewSet):
 
 Custom endpoints needed:
 - GET /api/posts/:id/replies/ - Get all replies to a post
-- POST /api/posts/:id/like/ - Toggle like on a post (NEW!)
+- POST /api/posts/:id/like/ - Toggle like on a post
+- POST /api/posts/:id/share/ - Increment share count
 
 Like endpoint behavior:
 - If user hasn't liked → create Like, increment likes_count
 - If user already liked → delete Like, decrement likes_count
 - Return updated post with is_liked: true/false
 
+Share endpoint behavior:
+- Simply increment shares_count on the post
+- Return updated post with new shares_count
+- No toggle logic - each call increments (user can share multiple times)
+
 Permissions:
 - List/Retrieve: Allow any (or authenticated only - your choice)
 - Create: Authenticated only (need to know who's posting)
 - Update/Delete: Author only (can't edit others' posts)
-- Like: Authenticated only
+- Like/Share: Authenticated only
 
 For create:
 - Automatically set author to request.user
@@ -597,9 +603,11 @@ Hint: Use ModelViewSet for automatic CRUD
 Hint: Override perform_create(self, serializer): serializer.save(author=self.request.user)
 Hint: Use @action(detail=True, methods=['get']) for /replies/
 Hint: Use @action(detail=True, methods=['post']) for /like/
+Hint: Use @action(detail=True, methods=['post']) for /share/
 Hint: Filter replies: Post.objects.filter(parent=pk)
 Hint: Toggle like: existing = Like.objects.filter(user=user, post=post).first()
 Hint: If existing: existing.delete() else: Like.objects.create(user=user, post=post)
+Hint: Share is simpler: post.shares_count += 1; post.save()
 Hint: For author-only permissions, check obj.author == request.user
 """
 
