@@ -501,6 +501,14 @@ function TimelineRiver({
         </div>,
         document.body
       )}
+
+      {/* Media Lightbox */}
+      <MediaLightbox 
+        post={expandedMediaPost ? (allPosts.find(p => p.id === expandedMediaPost.id) || expandedMediaPost) : null}
+        onClose={() => setExpandedMediaPost(null)}
+        commentText={commentText}
+        setCommentText={setCommentText}
+      />
     </div>
   );
 }
