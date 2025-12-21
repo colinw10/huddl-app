@@ -16,8 +16,16 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
   }
 
+  .message-modal-header::after {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent) !important;
+  }
+
   .message-modal-title {
-    color: var(--text-inverse) !important;
+    /* Same gradient fade as river-author in TimelineRiver */
+    background: linear-gradient(180deg, #000000 22%, rgba(120, 120, 120, 0.6) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     text-shadow: none !important;
   }
 
@@ -62,11 +70,20 @@
   }
 
   .conversation-name {
-    color: var(--text-inverse) !important;
+    /* Same gradient fade as river-author in TimelineRiver */
+    background: linear-gradient(180deg, #000000 22%, rgba(120, 120, 120, 0.6) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-shadow: none !important;
   }
 
   .chat-username {
-    color: var(--text-inverse) !important;
+    /* Same gradient fade as river-author in TimelineRiver */
+    background: linear-gradient(180deg, #000000 22%, rgba(120, 120, 120, 0.6) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     text-shadow: none !important;
   }
 
@@ -81,11 +98,22 @@
   .conversation-avatar {
     background: rgba(26, 115, 231, 0.1) !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .conversation-avatar .initial-1,
+  .conversation-avatar .initial-2 {
+    color: #1a1a2e !important;
+    text-shadow: none !important;
   }
 
   .message-chat {
     background: var(--color-white) !important;
+  }
+
+  /* Remove dark mode ambient glows */
+  .message-chat::before,
+  .message-chat::after {
+    display: none !important;
   }
 
   .chat-header {
@@ -93,8 +121,14 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
   }
 
-  .chat-header-name {
-    color: var(--text-inverse) !important;
+  .chat-header::after {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent) !important;
+  }
+
+  .chat-header-name,
+  .chat-username {
+    color: #1a1a2e !important;
+    text-shadow: none !important;
   }
 
   .chat-header-status {
@@ -105,14 +139,28 @@
     background: rgba(0, 0, 0, 0.02) !important;
   }
 
+  .chat-message.received {
+    p {
+      color: #1a1a2e !important;
+    }
+  }
+
   .chat-message.received .message-bubble {
     background: rgba(0, 0, 0, 0.05) !important;
-    color: var(--text-inverse) !important;
+    color: #1a1a2e !important;
   }
 
   .chat-message.sent .message-bubble {
     background: linear-gradient(135deg, rgba(26, 115, 231, 0.9), rgba(26, 231, 132, 0.8)) !important;
-    color: var(--text-primary) !important;
+    color: #ffffff !important;
+  }
+
+  .chat-message p {
+    color: #1a1a2e !important;
+  }
+
+  .chat-message.sent p {
+    color: #ffffff !important;
   }
 
   .message-time {
