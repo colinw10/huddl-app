@@ -1,7 +1,9 @@
 markdown# NUMENEON TEAM REBUILD - Part 1: Context & Strategy
 
 ## HOW TO USE THESE FILES
+
 This is Part 1 of 5. Read these files in order:
+
 1. `01-CONTEXT-AND-STRATEGY.md` ← YOU ARE HERE
 2. `02-PSEUDOCODE-EXAMPLES.md` - All 11 example templates
 3. `03-BACKEND-INSTRUCTIONS.md` - Backend pseudocode tasks
@@ -15,11 +17,13 @@ This is Part 1 of 5. Read these files in order:
 I (Pablo) built a complete working prototype of NUMENEON (formerly HUDDL), a cyberpunk-themed social media app with React + Django. Now my 5-person bootcamp team will REBUILD portions of the codebase together as a learning exercise.
 
 **Project Stack:**
+
 - Frontend: React 18+, Vite, React Router DOM, Vanilla CSS/SCSS
 - Backend: Django 4.x, Django REST Framework, SQLite (dev), JWT auth
 - Current state: Fully functional prototype with real API connections
 
 **Team (T-Shirt Sizing):**
+
 - **Pablo (XL):** UI architect, designed entire system, professional artist background
 - **Natalia (L):** Backend + Frontend, migration management
 - **Colin (M):** Team lead, backend + frontend
@@ -31,12 +35,15 @@ I (Pablo) built a complete working prototype of NUMENEON (formerly HUDDL), a cyb
 ## THE STRATEGY (REVISED)
 
 ### Original Plan:
+
 Team rebuilds everything from pseudocode shells
 
 ### Revised Plan (More Realistic):
+
 **Pablo's UI stays intact** - team rebuilds backend + state management layer
 
 **Why the change:**
+
 - Pablo's UI includes 75+ files with sophisticated animations (scan lines, 3D flips, glassmorphic effects)
 - Even Pablo used AI tools to orchestrate this visual complexity
 - Expecting bootcamp students to replicate sophisticated styling from pseudocode = unrealistic
@@ -49,6 +56,7 @@ Team rebuilds everything from pseudocode shells
 Create TWO branches from main:
 
 1. **`team-shell-frontend` branch:**
+
    - Delete the entire `backend/` folder
    - Keep `frontend/` folder with all files
    - Add pseudocode to frontend files as instructed
@@ -78,11 +86,13 @@ These branches will be used to create separate repos in January.
 **All of Pablo's component files (~75 files):**
 
 **Layout Components:**
+
 - `frontend/src/App.jsx`
 - All files in `frontend/src/components/layout/TopBar/` (including MessageModal with 8 SCSS partials)
 - All files in `frontend/src/components/layout/SideNav/`
 
 **Home Page System:**
+
 - All files in `frontend/src/components/pages/Home/` including:
   - `Home.jsx`, `Home.scss`, `index.js`
   - `utils/groupPosts.js`
@@ -92,17 +102,21 @@ These branches will be used to create separate repos in January.
   - `components/TimelineRiverRow/` (all files + 11 SCSS partials)
 
 **Profile Page System:**
+
 - All files in `frontend/src/components/pages/Profile/` including all subcomponents
 
 **Other Pages:**
+
 - `frontend/src/components/pages/About/` (all files)
 - `frontend/src/components/pages/Landing/` (all files)
 - `frontend/src/components/pages/NotFound/` (all files)
 
 **Contexts:**
+
 - `frontend/src/contexts/MessageContext.jsx`
 
 **Global Design System (DO NOT TOUCH - 13 files):**
+
 - All files in `frontend/src/styles/`
 
 **What to do:** Keep implementation 100% intact, add brief USAGE comment block at top
@@ -114,12 +128,14 @@ These branches will be used to create separate repos in January.
 **NATALIA (L - 21 files total):**
 
 Backend (11 files):
+
 - `backend/users/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
 - `backend/users/__init__.py`
 - `backend/users/management/__init__.py`, `commands/__init__.py`, `commands/create_test_user.py`
 - `backend/users/migrations/0001_initial.py`, `__init__.py`
 
 Frontend (10 files):
+
 - `frontend/src/contexts/AuthContext.jsx`
 - `frontend/src/components/pages/Login/` (Login.jsx, Login.scss, index.js)
 - `frontend/src/components/pages/Signup/` (Signup.jsx, Signup.scss, index.js)
@@ -132,10 +148,12 @@ Frontend (10 files):
 **COLIN (M - 9 files total):**
 
 Backend (7 files):
+
 - `backend/posts/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
 - `backend/posts/__init__.py`, `admin.py`
 
 Frontend (2 files):
+
 - `frontend/src/contexts/PostsContext.jsx`
 - `frontend/src/services/postsService.js`
 
@@ -144,10 +162,12 @@ Frontend (2 files):
 **CRYSTAL (M - 12 files total):**
 
 Backend (7 files):
+
 - `backend/friends/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
 - `backend/friends/__init__.py`, `admin.py`
 
 Frontend (5 files):
+
 - `frontend/src/contexts/FriendsContext.jsx`
 - `frontend/src/services/friendsService.js`
 - `frontend/src/components/pages/Friends/` (Friends.jsx, Friends.scss, index.js)
@@ -155,6 +175,7 @@ Frontend (5 files):
 ---
 
 **TITO (S - 6 files total):**
+
 - `frontend/src/main.jsx`
 - `frontend/src/services/apiClient.js`
 - `frontend/src/contexts/ThemeContext.jsx`
@@ -182,6 +203,7 @@ Global Styles: All 13 files in `frontend/src/styles/`
 ### Core Principle: "What + Why, Not How"
 
 Every pseudocode TODO should:
+
 1. State WHAT to build (the functionality)
 2. Explain WHY it matters (integration context)
 3. Show EXPECTED OUTPUT (data format for integration)
@@ -189,9 +211,10 @@ Every pseudocode TODO should:
 5. NOT dictate HOW (they figure out implementation)
 
 ### Template:
+
 ```
 // TODO: [What to build]
-// 
+//
 // [Why it matters / how it fits in the app]
 //
 // [Expected input/output format if relevant]
@@ -218,6 +241,20 @@ Every pseudocode TODO should:
 This file stays in Pablo's domain with full implementation intact.
 Add a USAGE/reference comment explaining what it does.
 It's NOT pseudocode - team just needs to understand its purpose.
+
+---
+
+## PLACEHOLDER COMPONENTS (Team Awareness)
+
+Some UI components exist as placeholders with no backend:
+
+| Component           | Location                       | Status      | Notes                                       |
+| ------------------- | ------------------------------ | ----------- | ------------------------------------------- |
+| **Engagement Ring** | ProfileCardFront.jsx (L78-101) | Placeholder | Decorative SVG animation only               |
+| **Share Button**    | TimelineRiverRow.jsx           | Partial     | Backend endpoint exists, frontend not wired |
+| **Bookmark Button** | TimelineRiverRow.jsx           | Placeholder | No backend yet                              |
+
+See `docs/stretch-goals/` for implementation plans.
 
 ---
 

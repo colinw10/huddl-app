@@ -616,4 +616,38 @@ import "./TimelineRiverFeed.scss";
 
 ---
 
+## IMPORTANT: Placeholder Components (Team Awareness)
+
+### Engagement Ring on ProfileCard Avatar
+
+**Location:** `frontend/src/components/pages/Profile/ProfileCardFront.jsx` (lines 78-101)
+
+**Current State:** The engagement ring around the profile avatar is a **PLACEHOLDER** with decorative CSS animation. It fills to ~12.5% on page load as a visual demonstration.
+
+**What it does now:**
+
+- SVG circle with `strokeDasharray="377"` and animated `strokeDashoffset` (377→330)
+- Ring fills slightly on page load via CSS animation
+- Purely decorative - no real data backing it
+
+**Why it's a placeholder:**
+The ring is designed to eventually show real engagement data, but requires backend features not yet built.
+
+**Do NOT:**
+
+- Assume the ring shows real data
+- Try to "fix" why it only fills partially
+- Connect it to existing engagement fields without implementing proper backend
+
+**Stretch Goal Options (see `docs/stretch-goals/EngagementRing.md`):**
+
+1. Profile Completion % - Easiest, based on filled profile fields
+2. Weekly Activity - Based on posts/likes this week
+3. XP/Level System - Gamification, most complex
+4. Engagement Score - Combined metrics like overall user engagement
+
+**Team Action:** When implementing, see `EngagementRing.md` stretch goal document for full implementation checklist.
+
+---
+
 **NEXT:** Read `03-BACKEND-INSTRUCTIONS.md` for specific backend implementation tasks

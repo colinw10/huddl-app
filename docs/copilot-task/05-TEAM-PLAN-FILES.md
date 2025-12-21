@@ -752,6 +752,34 @@ You've already built the complete UI architecture for NUMENEON - all 75+ compone
 
 ---
 
+## ⚠️ Placeholder Components (Team Awareness)
+
+### Engagement Ring (ProfileCardFront.jsx)
+
+**Status:** PLACEHOLDER - decorative animation only
+
+**Location:** `frontend/src/components/pages/Profile/ProfileCardFront.jsx` (lines 78-101)
+
+**What it does now:**
+
+- SVG ring around profile avatar that fills to ~12.5% on page load
+- CSS animation only - no real data backing it
+
+**Future Implementation Options (see `docs/stretch-goals/EngagementRing.md`):**
+
+1. Profile Completion % (easiest)
+2. Weekly Activity Score
+3. XP/Level System
+4. Engagement Score
+
+**Team Action:**
+
+- Do NOT assume this shows real data
+- Do NOT "fix" why it only fills partially
+- When ready to implement, see stretch goal doc for full plan
+
+---
+
 ## Integration Points
 
 **You Provide:**
