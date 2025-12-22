@@ -248,11 +248,11 @@ It's NOT pseudocode - team just needs to understand its purpose.
 
 Some UI components exist as placeholders with no backend:
 
-| Component           | Location                       | Status       | Notes                                                |
-| ------------------- | ------------------------------ | ------------ | ---------------------------------------------------- |
-| **Engagement Ring** | ProfileCardFront.jsx (L78-101) | Placeholder  | Decorative SVG animation only                        |
-| **Share Button**    | TimelineRiverRow.jsx           | ✅ COMPLETE | Backend endpoint + frontend sharePost() wired        |
-| **Bookmark Button** | TimelineRiverRow.jsx           | Placeholder  | No backend yet                                       |
+| Component           | Location                       | Status      | Notes                                         |
+| ------------------- | ------------------------------ | ----------- | --------------------------------------------- |
+| **Engagement Ring** | ProfileCardFront.jsx (L78-101) | Placeholder | Decorative SVG animation only                 |
+| **Share Button**    | TimelineRiverRow.jsx           | ✅ COMPLETE | Backend endpoint + frontend sharePost() wired |
+| **Bookmark Button** | TimelineRiverRow.jsx           | Placeholder | No backend yet                                |
 
 See `docs/stretch-goals/` for implementation plans.
 
@@ -261,16 +261,19 @@ See `docs/stretch-goals/` for implementation plans.
 ## RECENT IMPLEMENTATION NOTES
 
 **TimelineRiverFeed.jsx:**
+
 - `useMemo` was REMOVED from post grouping logic for fresh renders
 - Grouping now happens directly without memoization caching
 
 **Home.jsx & Profile.jsx Inline Composers:**
+
 - Both pages have inline quick-post composers with triangle submit button
 - Triangle button is positioned INSIDE the input wrapper
 - Cmd/Ctrl + Enter keyboard shortcut also submits
 - Both call PostsContext `createPost()` directly
 
 **ActivityVisualization.scss - Responsive Toggle Buttons (commit a7a57d8):**
+
 - Wave/Heatmap toggle buttons now scale properly on all mobile sizes
 - Breakpoints added: 600px, 480px, 375px (supports iPhone 6+)
 - Toggle buttons: Reduced padding, min-width/height, icon sizes for small screens

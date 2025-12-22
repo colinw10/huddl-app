@@ -3,15 +3,30 @@
    Extracted from ProfileCard.scss
 */
 
-/* Activity Wave Graph */
+/* Activity Wave Graph - Holographic Cosmic Black */
 .activity-wave {
-  background: linear-gradient(135deg, rgba(100, 100, 100, 0.156) 0%, rgba(26, 115, 231, 0.03) 100%);
-  border: 0.5px solid var(--border-subtle);
+  /* 135° base gradient with banding - matching light mode structure */
+  background: 
+    linear-gradient(
+      135deg,
+      rgba(8, 10, 14, 0.98) 0%,
+      rgba(14, 18, 24, 0.95) 25%,
+      rgba(10, 12, 18, 0.98) 50%,
+      rgba(16, 20, 28, 0.95) 75%,
+      rgba(8, 10, 16, 0.98) 100%
+    );
+  border: 1px solid rgba(0, 212, 255, 0.25);
   border-radius: 16px;
   padding: 32px 28px;
   margin-bottom: 24px;
   overflow: hidden;
   position: relative;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(0, 212, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Responsive activity wave container */
@@ -46,7 +61,21 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(26, 115, 231, 0.05) 0%, transparent 70%);
+  /* Matching light mode structure: 90° brush + top radial highlight */
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(0, 212, 255, 0.025) 1px,
+      transparent 2px,
+      transparent 4px
+    ),
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(0, 212, 255, 0.15) 0%,
+      rgba(138, 43, 226, 0.05) 30%,
+      transparent 60%
+    );
   pointer-events: none;
 }
 
@@ -416,17 +445,58 @@
   box-shadow: 0 0 4px rgba(255, 165, 0, 0.3);
 }
 
-/* Heatmap Styles */
+/* Heatmap Styles - Holographic Cosmic Black */
 .heatmap-container {
   width: 100%;
   padding: var(--space-xl);
-  background: linear-gradient(135deg, rgba(10, 10, 10, 0.192) 0%, var(--surface) 100%);
-  border: 1px solid var(--border-strong);
+  /* 135° base gradient with banding - matching light mode structure */
+  background: 
+    linear-gradient(
+      135deg,
+      rgba(6, 8, 12, 0.98) 0%,
+      rgba(12, 16, 22, 0.95) 25%,
+      rgba(8, 10, 16, 0.98) 50%,
+      rgba(14, 18, 26, 0.95) 75%,
+      rgba(6, 8, 14, 0.98) 100%
+    );
+  border: 1px solid rgba(0, 212, 255, 0.25);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(0, 212, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Holographic overlay for heatmap - matching light mode structure */
+.heatmap-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  /* 90° brush lines + top radial highlight */
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(0, 212, 255, 0.02) 1px,
+      transparent 2px,
+      transparent 4px
+    ),
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(0, 212, 255, 0.12) 0%,
+      rgba(138, 43, 226, 0.04) 30%,
+      transparent 60%
+    );
+  pointer-events: none;
 }
 
 .heatmap-header {
