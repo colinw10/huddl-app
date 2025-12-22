@@ -88,7 +88,7 @@ You review and run ALL database migrations for the team.
 **Acceptance Criteria:**
 
 - [ ] Profile model with OneToOneField to User
-- [ ] profile_picture field (ImageField, optional)
+- [ ] avatar field (URLField, optional)
 - [ ] bio field (TextField, optional)
 - [ ] created_at timestamp
 - [ ] Model visible in Django admin
@@ -96,7 +96,7 @@ You review and run ALL database migrations for the team.
 **Think about:**
 
 - When a User is created, should a Profile auto-create? (Signals)
-- What happens if profile_picture is empty?
+- What happens if avatar is empty?
 
 ---
 
@@ -304,13 +304,13 @@ You're building the posts system - the core content that users create and view. 
 **Acceptance Criteria:**
 
 - [ ] author field (ForeignKey to User)
-- [ ] type field (choices: 'thought', 'media', 'milestone')
+- [ ] type field (choices: 'thoughts', 'media', 'milestones')
 - [ ] content field (TextField, can be blank)
 - [ ] image field (ImageField, optional)
 - [ ] parent field (ForeignKey to self, for replies)
 - [ ] created_at timestamp (auto)
 - [ ] likes_count field (IntegerField, default=0)
-- [ ] comments_count field (IntegerField, default=0)
+- [ ] comment_count field (IntegerField, default=0)
 - [ ] shares_count field (IntegerField, default=0)
 - [ ] Ordered by newest first
 - [ ] Like model with user, post ForeignKeys and unique_together constraint
@@ -351,8 +351,8 @@ The wave chart and heatmap use these metrics to visualize user activity.
 - [ ] POST /api/posts/:id/like/ toggles like (creates/deletes Like, updates likes_count)
 - [ ] POST /api/posts/:id/share/ increments shares_count
 - [ ] Author auto-set from request.user
-- [ ] Nested author data in response (id, username, profile_picture)
-- [ ] Include engagement fields in response (likes_count, comments_count, shares_count)
+- [ ] Nested author data in response (id, username, avatar)
+- [ ] Include engagement fields in response (likes_count, comment_count, shares_count)
 - [ ] Include `is_liked` boolean in response (has current user liked this post?)
 
 **Think about:**
@@ -398,7 +398,7 @@ The wave chart and heatmap use these metrics to visualize user activity.
 - [ ] `sharePost(id)` increments share count, updates post in state
 - [ ] Custom `usePosts()` hook exported
 - [ ] Posts sorted newest first
-- [ ] Post objects include engagement fields (likes_count, comments_count, shares_count)
+- [ ] Post objects include engagement fields (likes_count, comment_count, shares_count)
 - [ ] Post objects include `is_liked` boolean for current user
 
 **NOTE:** Pablo's ProfileCard.jsx consumes posts for analytics visualizations.
@@ -688,22 +688,22 @@ You've already built the complete UI architecture for NUMENEON - all 75+ compone
   "author": {
     "id": 5,
     "username": "alice",
-    "profile_picture": "/media/pics/alice.jpg"
+    "avatar": "/media/pics/alice.jpg"
   },
-  "type": "thought",
+  "type": "thoughts",
   "content": "Hello world",
   "image": null,
   "parent": null,
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
-  "comments_count": 7,
+  "comment_count": 7,
   "shares_count": 3
 }
 ```
 
 **CRITICAL:** ProfileCard.jsx uses engagement fields for analytics:
 
-- `likes_count`, `comments_count`, `shares_count` → Wave chart engagement totals
+- `likes_count`, `comment_count`, `shares_count` → Wave chart engagement totals
 - `created_at` → Heatmap posting frequency calendar
 - `type` → Post type breakdown donut chart
 
@@ -715,7 +715,7 @@ You've already built the complete UI architecture for NUMENEON - all 75+ compone
   "username": "alice",
   "email": "alice@example.com",
   "profile": {
-    "profile_picture": "/media/pics/alice.jpg",
+    "avatar": "/media/pics/alice.jpg",
     "bio": "Hello!"
   }
 }
@@ -1124,22 +1124,22 @@ Collaborative files - each person adds exactly ONE thing
   "author": {
     "id": 5,
     "username": "alice",
-    "profile_picture": "/media/profile_pics/alice.jpg"
+    "avatar": "/media/profile_pics/alice.jpg"
   },
-  "type": "thought",
+  "type": "thoughts",
   "content": "Hello NUMENEON!",
   "image": null,
   "parent": null,
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
-  "comments_count": 7,
+  "comment_count": 7,
   "shares_count": 3
 }
 ```
 
 **⚠️ CRITICAL:** Engagement fields are REQUIRED for Pablo's ProfileCard analytics:
 
-- `likes_count`, `comments_count`, `shares_count` → Used by wave chart
+- `likes_count`, `comment_count`, `shares_count` → Used by wave chart
 - `created_at` → Used by heatmap calendar
 - `type` → Used by post type breakdown donut chart
 
@@ -1151,7 +1151,7 @@ Collaborative files - each person adds exactly ONE thing
   "username": "alice",
   "email": "alice@example.com",
   "profile": {
-    "profile_picture": "/media/profile_pics/alice.jpg",
+    "avatar": "/media/profile_pics/alice.jpg",
     "bio": "Cyberpunk enthusiast"
   }
 }
@@ -1162,7 +1162,7 @@ Collaborative files - each person adds exactly ONE thing
 ```json
 "id": 2,
 "username": "bob",
-"profile_picture": null
+"avatar": null
 }
 Friend Request Object
 json{
@@ -1170,7 +1170,7 @@ json{
 "from_user": {
 "id": 3,
 "username": "charlie",
-"profile_picture": "/media/profile_pics/charlie.jpg"
+"avatar": "/media/profile_pics/charlie.jpg"
 },
 "created_at": "2024-12-19T09:00:00Z"
 }

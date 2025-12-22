@@ -21,21 +21,21 @@ This is Part 2 of 5. Read these files in order:
 TODO: Create the Post model - this is the core content type for NUMENEON
 
 A post is something a user creates. It can be:
-- A 'thought' (text-only, goes in left column of Timeline River)
+- A 'thoughts' (text-only, goes in left column of Timeline River)
 - A 'media' post (has an image, goes in center column)
-- A 'milestone' (achievement post, goes in right column)
+- A 'milestones' (achievement post, goes in right column)
 
 Posts can also be replies to other posts (nested conversations/threads).
 
 Fields you need:
 - author: Who created it? (relationship to User model)
-- type: What kind of post? (must be one of: 'thought', 'media', 'milestone')
+- type: What kind of post? (must be one of: 'thoughts', 'media', 'milestones')
 - content: The actual text (can be blank for media-only posts)
 - image: Optional image file
 - parent: Is this a reply to another post? (can be null)
 - created_at: When was it made? (should auto-set on creation)
 - likes_count: Number of likes (integer, default 0)
-- comments_count: Number of comments (integer, default 0)
+- comment_count: Number of comments (integer, default 0)
 - shares_count: Number of shares (integer, default 0)
 
 Engagement metrics are used by Pablo's ProfileCard analytics:
@@ -98,20 +98,20 @@ Expected response format for GET /api/posts/:
     "author": {
       "id": 5,
       "username": "alice",
-      "profile_picture": "url..."
+      "avatar": "url..."
     },
-    "type": "thought",
+    "type": "thoughts",
     "content": "This is a post",
     "image": null,
     "parent": null,
     "created_at": "2024-12-19T10:00:00Z",
     "likes_count": 42,
-    "comments_count": 7,
+    "comment_count": 7,
     "shares_count": 3
   }
 ]
 
-IMPORTANT: Engagement fields (likes_count, comments_count, shares_count)
+IMPORTANT: Engagement fields (likes_count, comment_count, shares_count)
 are REQUIRED by Pablo's ProfileCard.jsx for analytics visualizations.
 
 Think about:
@@ -170,18 +170,18 @@ class PostViewSet(viewsets.ModelViewSet):
 // Post object format (from backend):
 // {
 //   id: number,
-//   author: { id: number, username: string, profile_picture: string },
-//   type: 'thought' | 'media' | 'milestone',
+//   author: { id: number, username: string, avatar: string },
+//   type: 'thoughts' | 'media' | 'milestones',
 //   content: string,
 //   image: string | null,
 //   created_at: ISO timestamp string,
 //   parent: number | null,
 //   likes_count: number,      // REQUIRED for ProfileCard analytics
-//   comments_count: number,   // REQUIRED for ProfileCard analytics
+//   comment_count: number,   // REQUIRED for ProfileCard analytics
 //   shares_count: number      // REQUIRED for ProfileCard analytics
 // }
 //
-// NOTE: Engagement fields (likes_count, comments_count, shares_count) are
+// NOTE: Engagement fields (likes_count, comment_count, shares_count) are
 // required by Pablo's ProfileCard.jsx for the analytics visualizations:
 // - Wave chart uses weekly engagement totals
 // - Heatmap shows posting frequency
@@ -239,7 +239,7 @@ export function usePosts() {
 //
 // Expected input for createPost():
 // {
-//   type: 'thought' | 'media' | 'milestone',
+//   type: 'thoughts' | 'media' | 'milestones',
 //   content: string,
 //   image: File | null (for media posts),
 //   parent: number | null (for replies)
@@ -432,9 +432,9 @@ export default function Login() {
  *
  * Input format (array of posts from API):
  * [
- *   { id: 1, author: { id: 5, username: "alice" }, created_at: "2024-12-19T10:00:00Z", type: "thought", ... },
+ *   { id: 1, author: { id: 5, username: "alice" }, created_at: "2024-12-19T10:00:00Z", type: "thoughts", ... },
  *   { id: 2, author: { id: 5, username: "alice" }, created_at: "2024-12-19T14:00:00Z", type: "media", ... },
- *   { id: 3, author: { id: 7, username: "bob" }, created_at: "2024-12-18T09:00:00Z", type: "thought", ... }
+ *   { id: 3, author: { id: 7, username: "bob" }, created_at: "2024-12-18T09:00:00Z", type: "thoughts", ... }
  * ]
  *
  * Output format (nested object grouped by author.id, then date):
@@ -570,9 +570,9 @@ urlpatterns = [
  * COMPONENT USAGE (For Team Reference)
  *
  * Purpose: Main feed component that displays posts in a 3-column "river" layout
- * - Left column: 'thought' posts (text-only)
+ * - Left column: 'thoughts' posts (text-only)
  * - Center column: 'media' posts (with images)
- * - Right column: 'milestone' posts (achievements)
+ * - Right column: 'milestones' posts (achievements)
  *
  * Data Requirements:
  * - Consumes: PostsContext via usePosts() hook
@@ -582,8 +582,8 @@ urlpatterns = [
  * Post Format Expected (from backend):
  * {
  *   id: number,
- *   author: { id: number, username: string, profile_picture: string },
- *   type: 'thought' | 'media' | 'milestone',
+ *   author: { id: number, username: string, avatar: string },
+ *   type: 'thoughts' | 'media' | 'milestones',
  *   content: string,
  *   image: string | null,
  *   created_at: ISO timestamp string (e.g., "2024-12-19T10:00:00Z"),
@@ -599,7 +599,7 @@ urlpatterns = [
  * - Colin: Build PostsContext to provide the posts array in above format
  * - Colin: Build postsService to fetch from /api/posts/
  * - Colin: Ensure backend /api/posts/ returns posts matching above format
- * - Natalia: Ensure author data includes id, username, profile_picture
+ * - Natalia: Ensure author data includes id, username, avatar
  *
  * DO NOT MODIFY THIS FILE
  * This is Pablo's complete UI implementation. Your job is to build the

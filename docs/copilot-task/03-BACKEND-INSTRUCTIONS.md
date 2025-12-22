@@ -104,21 +104,21 @@ We recommend approach #2: Create a Profile that links to User.
 
 Fields you need:
 - user: OneToOne link to Django's User model
-- profile_picture: Image field (optional - users might not upload one)
+- avatar: URL field (optional - users might not upload one)
 - bio: Text field (optional - can be blank)
 - created_at: When profile was created
 
 Integration points:
 - Posts reference User as author (Colin's Post.author field)
-- Frontend ProfileCard displays profile_picture and bio
-- TopBar shows current user's profile_picture
+- Frontend ProfileCard displays avatar and bio
+- TopBar shows current user's avatar
 - Serializers need to combine User + Profile data
 
 Think about:
 - What happens when a new User is created? (Signal to auto-create Profile?)
 - How do you handle image uploads? (Django's ImageField + media settings)
 - Should bio have a max length? (Probably yes - prevents abuse)
-- What if user has no profile_picture? (Frontend needs to handle null)
+- What if user has no avatar? (Frontend needs to handle null)
 
 Hint: Use OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 Hint: For images: ImageField(upload_to='profile_pics/', blank=True, null=True)
@@ -170,7 +170,7 @@ Expected response format for user data:
   "username": "alice",
   "email": "alice@example.com",
   "profile": {
-    "profile_picture": "url or null",
+    "avatar": "url or null",
     "bio": "text or empty string"
   }
 }
@@ -229,7 +229,7 @@ Serializers do two jobs:
 Serializers you need:
 - SignupSerializer: Validates signup form data, creates User + Profile
 - LoginSerializer: Validates login credentials
-- ProfileSerializer: Formats Profile data (profile_picture, bio)
+- ProfileSerializer: Formats Profile data (avatar, bio)
 - UserSerializer: Formats full user data including nested profile
 
 For SignupSerializer:
@@ -248,7 +248,7 @@ Expected output format:
   "username": "alice",
   "email": "alice@example.com",
   "profile": {
-    "profile_picture": "/media/profile_pics/alice.jpg",
+    "avatar": "/media/profile_pics/alice.jpg",
     "bio": "Hello world!"
   }
 }
@@ -447,21 +447,21 @@ This placeholder shows what to expect, but Django creates the actual content.
 TODO: Create the Post model - core content type for NUMENEON
 
 A post is the main content users create. NUMENEON has 3 post types:
-- 'thought': Text-only posts (displayed in left column of Timeline River)
+- 'thoughts': Text-only posts (displayed in left column of Timeline River)
 - 'media': Posts with images (displayed in center column)
-- 'milestone': Achievement posts (displayed in right column)
+- 'milestones': Achievement posts (displayed in right column)
 
 Posts can also be replies to other posts, creating threaded conversations.
 
 Fields you need:
 - author: Who created it? (ForeignKey to User)
-- type: What kind? (CharField with choices: 'thought', 'media', 'milestone')
+- type: What kind? (CharField with choices: 'thoughts', 'media', 'milestones')
 - content: The text content (TextField, can be blank for media-only)
 - image: Optional image (ImageField, only for media posts)
 - parent: Reply to which post? (ForeignKey to self, null for top-level posts)
 - created_at: When created? (DateTimeField, auto-set)
 - likes_count: Number of likes (IntegerField, default=0)
-- comments_count: Number of comments (IntegerField, default=0)
+- comment_count: Number of comments (IntegerField, default=0)
 - shares_count: Number of shares (IntegerField, default=0)
 
 Integration points:
@@ -480,15 +480,15 @@ Expected JSON format (from serializer):
   "author": {
     "id": 5,
     "username": "alice",
-    "profile_picture": "/media/profile_pics/alice.jpg"
+    "avatar": "/media/profile_pics/alice.jpg"
   },
-  "type": "thought",
+  "type": "thoughts",
   "content": "Hello NUMENEON!",
   "image": null,
   "parent": null,
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
-  "comments_count": 7,
+  "comment_count": 7,
   "shares_count": 3
 }
 
@@ -502,12 +502,12 @@ Think about:
 - Should content be required? (No - media posts might be image-only)
 - How do you order posts? (Meta class with ordering = ['-created_at'])
 
-Hint: POST_TYPE_CHOICES = [('thought', 'Thought'), ('media', 'Media'), ('milestone', 'Milestone')]
+Hint: POST_TYPE_CHOICES = [('thoughts', 'Thoughts'), ('media', 'Media'), ('milestones', 'Milestones')]
 Hint: type = models.CharField(max_length=10, choices=POST_TYPE_CHOICES)
 Hint: parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 Hint: created_at = models.DateTimeField(auto_now_add=True)
 Hint: likes_count = models.IntegerField(default=0)
-Hint: comments_count = models.IntegerField(default=0)
+Hint: comment_count = models.IntegerField(default=0)
 Hint: shares_count = models.IntegerField(default=0)
 """
 
@@ -633,7 +633,7 @@ The serializer transforms Post model instances to JSON and validates incoming da
 
 Key requirement: Nested author data
 - Don't just return author: 5 (the ID)
-- Return author: { id: 5, username: "alice", profile_picture: "url" }
+- Return author: { id: 5, username: "alice", avatar: "url" }
 - Pablo's components expect this nested format!
 
 For input (creating posts):
@@ -642,9 +642,9 @@ For input (creating posts):
 
 For output (returning posts):
 - Include: id, author (nested), type, content, image, parent, created_at
-- Include: likes_count, comments_count, shares_count (REQUIRED for ProfileCard analytics!)
+- Include: likes_count, comment_count, shares_count (REQUIRED for ProfileCard analytics!)
 - Include: is_liked (Boolean - has current user liked this post?)
-- Author should include: id, username, and profile.profile_picture
+- Author should include: id, username, and profile.avatar
 
 NEW: is_liked field
 - SerializerMethodField that checks if current user has liked this post
@@ -653,7 +653,7 @@ NEW: is_liked field
 
 Think about:
 - How do you nest author data? (Create AuthorSerializer, use it as field)
-- How do you include profile_picture from related Profile model?
+- How do you include avatar from related Profile model?
 - Should author be read-only? (Yes - set automatically, not by user)
 - How do you handle image field? (ImageField serializes to URL automatically)
 - For parent field, should it return nested post or just ID? (Just ID is fine)
@@ -661,7 +661,7 @@ Think about:
 - How do you check if user liked post? (Like.objects.filter(user=user, post=obj).exists())
 
 Hint: Create a simple AuthorSerializer for nested user data
-Hint: In AuthorSerializer, add: profile_picture = serializers.ImageField(source='profile.profile_picture')
+Hint: In AuthorSerializer, add: avatar = serializers.URLField(source='profile.avatar')
 Hint: In PostSerializer: author = AuthorSerializer(read_only=True)
 Hint: is_liked = serializers.SerializerMethodField()
 Hint: def get_is_liked(self, obj): user = self.context['request'].user; return Like.objects.filter(...)
@@ -674,7 +674,7 @@ from django.contrib.auth.models import User
 
 class AuthorSerializer(serializers.ModelSerializer):
     # Nested serializer for author data
-    # Include: id, username, profile_picture (from profile)
+    # Include: id, username, avatar (from profile)
     # Your code here
     pass
 
@@ -850,12 +850,12 @@ Expected response for GET /api/friends/:
   {
     "id": 1,
     "username": "alice",
-    "profile_picture": "/media/profile_pics/alice.jpg"
+    "avatar": "/media/profile_pics/alice.jpg"
   },
   {
     "id": 2,
     "username": "bob",
-    "profile_picture": null
+    "avatar": null
   }
 ]
 
@@ -893,25 +893,25 @@ from .serializers import FriendshipSerializer, FriendRequestSerializer, UserFrie
 TODO: Create Friends Serializers - format friendship data
 
 You need serializers for:
-1. UserFriendSerializer: Simple user data for friend lists (id, username, profile_picture)
+1. UserFriendSerializer: Simple user data for friend lists (id, username, avatar)
 2. FriendshipSerializer: Full friendship data (optional, for admin/debugging)
 3. FriendRequestSerializer: Friend request data with from_user and to_user
 
 For friend list (GET /api/friends/):
 - Just return array of user objects, not Friendship objects
-- Each user needs: id, username, profile_picture
+- Each user needs: id, username, avatar
 
 For friend requests (GET /api/friends/requests/):
 - Return: id (request id), from_user (nested), created_at
-- from_user should include: id, username, profile_picture
+- from_user should include: id, username, avatar
 
 Think about:
 - UserFriendSerializer is similar to AuthorSerializer from posts
-- How do you include profile_picture from Profile model?
+- How do you include avatar from Profile model?
 - For FriendRequestSerializer, which user is nested? (from_user, since to_user is current user)
 
 Hint: Reuse the pattern from PostSerializer's AuthorSerializer
-Hint: profile_picture = serializers.ImageField(source='profile.profile_picture', read_only=True)
+Hint: avatar = serializers.URLField(source='profile.avatar', read_only=True)
 """
 
 from rest_framework import serializers

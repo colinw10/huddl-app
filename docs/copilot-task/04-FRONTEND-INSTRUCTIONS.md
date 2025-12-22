@@ -84,7 +84,7 @@ Before starting:
 //   username: string,
 //   email: string,
 //   profile: {
-//     profile_picture: string | null,
+//     avatar: string | null,
 //     bio: string
 //   }
 // }
@@ -459,14 +459,14 @@ export default function ProtectedRoute({ children }) {
 // Post object format:
 // {
 //   id: number,
-//   author: { id: number, username: string, profile_picture: string | null },
-//   type: 'thought' | 'media' | 'milestone',
+//   author: { id: number, username: string, avatar: string | null },
+//   type: 'thoughts' | 'media' | 'milestones',
 //   content: string,
 //   image: string | null,
 //   parent: number | null,
 //   created_at: string (ISO timestamp),
 //   likes_count: number,      // REQUIRED for ProfileCard analytics
-//   comments_count: number,   // REQUIRED for ProfileCard analytics
+//   comment_count: number,   // REQUIRED for ProfileCard analytics
 //   shares_count: number,     // REQUIRED for ProfileCard analytics
 //   is_liked: boolean         // Has current user liked this post?
 // }
@@ -627,13 +627,13 @@ export async function sharePost(id) {
 // {
 //   id: number,
 //   username: string,
-//   profile_picture: string | null
+//   avatar: string | null
 // }
 //
 // Request object format:
 // {
 //   id: number,
-//   from_user: { id: number, username: string, profile_picture: string | null },
+//   from_user: { id: number, username: string, avatar: string | null },
 //   created_at: string
 // }
 //
