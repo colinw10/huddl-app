@@ -317,6 +317,7 @@ You're building the posts system - the core content that users create and view. 
 
 **IMPORTANT:** Engagement fields are REQUIRED for Pablo's ProfileCard analytics!
 The wave chart and heatmap use these metrics to visualize user activity.
+Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 
 **Like Model Requirements:**
 
@@ -706,6 +707,7 @@ You've already built the complete UI architecture for NUMENEON - all 75+ compone
 - `likes_count`, `comment_count`, `shares_count` → Wave chart engagement totals
 - `created_at` → Heatmap posting frequency calendar
 - `type` → Post type breakdown donut chart
+- **UI Note:** Wave/Heatmap toggle buttons are responsive (breakpoints at 600px, 480px, 375px)
 
 **User Object:**
 

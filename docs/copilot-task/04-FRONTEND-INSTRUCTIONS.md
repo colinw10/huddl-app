@@ -1146,6 +1146,8 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 - `frontend/src/components/pages/Profile/components/ComposerModal/ComposerModal.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.jsx`
+  - **Note:** SCSS includes responsive breakpoints (600px, 480px, 375px) for wave/heatmap toggle buttons
+  - Toggle buttons scale down on mobile, activity meta hidden on very small screens
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/PostTypeBreakdown/PostTypeBreakdown.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardBack/ProfileCardBack.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront/ProfileCardFront.jsx`

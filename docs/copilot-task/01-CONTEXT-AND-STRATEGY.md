@@ -270,6 +270,15 @@ See `docs/stretch-goals/` for implementation plans.
 - Cmd/Ctrl + Enter keyboard shortcut also submits
 - Both call PostsContext `createPost()` directly
 
+**ActivityVisualization.scss - Responsive Toggle Buttons (commit a7a57d8):**
+- Wave/Heatmap toggle buttons now scale properly on all mobile sizes
+- Breakpoints added: 600px, 480px, 375px (supports iPhone 6+)
+- Toggle buttons: Reduced padding, min-width/height, icon sizes for small screens
+- Activity header: Added `flex-wrap: wrap` for narrow viewports
+- Activity meta: Hidden on screens ≤480px to prioritize toggle visibility
+- Wave chart container: Responsive padding/border-radius adjustments
+- CSS Location: `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.scss`
+
 ---
 
 **NEXT:** Read `02-PSEUDOCODE-EXAMPLES.md` for all 11 example templates
