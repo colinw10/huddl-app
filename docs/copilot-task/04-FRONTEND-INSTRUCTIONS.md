@@ -456,6 +456,12 @@ export default function ProtectedRoute({ children }) {
 // - Pablo's TimelineRiverRow calls likePost() on heart icon click
 // - Pablo's TimelineRiverRow calls sharePost() on share icon click
 //
+// RIVER TIMELINE "SPACE ECONOMY":
+// - Posts are grouped BY USER (not by date!) in groupPosts.js
+// - Each user = ONE row with carousel navigation between posts
+// - Need 3+ posts per type per user for carousel arrows to appear
+// - seed_posts.py creates 9 posts/user (3 per type) for testing
+//
 // Post object format:
 // {
 //   id: number,
@@ -466,7 +472,7 @@ export default function ProtectedRoute({ children }) {
 //   parent: number | null,
 //   created_at: string (ISO timestamp),
 //   likes_count: number,      // REQUIRED for ProfileCard analytics
-//   comment_count: number,   // REQUIRED for ProfileCard analytics
+//   comment_count: number,    // REQUIRED for ProfileCard analytics
 //   shares_count: number,     // REQUIRED for ProfileCard analytics
 //   is_liked: boolean         // Has current user liked this post?
 // }
@@ -1134,7 +1140,7 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 **Home Page System:**
 
 - `frontend/src/components/pages/Home/Home.jsx`
-- `frontend/src/components/pages/Home/utils/groupPosts.js`
+- `frontend/src/components/pages/Home/utils/groupPosts.js` ← **Groups by USER ONLY (not date!)**
 - `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx`
 - `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`
 - `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`

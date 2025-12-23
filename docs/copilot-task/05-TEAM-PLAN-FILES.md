@@ -319,6 +319,12 @@ You're building the posts system - the core content that users create and view. 
 The wave chart and heatmap use these metrics to visualize user activity.
 Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 
+**RIVER TIMELINE "SPACE ECONOMY":**
+- Posts grouped BY USER (not by date!) in groupPosts.js
+- Each user = ONE row with carousel navigation
+- Need 3+ posts per type per user for carousel arrows
+- seed_posts.py creates 9 posts/user (3 per type) for testing
+
 **Like Model Requirements:**
 
 - user: ForeignKey to User (who liked)
@@ -404,6 +410,9 @@ Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 
 **NOTE:** Pablo's ProfileCard.jsx consumes posts for analytics visualizations.
 Posts must include engagement fields for the wave chart and heatmap to work!
+
+**RIVER TIMELINE NOTE:** groupPosts.js groups BY USER (not date!).
+Each user = ONE row with carousel navigation between posts.
 
 **Think about:**
 
@@ -1118,7 +1127,7 @@ Collaborative files - each person adds exactly ONE thing
 
 ## API Response Formats
 
-### Post Object (REQUIRED FORMAT - includes engagement metrics)
+### Post Object (REQUIRED FORMAT - includes engagement metrics + is_liked)
 
 ```json
 {
@@ -1135,15 +1144,23 @@ Collaborative files - each person adds exactly ONE thing
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
   "comment_count": 7,
-  "shares_count": 3
+  "shares_count": 3,
+  "is_liked": false
 }
 ```
 
-**⚠️ CRITICAL:** Engagement fields are REQUIRED for Pablo's ProfileCard analytics:
+**⚠️ CRITICAL:** Engagement fields + is_liked are REQUIRED:
 
 - `likes_count`, `comment_count`, `shares_count` → Used by wave chart
 - `created_at` → Used by heatmap calendar
 - `type` → Used by post type breakdown donut chart
+- `is_liked` → Heart icon state (filled/empty) in TimelineRiverRow
+
+**RIVER TIMELINE "SPACE ECONOMY":**
+- groupPosts.js groups posts BY USER (not by date!)
+- Each user = ONE row with carousel navigation
+- Need 3+ posts per type per user for carousel arrows
+- seed_posts.py creates 9 posts/user (3 per type)
 
 ### User Object
 

@@ -242,6 +242,13 @@ This file stays in Pablo's domain with full implementation intact.
 Add a USAGE/reference comment explaining what it does.
 It's NOT pseudocode - team just needs to understand its purpose.
 
+**IMPORTANT UPDATE (Dec 2024):**
+Grouping changed from date+user to **USER ONLY** for "space economy":
+- OLD: Each row = one user + one date (same user appeared in multiple rows)
+- NEW: Each row = one user (ALL their posts in one row with carousel)
+- This enables carousel arrows (need 3+ posts per type per user)
+- See `docs/features/RiverTimeline.md` for full documentation
+
 ---
 
 ## PLACEHOLDER COMPONENTS (Team Awareness)
@@ -264,6 +271,15 @@ See `docs/stretch-goals/` for implementation plans.
 
 - `useMemo` was REMOVED from post grouping logic for fresh renders
 - Grouping now happens directly without memoization caching
+
+**groupPosts.js - River Timeline "Space Economy" (Dec 2024):**
+
+- Changed from grouping by `date + userId` to **`userId` only**
+- Each user now appears as exactly ONE row in the timeline
+- All posts (thoughts, media, milestones) collected in that single row
+- Carousel arrows navigate between posts of the same type
+- `mostRecentDate` tracks when user was last active (shown in header)
+- This enables "space economy" - scan 10 users at a glance vs 30+ rows
 
 **Home.jsx & Profile.jsx Inline Composers:**
 

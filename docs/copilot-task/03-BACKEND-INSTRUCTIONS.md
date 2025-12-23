@@ -466,13 +466,19 @@ Fields you need:
 
 Integration points:
 - PostsContext (Colin's frontend) fetches and manages these
-- Pablo's TimelineRiverFeed displays posts grouped by author and date
-- Pablo's TimelineRiverRow renders individual posts by type
+- Pablo's TimelineRiverFeed displays posts grouped BY USER (not by date!)
+- Pablo's TimelineRiverRow renders individual posts with carousel navigation
 - Pablo's ProfileCard.jsx uses engagement metrics for analytics:
   * Wave chart calculates weekly engagement totals (likes + comments + shares)
   * Heatmap shows posting frequency calendar
   * Post type breakdown counts posts by type
 - Each column of the Timeline River shows one post type
+
+RIVER TIMELINE "SPACE ECONOMY":
+- Each user = ONE row in the feed
+- All their posts collected in that row with carousel arrows
+- Need 3+ posts per type per user for carousel arrows to appear
+- seed_posts.py creates 9 posts per user (3 thoughts, 3 media, 3 milestones)
 
 Expected JSON format (from serializer):
 {
@@ -489,10 +495,11 @@ Expected JSON format (from serializer):
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
   "comment_count": 7,
-  "shares_count": 3
+  "shares_count": 3,
+  "is_liked": false
 }
 
-IMPORTANT: Engagement fields are REQUIRED for ProfileCard analytics!
+IMPORTANT: Engagement fields + is_liked are REQUIRED for ProfileCard analytics!
 
 Think about:
 - How do you restrict 'type' to only 3 values? (choices parameter)
@@ -1060,11 +1067,23 @@ These files are pre-configured and should not be modified:
 
 - `backend/manage.py`
 - `backend/db.sqlite3`
-- `backend/seed_posts.py`
+- `backend/seed_posts.py` - **Populates demo data (see structure below)**
 - `backend/numeneon/__init__.py`
 - `backend/numeneon/settings.py`
 - `backend/numeneon/asgi.py`
 - `backend/numeneon/wsgi.py`
+
+**seed_posts.py Structure (Dec 2024 update):**
+```python
+# Creates 6 users × 9 posts each = 54 total posts
+# Each user has: 3 thoughts, 3 media, 3 milestones
+# Posts spread across 365 days using 'days_ago' field
+# Engagement: likes (2-50), comments (0-12), shares (0-8)
+# This enables:
+#   - Wave chart shows wavy engagement patterns
+#   - Heatmap shows year-long activity
+#   - Carousel arrows work (3+ posts per type per user)
+```
 
 ---
 

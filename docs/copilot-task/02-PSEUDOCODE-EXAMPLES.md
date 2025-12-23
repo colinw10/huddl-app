@@ -428,33 +428,54 @@ export default function Login() {
 /**
  * UTILITY REFERENCE (Pablo's Implementation - DO NOT MODIFY)
  *
- * Purpose: Organizes posts by user and date for Timeline River display
+ * Purpose: Groups posts by USER ONLY for Timeline River "space economy" layout
+ *
+ * KEY DESIGN: Each user = ONE row (not one row per date!)
+ * This enables carousel navigation - all posts from same user in one place
  *
  * Input format (array of posts from API):
  * [
  *   { id: 1, author: { id: 5, username: "alice" }, created_at: "2024-12-19T10:00:00Z", type: "thoughts", ... },
- *   { id: 2, author: { id: 5, username: "alice" }, created_at: "2024-12-19T14:00:00Z", type: "media", ... },
- *   { id: 3, author: { id: 7, username: "bob" }, created_at: "2024-12-18T09:00:00Z", type: "thoughts", ... }
+ *   { id: 2, author: { id: 5, username: "alice" }, created_at: "2024-12-15T14:00:00Z", type: "media", ... },
+ *   { id: 3, author: { id: 5, username: "alice" }, created_at: "2024-11-20T09:00:00Z", type: "milestones", ... },
+ *   { id: 4, author: { id: 7, username: "bob" }, created_at: "2024-12-18T09:00:00Z", type: "thoughts", ... }
  * ]
  *
- * Output format (nested object grouped by author.id, then date):
+ * Output format (grouped by userId only):
  * {
  *   "5": {
- *     "2024-12-19": [post1, post2],
+ *     user: { id: 5, name: "alice", avatar: "AL" },
+ *     thoughts: [post1],
+ *     media: [post2],
+ *     milestones: [post3],
+ *     mostRecentDate: Date("2024-12-19")
  *   },
  *   "7": {
- *     "2024-12-18": [post3]
+ *     user: { id: 7, name: "bob", avatar: "BO" },
+ *     thoughts: [post4],
+ *     media: [],
+ *     milestones: [],
+ *     mostRecentDate: Date("2024-12-18")
  *   }
  * }
+ *
+ * WHY USER-ONLY GROUPING?
+ * - Space Economy: See 10 users at a glance vs scrolling 30+ rows
+ * - Carousel Arrows: Need 3+ posts per type to show navigation arrows
+ * - Context: All of a user's content together, not scattered by date
  *
  * Integration points:
  * - Called by Pablo's TimelineRiverFeed component
  * - Input comes from PostsContext (Colin's array of posts)
- * - Output feeds TimelineRiverRow components
+ * - Output feeds TimelineRiverRow components with carousel state
+ * - Row header shows "Last active: [mostRecentDate]"
  *
  * Team Reference:
  * - Colin: Your PostsContext provides the input array
- * - This function transforms it for Pablo's UI display
+ * - seed_posts.py: Creates 9 posts per user (3 per type) for carousel testing
+ * - This function transforms data for Pablo's UI display
+ *
+ * See also: docs/features/RiverTimeline.md for full documentation
  */
 
 // ... Pablo's complete implementation follows (DO NOT MODIFY) ...
@@ -574,10 +595,16 @@ urlpatterns = [
  * - Center column: 'media' posts (with images)
  * - Right column: 'milestones' posts (achievements)
  *
+ * SPACE ECONOMY DESIGN:
+ * - Each user = ONE row (not grouped by date!)
+ * - All posts from same user collected in single row
+ * - Carousel arrows navigate between posts of same type
+ * - Row header shows "Last active: [date]" instead of specific date
+ *
  * Data Requirements:
  * - Consumes: PostsContext via usePosts() hook
  * - Expects: posts array from context
- * - Uses: groupPosts utility (Pablo's utility) to organize posts by user+date
+ * - Uses: groupPosts utility (Pablo's utility) to organize posts by USER
  *
  * Post Format Expected (from backend):
  * {
@@ -587,19 +614,25 @@ urlpatterns = [
  *   content: string,
  *   image: string | null,
  *   created_at: ISO timestamp string (e.g., "2024-12-19T10:00:00Z"),
- *   parent: number | null
+ *   parent: number | null,
+ *   likes_count: number,
+ *   comment_count: number,
+ *   shares_count: number,
+ *   is_liked: boolean
  * }
  *
  * Integration Points:
  * - Used by: Home.jsx (Pablo's page component)
- * - Renders: TimelineRiverRow components (Pablo's component) for each user/date group
+ * - Renders: TimelineRiverRow components (Pablo's component) for each user
  * - Calls: PostsContext.fetchPosts() on component mount
+ * - Carousel arrows appear when user has 3+ posts of same type
  *
  * Team Integration:
- * - Colin: Build PostsContext to provide the posts array in above format
- * - Colin: Build postsService to fetch from /api/posts/
- * - Colin: Ensure backend /api/posts/ returns posts matching above format
+ * - Colin: Build PostsContext to provide posts array in above format
+ * - Colin: Build postsService with likePost() and sharePost() functions
+ * - Colin: Ensure backend /api/posts/ returns posts with is_liked boolean
  * - Natalia: Ensure author data includes id, username, avatar
+ * - seed_posts.py: Creates 9 posts per user (3 per type) for carousel testing
  *
  * DO NOT MODIFY THIS FILE
  * This is Pablo's complete UI implementation. Your job is to build the
@@ -612,6 +645,7 @@ import TimelineRiverRow from "./TimelineRiverRow";
 import "./TimelineRiverFeed.scss";
 
 // ... Pablo's complete implementation follows (DO NOT MODIFY) ...
+```
 ```
 
 ---
