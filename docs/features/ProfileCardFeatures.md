@@ -2,7 +2,7 @@
 
 ## Overview
 
-The HUDDL profile card uses a flip-card architecture to separate public profile information (front) from private analytics (back). This creates a clean user experience while providing deep insights when needed.
+The Numeneon profile card uses a flip-card architecture to separate public profile information (front) from private analytics (back). This creates a clean user experience while providing deep insights when needed.
 
 ---
 

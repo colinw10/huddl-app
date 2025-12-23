@@ -2,7 +2,7 @@
 
 ## Overview
 
-Huddl uses a comprehensive design token system and unified utilities to create a cohesive, professional visual identity. Every UI element extends from a core set of variables and reusable classes, ensuring consistency across the entire application.
+Numeneon uses a comprehensive design token system and unified utilities to create a cohesive, professional visual identity. Every UI element extends from a core set of variables and reusable classes, ensuring consistency across the entire application.
 
 ---
 

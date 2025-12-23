@@ -252,7 +252,7 @@ Only necessary if adding features like:
   fetch("https://analytics-api.com/social-media-benchmarks");
   ```
 
-But for core HUDDL user activity visualization: **No 3rd party APIs required.**
+But for core Numeneon user activity visualization: **No 3rd party APIs required.**
 
 ## Component Files
 
