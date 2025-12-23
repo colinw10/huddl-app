@@ -125,7 +125,7 @@ You review and run ALL database migrations for the team.
 
 ### ✅ Task 3: Configure Auth Routes
 
-**Files:** `backend/users/urls.py`, `backend/huddl/urls.py` (add your line)
+**Files:** `backend/users/urls.py`, `backend/numeneon/urls.py` (add your line)
 
 **What:** Map URLs to your view functions.
 
@@ -365,7 +365,7 @@ Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 
 ### ✅ Task 3: Configure Posts Routes
 
-**Files:** `backend/posts/urls.py`, `backend/huddl/urls.py` (add your line)
+**Files:** `backend/posts/urls.py`, `backend/numeneon/urls.py` (add your line)
 
 **What:** Set up URL routing with DRF router.
 
@@ -546,7 +546,7 @@ You're building the friends system - the social connections between users. Frien
 
 ### ✅ Task 3: Configure Friends Routes
 
-**Files:** `backend/friends/urls.py`, `backend/huddl/urls.py` (add your line)
+**Files:** `backend/friends/urls.py`, `backend/numeneon/urls.py` (add your line)
 
 **What:** Map URLs to view functions.
 
@@ -985,7 +985,7 @@ backend/
 ├── db.sqlite3 [SHARED]
 ├── seed_posts.py [SHARED]
 │
-├── huddl/ [SHARED CONFIG]
+├── numeneon/ [SHARED CONFIG]
 │ ├── settings.py (pre-configured)
 │ ├── urls.py [COLLABORATIVE]
 │ └── ...

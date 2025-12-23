@@ -75,9 +75,9 @@ Before starting:
 
 ### COLLABORATIVE - Project URLs (1 file)
 
-| File                    | Action                        |
-| ----------------------- | ----------------------------- |
-| `backend/huddl/urls.py` | TODO comments for each person |
+| File                       | Action                        |
+| -------------------------- | ----------------------------- |
+| `backend/numeneon/urls.py` | TODO comments for each person |
 
 ---
 
@@ -1010,7 +1010,7 @@ from .models import Friendship, FriendRequest
 
 ### COLLABORATIVE FILE
 
-#### `backend/huddl/urls.py`
+#### `backend/numeneon/urls.py`
 
 ```python
 """
@@ -1061,10 +1061,10 @@ These files are pre-configured and should not be modified:
 - `backend/manage.py`
 - `backend/db.sqlite3`
 - `backend/seed_posts.py`
-- `backend/huddl/__init__.py`
-- `backend/huddl/settings.py`
-- `backend/huddl/asgi.py`
-- `backend/huddl/wsgi.py`
+- `backend/numeneon/__init__.py`
+- `backend/numeneon/settings.py`
+- `backend/numeneon/asgi.py`
+- `backend/numeneon/wsgi.py`
 
 ---
 

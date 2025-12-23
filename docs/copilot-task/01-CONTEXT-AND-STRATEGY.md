@@ -14,7 +14,7 @@ This is Part 1 of 5. Read these files in order:
 
 ## BACKGROUND & CONTEXT
 
-I (Pablo) built a complete working prototype of NUMENEON (formerly HUDDL), a cyberpunk-themed social media app with React + Django. Now my 5-person bootcamp team will REBUILD portions of the codebase together as a learning exercise.
+I (Pablo) built a complete working prototype of NUMENEON, a cyberpunk-themed social media app with React + Django. Now my 5-person bootcamp team will REBUILD portions of the codebase together as a learning exercise.
 
 **Project Stack:**
 
@@ -185,14 +185,14 @@ Frontend (5 files):
 
 ### CATEGORY 3: COLLABORATIVE FILES
 
-- `backend/huddl/urls.py` - Each backend person adds their `include()` line
+- `backend/numeneon/urls.py` - Each backend person adds their `include()` line
 - `frontend/src/contexts/index.js` - Each context owner adds their export
 
 ---
 
 ### CATEGORY 4: SHARED FILES (~27 files - DO NOT TOUCH)
 
-Backend Config: `manage.py`, `db.sqlite3`, `seed_posts.py`, `huddl/settings.py`, etc.
+Backend Config: `manage.py`, `db.sqlite3`, `seed_posts.py`, `numeneon/settings.py`, etc.
 Frontend Config: `eslint.config.js`, `vite.config.js`, `package.json`, `index.html`
 Global Styles: All 13 files in `frontend/src/styles/`
 

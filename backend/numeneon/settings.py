@@ -55,7 +55,7 @@ MIDDLEWARE = [
 ]
 
 # ROOT_URLCONF - Main routes file (like app.use('/api', routes) in Express)
-ROOT_URLCONF = 'huddl.urls'
+ROOT_URLCONF = 'numeneon.urls'
 
 # TEMPLATES - HTML templating config (we'll use React instead, so ignore this)
 TEMPLATES = [
@@ -74,7 +74,7 @@ TEMPLATES = [
 ]
 
 # WSGI server config (like http.createServer() in Node)
-WSGI_APPLICATION = 'huddl.wsgi.application'
+WSGI_APPLICATION = 'numeneon.wsgi.application'
 
 # DATABASE - Connection config
 # Using SQLite for development (switch to PostgreSQL for production)

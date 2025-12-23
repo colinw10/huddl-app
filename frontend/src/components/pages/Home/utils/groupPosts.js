@@ -1,34 +1,21 @@
 /**
- * Groups posts by date and user for Timeline River layout
+ * Groups posts by USER ONLY for Timeline River layout
+ * All posts from the same user go into ONE row (carousel navigates between them)
  * @param {Array} posts - Flat array of posts
- * @returns {Object} Nested structure: { dateKey: { userId: { user, thoughts[], media[], milestones[] } } }
+ * @returns {Object} Structure: { oderId: { user, thoughts[], media[], milestones[], mostRecentDate } }
  */
 export const groupPostsByUserAndDay = (posts) => {
-  const grouped = {}; // 🔵 Empty object to store organized data
+  const grouped = {}; // 🔵 Keyed by userId only (not date!)
 
   posts.forEach((post) => {
-    // 🔵 Loop through each post
-
-    // Extract date key (YYYY-MM-DD format)
-    // Handle both createdAt (mock) and created_at (backend) formats
-    const dateKey = new Date(post.createdAt || post.created_at || Date.now())
-      .toISOString() // "2024-01-15T14:30:00.000Z"
-      .split("T")[0]; // "2024-01-15"
-
-    // Step 2: Create date bucket if it doesn't exist
-    if (!grouped[dateKey]) {
-      grouped[dateKey] = {};
-    }
-
     // Handle author as object (backend) or string (mock)
     const authorObj = typeof post.author === "object" ? post.author : null;
-    const userId = post.userId || (authorObj ? authorObj.id : post.author);
+    const oderId = post.userId || (authorObj ? authorObj.id : post.author);
 
     // Get display name - always use username
     const getDisplayName = (author) => {
       if (!author) return "Unknown";
       if (typeof author === "string") return author;
-      // Always return username
       return author.username || "Unknown";
     };
 
@@ -46,25 +33,32 @@ export const groupPostsByUserAndDay = (posts) => {
     };
 
     const authorName = getDisplayName(authorObj || post.author);
+    const postDate = new Date(post.createdAt || post.created_at || Date.now());
 
-    // Step 4: Create user bucket if it doesn't exist
-    if (!grouped[dateKey][userId]) {
-      grouped[dateKey][userId] = {
+    // Create user bucket if it doesn't exist
+    if (!grouped[oderId]) {
+      grouped[oderId] = {
         user: {
-          id: userId,
+          id: oderId,
           name: authorName,
           avatar: post.avatar || getInitials(authorObj || post.author),
         },
-        thoughts: [], // 🔵 Empty arrays for each post type
+        thoughts: [],
         media: [],
         milestones: [],
+        mostRecentDate: postDate, // Track most recent post date
       };
     }
 
-    // Step 5: Add post to correct category (thoughts/media/milestones)
-    const type = post.type || "thoughts"; // default to thoughts if no type
-    if (grouped[dateKey][userId][type]) {
-      grouped[dateKey][userId][type].push(post); // Add post to array
+    // Update most recent date if this post is newer
+    if (postDate > grouped[oderId].mostRecentDate) {
+      grouped[oderId].mostRecentDate = postDate;
+    }
+
+    // Add post to correct category (thoughts/media/milestones)
+    const type = post.type || "thoughts";
+    if (grouped[oderId][type]) {
+      grouped[oderId][type].push(post);
     }
   });
 
@@ -75,41 +69,43 @@ export const groupPostsByUserAndDay = (posts) => {
  * Converts grouped posts into sorted array for rendering
  * Sorts by most recent post timestamp - whoever posted most recently appears first
  * @param {Object} grouped - Result from groupPostsByUserAndDay
- * @returns {Array} Sorted array of { date, userId, data, mostRecentTimestamp }
+ * @returns {Array} Sorted array of { oderId, data, mostRecentTimestamp }
  */
 export const sortGroupedPosts = (grouped) => {
-  const rows = []; // 🔵 Array to store all user rows with timestamps
+  const rows = [];
 
-  // Collect all user rows with their most recent post timestamp
-  Object.keys(grouped).forEach((dateKey) => {
-    Object.keys(grouped[dateKey]).forEach((userId) => {
-      const userData = grouped[dateKey][userId];
+  Object.keys(grouped).forEach((oderId) => {
+    const userData = grouped[oderId];
 
-      // Find the most recent post timestamp across all types
-      const allPosts = [
-        ...userData.thoughts,
-        ...userData.media,
-        ...userData.milestones,
-      ];
+    // Find the most recent post timestamp across all types
+    const allPosts = [
+      ...userData.thoughts,
+      ...userData.media,
+      ...userData.milestones,
+    ];
 
-      const mostRecentTimestamp = allPosts.reduce((latest, post) => {
-        const postTime = new Date(
-          post.createdAt || post.created_at || 0
-        ).getTime();
-        return postTime > latest ? postTime : latest;
-      }, 0);
+    const mostRecentTimestamp = allPosts.reduce((latest, post) => {
+      const postTime = new Date(
+        post.createdAt || post.created_at || 0
+      ).getTime();
+      return postTime > latest ? postTime : latest;
+    }, 0);
 
-      rows.push({
-        date: dateKey,
-        userId,
-        data: userData,
-        mostRecentTimestamp,
-      });
+    // Format the most recent date for display
+    const mostRecentDate = new Date(mostRecentTimestamp)
+      .toISOString()
+      .split("T")[0];
+
+    rows.push({
+      date: mostRecentDate, // Show most recent post date
+      oderId,
+      data: userData,
+      mostRecentTimestamp,
     });
   });
 
   // Sort by most recent timestamp (newest first)
   rows.sort((a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp);
 
-  return rows; // 🔵 Return sorted array
+  return rows;
 };
