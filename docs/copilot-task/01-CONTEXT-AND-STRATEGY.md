@@ -327,6 +327,79 @@ See `docs/stretch-goals/` for implementation plans.
 - `ANALYTICS_NOW` now uses live `Date.now()` instead of hardcoded date
 - Full documentation: `docs/features-implemented/EngagementAnalytics.md`
 
+**Unified Close Button System (Dec 2024):**
+
+- Created `.close-btn-glow` class for all modal/overlay X buttons
+- Dark mode: Crimson glow (rgba(255, 77, 109)) with 90° spin on hover
+- Light mode: Deeper red with `pointer-events: auto !important` fix
+- Applied to: MessageModal, SearchModal, ComposerModal, MediaLightbox, TimelineRiver
+- CSS Location: `frontend/src/styles/_buttons.scss` (lines 173-215)
+- Light mode override: `frontend/src/styles/_light-mode.scss`
+
+**Mobile MessageModal Improvements (Dec 2024):**
+
+- Added `mobileView` state with 'list' and 'chat' values for panel toggling
+- Back button to return to conversation list on mobile
+- Full viewport coverage (z-index 9999) to properly cover navbar
+- Search/filter for conversations by name, username, or message content
+- Files: `MessageModal.jsx`, `_responsive.scss`
+- Full documentation: `docs/features-implemented/MobileMessageModal.md`
+
+**Profile Carousel Navigation (Dec 2024):**
+
+- Chamfered corner nav buttons using `clip-path: polygon()`
+- Always show dots (removed conditional index/total count display)
+- Transparent container - floating buttons and dots, no background
+- Column-specific glow colors: Blue (thoughts), Magenta (media), Gold (milestones)
+- CSS Location: `TimelineRiver.scss` (lines 124-350)
+
+**Mobile Category Tabs (Dec 2024):**
+
+- Tab-based navigation for profile timeline on mobile (768px breakpoint)
+- Three tabs: Thoughts (blue), Media (magenta), Milestones (gold)
+- `mobileCategory` state controls which column is visible
+- Glow effects on active tabs matching column colors
+- CSS Location: `TimelineRiver.scss` (lines 1050-1190)
+
+**Light Mode Fixes (Dec 2024):**
+
+- `.river-post-actions` background: transparent (was grey in light mode)
+- Heart/like icon visibility: darker stroke colors (rgba(0, 0, 0, 0.55))
+- MessageModal "Start conversation" text now visible
+- Close button clickability fixed with `pointer-events: auto !important`
+
+**SearchModal Component (Dec 2024):**
+
+- New global search modal for users and posts
+- Accessible from TopBar targeting reticle icon
+- Filters: All, Users, Posts with tab switching
+- User results: Click to visit profile, message icon to open DM
+- Post results: Click to navigate to author's profile
+- Files: `frontend/src/components/layout/TopBar/SearchModal/`
+
+**Friends Page Interactivity (Dec 2024):**
+
+- Friend cards are now clickable - navigate to their profile
+- Message icon opens DM with that friend
+- Request cards are clickable - view requester's profile
+- File: `frontend/src/components/pages/Friends/Friends.jsx`
+
+**ProfileCard Context Awareness (Dec 2024):**
+
+- `isOwnProfile` prop passed through ProfileCard components
+- Other users' profiles show Save/Bookmark button (purple accent)
+- Own profile shows More Options and Analytics flip button
+- QuickSettings only shown on own profile (back of card)
+- Files: `ProfileCard.jsx`, `ProfileCardFront.jsx`, `ProfileCardBack.jsx`
+
+**Thread/Reply System in TimelineRiver (Dec 2024):**
+
+- "View X replies" link expands thread below post
+- Reply composer for adding comments to any post
+- Edit/delete own replies with inline forms
+- Uses `fetchReplies()`, `createReply()`, `updateReply()`, `deleteReply()` from PostsContext
+- Files: `TimelineRiver.jsx` (lines 325-620)
+
 ---
 
 **NEXT:** Read `02-PSEUDOCODE-EXAMPLES.md` for all 11 example templates
