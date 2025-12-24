@@ -9,6 +9,7 @@ A global search modal accessible from the TopBar that allows users to search for
 ### Search Targets
 
 1. **Users** - Search by:
+
    - Username
    - First name
    - Last name
@@ -27,10 +28,12 @@ A global search modal accessible from the TopBar that allows users to search for
 ### Actions
 
 **User Results:**
+
 - Click row → Navigate to `/profile/:username`
 - Click message icon → Open DM with that user
 
 **Post Results:**
+
 - Click row → Navigate to post author's profile
 
 ## Implementation
@@ -50,16 +53,16 @@ frontend/src/components/layout/TopBar/SearchModal/
 // TopBar.jsx
 const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-<div 
-  className="icon-placeholder icon-search" 
+<div
+  className="icon-placeholder icon-search"
   onClick={() => setIsSearchOpen(true)}
 >
   {/* Targeting reticle icon */}
 </div>
 
-<SearchModal 
-  isOpen={isSearchOpen} 
-  onClose={() => setIsSearchOpen(false)} 
+<SearchModal
+  isOpen={isSearchOpen}
+  onClose={() => setIsSearchOpen(false)}
 />
 ```
 
@@ -72,23 +75,32 @@ const { openMessages } = useMessages();
 ```
 
 The search combines:
+
 1. Friends from FriendsContext
 2. Post authors extracted from PostsContext
 
 ### Search Logic
 
 ```jsx
-const filteredUsers = query ? allUsers.filter(user => 
-  user.username?.toLowerCase().includes(query) ||
-  user.first_name?.toLowerCase().includes(query) ||
-  user.last_name?.toLowerCase().includes(query) ||
-  user.displayName?.toLowerCase().includes(query)
-) : [];
+const filteredUsers = query
+  ? allUsers.filter(
+      (user) =>
+        user.username?.toLowerCase().includes(query) ||
+        user.first_name?.toLowerCase().includes(query) ||
+        user.last_name?.toLowerCase().includes(query) ||
+        user.displayName?.toLowerCase().includes(query)
+    )
+  : [];
 
-const filteredPosts = query ? posts.filter(post =>
-  post.content?.toLowerCase().includes(query) ||
-  post.author?.username?.toLowerCase().includes(query)
-).slice(0, 10) : []; // Limit to 10 posts
+const filteredPosts = query
+  ? posts
+      .filter(
+        (post) =>
+          post.content?.toLowerCase().includes(query) ||
+          post.author?.username?.toLowerCase().includes(query)
+      )
+      .slice(0, 10)
+  : []; // Limit to 10 posts
 ```
 
 ## Styling
@@ -96,6 +108,7 @@ const filteredPosts = query ? posts.filter(post =>
 ### Design Pattern
 
 Reuses MessageModal design patterns:
+
 - Blurred overlay backdrop
 - Cyberpunk search input with clip-path
 - Glowing scrollbar
@@ -109,11 +122,11 @@ Reuses MessageModal design patterns:
 
 ### Responsive
 
-| Width | Behavior |
-| ----- | -------- |
+| Width   | Behavior                    |
+| ------- | --------------------------- |
 | > 768px | Centered modal with padding |
-| ≤ 768px | Near-full width modal |
-| ≤ 480px | Full screen modal |
+| ≤ 768px | Near-full width modal       |
+| ≤ 480px | Full screen modal           |
 
 ## Keyboard Navigation
 

@@ -86,16 +86,10 @@ function Login() {
     <div className="login-container">
       <div className="login-card">
         <button onClick={() => navigate('/')} className="back-button" title="Back to Home">
-          <svg width="44" height="44" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 2L25.5 8.5V19.5L14 26L2.5 19.5V8.5L14 2Z" stroke="url(#hex-gradient)" strokeWidth="1.5" fill="none"/>
-            <path d="M16 10L11 14L16 18" stroke="url(#arrow-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 6L9 12L15 18" stroke="url(#arrow-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             <defs>
-              <linearGradient id="hex-gradient" x1="0" y1="0" x2="28" y2="28">
-                <stop offset="0%" stopColor="#6366f1" stopOpacity="0.7"/>
-                <stop offset="50%" stopColor="#a855f7" stopOpacity="0.5"/>
-                <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.7"/>
-              </linearGradient>
-              <linearGradient id="arrow-gradient" x1="10" y1="10" x2="18" y2="18">
+              <linearGradient id="arrow-gradient" x1="8" y1="6" x2="16" y2="18">
                 <stop offset="0%" stopColor="#6366f1"/>
                 <stop offset="100%" stopColor="#a855f7"/>
               </linearGradient>

@@ -38,19 +38,20 @@ A unified `.close-btn-glow` CSS class provides consistent X close buttons across
   color: rgba(255, 77, 109, 0.8);
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   svg {
     width: 26px;
     height: 26px;
     filter: drop-shadow(0 0 4px rgba(255, 77, 109, 0.4));
   }
-  
+
   &:hover {
     color: #ff4d6d;
-    
+
     svg {
-      filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.8))
-              drop-shadow(0 0 20px rgba(255, 77, 109, 0.5));
+      filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.8)) drop-shadow(
+          0 0 20px rgba(255, 77, 109, 0.5)
+        );
       transform: rotate(90deg);
     }
   }
@@ -65,7 +66,7 @@ A unified `.close-btn-glow` CSS class provides consistent X close buttons across
     color: rgba(200, 30, 60, 0.8) !important;
     z-index: 10 !important;
     pointer-events: auto !important;
-    
+
     &:hover {
       color: #c81e3c !important;
     }
@@ -77,22 +78,29 @@ A unified `.close-btn-glow` CSS class provides consistent X close buttons across
 
 ```jsx
 <button className="close-btn-glow" onClick={onClose}>
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <line x1="18" y1="6" x2="6" y2="18"/>
-    <line x1="6" y1="6" x2="18" y2="18"/>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 </button>
 ```
 
 ## Components Using This Class
 
-| Component         | File Location                                           |
-| ----------------- | ------------------------------------------------------- |
-| MessageModal      | `layout/TopBar/MessageModal/MessageModal.jsx`           |
-| SearchModal       | `layout/TopBar/SearchModal/SearchModal.jsx`             |
-| ComposerModal     | `pages/Profile/components/ComposerModal/ComposerModal.jsx` |
-| MediaLightbox     | `pages/Home/components/MediaLightbox/MediaLightbox.jsx` |
-| TimelineRiver     | `pages/Profile/components/TimelineRiver/TimelineRiver.jsx` |
+| Component     | File Location                                              |
+| ------------- | ---------------------------------------------------------- |
+| MessageModal  | `layout/TopBar/MessageModal/MessageModal.jsx`              |
+| SearchModal   | `layout/TopBar/SearchModal/SearchModal.jsx`                |
+| ComposerModal | `pages/Profile/components/ComposerModal/ComposerModal.jsx` |
+| MediaLightbox | `pages/Home/components/MediaLightbox/MediaLightbox.jsx`    |
+| TimelineRiver | `pages/Profile/components/TimelineRiver/TimelineRiver.jsx` |
 
 ## Migration Notes
 

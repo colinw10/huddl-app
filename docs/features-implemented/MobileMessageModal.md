@@ -9,11 +9,12 @@ The MessageModal has been enhanced for mobile devices with a panel-toggling syst
 ### Mobile View State
 
 A `mobileView` state with two values controls which panel is visible:
+
 - `'list'` - Shows conversation list
 - `'chat'` - Shows active chat
 
 ```jsx
-const [mobileView, setMobileView] = useState('list');
+const [mobileView, setMobileView] = useState("list");
 ```
 
 ### Back Button Navigation
@@ -21,12 +22,16 @@ const [mobileView, setMobileView] = useState('list');
 On mobile, a back arrow appears in the chat header to return to the conversation list:
 
 ```jsx
-<button 
-  className="chat-back-btn"
-  onClick={() => setMobileView('list')}
->
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="15 18 9 12 15 6"/>
+<button className="chat-back-btn" onClick={() => setMobileView("list")}>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <polyline points="15 18 9 12 15 6" />
   </svg>
 </button>
 ```
@@ -34,6 +39,7 @@ On mobile, a back arrow appears in the chat header to return to the conversation
 ### Conversation Search/Filter
 
 Users can search conversations by:
+
 - Display name
 - Username
 - Message content
@@ -41,12 +47,12 @@ Users can search conversations by:
 ```jsx
 const filteredConversations = conversations.filter((conv) => {
   if (!searchQuery.trim()) return true;
-  
+
   const query = searchQuery.toLowerCase();
   if (conv.user.displayName?.toLowerCase().includes(query)) return true;
   if (conv.user.username?.toLowerCase().includes(query)) return true;
-  
-  const hasMatchingMessage = conv.messages?.some(msg => 
+
+  const hasMatchingMessage = conv.messages?.some((msg) =>
     msg.text?.toLowerCase().includes(query)
   );
   return hasMatchingMessage;
@@ -78,11 +84,11 @@ The overlay now uses `z-index: 9999` to ensure it covers the bottom navbar on mo
 
 ### File Locations
 
-| File | Description |
-| ---- | ----------- |
-| `MessageModal.jsx` | React component with mobile state logic |
+| File                      | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `MessageModal.jsx`        | React component with mobile state logic   |
 | `styles/_responsive.scss` | Mobile-specific CSS including back button |
-| `styles/_light-mode.scss` | Light mode styles for back button |
+| `styles/_light-mode.scss` | Light mode styles for back button         |
 
 ### CSS Classes
 
@@ -98,9 +104,9 @@ The overlay now uses `z-index: 9999` to ensure it covers the bottom navbar on mo
 
 ## Responsive Breakpoints
 
-| Width | Behavior |
-| ----- | -------- |
-| > 768px | Desktop: side-by-side panels |
+| Width   | Behavior                         |
+| ------- | -------------------------------- |
+| > 768px | Desktop: side-by-side panels     |
 | ≤ 768px | Mobile: single panel with toggle |
 
 ## Light Mode
@@ -113,7 +119,7 @@ The back button has light mode styles for proper visibility:
     background: transparent !important;
     border: none !important;
     color: rgba(0, 0, 0, 0.6) !important;
-    
+
     &:hover {
       color: rgba(0, 0, 0, 0.8) !important;
     }

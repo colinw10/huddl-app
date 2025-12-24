@@ -15,27 +15,29 @@ On mobile devices (≤768px), the profile timeline's three-column layout transfo
 
 ### Color Coding
 
-| Tab | Icon | Active Color | Description |
-| --- | ---- | ------------ | ----------- |
-| Thoughts | Chat bubble | Blue `rgba(77, 171, 247, 1)` | Text posts |
-| Media | Image icon | Magenta `rgba(233, 78, 200, 1)` | Photos/videos |
-| Milestones | Checkmark | Gold `rgba(255, 215, 0, 1)` | Achievements |
+| Tab        | Icon        | Active Color                    | Description   |
+| ---------- | ----------- | ------------------------------- | ------------- |
+| Thoughts   | Chat bubble | Blue `rgba(77, 171, 247, 1)`    | Text posts    |
+| Media      | Image icon  | Magenta `rgba(233, 78, 200, 1)` | Photos/videos |
+| Milestones | Checkmark   | Gold `rgba(255, 215, 0, 1)`     | Achievements  |
 
 ## Implementation
 
 ### State Management
 
 ```jsx
-const [mobileCategory, setMobileCategory] = useState('thoughts');
+const [mobileCategory, setMobileCategory] = useState("thoughts");
 ```
 
 ### JSX Structure
 
 ```jsx
 <div className="mobile-category-tabs">
-  <button 
-    className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
-    onClick={() => setMobileCategory('thoughts')}
+  <button
+    className={`mobile-category-tab ${
+      mobileCategory === "thoughts" ? "active" : ""
+    }`}
+    onClick={() => setMobileCategory("thoughts")}
   >
     <svg>...</svg>
     <span>Thoughts</span>
@@ -87,7 +89,7 @@ CSS classes control which column is shown:
     border: 1px solid var(--border-subtle);
     margin-bottom: var(--space-lg);
   }
-  
+
   .mobile-category-tab {
     flex: 1;
     display: flex;
@@ -101,7 +103,7 @@ CSS classes control which column is shown:
     color: var(--text-muted);
     /* ... */
   }
-  
+
   .mobile-category-tab.active {
     background: rgba(255, 255, 255, 0.08);
     border-color: var(--border-default);
@@ -136,7 +138,7 @@ Full light mode support with adjusted colors:
     background: rgba(0, 0, 0, 0.03);
     border-color: rgba(0, 0, 0, 0.08);
   }
-  
+
   .mobile-category-tab:nth-child(1).active {
     border-color: rgba(26, 91, 199, 0.4);
     color: #1a5bc7;
@@ -148,6 +150,7 @@ Full light mode support with adjusted colors:
 ## Replaces Previous System
 
 Previously, mobile showed all columns stacked vertically with inline labels. The new tab system:
+
 - Saves vertical space
 - Provides clearer navigation
 - Matches common mobile UI patterns
