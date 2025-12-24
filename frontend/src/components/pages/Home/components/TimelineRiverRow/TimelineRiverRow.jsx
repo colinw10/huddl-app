@@ -3,10 +3,11 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import './TimelineRiverRow.scss';
 import MediaLightbox from '../MediaLightbox/MediaLightbox';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
-import { useAuth, usePosts } from '../../../../../contexts';
+import { useAuth, usePosts, useMessages } from '../../../../../contexts';
 
 // Helper function to format relative time (e.g., "2h ago", "3d ago")
 const formatRelativeTime = (dateString) => {
@@ -36,6 +37,19 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const { user } = rowData;
   const { user: currentUser } = useAuth();
   const { posts, fetchReplies, createReply, deletePost, updatePost, likePost, sharePost } = usePosts();
+  const { openMessages } = useMessages(); // 🔵 For DM button on posts
+  const navigate = useNavigate(); // 🔵 For profile navigation
+  
+  // Navigate to user's profile when clicking their name/avatar
+  const handleUserClick = (e, userId, username) => {
+    e.stopPropagation();
+    // If it's the current user, go to /profile, otherwise go to /profile/:username
+    if (currentUser?.id === userId || currentUser?.username === username) {
+      navigate('/profile');
+    } else {
+      navigate(`/profile/${username}`);
+    }
+  };
   
   // Get fresh post data from context (rowData may have stale snapshots)
   const getFreshPost = (postId) => posts.find(p => p.id === postId);
@@ -230,13 +244,23 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
       >
         {/* Header: Avatar + Name + Type Badge */}
         <div className="river-post-header">
-          <div className="river-avatar"> { /* SVG icon */ }
+          <div 
+            className="river-avatar clickable-user" 
+            onClick={(e) => handleUserClick(e, user.id, user.username)}
+            title={`View ${user.name}'s profile`}
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
           </div>
           <div className="river-post-info">
-            <div className="river-author">{user.name}</div>
+            <div 
+              className="river-author clickable-user"
+              onClick={(e) => handleUserClick(e, user.id, user.username)}
+              title={`View ${user.name}'s profile`}
+            >
+              {user.name}
+            </div>
             <div className="river-meta">
               <span className="river-timestamp">{formatRelativeTime(post.created_at || post.createdAt)}</span>
             </div>
@@ -320,6 +344,28 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
             </svg>
           </button>
+          
+          {/* 🔵 Message button - only show on OTHER people's posts */}
+          {currentUser && post.author?.id !== currentUser.id && (
+            <button 
+              className="river-action-btn river-action-btn--message" 
+              title={`Message ${post.author?.username || 'user'}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                // Open message modal with this user pre-selected
+                openMessages({
+                  id: post.author?.id,
+                  username: post.author?.username,
+                  displayName: post.author?.username, // Can be enhanced with full name if available
+                });
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,0.5)" strokeWidth="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                <line x1="9" y1="10" x2="15" y2="10"/>
+              </svg>
+            </button>
+          )}
           
           {/* Analytics, Edit & Delete - only for your own posts */}
           {currentUser && post.author?.id === currentUser.id && (

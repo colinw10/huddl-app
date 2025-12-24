@@ -1,13 +1,74 @@
 // 🔵 PABLO - UI Architect
 // MessageModal.jsx - Full-screen messaging modal with blurred backdrop
+//
+// This component now:
+// 1. Uses MessageContext for state (conversations, messages)
+// 2. Clicking a conversation in the sidebar switches the active chat
+// 3. Typing and clicking send actually adds messages
+// 4. Shows real messages from context state
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useMessages } from '../../../../contexts/MessageContext';
 import './MessageModal.scss';
 
+// 🔵 Helper: Format relative time (e.g., "2m", "1h", "3d")
+const formatRelativeTime = (date) => {
+  if (!date) return '';
+  const now = new Date();
+  const diffMs = now - new Date(date);
+  const diffMinutes = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMinutes < 1) return 'now';
+  if (diffMinutes < 60) return `${diffMinutes}m`;
+  if (diffHours < 24) return `${diffHours}h`;
+  return `${diffDays}d`;
+};
+
+// 🔵 Helper: Format message timestamp (e.g., "2:30 PM")
+const formatMessageTime = (date) => {
+  if (!date) return '';
+  return new Date(date).toLocaleTimeString('en-US', { 
+    hour: 'numeric', 
+    minute: '2-digit',
+    hour12: true 
+  });
+};
+
+// 🔵 Helper: Get initials from display name
+const getInitials = (name) => {
+  if (!name) return '?';
+  const parts = name.split(' ');
+  if (parts.length >= 2) {
+    return parts[0][0] + parts[1][0];
+  }
+  return name[0];
+};
+
 function MessageModal({ onClose }) {
+  // 🔵 Get state and actions from context
+  const { 
+    conversations, 
+    selectedConversationId, 
+    selectedConversation,
+    selectConversation, 
+    sendMessage 
+  } = useMessages();
+  
+  // 🔵 Local state for the text input
   const [messageText, setMessageText] = useState('');
   
-  // Calculate charge level (0-4) based on message length
+  // 🔵 Ref for scrolling to bottom of messages
+  const messagesEndRef = useRef(null);
+  
+  // 🔵 Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [selectedConversation?.messages]);
+  
+  // 🔵 Calculate charge level (0-4) based on message length
+  // This creates the "charging up" visual effect on the send button
   const getChargeLevel = () => {
     const len = messageText.length;
     if (len === 0) return 0;
@@ -15,6 +76,25 @@ function MessageModal({ onClose }) {
     if (len < 30) return 2;
     if (len < 60) return 3;
     return 4; // Fully charged
+  };
+  
+  // 🔵 Handle sending a message
+  const handleSend = () => {
+    if (!messageText.trim()) return;
+    
+    // Call context function to add message
+    sendMessage(messageText);
+    
+    // Clear the input
+    setMessageText('');
+  };
+  
+  // 🔵 Handle Enter key to send (Shift+Enter for newline)
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
   
   return (
@@ -43,107 +123,120 @@ function MessageModal({ onClose }) {
               />
             </div>
             <div className="conversations-list">
-              {/* Conversations */}
-              <div className="conversation-item active">
-                <img 
-                  src="https://ustoa.com/blog/wp-content/uploads/2019/07/northern-lights2-1024x678.jpg" 
-                  alt="Pablo Cordero" 
-                  className="conversation-avatar-img"
-                />
-                <div className="conversation-info">
-                  <span className="conversation-name">Pablo Cordero</span>
-                  <span className="conversation-preview">Hey! Are you coming to...</span>
+              {/* 🔵 Map through conversations from context */}
+              {conversations.map((conv) => {
+                const lastMessage = conv.messages[conv.messages.length - 1];
+                const isActive = conv.id === selectedConversationId;
+                
+                return (
+                  <div 
+                    key={conv.id}
+                    className={`conversation-item ${isActive ? 'active' : ''}`}
+                    onClick={() => selectConversation(conv.id)}
+                  >
+                    {/* Avatar - show initials */}
+                    <div className="conversation-avatar">
+                      <span className="initial-1">{getInitials(conv.user.displayName)[0]}</span>
+                      {getInitials(conv.user.displayName).length > 1 && (
+                        <span className="initial-2">{getInitials(conv.user.displayName)[1]}</span>
+                      )}
+                    </div>
+                    <div className="conversation-info">
+                      <span className="conversation-name">{conv.user.displayName}</span>
+                      <span className="conversation-preview">
+                        {lastMessage ? lastMessage.text.substring(0, 30) + (lastMessage.text.length > 30 ? '...' : '') : 'No messages yet'}
+                      </span>
+                    </div>
+                    <span className="conversation-time">
+                      {formatRelativeTime(conv.lastMessageTime)}
+                    </span>
+                  </div>
+                );
+              })}
+              
+              {/* Empty state */}
+              {conversations.length === 0 && (
+                <div className="conversations-empty">
+                  <p>No conversations yet</p>
+                  <p className="empty-hint">Message someone from their post!</p>
                 </div>
-                <span className="conversation-time">2m</span>
-              </div>
-              <div className="conversation-item">
-                <div className="conversation-avatar"><span className="initial-1">A</span><span className="initial-2">B</span></div>
-                <div className="conversation-info">
-                  <span className="conversation-name">Arthur Bernier</span>
-                  <span className="conversation-preview">That sounds great!</span>
-                </div>
-                <span className="conversation-time">1h</span>
-              </div>
-              <div className="conversation-item">
-                <div className="conversation-avatar"><span className="initial-1">J</span><span className="initial-2">M</span></div>
-                <div className="conversation-info">
-                  <span className="conversation-name">Joshua Miller</span>
-                  <span className="conversation-preview">See you there!</span>
-                </div>
-                <span className="conversation-time">3h</span>
-              </div>
-              <div className="conversation-item">
-                <div className="conversation-avatar"><span className="initial-1">N</span><span className="initial-2">P</span></div>
-                <div className="conversation-info">
-                  <span className="conversation-name">Natalia P</span>
-                  <span className="conversation-preview">Can't wait 🎉</span>
-                </div>
-                <span className="conversation-time">5h</span>
-              </div>
-              <div className="conversation-item">
-                <div className="conversation-avatar"><span className="initial-1">C</span><span className="initial-2">W</span></div>
-                <div className="conversation-info">
-                  <span className="conversation-name">Colin Weir</span>
-                  <span className="conversation-preview">Let's build something cool</span>
-                </div>
-                <span className="conversation-time">1d</span>
-              </div>
-              <div className="conversation-item">
-                <div className="conversation-avatar"><span className="initial-1">T</span></div>
-                <div className="conversation-info">
-                  <span className="conversation-name">Tito</span>
-                  <span className="conversation-preview">🔥🔥🔥</span>
-                </div>
-                <span className="conversation-time">2d</span>
-              </div>
-              <div className="conversation-item">
-                <div className="conversation-avatar"><span className="initial-1">C</span><span className="initial-2">R</span></div>
-                <div className="conversation-info">
-                  <span className="conversation-name">Crystal Ruiz</span>
-                  <span className="conversation-preview">Thanks for the help!</span>
-                </div>
-                <span className="conversation-time">3d</span>
-              </div>
+              )}
             </div>
           </div>
 
           {/* Right: Chat View */}
           <div className="message-chat">
-            <div className="chat-header">
-              <div className="chat-user-info">
-                <img 
-                  src="https://ustoa.com/blog/wp-content/uploads/2019/07/northern-lights2-1024x678.jpg" 
-                  alt="Pablo Cordero" 
-                  className="chat-avatar-img"
-                />
-                <span className="chat-username">Pablo Cordero</span>
+            {selectedConversation ? (
+              <>
+                {/* Chat Header */}
+                <div className="chat-header">
+                  <div className="chat-user-info">
+                    <div className="chat-avatar">
+                      <span className="initial-1">{getInitials(selectedConversation.user.displayName)[0]}</span>
+                      {getInitials(selectedConversation.user.displayName).length > 1 && (
+                        <span className="initial-2">{getInitials(selectedConversation.user.displayName)[1]}</span>
+                      )}
+                    </div>
+                    <span className="chat-username">{selectedConversation.user.displayName}</span>
+                  </div>
+                </div>
+                
+                {/* Messages */}
+                <div className="chat-messages">
+                  {selectedConversation.messages.map((msg) => (
+                    <div 
+                      key={msg.id} 
+                      className={`chat-message ${msg.sender === 'me' ? 'sent' : 'received'}`}
+                    >
+                      <p>{msg.text}</p>
+                      <span className="message-time">{formatMessageTime(msg.timestamp)}</span>
+                    </div>
+                  ))}
+                  
+                  {/* Empty conversation state */}
+                  {selectedConversation.messages.length === 0 && (
+                    <div className="chat-empty">
+                      <p>Start a conversation with {selectedConversation.user.displayName}</p>
+                    </div>
+                  )}
+                  
+                  {/* Scroll anchor */}
+                  <div ref={messagesEndRef} />
+                </div>
+                
+                {/* Composer */}
+                <div className="chat-composer">
+                  <textarea 
+                    placeholder="Type a message..." 
+                    className="chat-textarea"
+                    rows="1"
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                  <button 
+                    className={`chat-send-btn charge-${getChargeLevel()}`}
+                    onClick={handleSend}
+                    disabled={!messageText.trim()}
+                  >
+                    <svg className="send-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 6 15 12 9 18"/>
+                    </svg>
+                  </button>
+                </div>
+              </>
+            ) : (
+              /* No conversation selected state */
+              <div className="chat-no-selection">
+                <div className="no-selection-icon">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.4)" strokeWidth="1.5">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <p>Select a conversation</p>
+                <p className="no-selection-hint">or message someone from their post</p>
               </div>
-            </div>
-            <div className="chat-messages">
-              {/* Messages */}
-              <div className="chat-message received">
-                <p>Hey! Are you coming to the meetup tonight?</p>
-                <span className="message-time">2:30 PM</span>
-              </div>
-              <div className="chat-message sent">
-                <p>Yes! I'll be there around 7</p>
-                <span className="message-time">2:32 PM</span>
-              </div>
-            </div>
-            <div className="chat-composer">
-              <textarea 
-                placeholder="Type a message..." 
-                className="chat-textarea"
-                rows="1"
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-              />
-              <button className={`chat-send-btn charge-${getChargeLevel()}`}>
-                <svg className="send-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 6 15 12 9 18"/>
-                </svg>
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </div>

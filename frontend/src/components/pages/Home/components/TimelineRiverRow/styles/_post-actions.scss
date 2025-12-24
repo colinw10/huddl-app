@@ -79,3 +79,12 @@
   stroke: rgba(255, 82, 82, 1);
 }
 
+/* Message button hover - cyan glow (matches neon theme) */
+.river-action-btn--message:hover {
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
+}
+
+.river-action-btn--message:hover svg {
+  stroke: rgba(0, 212, 255, 1);
+}
+

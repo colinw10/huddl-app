@@ -1133,6 +1133,8 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 **Layout Components:**
 
 - `frontend/src/App.jsx`
+  - **Note:** Contains routes for both `/profile` (own) and `/profile/:username` (others)
+  - Profile navigation uses React Router's `useParams()` to detect which user to show
 - `frontend/src/components/layout/TopBar/TopBar.jsx`
 - `frontend/src/components/layout/TopBar/MessageModal/MessageModal.jsx`
 - `frontend/src/components/layout/SideNav/SideNav.jsx`
@@ -1145,20 +1147,30 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 - `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`
 - `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`
 - `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`
+  - **Note:** Usernames and avatars are clickable → navigate to user's profile
+  - Uses `handleUserClick()` with `useNavigate()` from React Router
+  - CSS classes: `.clickable-user` with hover glow effects
 
 **Profile Page System:**
 
 - `frontend/src/components/pages/Profile/Profile.jsx`
+  - **Note:** Supports viewing own profile (`/profile`) AND other users (`/profile/:username`)
+  - Uses `useParams()` to detect which profile to show
+  - `isOwnProfile` flag controls conditional rendering of composer, toggle, edit/delete
+  - `profileUser` lookup from friends or post authors
 - `frontend/src/components/pages/Profile/components/ComposerModal/ComposerModal.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.jsx`
   - **Note:** SCSS includes responsive breakpoints (600px, 480px, 375px) for wave/heatmap toggle buttons
   - Toggle buttons scale down on mobile, activity meta hidden on very small screens
+  - Engagement values boosted: High=800-1500, Medium=400-800, Low=200-400
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/PostTypeBreakdown/PostTypeBreakdown.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardBack/ProfileCardBack.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront/ProfileCardFront.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/QuickSettings/QuickSettings.jsx`
 - `frontend/src/components/pages/Profile/components/TimelineRiver/TimelineRiver.jsx`
+  - **Note:** Accepts `isOwnProfile` prop to conditionally show edit/delete buttons
+  - Friends Feed headers are clickable → navigate to friend's profile
 
 **Other Pages:**
 

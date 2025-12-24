@@ -244,6 +244,7 @@ It's NOT pseudocode - team just needs to understand its purpose.
 
 **IMPORTANT UPDATE (Dec 2024):**
 Grouping changed from date+user to **USER ONLY** for "space economy":
+
 - OLD: Each row = one user + one date (same user appeared in multiple rows)
 - NEW: Each row = one user (ALL their posts in one row with carousel)
 - This enables carousel arrows (need 3+ posts per type per user)
@@ -297,6 +298,34 @@ See `docs/stretch-goals/` for implementation plans.
 - Activity meta: Hidden on screens ≤480px to prioritize toggle visibility
 - Wave chart container: Responsive padding/border-radius adjustments
 - CSS Location: `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.scss`
+
+**User Profile Navigation (Dec 2024):**
+
+- Users can click any username/avatar in the timeline to visit that user's profile
+- Route: `/profile/:username` added to App.jsx for viewing other users
+- Route: `/profile` remains for viewing your own profile
+- TimelineRiverRow.jsx: Added `handleUserClick()` with navigation logic
+- TimelineRiver.jsx (Profile): Added clickable friend headers in Friends Feed
+- CSS: `.clickable-user` and `.clickable-friend` classes with hover effects
+- Full documentation: `docs/features-implemented/UserProfileNavigation.md`
+
+**Profile Privacy Controls (Dec 2024):**
+
+- When viewing another user's profile, certain UI elements are hidden
+- `isOwnProfile` detection: `!profileUsername || profileUsername === currentUser?.username`
+- Hidden on other profiles: Post Composer, View Mode Toggle, Edit/Delete buttons
+- Profile.jsx: Added `useParams()`, `isOwnProfile` logic, `profileUser` lookup
+- TimelineRiver.jsx: Accepts `isOwnProfile` prop, conditionally renders action buttons
+- Full documentation: `docs/features-implemented/ProfilePrivacyControls.md`
+
+**Engagement Analytics Boost (Dec 2024):**
+
+- Heatmap activity levels boosted for better visual density
+- High tier: 800-1500 likes (was 400-800)
+- Medium tier: 400-800 likes (was 200-400)
+- Low tier: 200-400 likes (was 100-200)
+- `ANALYTICS_NOW` now uses live `Date.now()` instead of hardcoded date
+- Full documentation: `docs/features-implemented/EngagementAnalytics.md`
 
 ---
 

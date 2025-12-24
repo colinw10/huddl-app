@@ -9,7 +9,7 @@ import ProfileCardBack from './components/ProfileCardBack';
 
 // Fixed reference timestamp for consistent analytics calculations
 // This avoids React compiler warnings about impure functions during render
-const ANALYTICS_NOW = new Date('2025-12-21T00:00:00Z').getTime();
+const ANALYTICS_NOW = Date.now(); // Use current time for live heatmap
 
 function ProfileCard({ isFlipped, setIsFlipped, posts, user }) {
   const [viewMode, setViewMode] = useState('wave'); // 'wave' or 'heatmap'

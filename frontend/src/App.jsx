@@ -55,6 +55,7 @@ function AppContent() {
           {/* Protected Routes - require authentication */}
           <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+          <Route path="/profile/:username" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
           <Route path="/about" element={<ProtectedRoute><About/></ProtectedRoute>}/>
           <Route path="/friends" element={<ProtectedRoute><Friends/></ProtectedRoute>}/>
           {/* 404 Catch-all - must be last */}

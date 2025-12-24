@@ -320,6 +320,7 @@ The wave chart and heatmap use these metrics to visualize user activity.
 Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 
 **RIVER TIMELINE "SPACE ECONOMY":**
+
 - Posts grouped BY USER (not by date!) in groupPosts.js
 - Each user = ONE row with carousel navigation
 - Need 3+ posts per type per user for carousel arrows
@@ -1157,6 +1158,7 @@ Collaborative files - each person adds exactly ONE thing
 - `is_liked` → Heart icon state (filled/empty) in TimelineRiverRow
 
 **RIVER TIMELINE "SPACE ECONOMY":**
+
 - groupPosts.js groups posts BY USER (not by date!)
 - Each user = ONE row with carousel navigation
 - Need 3+ posts per type per user for carousel arrows

@@ -151,6 +151,24 @@
   background-clip: text;
 }
 
+/* Clickable user elements (avatar & username) - navigate to profile */
+.clickable-user {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    filter: drop-shadow(0 0 8px var(--cyan));
+    transform: scale(1.05);
+  }
+}
+
+.river-author.clickable-user:hover {
+  background: linear-gradient(180deg, var(--cyan) 22%, rgba(79, 255, 255, 0.699) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .river-meta {
   display: flex;
   align-items: center;

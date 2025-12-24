@@ -41,6 +41,11 @@ export const groupPostsByUserAndDay = (posts) => {
         user: {
           id: oderId,
           name: authorName,
+          username:
+            authorObj?.username ||
+            (typeof post.author === "string" ? post.author : null),
+          first_name: authorObj?.first_name || "",
+          last_name: authorObj?.last_name || "",
           avatar: post.avatar || getInitials(authorObj || post.author),
         },
         thoughts: [],

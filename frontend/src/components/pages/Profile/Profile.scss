@@ -124,6 +124,29 @@
   padding: 0 20px;
 }
 
+/* Profile header label for viewing other users */
+.profile-header-label {
+  max-width: 1400px;
+  margin: 16px auto 24px;
+  padding: 0 20px;
+  text-align: center;
+  
+  .other-user-label {
+    font-family: var(--font-title);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    
+    .profile-icon {
+      font-size: 24px;
+    }
+  }
+}
+
 @media (min-width: 1600px) {
   .view-mode-toggle {
     max-width: 1600px;

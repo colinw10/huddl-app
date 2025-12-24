@@ -1074,6 +1074,7 @@ These files are pre-configured and should not be modified:
 - `backend/numeneon/wsgi.py`
 
 **seed_posts.py Structure (Dec 2024 update):**
+
 ```python
 # Creates 6 users × 9 posts each = 54 total posts
 # Each user has: 3 thoughts, 3 media, 3 milestones

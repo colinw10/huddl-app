@@ -13,8 +13,9 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
   const isAnimatingRef = useRef(false);
   const [replayGlitch, setReplayGlitch] = useState(false);
   
-  // Username IS the display name
-  const displayName = user?.username || 'User';
+  // Build display name from first + last name, fallback to username
+  const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(' ');
+  const displayName = fullName || user?.username || 'Loading...';
   
   // Track letter hovers - when all letters are hovered, trigger replay
   const handleLetterHover = (index) => {
@@ -115,19 +116,21 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
             <h1 className={`profile-display-name profile-display-name--interactive ${replayGlitch === 'reset' ? 'profile-display-name--reset' : ''} ${replayGlitch === 'replay' ? 'profile-display-name--replay' : ''}`}>
               {renderInteractiveName()}
             </h1>
-            <span className="profile-handle">@pabloPistola</span>
-            <div className="profile-location">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-              <span>Brooklyn, NY</span>
-            </div>
+            <span className="profile-handle">@{user?.username || 'user'}</span>
+            {user?.profile?.location && (
+              <div className="profile-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>{user.profile.location}</span>
+              </div>
+            )}
           </div>
 
           {/* Bio Section */}
           <div className="profile-bio">
-            <p>A Sentient Android | Being Human</p>
+            <p>{user?.profile?.bio || 'No bio yet'}</p>
           </div>
         </div>
 
@@ -135,13 +138,15 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
         <div className="profile-right-column">
           {/* Profile Details - Each on Own Row */}
           <div className="profile-details">
-            <div className="profile-detail-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-              </svg>
-              <a href="https://github.com/pablodcordero" target="_blank" rel="noopener noreferrer">github.com/Cordero080</a>
-            </div>
+            {user?.profile?.website && (
+              <div className="profile-detail-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                <a href={user.profile.website} target="_blank" rel="noopener noreferrer">{user.profile.website.replace(/^https?:\/\//, '')}</a>
+              </div>
+            )}
             <div className="profile-detail-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -149,7 +154,7 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
                 <line x1="8" y1="2" x2="8" y2="6"/>
                 <line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
-              <span>Joined November 2024</span>
+              <span>Joined {user?.date_joined ? new Date(user.date_joined).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}</span>
             </div>
           </div>
           

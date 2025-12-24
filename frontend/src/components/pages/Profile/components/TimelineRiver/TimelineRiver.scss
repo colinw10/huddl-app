@@ -124,6 +124,107 @@
 /* Import global smart-deck styles for carousel navigation */
 @import '../../../Home/components/TimelineRiverRow/styles/_smart-deck';
 
+/* Standardized Post Action Buttons */
+.river-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 12px 8px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(201, 168, 255, 0.15);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+  border-radius: 0 0 12px 12px;
+  
+  .river-post-likes,
+  .river-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: 'sweet-square-pro', sans-serif;
+    font-size: 13px;
+    
+    svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  
+  .river-post-likes {
+    color: rgba(201, 168, 255, 0.7);
+    
+    &:hover {
+      color: #c9a8ff;
+      svg path {
+        stroke: #c9a8ff;
+        filter: drop-shadow(0 0 6px rgba(201, 168, 255, 0.6));
+      }
+    }
+    
+    &.is-liked {
+      color: #3b82f6;
+      svg path {
+        fill: #3b82f6;
+        stroke: #3b82f6;
+        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+      }
+    }
+  }
+  
+  .river-action-btn {
+    color: rgba(201, 168, 255, 0.5);
+    
+    &:hover {
+      color: #c9a8ff;
+      filter: drop-shadow(0 0 6px rgba(201, 168, 255, 0.5));
+    }
+    
+    &--edit:hover {
+      color: rgba(255, 193, 7, 0.9);
+      filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.5));
+    }
+    
+    &--delete:hover {
+      color: rgba(255, 82, 82, 0.9);
+      filter: drop-shadow(0 0 6px rgba(255, 82, 82, 0.5));
+    }
+    
+    &--message:hover {
+      color: rgba(0, 212, 255, 0.9);
+      filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.5));
+    }
+  }
+}
+
+/* My Post Actions - Edit/Delete instead of Message/Bookmark */
+.my-post-actions {
+  .river-action-btn--edit {
+    color: rgba(255, 193, 7, 0.6);
+  }
+  .river-action-btn--delete {
+    color: rgba(255, 82, 82, 0.6);
+  }
+}
+
+/* Friend Post Actions */
+.friend-post-actions {
+  .river-action-btn--message {
+    color: rgba(0, 212, 255, 0.5);
+  }
+}
+
 /* Friends Feed Rows - Each friend in their own row */
 .friends-feed-rows {
   display: flex;
@@ -151,6 +252,29 @@
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
   padding-left: var(--space-sm);
+}
+
+/* Clickable friend header - navigates to their profile */
+.friend-row-header.clickable-friend {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 8px;
+  
+  &:hover {
+    background: rgba(79, 255, 255, 0.08);
+    transform: translateX(4px);
+    
+    .friend-avatar {
+      border-color: var(--cyan);
+      box-shadow: 0 0 12px rgba(79, 255, 255, 0.4);
+    }
+    
+    .friend-name {
+      color: var(--cyan);
+      text-shadow: 0 0 8px rgba(79, 255, 255, 0.5);
+    }
+  }
 }
 
 .friend-avatar {
@@ -191,6 +315,100 @@
   color: rgba(255, 255, 255, 0.5);
   min-width: 30px;
   text-align: center;
+}
+
+/* ==============================================
+   FRIEND POST ACTION BUTTONS
+   Action buttons for the friends feed cards
+   ============================================== */
+
+.friend-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 10px;
+  margin-top: 8px;
+  position: relative;
+  gap: 4px;
+}
+
+/* Gradient separator line */
+.friend-post-actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.2) 20%,
+    rgba(167, 131, 255, 0.15) 50%,
+    rgba(0, 212, 255, 0.2) 80%,
+    transparent 100%
+  );
+}
+
+.friend-post-actions .river-post-likes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: rgba(201, 168, 255, 0.6);
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.friend-post-actions .river-post-likes:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+}
+
+.friend-post-actions .river-post-likes.is-liked {
+  color: #3b82f6;
+}
+
+.friend-post-actions .river-action-btn {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 11px;
+  color: rgba(201, 168, 255, 0.5);
+}
+
+.friend-post-actions .river-action-btn:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.friend-post-actions .river-action-btn:hover svg {
+  opacity: 1;
+}
+
+.friend-post-actions .river-action-btn:active {
+  transform: scale(0.95);
+}
+
+/* Message button hover - cyan glow */
+.friend-post-actions .river-action-btn--message:hover {
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
+}
+
+.friend-post-actions .river-action-btn--message:hover svg {
+  stroke: rgba(0, 212, 255, 1);
+}
+
+.friend-post-actions .reply-count {
+  font-size: 11px;
+  color: rgba(201, 168, 255, 0.6);
 }
 
 .left-stream {

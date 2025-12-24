@@ -308,3 +308,21 @@
 .conversation-item.active .conversation-time {
   color: rgba(26, 231, 132, 0.7);
 }
+
+/* Empty conversations state */
+.conversations-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: rgba(201, 168, 255, 0.5);
+  font-size: var(--font-size-sm);
+  gap: 0.5rem;
+}
+
+.conversations-empty .empty-hint {
+  font-size: var(--font-size-xs);
+  color: rgba(0, 212, 255, 0.4);
+}

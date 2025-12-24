@@ -646,6 +646,7 @@ import "./TimelineRiverFeed.scss";
 
 // ... Pablo's complete implementation follows (DO NOT MODIFY) ...
 ```
+
 ```
 
 ---
@@ -685,3 +686,4 @@ The ring is designed to eventually show real engagement data, but requires backe
 ---
 
 **NEXT:** Read `03-BACKEND-INSTRUCTIONS.md` for specific backend implementation tasks
+```
