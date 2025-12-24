@@ -1,9 +1,11 @@
 // 🔵 PABLO - UI Architect
 // TopBar.jsx - Top navigation bar component
 
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TopBar.scss';
 import MessageModal from './MessageModal/MessageModal';
+import SearchModal from './SearchModal/SearchModal';
 import { ThemeToggle } from '../../ui/ThemeToggle';
 import { useMessages, useAuth } from '../../../contexts';
 
@@ -11,6 +13,9 @@ function TopBar() {
   const { isMessageModalOpen, openMessages, closeMessages } = useMessages();
   const { logout, user } = useAuth();
   const navigate = useNavigate();
+  
+  // 🔵 Local state for search modal
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -30,7 +35,12 @@ function TopBar() {
         </div>
         <div className="top-bar-icons">
           <ThemeToggle />
-          <div className="icon-placeholder icon-search" title="Search">
+          <div 
+            className="icon-placeholder icon-search" 
+            title="Search"
+            onClick={() => setIsSearchOpen(true)}
+            style={{ cursor: 'pointer' }}
+          >
             {/* Targeting reticle */}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="8"/>
@@ -86,6 +96,12 @@ function TopBar() {
       {isMessageModalOpen && (
         <MessageModal onClose={closeMessages} />
       )}
+      
+      {/* Search Modal */}
+      <SearchModal 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+      />
     </>
   );
 }

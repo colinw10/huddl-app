@@ -29,17 +29,7 @@
     text-shadow: none !important;
   }
 
-  .message-modal-close {
-    background: rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
-    box-shadow: none !important;
-  }
-
-  .message-modal-close:hover {
-    background: rgba(0, 0, 0, 0.1) !important;
-    color: var(--color-error) !important;
-  }
+  /* Close button uses global .close-btn-glow light mode styles */
 
   .message-conversations {
     background: rgba(0, 0, 0, 0.02) !important;
@@ -208,5 +198,32 @@
   .chat-send-btn.charge-4 {
     color: var(--accent) !important;
     filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6)) !important;
+  }
+
+  /* Empty/No Selection States - light mode */
+  .chat-no-selection,
+  .chat-empty {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .chat-no-selection p,
+  .chat-empty p {
+    color: rgba(0, 0, 0, 0.65) !important;
+  }
+
+  .no-selection-hint,
+  .empty-hint {
+    color: rgba(0, 0, 0, 0.45) !important;
+  }
+  
+  /* Mobile back button - light mode */
+  .chat-back-btn {
+    background: transparent !important;
+    border: none !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+    
+    &:hover {
+      color: rgba(0, 0, 0, 0.8) !important;
+    }
   }
 }

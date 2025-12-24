@@ -56,7 +56,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
             {composerType === 'thought' ? 'Share Your Thoughts' : composerType === 'media' ? 'Post Media' : 'Add Milestone'}
           </h3>
           <button 
-            className="composer-close-btn"
+            className="close-btn-glow"
             onClick={() => setShowComposer(false)}
             aria-label="Close"
           >

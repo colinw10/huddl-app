@@ -18,17 +18,7 @@
     display: none !important;
   }
 
-  .media-lightbox-close {
-    background: rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
-    color: #666 !important;
-    box-shadow: none !important;
-  }
-
-  .media-lightbox-close:hover {
-    background: rgba(0, 0, 0, 0.1) !important;
-    color: #ff6b6b !important;
-  }
+  /* Close button uses global .close-btn-glow light mode styles */
   
   .media-lightbox-image-container {
     background: rgba(0, 0, 0, 0.03) !important;

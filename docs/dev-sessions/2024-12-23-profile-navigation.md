@@ -19,12 +19,14 @@
 ### Problem 1: "undefined's Timeline" and Empty Profile
 
 **Symptoms:**
+
 - Clicking a username navigated to `/profile/undefined`
 - Profile page showed "undefined" for name and username
 - No posts displayed on other users' profiles
 
 **Root Cause:**
 The `groupPosts.js` utility only stored partial user data:
+
 ```javascript
 // BEFORE - Missing username!
 user: {
@@ -38,6 +40,7 @@ When `TimelineRiverRow.jsx` called `navigate(/profile/${user.username})`, `user.
 
 **Solution:**
 Added complete user data to `groupPosts.js`:
+
 ```javascript
 // AFTER - All required fields
 user: {
@@ -51,6 +54,7 @@ user: {
 ```
 
 **Files Changed:**
+
 - `frontend/src/components/pages/Home/utils/groupPosts.js`
 
 ---
@@ -58,11 +62,13 @@ user: {
 ### Problem 2: Profile Bio/Location/Website Not Showing
 
 **Symptoms:**
+
 - Own profile showed "No bio yet" even though bio existed in database
 - Location and website were not displayed
 
 **Root Cause:**
 The backend returns nested profile data:
+
 ```json
 {
   "id": 1,
@@ -81,6 +87,7 @@ But `ProfileCardFront.jsx` was accessing `user?.bio` instead of `user?.profile?.
 
 **Solution:**
 Fixed data access paths:
+
 ```jsx
 // BEFORE
 {user?.bio || 'No bio yet'}
@@ -94,6 +101,7 @@ Fixed data access paths:
 ```
 
 **Files Changed:**
+
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront/ProfileCardFront.jsx`
 
 ---
@@ -101,12 +109,14 @@ Fixed data access paths:
 ### Problem 3: Hardcoded User Data
 
 **Symptoms:**
+
 - Every profile showed "@pabloPistola" as the handle
 - Location was always "Brooklyn, NY"
 - GitHub link was hardcoded
 
 **Root Cause:**
 `ProfileCardFront.jsx` had hardcoded values from initial development:
+
 ```jsx
 <span className="profile-handle">@pabloPistola</span>
 <span>Brooklyn, NY</span>
@@ -115,13 +125,19 @@ Fixed data access paths:
 
 **Solution:**
 Made all values dynamic:
+
 ```jsx
-<span className="profile-handle">@{user?.username || 'user'}</span>
-{user?.profile?.location && <span>{user.profile.location}</span>}
-{user?.profile?.website && <a href={user.profile.website}>...</a>}
+<span className="profile-handle">@{user?.username || "user"}</span>;
+{
+  user?.profile?.location && <span>{user.profile.location}</span>;
+}
+{
+  user?.profile?.website && <a href={user.profile.website}>...</a>;
+}
 ```
 
 **Files Changed:**
+
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront/ProfileCardFront.jsx`
 
 ---
@@ -129,6 +145,7 @@ Made all values dynamic:
 ### Problem 4: Profile User Lookup Failed
 
 **Symptoms:**
+
 - When navigating to `/profile/titod`, the profileUser was not found
 - Fallback showed empty first_name/last_name
 
@@ -136,6 +153,7 @@ Made all values dynamic:
 The `Profile.jsx` lookup order checked friends first, then posts. But for users who aren't friends yet, or when friends data hadn't loaded, it fell back to an empty object.
 
 **Solution:**
+
 1. Check posts first (they always have complete author data)
 2. Then check friends list
 3. Improved fallback to at least show the username from URL
@@ -143,21 +161,22 @@ The `Profile.jsx` lookup order checked friends first, then posts. But for users 
 ```javascript
 const profileUser = useMemo(() => {
   if (isOwnProfile) return currentUser;
-  
+
   // Posts have complete author data - check first
   const postMatch = posts.find(p => p.author?.username === profileUsername)?.author;
   if (postMatch) return postMatch;
-  
+
   // Friends list as backup
   const friendMatch = friends?.find(f => f.username === profileUsername);
   if (friendMatch) return friendMatch;
-  
+
   // Fallback - use username from URL
   return { username: profileUsername, first_name: profileUsername, last_name: '' };
 }, [...]);
 ```
 
 **Files Changed:**
+
 - `frontend/src/components/pages/Profile/Profile.jsx`
 
 ---
@@ -211,11 +230,11 @@ ProfileCardFront.jsx
 
 ## Files Modified (Summary)
 
-| File | Change |
-|------|--------|
-| `groupPosts.js` | Added username, first_name, last_name to user object |
-| `Profile.jsx` | Improved profileUser lookup, added loading state |
-| `ProfileCardFront.jsx` | Fixed data access paths, removed hardcoded values |
-| `TimelineRiverRow.jsx` | Added handleUserClick navigation |
-| `TimelineRiver.jsx` | Added isOwnProfile prop, clickable friend headers |
-| `App.jsx` | Added /profile/:username route |
+| File                   | Change                                               |
+| ---------------------- | ---------------------------------------------------- |
+| `groupPosts.js`        | Added username, first_name, last_name to user object |
+| `Profile.jsx`          | Improved profileUser lookup, added loading state     |
+| `ProfileCardFront.jsx` | Fixed data access paths, removed hardcoded values    |
+| `TimelineRiverRow.jsx` | Added handleUserClick navigation                     |
+| `TimelineRiver.jsx`    | Added isOwnProfile prop, clickable friend headers    |
+| `App.jsx`              | Added /profile/:username route                       |

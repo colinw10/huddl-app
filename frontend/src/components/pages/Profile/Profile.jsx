@@ -8,12 +8,13 @@ import './Profile.scss';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
 import TimelineRiver from './components/TimelineRiver';
-import { usePosts, useAuth, useFriends } from '../../../contexts';
+import { usePosts, useAuth, useFriends, useMessages } from '../../../contexts';
 
 function Profile() {
   const { posts, deletePost, updatePost, createPost } = usePosts();
   const { user: currentUser, isLoading: authLoading } = useAuth();
   const { friends } = useFriends();
+  const { openMessages } = useMessages();
   const { username: profileUsername } = useParams(); // Get username from URL if viewing someone else
   
   // Show loading state while auth is loading
@@ -167,13 +168,26 @@ function Profile() {
         </div>
       )}
       
-      {/* Viewing another user's profile - show their name */}
+      {/* Viewing another user's profile - show their name with message button */}
       {!isOwnProfile && (
         <div className="profile-header-label">
           <h2 className="other-user-label">
-            <span className="profile-icon">👤</span>
             {getDisplayName(profileUser)}'s Timeline
           </h2>
+          <button 
+            className="profile-message-btn"
+            onClick={() => openMessages({
+              id: profileUser?.id,
+              username: profileUser?.username,
+              displayName: getDisplayName(profileUser),
+            })}
+            title={`Message ${getDisplayName(profileUser)}`}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              <line x1="9" y1="10" x2="15" y2="10"/>
+            </svg>
+          </button>
         </div>
       )}
 

@@ -1,12 +1,15 @@
 // 🔵 PABLO - UI Architect
 // MediaLightbox.jsx - Fullscreen media viewer modal
 
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { usePosts } from '../../../../../contexts/PostsContext';
 import './MediaLightbox.scss';
 
 function MediaLightbox({ post, onClose, commentText, setCommentText }) {
-  const { likePost, sharePost } = usePosts();
+  const { likePost, sharePost, createReply } = usePosts();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [localReplies, setLocalReplies] = useState([]);
   
   if (!post) return null;
 
@@ -20,12 +23,28 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
     await sharePost(post.id);
   };
 
+  const handleCommentSubmit = async () => {
+    if (!commentText.trim() || isSubmitting) return;
+    
+    setIsSubmitting(true);
+    const result = await createReply(post.id, { content: commentText.trim(), type: 'thoughts' });
+    setIsSubmitting(false);
+    
+    if (result.success) {
+      // Add to local replies to show immediately
+      setLocalReplies(prev => [...prev, result.data]);
+      setCommentText('');
+      const textarea = document.querySelector('.lightbox-comment-input');
+      if (textarea) textarea.style.height = 'auto';
+    }
+  };
+
   // Use React Portal to render at document body level
   // This ensures the lightbox escapes all parent overflow/transform constraints
   return createPortal(
     <div className="media-lightbox-overlay" onClick={onClose}>
       <div className="media-lightbox-content" onClick={(e) => e.stopPropagation()}>
-        <button className="media-lightbox-close" onClick={onClose}>
+        <button className="close-btn-glow" onClick={onClose}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
@@ -112,28 +131,18 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
                     e.target.style.height = Math.min(e.target.scrollHeight, 80) + 'px';
                   }}
                   rows={1}
+                  disabled={isSubmitting}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
-                      if (commentText.trim()) {
-                        console.log('Comment posted:', commentText);
-                        setCommentText('');
-                        e.target.style.height = 'auto';
-                      }
+                      handleCommentSubmit();
                     }
                   }}
                 />
                 <button 
                   className="lightbox-comment-submit-btn"
-                  disabled={!commentText.trim()}
-                  onClick={() => {
-                    if (commentText.trim()) {
-                      console.log('Comment posted:', commentText);
-                      setCommentText('');
-                      const textarea = document.querySelector('.lightbox-comment-input');
-                      if (textarea) textarea.style.height = 'auto';
-                    }
-                  }}
+                  disabled={!commentText.trim() || isSubmitting}
+                  onClick={handleCommentSubmit}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 6 15 12 9 18"/>
@@ -142,20 +151,48 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
               </div>
             </div>
 
-            {/* Example Comments (placeholder) */}
+            {/* Comments List - shows real replies */}
             <div className="lightbox-comments-list">
-              <div className="lightbox-comment-item">
-                <div className="comment-composer-avatar">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
+              {/* Show post's existing replies if any */}
+              {post.replies && post.replies.length > 0 && post.replies.map(reply => (
+                <div key={reply.id} className="lightbox-comment-item">
+                  <div className="comment-composer-avatar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
+                  <div className="lightbox-comment-content">
+                    <div className="lightbox-comment-author">{reply.author?.username || 'User'}</div>
+                    <div className="lightbox-comment-text">{reply.content}</div>
+                    <div className="lightbox-comment-meta">
+                      {reply.created_at ? new Date(reply.created_at).toLocaleDateString() : 'Just now'}
+                    </div>
+                  </div>
                 </div>
-                <div className="lightbox-comment-content">
-                  <div className="lightbox-comment-author">John Doe</div>
-                  <div className="lightbox-comment-text">Amazing shot! 😍</div>
-                  <div className="lightbox-comment-meta">2h ago</div>
+              ))}
+              
+              {/* Show locally added replies (before page refresh) */}
+              {localReplies.map(reply => (
+                <div key={reply.id} className="lightbox-comment-item lightbox-comment-item--new">
+                  <div className="comment-composer-avatar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
+                  <div className="lightbox-comment-content">
+                    <div className="lightbox-comment-author">{reply.author?.username || 'You'}</div>
+                    <div className="lightbox-comment-text">{reply.content}</div>
+                    <div className="lightbox-comment-meta">Just now</div>
+                  </div>
                 </div>
-              </div>
+              ))}
+              
+              {/* Empty state */}
+              {(!post.replies || post.replies.length === 0) && localReplies.length === 0 && (
+                <div className="lightbox-comments-empty">
+                  No comments yet. Be the first!
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -169,3 +169,47 @@
     font-size: var(--font-size-md);
   }
 }
+
+// ============================================
+// GLOWING CLOSE BUTTON
+// Unified X button for all modals/overlays
+// Dark mode: Crimson/Magenta glow
+// Light mode: Darker red for visibility
+// ============================================
+
+.close-btn-glow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 77, 109, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+  
+  svg {
+    width: 26px;
+    height: 26px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 4px rgba(255, 77, 109, 0.4));
+  }
+  
+  &:hover {
+    color: #ff4d6d;
+    
+    svg {
+      filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.8))
+              drop-shadow(0 0 20px rgba(255, 77, 109, 0.5));
+      transform: rotate(90deg);
+    }
+  }
+  
+  &:active {
+    transform: scale(0.9);
+  }
+}

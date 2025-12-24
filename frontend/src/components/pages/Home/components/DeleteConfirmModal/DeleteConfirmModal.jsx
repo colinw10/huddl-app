@@ -3,7 +3,7 @@
 import { createPortal } from 'react-dom';
 import './DeleteConfirmModal.scss';
 
-function DeleteConfirmModal({ isOpen, onClose, onConfirm, isDeleting }) {
+function DeleteConfirmModal({ isOpen, onClose, onConfirm, isDeleting, title = "Delete Post?", message = "This can't be undone." }) {
   if (!isOpen) return null;
 
   return createPortal(
@@ -22,12 +22,12 @@ function DeleteConfirmModal({ isOpen, onClose, onConfirm, isDeleting }) {
               <line x1="19.5" y1="9.5" x2="22" y2="7" opacity="0.3"/>
             </svg>
           </div>
-          <h3 className="delete-modal-title">Delete Post?</h3>
+          <h3 className="delete-modal-title">{title}</h3>
         </div>
 
         {/* Body */}
         <p className="delete-modal-message">
-          This can't be undone.
+          {message}
         </p>
 
         {/* Footer */}

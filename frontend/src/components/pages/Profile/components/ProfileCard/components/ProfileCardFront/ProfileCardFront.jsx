@@ -7,7 +7,18 @@ import './ProfileCardFront.scss';
 // Color variants for interactive letters
 const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
 
-function ProfileCardFront({ setIsFlipped, posts, user }) {
+// Helper to get initials from user
+const getInitials = (user) => {
+  if (!user) return '??';
+  const first = user.first_name?.[0] || '';
+  const last = user.last_name?.[0] || '';
+  if (first && last) return `${first}${last}`.toUpperCase();
+  if (first) return first.toUpperCase();
+  if (user.username) return user.username.slice(0, 2).toUpperCase();
+  return '??';
+};
+
+function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
   // Track which letters have been hovered (for "hover all" replay)
   const hoveredRef = useRef(new Set());
   const isAnimatingRef = useRef(false);
@@ -170,6 +181,14 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
 
       {/* Action Icons - Right Side */}
       <div className="profile-actions-pill">
+        {/* Save button - only on other users' profiles */}
+        {!isOwnProfile && (
+          <button className="action-icon-btn save-btn" title="Save Profile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
+        )}
         <button className="action-icon-btn share-btn" title="Share Profile">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="18" cy="5" r="3"/>
@@ -179,18 +198,23 @@ function ProfileCardFront({ setIsFlipped, posts, user }) {
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
           </svg>
         </button>
-        <button className="action-icon-btn more-btn" title="More Options">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="1"/>
-            <circle cx="19" cy="12" r="1"/>
-            <circle cx="5" cy="12" r="1"/>
-          </svg>
-        </button>
-        <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-        </button>
+        {/* More options & Analytics - only on own profile */}
+        {isOwnProfile && (
+          <>
+            <button className="action-icon-btn more-btn" title="More Options">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="1"/>
+                <circle cx="19" cy="12" r="1"/>
+                <circle cx="5" cy="12" r="1"/>
+              </svg>
+            </button>
+            <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

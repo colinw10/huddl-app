@@ -59,6 +59,12 @@ function MessageModal({ onClose }) {
   // 🔵 Local state for the text input
   const [messageText, setMessageText] = useState('');
   
+  // 🔵 Local state for search filtering
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // 🔵 Mobile view state - 'list' shows conversations, 'chat' shows the chat
+  const [mobileView, setMobileView] = useState('list');
+  
   // 🔵 Ref for scrolling to bottom of messages
   const messagesEndRef = useRef(null);
   
@@ -97,13 +103,34 @@ function MessageModal({ onClose }) {
     }
   };
   
+  // 🔵 Filter conversations based on search query
+  const filteredConversations = conversations.filter((conv) => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase();
+    
+    // Match by display name
+    if (conv.user.displayName?.toLowerCase().includes(query)) return true;
+    
+    // Match by username
+    if (conv.user.username?.toLowerCase().includes(query)) return true;
+    
+    // Match by message content
+    const hasMatchingMessage = conv.messages?.some(msg => 
+      msg.text?.toLowerCase().includes(query)
+    );
+    if (hasMatchingMessage) return true;
+    
+    return false;
+  });
+  
   return (
     <div className="message-modal-overlay" onClick={onClose}>
       <div className="message-modal" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="message-modal-header">
           <h2 className="message-modal-title">Messages</h2>
-          <button className="message-modal-close" onClick={onClose}>
+          <button className="close-btn-glow" onClick={onClose}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -114,17 +141,36 @@ function MessageModal({ onClose }) {
         {/* Body - Two column layout */}
         <div className="message-modal-body">
           {/* Left: Conversations List */}
-          <div className="message-conversations">
+          <div className={`message-conversations ${mobileView === 'list' ? 'show' : ''}`}>
             <div className="conversations-header">
-              <input 
-                type="text" 
-                placeholder="Search conversations..." 
-                className="conversations-search"
-              />
+              <div className="conversations-search-wrapper">
+                <input 
+                  type="text" 
+                  placeholder="Search conversations..." 
+                  className="conversations-search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') setSearchQuery('');
+                  }}
+                />
+                {searchQuery && (
+                  <button 
+                    className="conversations-search-clear"
+                    onClick={() => setSearchQuery('')}
+                    title="Clear search"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/>
+                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
             <div className="conversations-list">
-              {/* 🔵 Map through conversations from context */}
-              {conversations.map((conv) => {
+              {/* 🔵 Map through filtered conversations from context */}
+              {filteredConversations.map((conv) => {
                 const lastMessage = conv.messages[conv.messages.length - 1];
                 const isActive = conv.id === selectedConversationId;
                 
@@ -132,7 +178,10 @@ function MessageModal({ onClose }) {
                   <div 
                     key={conv.id}
                     className={`conversation-item ${isActive ? 'active' : ''}`}
-                    onClick={() => selectConversation(conv.id)}
+                    onClick={() => {
+                      selectConversation(conv.id);
+                      setMobileView('chat'); // Switch to chat view on mobile
+                    }}
                   >
                     {/* Avatar - show initials */}
                     <div className="conversation-avatar">
@@ -154,7 +203,15 @@ function MessageModal({ onClose }) {
                 );
               })}
               
-              {/* Empty state */}
+              {/* Empty state - no search results */}
+              {filteredConversations.length === 0 && searchQuery.trim() && (
+                <div className="conversations-empty">
+                  <p>No results for "{searchQuery}"</p>
+                  <p className="empty-hint">Try a different search term</p>
+                </div>
+              )}
+              
+              {/* Empty state - no conversations at all */}
               {conversations.length === 0 && (
                 <div className="conversations-empty">
                   <p>No conversations yet</p>
@@ -165,11 +222,20 @@ function MessageModal({ onClose }) {
           </div>
 
           {/* Right: Chat View */}
-          <div className="message-chat">
+          <div className={`message-chat ${mobileView === 'list' ? 'hide' : ''}`}>
             {selectedConversation ? (
               <>
                 {/* Chat Header */}
                 <div className="chat-header">
+                  {/* Mobile back button */}
+                  <button 
+                    className="chat-back-btn"
+                    onClick={() => setMobileView('list')}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                  </button>
                   <div className="chat-user-info">
                     <div className="chat-avatar">
                       <span className="initial-1">{getInitials(selectedConversation.user.displayName)[0]}</span>

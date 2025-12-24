@@ -1,31 +1,12 @@
 // MediaLightbox/_image.scss - Image container and close button
 // 🔵 PABLO - UI/Styling
 
-.media-lightbox-close {
+/* Position the glowing close button in lightbox */
+.media-lightbox-content .close-btn-glow {
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(15, 20, 30, 0.8);
-  border: 1px solid rgba(167, 131, 255, 0.4);
-  border-radius: 50%;
-  color: #c9a8ff;
-  cursor: pointer;
-  transition: all 0.2s ease;
   z-index: 10001;
-  box-shadow: 0 0 10px rgba(167, 131, 255, 0.2);
-}
-
-.media-lightbox-close:hover {
-  background: rgba(167, 131, 255, 0.15);
-  border-color: rgba(167, 131, 255, 0.6);
-  color: #ff6b6b;
-  box-shadow: 0 0 16px rgba(167, 131, 255, 0.4);
-  transform: rotate(90deg);
 }
 
 .media-lightbox-image-container {

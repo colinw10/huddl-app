@@ -11,7 +11,7 @@ import ProfileCardBack from './components/ProfileCardBack';
 // This avoids React compiler warnings about impure functions during render
 const ANALYTICS_NOW = Date.now(); // Use current time for live heatmap
 
-function ProfileCard({ isFlipped, setIsFlipped, posts, user }) {
+function ProfileCard({ isFlipped, setIsFlipped, posts, user, isOwnProfile = true }) {
   const [viewMode, setViewMode] = useState('wave'); // 'wave' or 'heatmap'
 
   // Seeded random number generator for consistent data
@@ -229,6 +229,7 @@ const lowWaveData = useMemo(() => {
           setIsFlipped={setIsFlipped} 
           posts={posts}
           user={user}
+          isOwnProfile={isOwnProfile}
         />
         <ProfileCardBack
           setIsFlipped={setIsFlipped}
@@ -243,6 +244,7 @@ const lowWaveData = useMemo(() => {
           bestPostingTime={bestPostingTime}
           createWavePath={createWavePath}
           getActivityColor={getActivityColor}
+          isOwnProfile={isOwnProfile}
         />
       </div>
     </div>

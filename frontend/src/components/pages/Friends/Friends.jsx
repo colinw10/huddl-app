@@ -2,7 +2,8 @@
 // Friends.jsx - Friends list and requests page
 
 import { useState } from 'react';
-import { useFriends } from '../../../contexts';
+import { useNavigate } from 'react-router-dom';
+import { useFriends, useMessages } from '../../../contexts';
 import './Friends.scss';
 
 // Helper function to assign color variants to cards
@@ -29,6 +30,7 @@ const getDisplayName = (friend) => {
 
 function Friends() {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'requests', 'suggestions'
+  const navigate = useNavigate();
   
   // Get data from context (connected to backend)
   const { 
@@ -40,6 +42,9 @@ function Friends() {
     declineRequest, 
     removeFriend 
   } = useFriends();
+  
+  // Get message context for opening DMs
+  const { openMessages } = useMessages();
 
   // Debug logging
   console.log('Friends page - friends:', friends, 'pending:', pendingRequests, 'loading:', isLoading, 'error:', error);
@@ -73,6 +78,23 @@ function Friends() {
     if (!result.success) {
       console.error('Failed to remove:', result.error);
     }
+  };
+
+  // Handle clicking on a friend card - navigate to their profile
+  const handleFriendClick = (friend) => {
+    navigate(`/profile/${friend.username}`);
+  };
+
+  // Handle clicking the message icon - open message modal with this friend
+  const handleMessageFriend = (e, friend) => {
+    e.stopPropagation(); // Prevent triggering card click
+    openMessages({
+      id: friend.id,
+      username: friend.username,
+      displayName: friend.first_name && friend.last_name 
+        ? `${friend.first_name} ${friend.last_name}`
+        : friend.username,
+    });
   };
 
   if (isLoading) {
@@ -135,7 +157,12 @@ function Friends() {
         {activeTab === 'all' && (
           <div className="friends-grid">
             {friends.map(friend => (
-              <div key={friend.id} className={`friend-card card card-interactive ${getColorVariant(friend.id)}`}>
+              <div 
+                key={friend.id} 
+                className={`friend-card card card-interactive ${getColorVariant(friend.id)}`}
+                onClick={() => handleFriendClick(friend)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="scan-line"></div>
                 <div className="friend-avatar">
                   <span>{getInitials(friend.first_name, friend.last_name, friend.username)}</span>
@@ -145,7 +172,11 @@ function Friends() {
                   <h3 className="friend-name">{getDisplayName(friend)}</h3>
                   <span className="friend-username">@{friend.username}</span>
                 </div>
-                <button className="friend-action-btn" onClick={() => handleRemove(friend.id)} title="Remove friend">
+                <button 
+                  className="friend-action-btn" 
+                  onClick={(e) => handleMessageFriend(e, friend)} 
+                  title="Message friend"
+                >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
@@ -158,7 +189,12 @@ function Friends() {
         {activeTab === 'requests' && (
           <div className="friends-grid">
             {pendingRequests.map(request => (
-              <div key={request.id} className="friend-card card request-card">
+              <div 
+                key={request.id} 
+                className="friend-card card request-card"
+                onClick={() => navigate(`/profile/${request.from_user.username}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="scan-line"></div>
                 <div className="friend-avatar">
                   <span>{getInitials(request.from_user.first_name, request.from_user.last_name, request.from_user.username)}</span>
@@ -167,7 +203,7 @@ function Friends() {
                   <h3 className="friend-name">{getDisplayName(request.from_user)}</h3>
                   <span className="friend-username">@{request.from_user.username}</span>
                 </div>
-                <div className="request-actions">
+                <div className="request-actions" onClick={(e) => e.stopPropagation()}>
                   <button className="btn-accept" onClick={() => handleAccept(request.id)}>Accept</button>
                   <button className="btn-decline" onClick={() => handleDecline(request.id)}>Decline</button>
                 </div>

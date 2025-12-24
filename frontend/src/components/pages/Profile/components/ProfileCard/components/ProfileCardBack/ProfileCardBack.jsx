@@ -18,7 +18,8 @@ function ProfileCardBack({
   postTypeData,
   bestPostingTime,
   createWavePath,
-  getActivityColor
+  getActivityColor,
+  isOwnProfile = true
 }) {
   return (
     <div className="profile-card-back">
@@ -110,8 +111,8 @@ function ProfileCardBack({
       {/* Post Type Breakdown */}
       <PostTypeBreakdown postTypeData={postTypeData} />
 
-      {/* Quick Settings */}
-      <QuickSettings />
+      {/* Quick Settings - Only on own profile */}
+      {isOwnProfile && <QuickSettings />}
     </div>
   );
 }

@@ -129,7 +129,10 @@
   max-width: 1400px;
   margin: 16px auto 24px;
   padding: 0 20px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   
   .other-user-label {
     font-family: var(--font-title);
@@ -140,9 +143,38 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    margin: 0;
+  }
+  
+  .profile-message-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: rgba(26, 231, 132, 0.1);
+    border: 1px solid rgba(26, 231, 132, 0.4);
+    border-radius: 50%;
+    color: rgba(26, 231, 132, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px rgba(26, 231, 132, 0.15);
     
-    .profile-icon {
-      font-size: 24px;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    &:hover {
+      background: rgba(26, 231, 132, 0.2);
+      border-color: rgba(26, 231, 132, 0.6);
+      box-shadow: 0 0 16px rgba(26, 231, 132, 0.35);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
     }
   }
 }

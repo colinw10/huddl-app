@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import './TimelineRiver.scss';
 import DeleteConfirmModal from '../../../Home/components/DeleteConfirmModal/DeleteConfirmModal';
 import MediaLightbox from '../../../Home/components/MediaLightbox/MediaLightbox';
-import { usePosts, useMessages } from '../../../../../contexts';
+import { usePosts, useMessages, useAuth } from '../../../../../contexts';
 
 // Helper to format dates nicely
 const formatDate = (dateString) => {
@@ -39,9 +39,10 @@ function TimelineRiver({
   onUpdatePost,
   isOwnProfile = true // Default to own profile for backwards compatibility
 }) {
-  // Get likePost from context
-  const { posts: allPosts, likePost } = usePosts();
+  // Get likePost and reply functions from context
+  const { posts: allPosts, likePost, createReply, fetchReplies, updatePost: updateReply, deletePost: deleteReply } = usePosts();
   const { openMessages } = useMessages(); // For DM button on friend posts
+  const { user: currentUser } = useAuth(); // For checking if user owns a comment
   const navigate = useNavigate(); // For navigating to user profiles
   
   // Get fresh post data from context (props may have stale snapshots)
@@ -51,6 +52,17 @@ function TimelineRiver({
   const textPosts = (textPostsProps || []).map(p => getFreshPost(p.id) || p);
   const mediaPosts = (mediaPostsProps || []).map(p => getFreshPost(p.id) || p);
   const achievementPosts = (achievementPostsProps || []).map(p => getFreshPost(p.id) || p);
+  
+  // Helper to get initials from author
+  const getInitials = (author) => {
+    if (!author) return '??';
+    const first = author.first_name?.[0] || '';
+    const last = author.last_name?.[0] || '';
+    if (first && last) return `${first}${last}`.toUpperCase();
+    if (first) return first.toUpperCase();
+    if (author.username) return author.username.slice(0, 2).toUpperCase();
+    return '??';
+  };
   
   // Group friends' posts by username for feed mode
   const friendsGrouped = useMemo(() => {
@@ -66,7 +78,7 @@ function TimelineRiver({
       if (!grouped[username]) {
         grouped[username] = {
           username,
-          avatar: post.author?.first_name?.[0] || username[0]?.toUpperCase() || '?',
+          avatar: getInitials(post.author),
           thoughts: [],
           media: [],
           milestones: []
@@ -87,8 +99,20 @@ function TimelineRiver({
   const [activeCommentPostId, setActiveCommentPostId] = useState(null);
   const [commentText, setCommentText] = useState('');
   
+  // State for thread/replies
+  const [expandedThreadId, setExpandedThreadId] = useState(null);
+  const [threadReplies, setThreadReplies] = useState({});
+  const [loadingThread, setLoadingThread] = useState(null);
+  const [showAllReplies, setShowAllReplies] = useState({});
+  
+  // State for editing replies
+  const [editingReplyId, setEditingReplyId] = useState(null);
+  const [editingReplyContent, setEditingReplyContent] = useState('');
+  const [editingReplyParentId, setEditingReplyParentId] = useState(null);
+  
   // State for edit/delete
   const [deleteModalPostId, setDeleteModalPostId] = useState(null);
+  const [deleteModalIsReply, setDeleteModalIsReply] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingPostId, setEditingPostId] = useState(null);
   const [isComposerExpanded, setIsComposerExpanded] = useState(false);
@@ -96,6 +120,9 @@ function TimelineRiver({
 
   // State for media lightbox
   const [expandedMediaPost, setExpandedMediaPost] = useState(null);
+
+  // State for mobile category tabs
+  const [mobileCategory, setMobileCategory] = useState('thoughts');
 
   // Deck index for carousel - per friend, per type
   const [deckIndices, setDeckIndices] = useState({});
@@ -193,7 +220,6 @@ function TimelineRiver({
   };
 
   // 🟢 Render action buttons for profile timeline posts
-  // Shows edit/delete only if viewing own profile
   const renderMyPostActions = (post) => {
     if (!post) return null;
     
@@ -239,6 +265,15 @@ function TimelineRiver({
             <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
           </svg>
         </button>
+        
+        {/* Save/Bookmark button - ONLY on other user's profile */}
+        {!isOwnProfile && (
+          <button className="river-action-btn river-action-btn--save" title="Save Post">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(167,131,255,0.6)" strokeWidth="1.5">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
+        )}
         
         {/* Edit button - ONLY on own profile */}
         {isOwnProfile && (
@@ -290,17 +325,307 @@ function TimelineRiver({
     }
   };
 
-  // TODO: Wire up comment submission
-  // const handleCommentSubmit = () => {
-  //   if (commentText.trim()) {
-  //     console.log('Comment posted:', commentText);
-  //     setCommentText('');
-  //     setActiveCommentPostId(null);
-  //   }
-  // };
+  // Toggle thread view and fetch replies
+  const toggleThread = async (postId) => {
+    if (expandedThreadId === postId) {
+      setExpandedThreadId(null);
+    } else {
+      setExpandedThreadId(postId);
+      // Fetch replies if not already loaded
+      if (!threadReplies[postId]) {
+        setLoadingThread(postId);
+        const result = await fetchReplies(postId);
+        if (result.success) {
+          setThreadReplies(prev => ({ ...prev, [postId]: result.data }));
+        }
+        setLoadingThread(null);
+      }
+    }
+  };
+
+  // Handle comment/reply submission
+  const handleCommentSubmit = async (postId) => {
+    if (!commentText.trim()) return;
+    
+    const result = await createReply(postId, { content: commentText.trim(), type: 'thoughts' });
+    if (result.success) {
+      // Add new reply to local state
+      setThreadReplies(prev => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), result.data]
+      }));
+      setCommentText('');
+      setActiveCommentPostId(null);
+      // Auto-expand thread to show new reply
+      setExpandedThreadId(postId);
+    }
+  };
+
+  // Handle editing a reply
+  const handleEditReply = async (replyId, parentPostId) => {
+    if (!editingReplyContent.trim()) return;
+    
+    const result = await updateReply(replyId, { content: editingReplyContent.trim() });
+    if (result.success) {
+      // Update reply in local state
+      setThreadReplies(prev => ({
+        ...prev,
+        [parentPostId]: (prev[parentPostId] || []).map(reply =>
+          reply.id === replyId ? { ...reply, content: editingReplyContent.trim() } : reply
+        )
+      }));
+      setEditingReplyId(null);
+      setEditingReplyContent('');
+      setEditingReplyParentId(null);
+    }
+  };
+
+  // Handle deleting a reply
+  const handleDeleteReply = async (replyId, parentPostId) => {
+    const result = await deleteReply(replyId);
+    if (result.success) {
+      // Remove reply from local state
+      setThreadReplies(prev => ({
+        ...prev,
+        [parentPostId]: (prev[parentPostId] || []).filter(reply => reply.id !== replyId)
+      }));
+    }
+  };
+
+  // Format relative time for replies
+  const formatRelativeTime = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'now';
+    if (diffMins < 60) return `${diffMins}m`;
+    if (diffHours < 24) return `${diffHours}h`;
+    if (diffDays < 7) return `${diffDays}d`;
+    
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  // Render inline comment composer and thread for a post
+  const renderCommentSection = (post) => {
+    if (!post) return null;
+    
+    return (
+      <>
+        {/* Inline Comment Composer */}
+        {activeCommentPostId === post.id && (
+          <div className="inline-comment-composer">
+            <div className="comment-input-wrapper">
+              <textarea
+                className="comment-input"
+                placeholder="Write a comment..."
+                value={commentText}
+                onChange={(e) => {
+                  setCommentText(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = e.target.scrollHeight + 'px';
+                }}
+                rows={1}
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleCommentSubmit(post.id);
+                  }
+                  if (e.key === 'Escape') {
+                    setActiveCommentPostId(null);
+                    setCommentText('');
+                  }
+                }}
+              />
+            </div>
+            <button 
+              className="comment-submit-btn"
+              disabled={!commentText.trim()}
+              onClick={() => handleCommentSubmit(post.id)}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="9 6 15 12 9 18"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* View Thread Link */}
+        {post.reply_count > 0 && expandedThreadId !== post.id && (
+          <button 
+            className="view-thread-btn"
+            onClick={() => toggleThread(post.id)}
+          >
+            <span className="thread-line" />
+            View {post.reply_count} {post.reply_count === 1 ? 'reply' : 'replies'}
+          </button>
+        )}
+
+        {/* Thread Replies */}
+        {expandedThreadId === post.id && (
+          <div className="thread-view">
+            <button 
+              className="collapse-thread-btn"
+              onClick={() => setExpandedThreadId(null)}
+            >
+              Hide replies
+            </button>
+            
+            {loadingThread === post.id ? (
+              <div className="thread-loading">Loading replies...</div>
+            ) : (
+              <div className="thread-replies">
+                {(() => {
+                  const allReplies = threadReplies[post.id] || [];
+                  const visibleReplies = showAllReplies[post.id] ? allReplies : allReplies.slice(0, 3);
+                  const hasMore = allReplies.length > 3;
+                  
+                  return (
+                    <>
+                      {visibleReplies.map((reply) => (
+                        <div key={reply.id} className="thread-reply">
+                          <div className="thread-connector">
+                            <div className="thread-line-vertical" />
+                          </div>
+                          <div className="reply-card">
+                            <div className="reply-header">
+                              <div className="reply-avatar">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                              </div>
+                              <span className="reply-author">{reply.author?.username || 'User'}</span>
+                              <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
+                              {/* Edit/Delete for reply owner */}
+                              {currentUser && reply.author?.id === currentUser.id && (
+                                <div className="reply-actions">
+                                  <button 
+                                    className="reply-action-btn"
+                                    title="Edit"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingReplyId(reply.id);
+                                      setEditingReplyContent(reply.content);
+                                      setEditingReplyParentId(post.id);
+                                    }}
+                                  >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                    </svg>
+                                  </button>
+                                  <button 
+                                    className="reply-action-btn reply-action-btn--delete"
+                                    title="Delete"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setDeleteModalPostId(reply.id);
+                                      setDeleteModalIsReply(true);
+                                      setEditingReplyParentId(post.id);
+                                    }}
+                                  >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                      <polyline points="3 6 5 6 21 6"/>
+                                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    </svg>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                            {/* Reply content - edit mode or display */}
+                            {editingReplyId === reply.id ? (
+                              <div className="reply-edit-form">
+                                <textarea
+                                  className="reply-edit-input"
+                                  value={editingReplyContent}
+                                  onChange={(e) => setEditingReplyContent(e.target.value)}
+                                  autoFocus
+                                />
+                                <div className="reply-edit-actions">
+                                  <button 
+                                    className="reply-edit-btn reply-edit-btn--cancel"
+                                    onClick={() => {
+                                      setEditingReplyId(null);
+                                      setEditingReplyContent('');
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button 
+                                    className="reply-edit-btn reply-edit-btn--save"
+                                    onClick={() => handleEditReply(reply.id, post.id)}
+                                    disabled={!editingReplyContent.trim()}
+                                  >
+                                    Save
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="reply-content">{reply.content}</p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                      {hasMore && !showAllReplies[post.id] && (
+                        <button 
+                          className="show-more-replies-btn"
+                          onClick={() => setShowAllReplies(prev => ({ ...prev, [post.id]: true }))}
+                        >
+                          Show {allReplies.length - 3} more replies
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <div className="timeline-river">
+      {/* Mobile Category Tabs - visible only on mobile */}
+      <div className="mobile-category-tabs">
+        <button 
+          className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
+          onClick={() => setMobileCategory('thoughts')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Thoughts</span>
+        </button>
+        <button 
+          className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
+          onClick={() => setMobileCategory('media')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>Media</span>
+        </button>
+        <button 
+          className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
+          onClick={() => setMobileCategory('milestones')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span>Milestones</span>
+        </button>
+      </div>
+
       {/* River Column Labels */}
       <div className="river-labels">
         <div className="river-label left-label">
@@ -328,9 +653,9 @@ function TimelineRiver({
 
       {/* MY TIMELINE MODE - User's own posts with carousel navigation */}
       {viewMode === 'timeline' && (
-        <div className="river-streams">
+        <div className={`river-streams mobile-show-${mobileCategory}`}>
           {/* Thoughts Column */}
-          <div className="river-column left-stream">
+          <div className="river-column left-stream" data-category="thoughts">
             <div className="river-column-label mobile-only">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -346,21 +671,19 @@ function TimelineRiver({
                   </div>
                   {/* Use standardized action buttons */}
                   {renderMyPostActions(textPosts[getDeckIndex('me', 'thoughts')])}
+                  {/* Comment section */}
+                  {renderCommentSection(textPosts[getDeckIndex('me', 'thoughts')])}
                 </div>
                 {textPosts.length > 1 && (
                   <div className="smart-deck-nav">
                     <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'thoughts', textPosts.length)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
-                    {textPosts.length <= 5 ? (
-                      <div className="smart-deck-dots">
-                        {textPosts.map((_, idx) => (
-                          <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-thoughts']: idx}))} />
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="smart-deck-count">{getDeckIndex('me', 'thoughts') + 1}/{textPosts.length}</span>
-                    )}
+                    <div className="smart-deck-dots">
+                      {textPosts.map((_, idx) => (
+                        <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-thoughts']: idx}))} />
+                      ))}
+                    </div>
                     <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'thoughts', textPosts.length)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
@@ -371,7 +694,7 @@ function TimelineRiver({
           </div>
 
           {/* Media Column */}
-          <div className="river-column center-stream">
+          <div className="river-column center-stream" data-category="media">
             <div className="river-column-label mobile-only">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -411,21 +734,19 @@ function TimelineRiver({
                   </div>
                   {/* Use standardized action buttons */}
                   {renderMyPostActions(mediaPosts[getDeckIndex('me', 'media')])}
+                  {/* Comment section */}
+                  {renderCommentSection(mediaPosts[getDeckIndex('me', 'media')])}
                 </div>
                 {mediaPosts.length > 1 && (
                   <div className="smart-deck-nav">
                     <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'media', mediaPosts.length)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
-                    {mediaPosts.length <= 5 ? (
-                      <div className="smart-deck-dots">
-                        {mediaPosts.map((_, idx) => (
-                          <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-media']: idx}))} />
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="smart-deck-count">{getDeckIndex('me', 'media') + 1}/{mediaPosts.length}</span>
-                    )}
+                    <div className="smart-deck-dots">
+                      {mediaPosts.map((_, idx) => (
+                        <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-media']: idx}))} />
+                      ))}
+                    </div>
                     <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'media', mediaPosts.length)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
@@ -436,7 +757,7 @@ function TimelineRiver({
           </div>
 
           {/* Milestones Column */}
-          <div className="river-column right-stream">
+          <div className="river-column right-stream" data-category="milestones">
             <div className="river-column-label mobile-only">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
@@ -458,21 +779,19 @@ function TimelineRiver({
                   </div>
                   {/* Use standardized action buttons */}
                   {renderMyPostActions(achievementPosts[getDeckIndex('me', 'milestones')])}
+                  {/* Comment section */}
+                  {renderCommentSection(achievementPosts[getDeckIndex('me', 'milestones')])}
                 </div>
                 {achievementPosts.length > 1 && (
                   <div className="smart-deck-nav">
                     <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'milestones', achievementPosts.length)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
-                    {achievementPosts.length <= 5 ? (
-                      <div className="smart-deck-dots">
-                        {achievementPosts.map((_, idx) => (
-                          <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-milestones']: idx}))} />
-                        ))}
-                      </div>
-                    ) : (
-                      <span className="smart-deck-count">{getDeckIndex('me', 'milestones') + 1}/{achievementPosts.length}</span>
-                    )}
+                    <div className="smart-deck-dots">
+                      {achievementPosts.map((_, idx) => (
+                        <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-milestones']: idx}))} />
+                      ))}
+                    </div>
                     <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'milestones', achievementPosts.length)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
                     </button>
@@ -497,8 +816,8 @@ function TimelineRiver({
                 <div className="friend-avatar">{friend.avatar}</div>
                 <span className="friend-name">{friend.username}</span>
               </div>
-              <div className="river-streams">
-                <div className="river-column left-stream">
+              <div className={`river-streams mobile-show-${mobileCategory}`}>
+                <div className="river-column left-stream" data-category="thoughts">
                   {friend.thoughts.length > 0 ? (
                     <>
                       <div className="river-card text-card">
@@ -508,6 +827,8 @@ function TimelineRiver({
                         </div>
                         {/* Action buttons for friend's thought */}
                         {renderFriendPostActions(friend.thoughts[getDeckIndex(friend.username, 'thoughts')])}
+                        {/* Comment section */}
+                        {renderCommentSection(friend.thoughts[getDeckIndex(friend.username, 'thoughts')])}
                       </div>
                       {friend.thoughts.length > 1 && (
                         <div className="smart-deck-nav">
@@ -552,6 +873,8 @@ function TimelineRiver({
                         </div>
                         {/* Action buttons for friend's media */}
                         {renderFriendPostActions(friend.media[getDeckIndex(friend.username, 'media')])}
+                        {/* Comment section */}
+                        {renderCommentSection(friend.media[getDeckIndex(friend.username, 'media')])}
                       </div>
                       {friend.media.length > 1 && (
                         <div className="smart-deck-nav">
@@ -590,6 +913,8 @@ function TimelineRiver({
                         </div>
                         {/* Action buttons for friend's milestone */}
                         {renderFriendPostActions(friend.milestones[getDeckIndex(friend.username, 'milestones')])}
+                        {/* Comment section */}
+                        {renderCommentSection(friend.milestones[getDeckIndex(friend.username, 'milestones')])}
                       </div>
                       {friend.milestones.length > 1 && (
                         <div className="smart-deck-nav">
@@ -623,21 +948,40 @@ function TimelineRiver({
       {deleteModalPostId && (
         <DeleteConfirmModal
           isOpen={!!deleteModalPostId}
-          onClose={() => setDeleteModalPostId(null)}
+          onClose={() => {
+            setDeleteModalPostId(null);
+            setDeleteModalIsReply(false);
+            setEditingReplyParentId(null);
+          }}
           onConfirm={async () => {
             setIsDeleting(true);
             try {
-              if (onDeletePost) {
+              if (deleteModalIsReply) {
+                // Deleting a reply/comment
+                await deletePost(deleteModalPostId);
+                // Update thread replies
+                if (editingReplyParentId) {
+                  setThreadReplies(prev => ({
+                    ...prev,
+                    [editingReplyParentId]: (prev[editingReplyParentId] || []).filter(r => r.id !== deleteModalPostId)
+                  }));
+                }
+              } else if (onDeletePost) {
+                // Deleting a post
                 await onDeletePost(deleteModalPostId);
               }
               setDeleteModalPostId(null);
+              setDeleteModalIsReply(false);
+              setEditingReplyParentId(null);
             } catch (error) {
-              console.error('Failed to delete post:', error);
+              console.error('Failed to delete:', error);
             } finally {
               setIsDeleting(false);
             }
           }}
           isDeleting={isDeleting}
+          title={deleteModalIsReply ? "Delete Comment" : "Delete Post"}
+          message={deleteModalIsReply ? "Are you sure you want to delete this comment? This action cannot be undone." : undefined}
         />
       )}
 
@@ -659,7 +1003,7 @@ function TimelineRiver({
                 Edit Post
               </h3>
               <button 
-                className="close-expanded-btn"
+                className="close-btn-glow"
                 onClick={() => {
                   setIsComposerExpanded(false);
                   setIsEditMode(false);

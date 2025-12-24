@@ -138,6 +138,18 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+.profile-card-front .profile-avatar .avatar-initials {
+  font-family: 'degular', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #00d4ff, #a783ff, #ff55dd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 8px rgba(0, 212, 255, 0.4));
+}
+
 /* Profile Meta Grid */
 .profile-card-front .profile-meta {
   padding: 32px 30px 12px 30px;
@@ -167,7 +179,7 @@
   width: fit-content;
   position: absolute;
   right: 20px;
-  top: 260px;
+  top: 280px;
   z-index: 20;
 }
 
@@ -183,6 +195,34 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+/* Save/Bookmark button - Purple */
+.action-icon-btn.save-btn {
+  border-color: rgba(167, 131, 255, 0.4);
+  color: rgba(167, 131, 255, 0.9);
+  box-shadow: 0 0 8px rgba(167, 131, 255, 0.2);
+}
+
+.action-icon-btn.save-btn:hover {
+  background: rgba(167, 131, 255, 0.25);
+  border-color: rgba(167, 131, 255, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(167, 131, 255, 0.5);
+}
+
+/* Message button - Green */
+.action-icon-btn.message-btn {
+  border-color: rgba(26, 231, 132, 0.4);
+  color: rgba(26, 231, 132, 0.9);
+  box-shadow: 0 0 8px rgba(26, 231, 132, 0.2);
+}
+
+.action-icon-btn.message-btn:hover {
+  background: rgba(26, 231, 132, 0.25);
+  border-color: rgba(26, 231, 132, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(26, 231, 132, 0.5);
 }
 
 /* Share button - Cyan */
@@ -644,8 +684,19 @@
   }
   
   .profile-actions-pill {
-    top: 170px;
-    right: 12px;
+    top: 220px;
+    right: 8px;
+    gap: 6px;
+    
+    .action-icon-btn {
+      width: 28px;
+      height: 28px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
   }
   
   /* Scale down engagement ring for mobile */

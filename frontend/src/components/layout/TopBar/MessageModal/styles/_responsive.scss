@@ -1,15 +1,35 @@
 /* MessageModal Responsive Styles */
 
+/* Hide back button on desktop */
+.chat-back-btn {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  /* Override overlay to cover EVERYTHING including navbar */
+  .message-modal-overlay {
+    z-index: 9999 !important;
+    padding: 0 !important;
+  }
+
   .message-modal {
     width: 100vw;
     height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
     border-radius: 0;
   }
 
   .message-conversations {
     width: 100%;
     display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background: var(--bg-card-solid);
   }
 
   .message-conversations.show {
@@ -18,9 +38,36 @@
 
   .message-chat {
     display: flex;
+    width: 100%;
   }
 
   .message-chat.hide {
     display: none;
+  }
+  
+  /* Simple back arrow button on mobile */
+  .chat-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    color: rgba(201, 168, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+    flex-shrink: 0;
+    padding: 0;
+    
+    &:hover {
+      color: #c9a8ff;
+    }
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
