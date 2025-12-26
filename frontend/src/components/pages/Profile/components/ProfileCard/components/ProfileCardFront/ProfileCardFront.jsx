@@ -23,6 +23,7 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
   const hoveredRef = useRef(new Set());
   const isAnimatingRef = useRef(false);
   const [replayGlitch, setReplayGlitch] = useState(false);
+  const [showShareToast, setShowShareToast] = useState(false);
   
   // Build display name from first + last name, fallback to username
   const fullName = [user?.first_name, user?.last_name].filter(Boolean).join(' ');
@@ -50,6 +51,38 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
           }, 4000);
         });
       });
+    }
+  };
+  
+  // Handle share profile - copy link to clipboard
+  const handleShareProfile = async () => {
+    const profileUrl = `${window.location.origin}/profile/${user?.username}`;
+    
+    try {
+      // Try native share first (mobile)
+      if (navigator.share) {
+        await navigator.share({
+          title: `${displayName}'s Profile`,
+          text: `Check out ${displayName}'s profile on Numeneon!`,
+          url: profileUrl,
+        });
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(profileUrl);
+        setShowShareToast(true);
+        setTimeout(() => setShowShareToast(false), 2500);
+      }
+    } catch (err) {
+      // User cancelled share or error - try clipboard as fallback
+      if (err.name !== 'AbortError') {
+        try {
+          await navigator.clipboard.writeText(profileUrl);
+          setShowShareToast(true);
+          setTimeout(() => setShowShareToast(false), 2500);
+        } catch {
+          console.error('Failed to share profile');
+        }
+      }
     }
   };
   
@@ -189,7 +222,7 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
             </svg>
           </button>
         )}
-        <button className="action-icon-btn share-btn" title="Share Profile">
+        <button className="action-icon-btn share-btn" title="Share Profile" onClick={handleShareProfile}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="18" cy="5" r="3"/>
             <circle cx="6" cy="12" r="3"/>
@@ -198,6 +231,16 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
           </svg>
         </button>
+
+        {/* Share toast notification */}
+        {showShareToast && (
+          <div className="share-toast">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Link copied!
+          </div>
+        )}
         {/* More options & Analytics - only on own profile */}
         {isOwnProfile && (
           <>

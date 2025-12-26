@@ -18,6 +18,11 @@ const postsService = {
     const response = await apiClient.get("/posts/"); // Sends GET, token added automatically
     return response.data; // Return just the JSON array, not full axios response
   },
+  // GET /api/posts/?username=xxx => lists posts by a specific user
+  getByUsername: async (username) => {
+    const response = await apiClient.get(`/posts/?username=${username}`);
+    return response.data;
+  },
   // GET /api/posts/:id/ → single post
   getById: async (id) => {
     const response = await apiClient.get(`/posts/${id}/`); // Template literal inserts id into URL

@@ -50,6 +50,25 @@ export const PostsProvider = ({ children }) => {
     }
   };
 
+  // FETCH POSTS BY USERNAME - for viewing a specific user's profile
+  const fetchPostsByUsername = async (username) => {
+    try {
+      const data = await postsService.getByUsername(username);
+      // Merge into existing posts (avoid duplicates)
+      setPosts(prev => {
+        const existingIds = new Set(prev.map(p => p.id));
+        const newPosts = data.filter(p => !existingIds.has(p.id));
+        return [...newPosts, ...prev];
+      });
+      return { success: true, data };
+    } catch (err) {
+      return {
+        success: false,
+        error: err.response?.data?.detail || 'Failed to fetch user posts'
+      };
+    }
+  };
+
    // CREATE POST
    const createPost = async (content) => {
     try {
@@ -169,6 +188,7 @@ return (
     error,
      // Actions
      fetchPosts,
+     fetchPostsByUsername,
      createPost,
      updatePost,
      deletePost,

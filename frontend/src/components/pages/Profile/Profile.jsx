@@ -119,11 +119,11 @@ function Profile() {
     profileUser: profileUser?.username,
     currentUser: currentUser?.username,
     totalPosts: posts.length,
-    profilePosts: profilePosts.length,
-    friendsPosts: friendsPosts.length,
-    feedTextPosts: feedTextPosts.length,
-    feedMediaPosts: feedMediaPosts.length,
-    feedAchievementPosts: feedAchievementPosts.length,
+    profilePostsCount: profilePosts.length,
+    textPostsCount: textPosts.length,
+    mediaPostsCount: mediaPosts.length,
+    achievementPostsCount: achievementPosts.length,
+    allPostAuthors: [...new Set(posts.map(p => p.author?.username))],
   });
 
   return (

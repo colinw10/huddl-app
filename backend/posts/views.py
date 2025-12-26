@@ -26,11 +26,18 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """
         For list action: only return top-level posts (no parent)
+        Supports optional ?username= filter to get posts by a specific user
         For detail actions (retrieve, update, delete): return all posts
         """
         if self.action == 'list':
-            # Only top-level posts for the feed
-            return Post.objects.filter(parent__isnull=True).order_by('-created_at')
+            queryset = Post.objects.filter(parent__isnull=True).order_by('-created_at')
+            
+            # Optional username filter for viewing a specific user's posts
+            username = self.request.query_params.get('username', None)
+            if username:
+                queryset = queryset.filter(author__username=username)
+            
+            return queryset
         else:
             # All posts for detail views (so we can delete/update replies too)
             return Post.objects.all().order_by('-created_at')

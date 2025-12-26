@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFriends, useMessages } from '../../../contexts';
+import DeleteConfirmModal from '../Home/components/DeleteConfirmModal/DeleteConfirmModal';
 import './Friends.scss';
 
 // Helper function to assign color variants to cards
@@ -30,6 +31,8 @@ const getDisplayName = (friend) => {
 
 function Friends() {
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'requests', 'suggestions'
+  const [friendToRemove, setFriendToRemove] = useState(null); // Friend being removed
+  const [isRemoving, setIsRemoving] = useState(false); // Loading state
   const navigate = useNavigate();
   
   // Get data from context (connected to backend)
@@ -72,12 +75,25 @@ function Friends() {
     }
   };
 
-  // Handle remove friend
-  const handleRemove = async (userId) => {
-    const result = await removeFriend(userId);
+  // Handle remove friend - show confirmation modal
+  const handleRemoveClick = (e, friend) => {
+    e.stopPropagation();
+    setFriendToRemove(friend);
+  };
+
+  // Confirm remove friend
+  const handleConfirmRemove = async () => {
+    if (!friendToRemove) return;
+    
+    setIsRemoving(true);
+    const result = await removeFriend(friendToRemove.id);
+    setIsRemoving(false);
+    
     if (!result.success) {
       console.error('Failed to remove:', result.error);
     }
+    
+    setFriendToRemove(null);
   };
 
   // Handle clicking on a friend card - navigate to their profile
@@ -183,7 +199,7 @@ function Friends() {
                 </button>
                 <button 
                   className="friend-remove-btn" 
-                  onClick={(e) => { e.stopPropagation(); handleRemove(friend.id); }} 
+                  onClick={(e) => handleRemoveClick(e, friend)} 
                   title="Remove friend"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -251,6 +267,16 @@ function Friends() {
           </div>
         )}
       </div>
+
+      {/* Remove Friend Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={!!friendToRemove}
+        onClose={() => setFriendToRemove(null)}
+        onConfirm={handleConfirmRemove}
+        isDeleting={isRemoving}
+        title="Remove Friend?"
+        message={friendToRemove ? `Are you sure you want to remove @${friendToRemove.username} from your friends?` : ''}
+      />
     </div>
   );
 }
