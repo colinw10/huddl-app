@@ -252,8 +252,7 @@
      ============================================ */
   
   .input,
-  .search-input,
-  .lightbox-comment-input {
+  .search-input {
     background: var(--light-bg-input) !important;
     border: 1px solid var(--light-border-strong) !important;
     color: var(--light-text-primary) !important;
@@ -262,16 +261,14 @@
   }
 
   .input:focus,
-  .search-input:focus,
-  .lightbox-comment-input:focus {
+  .search-input:focus {
     border-color: var(--light-border-focus) !important;
     box-shadow: var(--light-shadow-focus) !important;
     outline: none !important;
   }
 
   .input::placeholder,
-  .search-input::placeholder,
-  .lightbox-comment-input::placeholder {
+  .search-input::placeholder {
     color: var(--light-text-placeholder) !important;
     text-shadow: none !important;
   }
@@ -413,56 +410,9 @@
   }
 
   /* ============================================
-     MEDIA LIGHTBOX
+     MEDIA LIGHTBOX - Moved to component:
+     components/Home/components/MediaLightbox/styles/_light-mode.scss
      ============================================ */
-  
-  .media-lightbox-overlay {
-    background: var(--light-bg-overlay) !important;
-    backdrop-filter: blur(20px) !important;
-  }
-
-  .media-lightbox-close {
-    background: var(--light-bg-muted) !important;
-    border: 1px solid var(--light-border-strong) !important;
-    color: var(--light-text-primary) !important;
-  }
-
-  .media-lightbox-info {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid var(--light-border) !important;
-  }
-
-  .media-lightbox-image {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  .media-lightbox-author,
-  .media-lightbox-caption {
-    color: var(--light-text-primary) !important;
-  }
-
-  .media-lightbox-timestamp {
-    color: var(--light-text-muted) !important;
-  }
-
-  /* Comments in lightbox */
-  .media-lightbox-comments {
-    border-top: 1px solid var(--light-border-subtle) !important;
-  }
-
-  .lightbox-comment-composer {
-    background: var(--light-bg-subtle) !important;
-    border: 1px solid var(--light-border) !important;
-  }
-
-  .lightbox-comment-author,
-  .lightbox-comment-text {
-    color: var(--light-text-primary) !important;
-  }
-
-  .lightbox-comment-meta {
-    color: var(--light-text-muted) !important;
-  }
 
   /* ============================================
      SCROLLBARS
