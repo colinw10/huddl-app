@@ -259,10 +259,6 @@
       box-shadow: 0 0 15px rgba(77, 171, 247, 0.5);
     }
     
-    &::after {
-      background: rgba(77, 171, 247, 0.15);
-    }
-    
     svg {
       filter: drop-shadow(0 0 6px rgba(77, 171, 247, 0.8));
     }
@@ -301,10 +297,6 @@
       box-shadow: 0 0 15px rgba(233, 78, 200, 0.5);
     }
     
-    &::after {
-      background: rgba(233, 78, 200, 0.15);
-    }
-    
     svg {
       filter: drop-shadow(0 0 6px rgba(233, 78, 200, 0.8));
     }
@@ -341,10 +333,6 @@
     &::before {
       background: rgba(255, 215, 0, 0.6);
       box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    }
-    
-    &::after {
-      background: rgba(255, 215, 0, 0.15);
     }
     
     svg {
@@ -1479,6 +1467,7 @@
   }
   
   .timeline-river .smart-deck-nav-btn {
+    background: rgba(255, 255, 255, 0.9);
     color: rgba(0, 0, 0, 0.5);
     
     &::before {

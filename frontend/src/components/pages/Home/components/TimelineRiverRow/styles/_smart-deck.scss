@@ -320,10 +320,6 @@
       box-shadow: 0 0 15px rgba(79, 255, 255, 0.5);
     }
     
-    &::after {
-      background: rgba(79, 255, 255, 0.15);
-    }
-    
     svg {
       filter: drop-shadow(0 0 6px rgba(79, 255, 255, 0.8));
     }
@@ -363,10 +359,6 @@
       box-shadow: 0 0 15px rgba(201, 168, 255, 0.5);
     }
     
-    &::after {
-      background: rgba(201, 168, 255, 0.15);
-    }
-    
     svg {
       filter: drop-shadow(0 0 6px rgba(201, 168, 255, 0.8));
     }
@@ -404,10 +396,6 @@
     &::before {
       background: rgba(26, 231, 132, 0.6);
       box-shadow: 0 0 15px rgba(26, 231, 132, 0.5);
-    }
-    
-    &::after {
-      background: rgba(26, 231, 132, 0.15);
     }
     
     svg {

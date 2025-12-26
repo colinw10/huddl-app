@@ -382,4 +382,79 @@
       transparent
     ) !important;
   }
+
+  /* ============================================
+     SMART DECK CAROUSEL NAVIGATION
+     ============================================ */
+  
+  .smart-deck-nav {
+    background: transparent;
+  }
+  
+  .smart-deck-nav-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.5);
+    
+    &::before {
+      background: rgba(0, 0, 0, 0.08);
+    }
+    
+    &::after {
+      background: rgba(255, 255, 255, 0.95);
+    }
+  }
+  
+  /* Thoughts column - light mode (cyan -> blue) */
+  .smart-deck--thoughts .smart-deck-nav-btn {
+    color: rgba(26, 91, 199, 0.6);
+    
+    &::before {
+      background: rgba(26, 91, 199, 0.2);
+    }
+    
+    &:hover {
+      color: #1a5bc7;
+      
+      &::before {
+        background: rgba(26, 91, 199, 0.4);
+        box-shadow: 0 2px 8px rgba(26, 91, 199, 0.3);
+      }
+    }
+  }
+  
+  /* Media column - light mode (purple -> magenta) */
+  .smart-deck--media .smart-deck-nav-btn {
+    color: rgba(176, 7, 138, 0.6);
+    
+    &::before {
+      background: rgba(176, 7, 138, 0.2);
+    }
+    
+    &:hover {
+      color: #b0078a;
+      
+      &::before {
+        background: rgba(176, 7, 138, 0.4);
+        box-shadow: 0 2px 8px rgba(176, 7, 138, 0.3);
+      }
+    }
+  }
+  
+  /* Milestones column - light mode (green -> gold) */
+  .smart-deck--milestones .smart-deck-nav-btn {
+    color: rgba(184, 134, 11, 0.6);
+    
+    &::before {
+      background: rgba(184, 134, 11, 0.2);
+    }
+    
+    &:hover {
+      color: #b8860b;
+      
+      &::before {
+        background: rgba(184, 134, 11, 0.4);
+        box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
+      }
+    }
+  }
 }
