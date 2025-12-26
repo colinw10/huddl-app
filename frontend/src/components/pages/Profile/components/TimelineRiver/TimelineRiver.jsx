@@ -660,157 +660,245 @@ function TimelineRiver({
         </div>
       </div>
 
-      {/* MY TIMELINE MODE - User's own posts with carousel navigation */}
-      {viewMode === 'timeline' && (
-        <div className={`river-streams mobile-show-${mobileCategory}`}>
-          {/* Thoughts Column */}
-          <div className="river-column left-stream" data-category="thoughts">
-            <div className="river-column-label mobile-only">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              <span>Thoughts</span>
-            </div>
-            {textPosts.length > 0 ? (
-              <>
-                <div className="river-card text-card">
-                  <div className="river-card-content">
-                    <p className="river-post-text">{textPosts[getDeckIndex('me', 'thoughts')]?.content}</p>
-                    <span className="river-timestamp">{formatDate(textPosts[getDeckIndex('me', 'thoughts')]?.created_at)}</span>
-                  </div>
-                  {/* Use standardized action buttons */}
-                  {renderMyPostActions(textPosts[getDeckIndex('me', 'thoughts')])}
-                  {/* Comment section */}
-                  {renderCommentSection(textPosts[getDeckIndex('me', 'thoughts')])}
-                </div>
-                {textPosts.length > 1 && (
-                  <div className="smart-deck-nav">
-                    <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'thoughts', textPosts.length)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    <div className="smart-deck-dots">
-                      {textPosts.map((_, idx) => (
-                        <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-thoughts']: idx}))} />
-                      ))}
-                    </div>
-                    <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'thoughts', textPosts.length)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : <div className="empty-column">No thoughts yet</div>}
-          </div>
+      {/* MY TIMELINE MODE - User's own posts */}
+      {viewMode === 'timeline' && (() => {
+        // Split posts: first 12 for carousel, rest displayed as full river
+        const CAROUSEL_LIMIT = 12;
+        const carouselThoughts = textPosts.slice(0, CAROUSEL_LIMIT);
+        const riverThoughts = textPosts.slice(CAROUSEL_LIMIT);
+        const carouselMedia = mediaPosts.slice(0, CAROUSEL_LIMIT);
+        const riverMedia = mediaPosts.slice(CAROUSEL_LIMIT);
+        const carouselMilestones = achievementPosts.slice(0, CAROUSEL_LIMIT);
+        const riverMilestones = achievementPosts.slice(CAROUSEL_LIMIT);
+        const hasRiverPosts = riverThoughts.length > 0 || riverMedia.length > 0 || riverMilestones.length > 0;
 
-          {/* Media Column */}
-          <div className="river-column center-stream" data-category="media">
-            <div className="river-column-label mobile-only">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-              <span>Media</span>
-            </div>
-            {mediaPosts.length > 0 ? (
-              <>
-                <div className="river-card media-card">
-                  <div 
-                    className="river-card-media clickable"
-                    onClick={() => mediaPosts[getDeckIndex('me', 'media')]?.media_url && setExpandedMediaPost(mediaPosts[getDeckIndex('me', 'media')])}
-                    style={{ cursor: mediaPosts[getDeckIndex('me', 'media')]?.media_url ? 'pointer' : 'default' }}
-                  >
-                    {mediaPosts[getDeckIndex('me', 'media')]?.media_url ? (
-                      <>
-                        <img src={mediaPosts[getDeckIndex('me', 'media')].media_url} alt="" className="media-image" />
-                        <div className="media-expand-hint">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                          </svg>
+        return (
+          <>
+            {/* CAROUSEL SECTION - First 12 posts per category with carousel nav */}
+            <div className={`river-streams mobile-show-${mobileCategory}`}>
+              {/* Thoughts Column */}
+              <div className="river-column left-stream" data-category="thoughts">
+                <div className="river-column-label mobile-only">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  <span>Thoughts</span>
+                </div>
+                {carouselThoughts.length > 0 ? (
+                  <>
+                    <div className="river-card text-card">
+                      <div className="river-card-content">
+                        <p className="river-post-text">{carouselThoughts[getDeckIndex('me', 'thoughts')]?.content}</p>
+                        <span className="river-timestamp">{formatDate(carouselThoughts[getDeckIndex('me', 'thoughts')]?.created_at)}</span>
+                      </div>
+                      {renderMyPostActions(carouselThoughts[getDeckIndex('me', 'thoughts')])}
+                      {renderCommentSection(carouselThoughts[getDeckIndex('me', 'thoughts')])}
+                    </div>
+                    {carouselThoughts.length > 1 && (
+                      <div className="smart-deck-nav">
+                        <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'thoughts', carouselThoughts.length)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <div className="smart-deck-dots">
+                          {carouselThoughts.map((_, idx) => (
+                            <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-thoughts']: idx}))} />
+                          ))}
                         </div>
-                      </>
-                    ) : (
-                      <div className="media-placeholder">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                        </svg>
+                        <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'thoughts', carouselThoughts.length)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
                       </div>
                     )}
-                  </div>
-                  <div className="river-card-content">
-                    <p className="river-post-text">{mediaPosts[getDeckIndex('me', 'media')]?.content}</p>
-                    <span className="river-timestamp">{formatDate(mediaPosts[getDeckIndex('me', 'media')]?.created_at)}</span>
-                  </div>
-                  {/* Use standardized action buttons */}
-                  {renderMyPostActions(mediaPosts[getDeckIndex('me', 'media')])}
-                  {/* Comment section */}
-                  {renderCommentSection(mediaPosts[getDeckIndex('me', 'media')])}
-                </div>
-                {mediaPosts.length > 1 && (
-                  <div className="smart-deck-nav">
-                    <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'media', mediaPosts.length)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    <div className="smart-deck-dots">
-                      {mediaPosts.map((_, idx) => (
-                        <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-media']: idx}))} />
-                      ))}
-                    </div>
-                    <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'media', mediaPosts.length)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : <div className="empty-column">No media yet</div>}
-          </div>
+                  </>
+                ) : <div className="empty-column">No thoughts yet</div>}
+              </div>
 
-          {/* Milestones Column */}
-          <div className="river-column right-stream" data-category="milestones">
-            <div className="river-column-label mobile-only">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-              <span>Milestones</span>
-            </div>
-            {achievementPosts.length > 0 ? (
-              <>
-                <div className="river-card achievement-card">
-                  <div className="achievement-badge">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>
-                  </div>
-                  <div className="river-card-content">
-                    <p className="river-post-text">{achievementPosts[getDeckIndex('me', 'milestones')]?.content}</p>
-                    <span className="river-timestamp">{formatDate(achievementPosts[getDeckIndex('me', 'milestones')]?.created_at)}</span>
-                  </div>
-                  {/* Use standardized action buttons */}
-                  {renderMyPostActions(achievementPosts[getDeckIndex('me', 'milestones')])}
-                  {/* Comment section */}
-                  {renderCommentSection(achievementPosts[getDeckIndex('me', 'milestones')])}
+              {/* Media Column */}
+              <div className="river-column center-stream" data-category="media">
+                <div className="river-column-label mobile-only">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  <span>Media</span>
                 </div>
-                {achievementPosts.length > 1 && (
-                  <div className="smart-deck-nav">
-                    <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'milestones', achievementPosts.length)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    <div className="smart-deck-dots">
-                      {achievementPosts.map((_, idx) => (
-                        <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-milestones']: idx}))} />
-                      ))}
+                {carouselMedia.length > 0 ? (
+                  <>
+                    <div className="river-card media-card">
+                      <div 
+                        className="river-card-media clickable"
+                        onClick={() => carouselMedia[getDeckIndex('me', 'media')]?.media_url && setExpandedMediaPost(carouselMedia[getDeckIndex('me', 'media')])}
+                        style={{ cursor: carouselMedia[getDeckIndex('me', 'media')]?.media_url ? 'pointer' : 'default' }}
+                      >
+                        {carouselMedia[getDeckIndex('me', 'media')]?.media_url ? (
+                          <>
+                            <img src={carouselMedia[getDeckIndex('me', 'media')].media_url} alt="" className="media-image" />
+                            <div className="media-expand-hint">
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                              </svg>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="media-placeholder">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                      <div className="river-card-content">
+                        <p className="river-post-text">{carouselMedia[getDeckIndex('me', 'media')]?.content}</p>
+                        <span className="river-timestamp">{formatDate(carouselMedia[getDeckIndex('me', 'media')]?.created_at)}</span>
+                      </div>
+                      {renderMyPostActions(carouselMedia[getDeckIndex('me', 'media')])}
+                      {renderCommentSection(carouselMedia[getDeckIndex('me', 'media')])}
                     </div>
-                    <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'milestones', achievementPosts.length)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
+                    {carouselMedia.length > 1 && (
+                      <div className="smart-deck-nav">
+                        <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'media', carouselMedia.length)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <div className="smart-deck-dots">
+                          {carouselMedia.map((_, idx) => (
+                            <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-media']: idx}))} />
+                          ))}
+                        </div>
+                        <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'media', carouselMedia.length)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : <div className="empty-column">No media yet</div>}
+              </div>
+
+              {/* Milestones Column */}
+              <div className="river-column right-stream" data-category="milestones">
+                <div className="river-column-label mobile-only">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  <span>Milestones</span>
+                </div>
+                {carouselMilestones.length > 0 ? (
+                  <>
+                    <div className="river-card achievement-card">
+                      <div className="achievement-badge">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                      </div>
+                      <div className="river-card-content">
+                        <p className="river-post-text">{carouselMilestones[getDeckIndex('me', 'milestones')]?.content}</p>
+                        <span className="river-timestamp">{formatDate(carouselMilestones[getDeckIndex('me', 'milestones')]?.created_at)}</span>
+                      </div>
+                      {renderMyPostActions(carouselMilestones[getDeckIndex('me', 'milestones')])}
+                      {renderCommentSection(carouselMilestones[getDeckIndex('me', 'milestones')])}
+                    </div>
+                    {carouselMilestones.length > 1 && (
+                      <div className="smart-deck-nav">
+                        <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'milestones', carouselMilestones.length)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <div className="smart-deck-dots">
+                          {carouselMilestones.map((_, idx) => (
+                            <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-milestones']: idx}))} />
+                          ))}
+                        </div>
+                        <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'milestones', carouselMilestones.length)}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : <div className="empty-column">No milestones yet</div>}
+              </div>
+            </div>
+
+            {/* RIVER CONTINUATION - All remaining posts (after first 12) as ROWS */}
+            {hasRiverPosts && (
+              <div className="river-continuation">
+                {/* Each row shows one card from each category at the same index */}
+                {Array.from({ length: Math.max(riverThoughts.length, riverMedia.length, riverMilestones.length) }).map((_, rowIndex) => (
+                  <div key={rowIndex} className="river-streams">
+                    {/* Thoughts Column */}
+                    <div className="river-column left-stream">
+                      {riverThoughts[rowIndex] && (
+                        <div className="river-card text-card">
+                          <div className="river-card-content">
+                            <p className="river-post-text">{riverThoughts[rowIndex].content}</p>
+                            <span className="river-timestamp">{formatDate(riverThoughts[rowIndex].created_at)}</span>
+                          </div>
+                          {renderMyPostActions(riverThoughts[rowIndex])}
+                          {renderCommentSection(riverThoughts[rowIndex])}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Media Column */}
+                    <div className="river-column center-stream">
+                      {riverMedia[rowIndex] && (
+                        <div className="river-card media-card">
+                          <div 
+                            className="river-card-media clickable"
+                            onClick={() => riverMedia[rowIndex].media_url && setExpandedMediaPost(riverMedia[rowIndex])}
+                            style={{ cursor: riverMedia[rowIndex].media_url ? 'pointer' : 'default' }}
+                          >
+                            {riverMedia[rowIndex].media_url ? (
+                              <>
+                                <img src={riverMedia[rowIndex].media_url} alt="" className="media-image" />
+                                <div className="media-expand-hint">
+                                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                                  </svg>
+                                </div>
+                              </>
+                            ) : (
+                              <div className="media-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                          <div className="river-card-content">
+                            <p className="river-post-text">{riverMedia[rowIndex].content}</p>
+                            <span className="river-timestamp">{formatDate(riverMedia[rowIndex].created_at)}</span>
+                          </div>
+                          {renderMyPostActions(riverMedia[rowIndex])}
+                          {renderCommentSection(riverMedia[rowIndex])}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Milestones Column */}
+                    <div className="river-column right-stream">
+                      {riverMilestones[rowIndex] && (
+                        <div className="river-card achievement-card">
+                          <div className="achievement-badge">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                          </div>
+                          <div className="river-card-content">
+                            <p className="river-post-text">{riverMilestones[rowIndex].content}</p>
+                            <span className="river-timestamp">{formatDate(riverMilestones[rowIndex].created_at)}</span>
+                          </div>
+                          {renderMyPostActions(riverMilestones[rowIndex])}
+                          {renderCommentSection(riverMilestones[rowIndex])}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
-              </>
-            ) : <div className="empty-column">No milestones yet</div>}
-          </div>
-        </div>
-      )}
+                ))}
+              </div>
+            )}
+          </>
+        );
+      })()}
 
       {/* FRIENDS FEED MODE - Each friend in their own row */}
       {viewMode === 'feed' && (

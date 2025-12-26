@@ -4,12 +4,20 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { usePosts } from '../../../../../contexts/PostsContext';
+import { useAuth } from '../../../../../contexts/AuthContext';
 import './MediaLightbox.scss';
 
 function MediaLightbox({ post, onClose, commentText, setCommentText }) {
-  const { likePost, sharePost, createReply } = usePosts();
+  const { likePost, sharePost, createReply, updatePost, deletePost } = usePosts();
+  const { user: currentUser } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localReplies, setLocalReplies] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // State for editing/deleting comments
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingCommentContent, setEditingCommentContent] = useState('');
+  const [deletingCommentId, setDeletingCommentId] = useState(null);
   
   if (!post) return null;
 
@@ -39,11 +47,52 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
     }
   };
 
+  // Handle comment edit
+  const handleEditComment = async (commentId) => {
+    if (!editingCommentContent.trim()) return;
+    setIsSubmitting(true);
+    const result = await updatePost(commentId, { content: editingCommentContent.trim() });
+    setIsSubmitting(false);
+    if (result.success) {
+      setLocalReplies(prev => prev.map(r => r.id === commentId ? { ...r, content: editingCommentContent.trim() } : r));
+      setEditingCommentId(null);
+      setEditingCommentContent('');
+    }
+  };
+
+  // Handle comment delete
+  const handleDeleteComment = async (commentId) => {
+    setIsSubmitting(true);
+    const result = await deletePost(commentId);
+    setIsSubmitting(false);
+    if (result.success) {
+      setLocalReplies(prev => prev.filter(r => r.id !== commentId));
+      setDeletingCommentId(null);
+    }
+  };
+
   // Use React Portal to render at document body level
   // This ensures the lightbox escapes all parent overflow/transform constraints
   return createPortal(
-    <div className="media-lightbox-overlay" onClick={onClose}>
-      <div className="media-lightbox-content" onClick={(e) => e.stopPropagation()}>
+    <div className={`media-lightbox-overlay ${isExpanded ? 'is-expanded' : ''}`} onClick={onClose}>
+      <div className={`media-lightbox-content ${isExpanded ? 'is-expanded' : ''}`} onClick={(e) => e.stopPropagation()}>
+        {/* Expand Toggle Button */}
+        <button 
+          className="expand-toggle-btn" 
+          onClick={() => setIsExpanded(!isExpanded)}
+          title={isExpanded ? 'Collapse' : 'Expand to fullscreen'}
+        >
+          {isExpanded ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+          )}
+        </button>
+        
         <button className="close-btn-glow" onClick={onClose}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
@@ -154,38 +203,183 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
             {/* Comments List - shows real replies */}
             <div className="lightbox-comments-list">
               {/* Show post's existing replies if any */}
-              {post.replies && post.replies.length > 0 && post.replies.map(reply => (
-                <div key={reply.id} className="lightbox-comment-item">
-                  <div className="comment-composer-avatar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                  </div>
-                  <div className="lightbox-comment-content">
-                    <div className="lightbox-comment-author">{reply.author?.username || 'User'}</div>
-                    <div className="lightbox-comment-text">{reply.content}</div>
-                    <div className="lightbox-comment-meta">
-                      {reply.created_at ? new Date(reply.created_at).toLocaleDateString() : 'Just now'}
+              {post.replies && post.replies.length > 0 && post.replies.map(reply => {
+                const isOwnComment = currentUser && reply.author?.id === currentUser.id;
+                const isEditingThis = editingCommentId === reply.id;
+                
+                return (
+                  <div key={reply.id} className={`lightbox-comment-item ${isEditingThis ? 'is-editing' : ''}`}>
+                    <div className="comment-composer-avatar">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      </svg>
+                    </div>
+                    <div className="lightbox-comment-content">
+                      <div className="lightbox-comment-header">
+                        <div className="lightbox-comment-author">{reply.author?.username || 'User'}</div>
+                        {isOwnComment && !isEditingThis && (
+                          <div className="lightbox-comment-actions">
+                            <button 
+                              className="comment-action-btn" 
+                              title="Edit"
+                              onClick={() => {
+                                setEditingCommentId(reply.id);
+                                setEditingCommentContent(reply.content);
+                              }}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                              </svg>
+                            </button>
+                            <button 
+                              className="comment-action-btn comment-action-btn--delete" 
+                              title="Delete"
+                              onClick={() => setDeletingCommentId(reply.id)}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                              </svg>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {isEditingThis ? (
+                        <div className="comment-edit-form">
+                          <textarea
+                            className="comment-edit-input"
+                            value={editingCommentContent}
+                            onChange={(e) => setEditingCommentContent(e.target.value)}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleEditComment(reply.id);
+                              }
+                              if (e.key === 'Escape') {
+                                setEditingCommentId(null);
+                                setEditingCommentContent('');
+                              }
+                            }}
+                          />
+                          <div className="comment-edit-actions">
+                            <button 
+                              className="comment-edit-btn comment-edit-btn--cancel"
+                              onClick={() => {
+                                setEditingCommentId(null);
+                                setEditingCommentContent('');
+                              }}
+                            >
+                              Cancel
+                            </button>
+                            <button 
+                              className="comment-edit-btn comment-edit-btn--save"
+                              disabled={!editingCommentContent.trim() || isSubmitting}
+                              onClick={() => handleEditComment(reply.id)}
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="lightbox-comment-text">{reply.content}</div>
+                      )}
+                      <div className="lightbox-comment-meta">
+                        {reply.created_at ? new Date(reply.created_at).toLocaleDateString() : 'Just now'}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               
               {/* Show locally added replies (before page refresh) */}
-              {localReplies.map(reply => (
-                <div key={reply.id} className="lightbox-comment-item lightbox-comment-item--new">
-                  <div className="comment-composer-avatar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
+              {localReplies.map(reply => {
+                const isEditingThis = editingCommentId === reply.id;
+                
+                return (
+                  <div key={reply.id} className={`lightbox-comment-item lightbox-comment-item--new ${isEditingThis ? 'is-editing' : ''}`}>
+                    <div className="comment-composer-avatar">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      </svg>
+                    </div>
+                    <div className="lightbox-comment-content">
+                      <div className="lightbox-comment-header">
+                        <div className="lightbox-comment-author">{reply.author?.username || 'You'}</div>
+                        {!isEditingThis && (
+                          <div className="lightbox-comment-actions">
+                            <button 
+                              className="comment-action-btn" 
+                              title="Edit"
+                              onClick={() => {
+                                setEditingCommentId(reply.id);
+                                setEditingCommentContent(reply.content);
+                              }}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                              </svg>
+                            </button>
+                            <button 
+                              className="comment-action-btn comment-action-btn--delete" 
+                              title="Delete"
+                              onClick={() => setDeletingCommentId(reply.id)}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                              </svg>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {isEditingThis ? (
+                        <div className="comment-edit-form">
+                          <textarea
+                            className="comment-edit-input"
+                            value={editingCommentContent}
+                            onChange={(e) => setEditingCommentContent(e.target.value)}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleEditComment(reply.id);
+                              }
+                              if (e.key === 'Escape') {
+                                setEditingCommentId(null);
+                                setEditingCommentContent('');
+                              }
+                            }}
+                          />
+                          <div className="comment-edit-actions">
+                            <button 
+                              className="comment-edit-btn comment-edit-btn--cancel"
+                              onClick={() => {
+                                setEditingCommentId(null);
+                                setEditingCommentContent('');
+                              }}
+                            >
+                              Cancel
+                            </button>
+                            <button 
+                              className="comment-edit-btn comment-edit-btn--save"
+                              disabled={!editingCommentContent.trim() || isSubmitting}
+                              onClick={() => handleEditComment(reply.id)}
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="lightbox-comment-text">{reply.content}</div>
+                      )}
+                      <div className="lightbox-comment-meta">Just now</div>
+                    </div>
                   </div>
-                  <div className="lightbox-comment-content">
-                    <div className="lightbox-comment-author">{reply.author?.username || 'You'}</div>
-                    <div className="lightbox-comment-text">{reply.content}</div>
-                    <div className="lightbox-comment-meta">Just now</div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               
               {/* Empty state */}
               {(!post.replies || post.replies.length === 0) && localReplies.length === 0 && (
@@ -196,6 +390,39 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
             </div>
           </div>
         </div>
+        
+        {/* Delete Comment Confirmation Modal */}
+        {deletingCommentId && (
+          <div className="lightbox-delete-overlay" onClick={() => setDeletingCommentId(null)}>
+            <div className="lightbox-delete-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="lightbox-delete-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.8)" strokeWidth="1.5">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </div>
+              <h3 className="lightbox-delete-title">Delete Comment?</h3>
+              <p className="lightbox-delete-text">This action cannot be undone.</p>
+              <div className="lightbox-delete-actions">
+                <button 
+                  className="lightbox-delete-btn lightbox-delete-btn--cancel"
+                  onClick={() => setDeletingCommentId(null)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="lightbox-delete-btn lightbox-delete-btn--delete"
+                  disabled={isSubmitting}
+                  onClick={() => handleDeleteComment(deletingCommentId)}
+                >
+                  {isSubmitting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>,
     document.body

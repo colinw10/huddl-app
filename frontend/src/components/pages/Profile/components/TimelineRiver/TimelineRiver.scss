@@ -104,10 +104,27 @@
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-xl);
   position: relative;
-  min-height: 100vh;
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
+}
+
+/* River Continuation - All posts after first 12 */
+.river-continuation {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.river-continuation .river-streams {
+  align-items: start;
+}
+
+.river-continuation .river-column {
+  gap: var(--space-lg);
 }
 
 /* Individual River Columns */

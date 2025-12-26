@@ -14,15 +14,17 @@
     max-height: 100vh;
     border-radius: 0;
     gap: 0;
+    flex-direction: column;
   }
   
   .media-lightbox-image-container {
-    height: 55vh;
-    min-height: 280px;
+    height: 45vh;
+    min-height: 200px;
+    flex-shrink: 0;
   }
   
   .media-lightbox-image {
-    max-height: 55vh;
+    max-height: 45vh;
     max-width: 100%;
     object-fit: contain;
   }
@@ -37,9 +39,12 @@
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    max-height: 45vh;
+    height: 55vh;
+    max-height: 55vh;
     border-left: none;
     border-top: 1px solid var(--border-subtle);
+    overflow-y: auto;
+    flex-shrink: 0;
   }
   
   .media-lightbox-header {

@@ -18,6 +18,12 @@
   position: relative;
   z-index: 1;
   background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Expanded mode - image takes more space */
+.media-lightbox-content.is-expanded .media-lightbox-image-container {
+  flex: 2;
 }
 
 .media-lightbox-image {
@@ -28,6 +34,12 @@
   object-fit: contain;
   border-radius: 0;
   box-shadow: none;
+  transition: max-height 0.3s ease;
+}
+
+/* Expanded mode - image fills viewport height */
+.media-lightbox-content.is-expanded .media-lightbox-image {
+  max-height: 100vh;
 }
 
 /* Avatar styling */

@@ -21,6 +21,11 @@
   cursor: pointer;
   box-sizing: border-box;
   overflow: hidden;
+  
+  &.is-expanded {
+    padding: 0;
+    background: rgba(0, 0, 0, 0.95);
+  }
 }
 
 .media-lightbox-content {
@@ -38,6 +43,47 @@
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5),
               0 0 40px rgba(0, 212, 255, 0.1);
   position: relative;
+  transition: all 0.3s ease;
+  
+  &.is-expanded {
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+}
+
+/* Expand Toggle Button */
+.expand-toggle-btn {
+  position: absolute;
+  top: 16px;
+  right: 60px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.25s ease;
+  color: rgba(255, 255, 255, 0.6);
+  
+  &:hover {
+    color: rgba(167, 131, 255, 1);
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 10px rgba(167, 131, 255, 0.6));
+  }
+  
+  svg {
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover svg {
+    transform: scale(1.1);
+  }
 }
 
 /* Cyan ambient glow - top left */
