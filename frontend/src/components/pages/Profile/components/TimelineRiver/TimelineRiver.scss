@@ -1,6 +1,5 @@
 /* TimelineRiver Component Styles */
 @use '../ComposerModal/ComposerModal.scss';
-@use './river-variables' as rv;
 
 .timeline-river {
   width: 100%;
@@ -58,29 +57,44 @@
 
 /* Thoughts - Blue outline */
 .left-label {
-  @include rv.column-glow(rv.$color-thoughts, rv.$color-thoughts-25, rv.$color-thoughts-10);
+  color: rgba(77, 171, 247, 1);
+  border: 1px solid rgba(77, 171, 247, 0.6);
+  box-shadow: 0 0 8px rgba(77, 171, 247, 0.25),
+              inset 0 0 12px rgba(77, 171, 247, 0.1);
+  text-shadow: 0 0 8px rgba(77, 171, 247, 0.5);
 }
 
 .left-label svg {
-  @include rv.icon-glow(rv.$color-thoughts);
+  color: rgba(77, 171, 247, 1);
+  filter: drop-shadow(0 0 6px rgba(77, 171, 247, 0.6));
 }
 
 /* Media - Magenta outline */
 .center-label {
-  @include rv.column-glow(rv.$color-media, rv.$color-media-25, rv.$color-media-10);
+  color: rgba(233, 78, 200, 1);
+  border: 1px solid rgba(233, 78, 200, 0.6);
+  box-shadow: 0 0 8px rgba(233, 78, 200, 0.25),
+              inset 0 0 12px rgba(233, 78, 200, 0.1);
+  text-shadow: 0 0 8px rgba(233, 78, 200, 0.5);
 }
 
 .center-label svg {
-  @include rv.icon-glow(rv.$color-media);
+  color: rgba(233, 78, 200, 1);
+  filter: drop-shadow(0 0 6px rgba(233, 78, 200, 0.6));
 }
 
 /* Milestones - Gold outline */
 .right-label {
-  @include rv.column-glow(rv.$color-milestones, rv.$color-milestones-25, rv.$color-milestones-10);
+  color: rgba(255, 215, 0, 1);
+  border: 1px solid rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25),
+              inset 0 0 12px rgba(255, 215, 0, 0.1);
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
 .right-label svg {
-  @include rv.icon-glow(rv.$color-milestones);
+  color: rgba(255, 215, 0, 1);
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
 }
 
 /* River Streams Container */
@@ -159,8 +173,8 @@
   border-radius: 0;
   color: rgba(255, 255, 255, 0.5);
   /* Chamfered corners */
-  @include rv.chamfer-sm(6px);
-  @include rv.smooth-transition;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   z-index: 1;
   
@@ -178,7 +192,7 @@
     position: absolute;
     inset: -1px;
     background: rgba(255, 255, 255, 0.15);
-    @include rv.chamfer-sm(6px);
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
     z-index: -1;
     transition: all 0.3s ease;
   }
@@ -189,7 +203,7 @@
     position: absolute;
     inset: 1px;
     background: rgba(0, 0, 0, 0.8);
-    @include rv.chamfer-sm(5px);
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
     z-index: -1;
     transition: all 0.3s ease;
   }
@@ -231,46 +245,121 @@
 
 /* ===== THOUGHTS COLUMN (Blue/Cyan) ===== */
 .left-stream .smart-deck-nav-btn {
-  @include rv.nav-btn-color(
-    rv.$color-thoughts-70, rv.$color-thoughts-30, rv.$color-thoughts,
-    rv.$color-thoughts-60, rv.$color-thoughts-50, rv.$color-thoughts-15, rv.$color-thoughts-80
-  );
+  color: rgba(77, 171, 247, 0.7);
+  
+  &::before {
+    background: rgba(77, 171, 247, 0.3);
+  }
+  
+  &:hover {
+    color: rgba(77, 171, 247, 1);
+    
+    &::before {
+      background: rgba(77, 171, 247, 0.6);
+      box-shadow: 0 0 15px rgba(77, 171, 247, 0.5);
+    }
+    
+    &::after {
+      background: rgba(77, 171, 247, 0.15);
+    }
+    
+    svg {
+      filter: drop-shadow(0 0 6px rgba(77, 171, 247, 0.8));
+    }
+  }
 }
 
 .left-stream .smart-deck-dot {
-  @include rv.dot-color(rv.$color-thoughts-30, rv.$color-thoughts-60, rv.$color-thoughts-40);
+  border-color: rgba(77, 171, 247, 0.3);
+  
+  &:hover {
+    border-color: rgba(77, 171, 247, 0.6);
+    box-shadow: 0 0 8px rgba(77, 171, 247, 0.4);
+  }
 }
 
 .left-stream .smart-deck-dot--active {
-  @include rv.dot-active(rv.$color-thoughts-90, rv.$color-thoughts-secondary, rv.$color-thoughts-60, rv.$color-thoughts-30);
+  background: linear-gradient(90deg, rgba(77, 171, 247, 0.9), rgba(79, 255, 255, 0.9));
+  border-color: rgba(77, 171, 247, 0.6);
+  box-shadow: 0 0 12px rgba(77, 171, 247, 0.6),
+              0 0 25px rgba(77, 171, 247, 0.3);
 }
 
 /* ===== MEDIA COLUMN (Magenta/Pink) ===== */
 .center-stream .smart-deck-nav-btn {
-  @include rv.nav-btn-color(
-    rv.$color-media-70, rv.$color-media-30, rv.$color-media,
-    rv.$color-media-60, rv.$color-media-50, rv.$color-media-15, rv.$color-media-80
-  );
+  color: rgba(233, 78, 200, 0.7);
+  
+  &::before {
+    background: rgba(233, 78, 200, 0.3);
+  }
+  
+  &:hover {
+    color: rgba(233, 78, 200, 1);
+    
+    &::before {
+      background: rgba(233, 78, 200, 0.6);
+      box-shadow: 0 0 15px rgba(233, 78, 200, 0.5);
+    }
+    
+    &::after {
+      background: rgba(233, 78, 200, 0.15);
+    }
+    
+    svg {
+      filter: drop-shadow(0 0 6px rgba(233, 78, 200, 0.8));
+    }
+  }
 }
 
 .center-stream .smart-deck-dot {
-  @include rv.dot-color(rv.$color-media-30, rv.$color-media-60, rv.$color-media-40);
+  border-color: rgba(233, 78, 200, 0.3);
+  
+  &:hover {
+    border-color: rgba(233, 78, 200, 0.6);
+    box-shadow: 0 0 8px rgba(233, 78, 200, 0.4);
+  }
 }
 
 .center-stream .smart-deck-dot--active {
-  @include rv.dot-active(rv.$color-media-90, rv.$color-media-secondary, rv.$color-media-60, rv.$color-media-30);
+  background: linear-gradient(90deg, rgba(233, 78, 200, 0.9), rgba(255, 105, 180, 0.9));
+  border-color: rgba(233, 78, 200, 0.6);
+  box-shadow: 0 0 12px rgba(233, 78, 200, 0.6),
+              0 0 25px rgba(233, 78, 200, 0.3);
 }
 
 /* ===== MILESTONES COLUMN (Gold) ===== */
 .right-stream .smart-deck-nav-btn {
-  @include rv.nav-btn-color(
-    rv.$color-milestones-70, rv.$color-milestones-30, rv.$color-milestones,
-    rv.$color-milestones-60, rv.$color-milestones-50, rv.$color-milestones-15, rv.$color-milestones-80
-  );
+  color: rgba(255, 215, 0, 0.7);
+  
+  &::before {
+    background: rgba(255, 215, 0, 0.3);
+  }
+  
+  &:hover {
+    color: rgba(255, 215, 0, 1);
+    
+    &::before {
+      background: rgba(255, 215, 0, 0.6);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+    
+    &::after {
+      background: rgba(255, 215, 0, 0.15);
+    }
+    
+    svg {
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+    }
+  }
 }
 
 .right-stream .smart-deck-dot {
-  @include rv.dot-color(rv.$color-milestones-30, rv.$color-milestones-60, rv.$color-milestones-40);
+  border-color: rgba(255, 215, 0, 0.3);
+  
+  &:hover {
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  }
 }
 
 .right-stream .smart-deck-dot--active {
@@ -707,7 +796,7 @@
   position: relative;
   overflow: visible;
   /* Cyberpunk cut corners - matching feed posts */
-  @include rv.chamfer(12px);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
   /* Thick left border accent for 3D depth */
   border-left: 3px solid var(--accent-color, rgba(79, 255, 255, 0.4));
 }
@@ -723,7 +812,7 @@
     rgba(167, 131, 255, 0.2) 50%,
     var(--accent-color, rgba(79, 255, 255, 0.4)) 100%
   );
-  @include rv.chamfer(12px);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
   z-index: -1;
   transition: all 0.3s ease;
 }
@@ -746,7 +835,7 @@
   background-size: 100% 100%, 150% 150%, 150% 150%, 200% 200%;
   background-position: 0% 50%, 75% 75%, 75% 75%, 50% 50%;
   background-blend-mode: overlay, multiply, overlay;
-  @include rv.chamfer(10px);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   z-index: -1;
 }
 
@@ -1131,34 +1220,34 @@
   
   /* Tab colors per type - Thoughts (Blue) */
   .mobile-category-tab:nth-child(1).active {
-    border-color: rv.$color-thoughts-40;
-    color: rv.$color-thoughts;
+    border-color: rgba(77, 171, 247, 0.4);
+    color: rgba(77, 171, 247, 1);
     
     svg {
-      stroke: rv.$color-thoughts;
-      filter: drop-shadow(0 0 6px rv.$color-thoughts-50);
+      stroke: rgba(77, 171, 247, 1);
+      filter: drop-shadow(0 0 6px rgba(77, 171, 247, 0.5));
     }
   }
   
   /* Tab colors per type - Media (Magenta) */
   .mobile-category-tab:nth-child(2).active {
-    border-color: rv.$color-media-40;
-    color: rv.$color-media;
+    border-color: rgba(233, 78, 200, 0.4);
+    color: rgba(233, 78, 200, 1);
     
     svg {
-      stroke: rv.$color-media;
-      filter: drop-shadow(0 0 6px rv.$color-media-50);
+      stroke: rgba(233, 78, 200, 1);
+      filter: drop-shadow(0 0 6px rgba(233, 78, 200, 0.5));
     }
   }
   
   /* Tab colors per type - Milestones (Gold) */
   .mobile-category-tab:nth-child(3).active {
-    border-color: rv.$color-milestones-40;
-    color: rv.$color-milestones;
+    border-color: rgba(255, 215, 0, 0.4);
+    color: rgba(255, 215, 0, 1);
     
     svg {
-      stroke: rv.$color-milestones;
-      filter: drop-shadow(0 0 6px rv.$color-milestones-50);
+      stroke: rgba(255, 215, 0, 1);
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
     }
   }
 
