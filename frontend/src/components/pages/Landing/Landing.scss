@@ -807,17 +807,17 @@
   animation: buttonFadeIn 5s linear forwards;
 }
 
-/* Button animation delays - staggered after title */
+/* Button animation delays - staggered after title animation completes */
 .btn-login {
-  animation-delay: 2.7s;          // Appears ~2.7s after page load
+  animation-delay: 4s;          // Appears after title glitch settles
 }
 
 .btn-signup {
-  animation-delay: 3s;            // Appears ~3s after page load
+  animation-delay: 4.3s;        // Slightly after login button
 }
 
 .btn-enter {
-  animation-delay: 2.7s;
+  animation-delay: 4s;
   background: rgba(0, 0, 0, 0.2);
   border-color: rgba(255, 255, 255, 0.35);
   color: white;
