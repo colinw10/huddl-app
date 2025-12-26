@@ -44,6 +44,16 @@
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5),
               0 0 40px rgba(26, 231, 132, 0.1);
   animation: slideUp 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fullscreen mode */
+.message-modal.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  border-radius: 0;
+  border: none;
 }
 
 /* Body - Two columns */

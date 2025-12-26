@@ -544,9 +544,8 @@
 }
 
 .friend-action-btn {
-  background: rgba(79, 255, 255, 0.08);
-  border: 1px solid rgba(79, 255, 255, 0.2);
-  border-radius: 8px;
+  background: transparent;
+  border: none;
   color: var(--cyan);
   display: flex;
   align-items: center;
@@ -555,27 +554,54 @@
   transition: all 0.25s ease;
   flex-shrink: 0;
   z-index: 1;
-  padding: 10px;
-  width: 42px;
-  height: 42px;
+  padding: 8px;
+  width: 36px;
+  height: 36px;
 
   &:hover {
     color: var(--text-primary);
-    background: rgba(79, 255, 255, 0.2);
-    border-color: rgba(79, 255, 255, 0.5);
-    transform: scale(1.1);
-    box-shadow: 0 0 16px rgba(79, 255, 255, 0.4);
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px rgba(79, 255, 255, 0.6));
   }
   
   &:active {
     transform: scale(0.95);
-    background: rgba(79, 255, 255, 0.3);
   }
   
   &:focus-visible {
     outline: 2px solid var(--cyan);
     outline-offset: 2px;
-    border-radius: 8px;
+    border-radius: 50%;
+  }
+}
+
+// ============================================
+// REMOVE FRIEND BUTTON (Unlink icon)
+// ============================================
+
+.friend-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-error);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  z-index: 1;
+  padding: 8px;
+  width: 36px;
+  height: 36px;
+
+  &:hover {
+    color: var(--text-primary);
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px rgba(255, 82, 82, 0.6));
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 }
 

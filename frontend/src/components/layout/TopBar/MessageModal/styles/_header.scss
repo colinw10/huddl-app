@@ -38,4 +38,33 @@
     0 0 16px rgba(26, 231, 132, 0.2);
 }
 
+/* Header actions container */
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Fullscreen toggle button */
+.fullscreen-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    color: var(--cyan);
+    background: rgba(0, 212, 255, 0.1);
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
+  }
+}
+
 /* Close button uses global .close-btn-glow class */

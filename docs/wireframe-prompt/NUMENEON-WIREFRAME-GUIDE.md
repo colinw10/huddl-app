@@ -162,10 +162,28 @@ NUMENEON UI wireframe series, minimal dark interface design: Text post composer 
 NUMENEON UI wireframe series, minimal dark interface design: Media upload composer modal. Pure black background #010102 with overlay. Glassmorphic modal. Header X, toggle right magenta #dc08bc active, large dashed upload zone with cloud icon, caption input, submit button magenta glow. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
 ```
 
-### 24. Messages Modal (1024x1024)
+### 24. Messages Modal - Conversation List (1024x1024)
 
 ```
 NUMENEON UI wireframe series, minimal dark interface design: Chat list modal. Pure black background #010102 with overlay. Glassmorphic modal, chamfered corners. Header title and X. Search bar cyan #00d4ff. Conversation rows: avatar circles (emerald #1ae784 online dots), name, preview, timestamp. One row cyan border active. Pink #ff6b9d unread dots. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
+```
+
+### 24a. Messages Modal - Friends & Search Composer (1792x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Messages modal with friends list and search composer. Wide glassmorphic modal, chamfered corners, pure black background #010102 with overlay. LEFT: vertical friends list with avatar circles (emerald #1ae784 online dots), search bar at top with cyan #00d4ff glow, scrollable. CENTER: conversation list as in 24, with previews and unread dots. RIGHT: message composer area with input rectangle, send button, and quick emoji/icons. Header: title, X close. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1792x1024
+```
+
+### 24b. Messages Modal - Instant Message Chat (1024x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Instant message chat view. Pure black background #010102 with overlay. Glassmorphic modal, chamfered corners. Header: back arrow left, avatar circle with emerald #1ae784 online dot, name rectangle, X close right. Main area: message bubbles - own messages right cyan #00d4ff border, received messages left magenta #dc08bc border, timestamps below each. Bottom: text input rectangle with cyan #00d4ff focus ring, send button circle with emerald #1ae784 glow. Glassmorphism bubbles. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
+```
+
+### 24c. Messages Modal - Mobile View (1024x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Mobile instant message fullscreen. Pure black background #010102. Full viewport modal, no border radius. Header: back chevron left cyan #00d4ff, avatar circle, name. Message bubbles: own messages right with cyan #00d4ff rounded corners, received left with magenta #dc08bc rounded corners. Bottom fixed: input bar spanning full width, send circle button emerald #1ae784 glow. High z-index covering all navigation. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
 ```
 
 ### 25. Media Lightbox (1024x1024) ✅

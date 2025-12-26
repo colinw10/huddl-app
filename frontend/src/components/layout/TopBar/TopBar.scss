@@ -27,6 +27,18 @@
   z-index: 100;
 }
 
+/* Notifications icon - amber/gold */
+.icon-notifications {
+  color: var(--amber);
+}
+
+.icon-notifications:hover {
+  color: var(--amber);
+  background: rgba(251, 191, 36, 0.15);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  transform: scale(1.1);
+}
+
 .top-bar-logo {
   @include numeneon-title;
   font-size: 1rem;
@@ -75,6 +87,18 @@
   color: var(--accent);
   background: rgba(26, 231, 132, 0.15);
   box-shadow: 0 0 15px rgba(26, 231, 132, 0.4);
+  transform: scale(1.1);
+}
+
+/* Notifications icon - amber/gold radar pulse */
+.icon-notifications {
+  color: var(--amber);
+}
+
+.icon-notifications:hover {
+  color: var(--amber);
+  background: rgba(251, 191, 36, 0.15);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
   transform: scale(1.1);
 }
 
