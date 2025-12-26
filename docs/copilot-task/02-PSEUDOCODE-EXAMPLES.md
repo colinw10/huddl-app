@@ -31,12 +31,12 @@ Fields you need:
 - author: Who created it? (relationship to User model)
 - type: What kind of post? (must be one of: 'thoughts', 'media', 'milestones')
 - content: The actual text (can be blank for media-only posts)
-- image: Optional image file
+- media_url: Optional URL to media (URLField, NOT ImageField!)
 - parent: Is this a reply to another post? (can be null)
 - created_at: When was it made? (should auto-set on creation)
-- likes_count: Number of likes (integer, default 0)
-- comment_count: Number of comments (integer, default 0)
-- shares_count: Number of shares (integer, default 0)
+- likes_count: Number of likes (PositiveIntegerField, default 0)
+- reply_count: Number of replies (PositiveIntegerField, default 0) - NOT comment_count!
+- shares_count: Number of shares (PositiveIntegerField, default 0)
 
 Engagement metrics are used by Pablo's ProfileCard analytics:
 - Wave chart calculates weekly engagement totals
@@ -98,20 +98,23 @@ Expected response format for GET /api/posts/:
     "author": {
       "id": 5,
       "username": "alice",
-      "avatar": "url..."
+      "first_name": "Alice",
+      "last_name": "Smith"
     },
     "type": "thoughts",
     "content": "This is a post",
-    "image": null,
+    "media_url": null,
     "parent": null,
+    "parent_id": null,
     "created_at": "2024-12-19T10:00:00Z",
     "likes_count": 42,
-    "comment_count": 7,
-    "shares_count": 3
+    "reply_count": 7,
+    "shares_count": 3,
+    "is_liked": false
   }
 ]
 
-IMPORTANT: Engagement fields (likes_count, comment_count, shares_count)
+IMPORTANT: Engagement fields (likes_count, reply_count, shares_count)
 are REQUIRED by Pablo's ProfileCard.jsx for analytics visualizations.
 
 Think about:
@@ -170,18 +173,20 @@ class PostViewSet(viewsets.ModelViewSet):
 // Post object format (from backend):
 // {
 //   id: number,
-//   author: { id: number, username: string, avatar: string },
+//   author: { id: number, username: string, first_name: string, last_name: string },
 //   type: 'thoughts' | 'media' | 'milestones',
 //   content: string,
-//   image: string | null,
+//   media_url: string | null,
 //   created_at: ISO timestamp string,
 //   parent: number | null,
+//   parent_id: number | null,
 //   likes_count: number,      // REQUIRED for ProfileCard analytics
-//   comment_count: number,   // REQUIRED for ProfileCard analytics
-//   shares_count: number      // REQUIRED for ProfileCard analytics
+//   reply_count: number,      // REQUIRED for ProfileCard analytics (NOT comment_count!)
+//   shares_count: number,     // REQUIRED for ProfileCard analytics
+//   is_liked: boolean         // Has current user liked this post?
 // }
 //
-// NOTE: Engagement fields (likes_count, comment_count, shares_count) are
+// NOTE: Engagement fields (likes_count, reply_count, shares_count) are
 // required by Pablo's ProfileCard.jsx for the analytics visualizations:
 // - Wave chart uses weekly engagement totals
 // - Heatmap shows posting frequency
@@ -609,14 +614,15 @@ urlpatterns = [
  * Post Format Expected (from backend):
  * {
  *   id: number,
- *   author: { id: number, username: string, avatar: string },
+ *   author: { id: number, username: string, first_name: string, last_name: string },
  *   type: 'thoughts' | 'media' | 'milestones',
  *   content: string,
- *   image: string | null,
+ *   media_url: string | null,
  *   created_at: ISO timestamp string (e.g., "2024-12-19T10:00:00Z"),
  *   parent: number | null,
+ *   parent_id: number | null,
  *   likes_count: number,
- *   comment_count: number,
+ *   reply_count: number,
  *   shares_count: number,
  *   is_liked: boolean
  * }

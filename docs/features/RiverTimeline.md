@@ -2,7 +2,7 @@
 
 ## Overview
 
-The River Timeline is Numeneon's signature feed display that groups all posts by user into single expandable rows. This "space economy" design lets users quickly scan many people's activity while preserving the ability to deep-dive into any individual's content.
+The River Timeline is Numeneon's signature feed display that groups all posts by user into single rows with carousel navigation. This "space economy" design lets users quickly scan many people's activity while preserving the ability to deep-dive into any individual's content.
 
 ---
 
@@ -15,7 +15,7 @@ Imagine three parallel streams flowing down your feed:
 | 💭 Thoughts     | 🖼️ Media      | 🏆 Milestones |
 | Text-only posts | Image/video   | Achievements  |
 
-Each **row = one user**. Their posts flow through the three columns based on type.
+Each **row = one user**. Their posts flow through the three columns based on type. Rows are sorted by **most recent activity** — whoever posted most recently appears at the top.
 
 ---
 
@@ -44,22 +44,35 @@ Traditional Feed:          River Timeline:
 
 Each column has a distinct purpose:
 
-- **Thoughts (left):** Quick text updates, reflections, quotes
-- **Media (center):** Photos, videos, visual content
-- **Milestones (right):** Achievements, life events, celebrations
+- **Thoughts (cyan/left):** Quick text updates, reflections, quotes
+- **Media (purple/center):** Photos, videos, visual content
+- **Milestones (green/right):** Achievements, life events, celebrations
 
-### 3. Carousel Navigation
+### 3. Performance Limit (MAX_POSTS_PER_TYPE = 12)
 
-When a user has multiple posts of the same type, carousel arrows appear:
+To keep the carousel navigable:
+
+- Maximum **12 posts per type** per user in the feed carousel
+- Prevents excessive clicking (12 is the upper limit of "quick browse")
+- Users can see **all posts** on the Profile page's "All Posts" section
+
+### 4. Carousel Navigation
+
+Chamfered nav buttons with neon glow effects, dimmed by default until hovered:
 
 ```jsx
 // Arrows appear when posts.length > 1
 {
-  thoughts.length > 1 && (
-    <>
-      <button onClick={prevThought}>◀</button>
-      <button onClick={nextThought}>▶</button>
-    </>
+  posts.length > 1 && (
+    <div className="smart-deck-nav">
+      <button className="smart-deck-nav-btn" onClick={prevCard}>
+        ◀
+      </button>
+      <div className="smart-deck-dots">{/* position indicators */}</div>
+      <button className="smart-deck-nav-btn" onClick={nextCard}>
+        ▶
+      </button>
+    </div>
   );
 }
 ```
@@ -73,34 +86,45 @@ When a user has multiple posts of the same type, carousel arrows appear:
 Located in `frontend/src/components/pages/Home/utils/groupPosts.js`:
 
 ```javascript
-export function groupPosts(posts = [], users = []) {
-  const groups = {};
+// Maximum posts per type in carousel (prevents excessive clicking)
+const MAX_POSTS_PER_TYPE = 12;
+
+export const groupPostsByUserAndDay = (posts, options = {}) => {
+  const maxPosts = options.maxPostsPerType ?? MAX_POSTS_PER_TYPE;
+  const grouped = {}; // Keyed by userId only (not date!)
 
   posts.forEach((post) => {
-    const userId = post.user_id || post.user?.id;
+    const authorObj = typeof post.author === "object" ? post.author : null;
+    const userId = post.userId || (authorObj ? authorObj.id : post.author);
 
-    // Group by USER ONLY (not by date)
-    const key = `user-${userId}`;
-
-    if (!groups[key]) {
-      groups[key] = {
-        userId,
-        user: users.find((u) => u.id === userId),
+    if (!grouped[userId]) {
+      grouped[userId] = {
+        user: { id: userId, name: authorObj?.username /* ... */ },
         thoughts: [],
         media: [],
         milestones: [],
-        latestDate: post.created_at,
+        mostRecentDate: postDate,
+        totalCounts: { thoughts: 0, media: 0, milestones: 0 }, // Track total before cap
       };
     }
 
-    // Sort into appropriate column
-    if (post.type === "thought") groups[key].thoughts.push(post);
-    else if (post.type === "media") groups[key].media.push(post);
-    else if (post.type === "milestone") groups[key].milestones.push(post);
+    // Add post to category (capped at maxPosts)
+    const type = post.type || "thoughts";
+    grouped[userId].totalCounts[type]++; // Track total
+    if (grouped[userId][type].length < maxPosts) {
+      grouped[userId][type].push(post);
+    }
   });
 
-  return Object.values(groups);
-}
+  return grouped;
+};
+
+export const sortGroupedPosts = (grouped) => {
+  // Sort by most recent post timestamp (newest first)
+  return Object.values(grouped).sort(
+    (a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp
+  );
+};
 ```
 
 ### Why User-Only Grouping?
@@ -114,38 +138,51 @@ export function groupPosts(posts = [], users = []) {
 **Current (correct):** Grouped by `userId` only
 
 - ✅ Each user = exactly ONE row
-- ✅ Carousel arrows work (3+ posts per type)
+- ✅ Carousel arrows work (2+ posts per type)
 - ✅ True space economy achieved
+- ✅ Most active users bubble to top
 
-### Data Requirements
+### Why Recency Sorting (Not Date-Based Filtering)?
 
-For carousel arrows to appear, each user needs **3+ posts per type**:
+There's **no arbitrary time cutoff** (like "show only posts from last 3 days"). Instead:
 
-```python
-# seed_posts.py structure
-POSTS_DATA = [
-    # Each user gets 9 posts total:
-    # - 3 thoughts  → enables thought carousel
-    # - 3 media     → enables media carousel
-    # - 3 milestones → enables milestone carousel
-]
-```
+- All posts are grouped and sorted by **most recent timestamp**
+- Fresh content naturally rises to top
+- Old content doesn't disappear, just ranks lower
+- No confusion about "where did my friend's posts go?"
 
 ---
 
-## 📊 Row Header Display
+## 📱 Profile Page Integration
 
-Each row shows the user's "last active" time instead of a specific date:
+The Profile page uses River Timeline differently:
 
-```jsx
-<div className="timeline-row-header">
-  <Avatar user={group.user} />
-  <span className="username">{group.user.display_name}</span>
-  <span className="last-active">
-    Last active: {formatDate(group.latestDate)}
-  </span>
-</div>
 ```
+┌─────────────────────────────────┐
+│      Profile Card (header)       │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│   River Timeline (carousel)      │
+│   [Thoughts] [Media] [Milestones]│
+│    max 12 per type, arrows       │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│        All Posts Section         │
+│  Chronological list (unlimited)  │
+│  ┌─────────────────────────────┐│
+│  │ Post (newest)               ││
+│  └─────────────────────────────┘│
+│  ┌─────────────────────────────┐│
+│  │ Post                        ││
+│  └─────────────────────────────┘│
+│         ... (scroll)             │
+└─────────────────────────────────┘
+```
+
+- **River Timeline:** Quick category preview (max 12 per type)
+- **All Posts:** Full chronological feed for deep exploration
 
 ---
 
@@ -155,52 +192,71 @@ Each row shows the user's "last active" time instead of a specific date:
 frontend/src/components/pages/Home/
 ├── Home.jsx                    # Main page
 ├── utils/
-│   └── groupPosts.js           # Grouping logic
+│   └── groupPosts.js           # Grouping logic (MAX_POSTS=12)
 └── components/
-    └── TimelineRiverFeed/
-        ├── TimelineRiverFeed.jsx    # Renders grouped rows
-        ├── TimelineRiverFeed.scss   # Styles
-        ├── TimelineRow.jsx          # Single user row
-        └── PostCard.jsx             # Individual post
+    ├── TimelineRiverFeed/
+    │   └── TimelineRiverFeed.jsx    # Renders grouped rows
+    └── TimelineRiverRow/
+        ├── TimelineRiverRow.jsx     # Single user row with smart decks
+        └── styles/
+            ├── _smart-deck.scss     # Chamfered nav buttons
+            ├── _carousel.scss       # Mobile carousel
+            └── _responsive.scss     # Responsive breakpoints
+
+frontend/src/components/pages/Profile/
+├── Profile.jsx                      # Profile page with All Posts section
+└── components/
+    └── TimelineRiver/
+        └── TimelineRiver.jsx        # Profile-specific timeline
 ```
 
 ---
 
-## 🎯 Benefits
+## 🎯 Why This Design is Efficient
 
-| Benefit              | Description                                                  |
-| -------------------- | ------------------------------------------------------------ |
-| **Scan Speed**       | See 10 users at a glance vs scrolling through 30+ posts      |
-| **Context Grouping** | All of a user's content together, not scattered              |
-| **Type Discovery**   | Quickly see if someone posts thoughts vs media vs milestones |
-| **Less Fatigue**     | Compact view reduces endless scrolling                       |
-| **Carousel Depth**   | Click arrows to explore without leaving the row              |
+| Benefit               | Description                                                  |
+| --------------------- | ------------------------------------------------------------ |
+| **Scan Speed**        | See 10 users at a glance vs scrolling through 30+ posts      |
+| **Context Grouping**  | All of a user's content together, not scattered              |
+| **Type Discovery**    | Quickly see if someone posts thoughts vs media vs milestones |
+| **Less Fatigue**      | Compact view reduces endless scrolling                       |
+| **Carousel Depth**    | Click arrows to explore without leaving the row              |
+| **Capped at 12**      | Carousel never becomes tedious (12 clicks max per type)      |
+| **Profile Deep Dive** | Full posts list available on Profile page when needed        |
+| **Fresh Content**     | Recency sorting keeps active users visible                   |
+
+---
+
+## 🎨 Visual Design
+
+### Carousel Buttons
+
+- **Chamfered corners** (not hexagonal)
+- **Dimmed by default** (opacity: 0.5)
+- **Neon glow on hover** (type-specific colors)
+- **Smooth transitions** (0.3s cubic-bezier)
+
+### Dot Indicators
+
+- **Square with rounded corners** (8px default, 24px active)
+- **Gradient fill when active** (matches type color)
+- **Neon box-shadow glow**
+
+### Type Colors
+
+| Type       | Color            | Glow                     |
+| ---------- | ---------------- | ------------------------ |
+| Thoughts   | Cyan (#4fffff)   | rgba(79, 255, 255, 0.6)  |
+| Media      | Purple (#c9a8ff) | rgba(201, 168, 255, 0.6) |
+| Milestones | Green (#1ae784)  | rgba(26, 231, 132, 0.6)  |
 
 ---
 
 ## 🔗 Related Features
 
-- **Wave Chart**: Shows engagement peaks across 52 weeks
-- **Heatmap**: Shows posting frequency (requires posts spread across dates)
-- **Profile Card**: Flip card with activity analytics
-
----
-
-## 📝 Seed Data for Testing
-
-The river timeline requires proper seed data to demonstrate all features:
-
-```bash
-cd backend
-python seed_posts.py
-```
-
-This creates:
-
-- 6 users with diverse profiles
-- 9 posts per user (3 thoughts, 3 media, 3 milestones)
-- Posts spread across 365 days (for heatmap/wave chart)
-- Realistic engagement (likes: 2-50, comments: 0-12)
+- **Activity Visualization:** Wave chart and heatmap on Profile Card
+- **Profile Card:** Flip card with analytics on back
+- **All Posts Section:** Chronological feed below River Timeline on Profile
 
 ---
 
@@ -210,6 +266,8 @@ The River Timeline transforms a traditional endless feed into a structured, scan
 
 1. **One row = one user** (space economy)
 2. **Three columns = three content types** (visual organization)
-3. **Carousel arrows = deep exploration** (content depth without clutter)
+3. **Max 12 per carousel** (prevents navigation fatigue)
+4. **Recency sorted** (fresh content rises naturally)
+5. **Profile has full list** (deep exploration available)
 
 This design respects users' time while preserving content richness.

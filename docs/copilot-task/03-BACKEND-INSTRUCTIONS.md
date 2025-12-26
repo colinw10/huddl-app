@@ -144,58 +144,78 @@ This file handles user registration, login, and fetching current user data.
 Unlike Posts/Friends which use ViewSets, auth typically uses function-based views
 or simple APIViews because the operations are unique (not standard CRUD).
 
+Also includes a ProfileViewSet for profile CRUD operations.
+
 Endpoints to create:
 - POST /api/auth/signup/ - Create new user account
-- POST /api/auth/login/ - Authenticate and return JWT tokens
+- POST /api/auth/login/ - Authenticate with EMAIL and return JWT tokens
 - GET /api/auth/me/ - Get current logged-in user's data
 
+IMPORTANT: Login uses EMAIL, not username!
+Frontend sends: { "email": "user@example.com", "password": "..." }
+
 For signup:
-- Receive: { username, email, password }
-- Validate: Username/email not taken, password meets requirements
+- Receive: { username, display_name, email, password }
+- Parse display_name into first_name and last_name
+- Validate: Username/email not taken
 - Create: User + Profile
-- Return: JWT tokens + user data
+- Return: { id, username, email, message }
 
-For login:
-- Receive: { username, password }
-- Validate: Credentials are correct
-- Return: JWT tokens + user data
+For login (email_login):
+- Receive: { email, password }
+- Look up user by email, then authenticate with username
+- Return: JWT tokens { access, refresh }
 
-For me:
+For me (current_user):
 - Require: Valid JWT token in Authorization header
-- Return: Current user's data (id, username, email, profile)
+- Return: Current user's data with nested profile
 
-Expected response format for user data:
+Expected response format for /api/auth/me/:
 {
   "id": 1,
   "username": "alice",
   "email": "alice@example.com",
+  "first_name": "Alice",
+  "last_name": "Smith",
   "profile": {
+    "id": 1,
+    "bio": "Hello world!",
     "avatar": "url or null",
-    "bio": "text or empty string"
+    "location": "",
+    "website": ""
   }
 }
 
 Think about:
 - How do you hash passwords? (Django's User.objects.create_user() handles this)
 - Where do JWT tokens come from? (rest_framework_simplejwt is configured in settings)
-- How do you return tokens on signup/login? (Look up RefreshToken.for_user())
+- How do you return tokens on login? (RefreshToken.for_user(user))
 - For /me/, how do you get the current user? (request.user when authenticated)
 - What errors should you return? (400 for validation, 401 for bad credentials)
+- How do you look up user by email? (User.objects.get(email=email))
 
 Hint: Use @api_view(['POST']) decorator for function-based views
 Hint: For JWT: from rest_framework_simplejwt.tokens import RefreshToken
 Hint: Token generation: refresh = RefreshToken.for_user(user)
 Hint: Use IsAuthenticated permission for /me/ endpoint
-Hint: Use your serializers to validate input and format output
+Hint: Use AllowAny for signup and login endpoints
+Hint: Parse display_name: name_parts = display_name.split(' ', 1)
 """
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import viewsets, status
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, SignupSerializer
+from .models import Profile
+from .serializers import ProfileSerializer
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    # Auto-assign logged-in user when creating profile
+    # Your code here
+    pass
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -223,68 +243,81 @@ def current_user(request):
 TODO: Create User Serializers - validate and format user data
 
 Serializers do two jobs:
-1. Validate incoming data (signup form, login form)
+1. Validate incoming data (login form)
 2. Format outgoing data (user JSON for frontend)
 
 Serializers you need:
-- SignupSerializer: Validates signup form data, creates User + Profile
-- LoginSerializer: Validates login credentials
-- ProfileSerializer: Formats Profile data (avatar, bio)
-- UserSerializer: Formats full user data including nested profile
+- EmailLoginSerializer: Custom login that accepts email + password, returns JWT tokens
+- UserSerializer: Formats basic user data (id, username, email, first_name, last_name, date_joined)
+- ProfileSerializer: Formats Profile data with nested user
 
-For SignupSerializer:
-- Fields: username, email, password, password_confirm
-- Validation: passwords match, username unique, email unique
-- Create method: creates User and Profile together
+IMPORTANT: Login uses EMAIL, not username!
+EmailLoginSerializer:
+- Fields: email, password (password is write_only)
+- Validation: Look up user by email, authenticate with username
+- Return: { access, refresh } JWT tokens
 
-For UserSerializer (output):
-- Include: id, username, email
-- Nested: profile (ProfileSerializer)
+For UserSerializer:
+- Include: id, username, email, first_name, last_name, date_joined
 - Read-only: Don't allow editing user via this serializer
 
-Expected output format:
+For ProfileSerializer:
+- Include: id, user (nested UserSerializer), bio, avatar, location, website, created_at, updated_at
+- user is read_only=True (nested)
+- created_at, updated_at are read_only
+
+Expected output format for profile:
 {
   "id": 1,
-  "username": "alice",
-  "email": "alice@example.com",
-  "profile": {
-    "avatar": "/media/profile_pics/alice.jpg",
-    "bio": "Hello world!"
-  }
+  "user": {
+    "id": 1,
+    "username": "alice",
+    "email": "alice@example.com",
+    "first_name": "Alice",
+    "last_name": "Smith",
+    "date_joined": "2024-12-01T..."
+  },
+  "bio": "Hello world!",
+  "avatar": "url or null",
+  "location": "",
+  "website": "",
+  "created_at": "...",
+  "updated_at": "..."
 }
 
 Think about:
-- How do you validate that passwords match? (validate() method)
-- How do you check if username already exists? (validate_username() method)
-- How do you nest ProfileSerializer inside UserSerializer?
+- How do you look up user by email in validate()? (User.objects.get(email=email))
+- How do you authenticate after finding user? (authenticate(username=user.username, password=password))
+- How do you generate JWT tokens? (RefreshToken.for_user(user))
 - Should password be write_only? (YES - never return passwords!)
-- How do you create both User and Profile in one serializer? (create() method)
+- How do you nest UserSerializer inside ProfileSerializer? (user = UserSerializer(read_only=True))
 
-Hint: Use serializers.Serializer for custom validation (Signup, Login)
-Hint: Use serializers.ModelSerializer for model-based serializers (Profile, User)
-Hint: For nested serializers: profile = ProfileSerializer(read_only=True)
-Hint: For write_only fields: password = serializers.CharField(write_only=True)
-Hint: Override create() method to handle User + Profile creation together
+Hint: Use serializers.Serializer for EmailLoginSerializer (custom validation)
+Hint: Use serializers.ModelSerializer for ProfileSerializer and UserSerializer
+Hint: For nested: user = UserSerializer(read_only=True)
+Hint: For write_only: password = serializers.CharField(write_only=True)
+Hint: Import: from rest_framework_simplejwt.tokens import RefreshToken
 """
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import Profile
 
-class ProfileSerializer(serializers.ModelSerializer):
+class EmailLoginSerializer(serializers.Serializer):
+    # Custom login with email instead of username
     # Your code here
     pass
 
 class UserSerializer(serializers.ModelSerializer):
-    # Your code here - include nested ProfileSerializer
+    # Basic user data
+    # Your code here
     pass
 
-class SignupSerializer(serializers.Serializer):
-    # Your code here - validate and create user
-    pass
-
-class LoginSerializer(serializers.Serializer):
-    # Your code here - validate credentials
+class ProfileSerializer(serializers.ModelSerializer):
+    # Profile with nested user
+    # Your code here
     pass
 ```
 
@@ -457,19 +490,23 @@ Fields you need:
 - author: Who created it? (ForeignKey to User)
 - type: What kind? (CharField with choices: 'thoughts', 'media', 'milestones')
 - content: The text content (TextField, can be blank for media-only)
-- image: Optional image (ImageField, only for media posts)
+- media_url: Optional URL to media (URLField, NOT ImageField!)
 - parent: Reply to which post? (ForeignKey to self, null for top-level posts)
 - created_at: When created? (DateTimeField, auto-set)
-- likes_count: Number of likes (IntegerField, default=0)
-- comment_count: Number of comments (IntegerField, default=0)
-- shares_count: Number of shares (IntegerField, default=0)
+- likes_count: Number of likes (PositiveIntegerField, default=0)
+- reply_count: Number of replies (PositiveIntegerField, default=0) - NOT comment_count!
+- shares_count: Number of shares (PositiveIntegerField, default=0)
+
+IMPORTANT: Use media_url (URLField) NOT image (ImageField)!
+- media_url stores a URL string pointing to the image
+- This is simpler than handling file uploads
 
 Integration points:
 - PostsContext (Colin's frontend) fetches and manages these
 - Pablo's TimelineRiverFeed displays posts grouped BY USER (not by date!)
 - Pablo's TimelineRiverRow renders individual posts with carousel navigation
 - Pablo's ProfileCard.jsx uses engagement metrics for analytics:
-  * Wave chart calculates weekly engagement totals (likes + comments + shares)
+  * Wave chart calculates weekly engagement totals (likes + replies + shares)
   * Heatmap shows posting frequency calendar
   * Post type breakdown counts posts by type
 - Each column of the Timeline River shows one post type
@@ -486,15 +523,17 @@ Expected JSON format (from serializer):
   "author": {
     "id": 5,
     "username": "alice",
-    "avatar": "/media/profile_pics/alice.jpg"
+    "first_name": "Alice",
+    "last_name": "Smith"
   },
   "type": "thoughts",
   "content": "Hello NUMENEON!",
-  "image": null,
+  "media_url": null,
   "parent": null,
+  "parent_id": null,
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
-  "comment_count": 7,
+  "reply_count": 7,
   "shares_count": 3,
   "is_liked": false
 }
@@ -510,12 +549,13 @@ Think about:
 - How do you order posts? (Meta class with ordering = ['-created_at'])
 
 Hint: POST_TYPE_CHOICES = [('thoughts', 'Thoughts'), ('media', 'Media'), ('milestones', 'Milestones')]
-Hint: type = models.CharField(max_length=10, choices=POST_TYPE_CHOICES)
+Hint: type = models.CharField(max_length=20, choices=POST_TYPE_CHOICES, default='thoughts')
+Hint: media_url = models.URLField(blank=True, null=True)  # NOT ImageField!
 Hint: parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 Hint: created_at = models.DateTimeField(auto_now_add=True)
-Hint: likes_count = models.IntegerField(default=0)
-Hint: comment_count = models.IntegerField(default=0)
-Hint: shares_count = models.IntegerField(default=0)
+Hint: likes_count = models.PositiveIntegerField(default=0)
+Hint: reply_count = models.PositiveIntegerField(default=0)  # NOT comment_count!
+Hint: shares_count = models.PositiveIntegerField(default=0)
 """
 
 from django.db import models
@@ -640,18 +680,27 @@ The serializer transforms Post model instances to JSON and validates incoming da
 
 Key requirement: Nested author data
 - Don't just return author: 5 (the ID)
-- Return author: { id: 5, username: "alice", avatar: "url" }
+- Return author: { id: 5, username: "alice", first_name: "Alice", last_name: "Smith" }
 - Pablo's components expect this nested format!
 
 For input (creating posts):
-- Accept: type, content, image, parent
+- Accept: type, content, media_url, parent_id (NOT parent!)
 - Don't accept: author, created_at, engagement counts (these are auto-set)
 
 For output (returning posts):
-- Include: id, author (nested), type, content, image, parent, created_at
-- Include: likes_count, comment_count, shares_count (REQUIRED for ProfileCard analytics!)
+- Include: id, author (nested), type, content, media_url, parent, parent_id, created_at
+- Include: likes_count, reply_count, shares_count (REQUIRED for ProfileCard analytics!)
 - Include: is_liked (Boolean - has current user liked this post?)
-- Author should include: id, username, and profile.avatar
+- Author should include: id, username, first_name, last_name
+
+NEW: parent_id field
+- Use PrimaryKeyRelatedField for accepting parent_id in POST requests
+- Use source='parent' to map to the ForeignKey
+- write_only=True so it's only for input
+
+NEW: reply_count field
+- SerializerMethodField that counts replies
+- Returns count of posts where parent=this post
 
 NEW: is_liked field
 - SerializerMethodField that checks if current user has liked this post
@@ -659,34 +708,30 @@ NEW: is_liked field
 - Used by frontend to show filled vs empty heart icon
 
 Think about:
-- How do you nest author data? (Create AuthorSerializer, use it as field)
-- How do you include avatar from related Profile model?
+- How do you nest author data? (Import and use UserSerializer from users app)
 - Should author be read-only? (Yes - set automatically, not by user)
-- How do you handle image field? (ImageField serializes to URL automatically)
+- How do you handle media_url field? (URLField serializes URL automatically)
 - For parent field, should it return nested post or just ID? (Just ID is fine)
+- How do you accept parent_id but store as parent? (source='parent' on PrimaryKeyRelatedField)
 - How do you get current user in serializer? (self.context['request'].user)
 - How do you check if user liked post? (Like.objects.filter(user=user, post=obj).exists())
 
-Hint: Create a simple AuthorSerializer for nested user data
-Hint: In AuthorSerializer, add: avatar = serializers.URLField(source='profile.avatar')
-Hint: In PostSerializer: author = AuthorSerializer(read_only=True)
+Hint: from users.serializers import UserSerializer
+Hint: author = UserSerializer(read_only=True)
+Hint: parent_id = serializers.PrimaryKeyRelatedField(queryset=Post.objects.all(), source='parent', write_only=True, required=False, allow_null=True)
 Hint: is_liked = serializers.SerializerMethodField()
-Hint: def get_is_liked(self, obj): user = self.context['request'].user; return Like.objects.filter(...)
+Hint: reply_count = serializers.SerializerMethodField()
+Hint: def get_is_liked(self, obj): user = self.context['request'].user; return Like.objects.filter(user=user, post=obj).exists()
+Hint: def get_reply_count(self, obj): return obj.replies.count()
 Hint: Make author read_only so users can't set it manually
 """
 
 from rest_framework import serializers
 from .models import Post, Like
-from django.contrib.auth.models import User
-
-class AuthorSerializer(serializers.ModelSerializer):
-    # Nested serializer for author data
-    # Include: id, username, avatar (from profile)
-    # Your code here
-    pass
+from users.serializers import UserSerializer
 
 class PostSerializer(serializers.ModelSerializer):
-    # Include is_liked = SerializerMethodField()
+    # Nested author, is_liked, reply_count, parent_id
     # Your code here
     pass
 ```
@@ -789,46 +834,61 @@ NUMENEON has a friends system with two models:
 1. Friendship: Represents an accepted friendship between two users
 2. FriendRequest: Represents a pending friend request
 
+IMPORTANT: Different from typical symmetric friendship pattern!
+This implementation uses a DIRECTIONAL friendship model:
+- user: The person who has this friend
+- friend: The person they are friends with
+- When Alice adds Bob, create TWO Friendship records (Alice→Bob and Bob→Alice)
+
 Friendship model:
-- user1: First user in friendship (ForeignKey to User)
-- user2: Second user in friendship (ForeignKey to User)
-- created_at: When friendship was created
+- user: The owner of this friend entry (ForeignKey to User)
+- friend: The friend (ForeignKey to User)
+- created_at: When friendship was created (auto-set)
 
 FriendRequest model:
 - from_user: Who sent the request (ForeignKey to User)
 - to_user: Who received it (ForeignKey to User)
-- created_at: When request was sent
-- status: pending, accepted, declined (CharField with choices)
+- created_at: When request was sent (auto-set)
+- NO STATUS FIELD! Requests are simply deleted when accepted/declined.
 
-Design decision: Friendship is symmetric
-- If Alice and Bob are friends, there's ONE Friendship record
-- Either user1=Alice, user2=Bob OR user1=Bob, user2=Alice
-- When querying "Alice's friends", check both user1 and user2
+Design decision: When request is accepted:
+1. Create TWO Friendship records (both directions)
+2. DELETE the FriendRequest (don't update status)
 
 Integration points:
 - FriendsContext (Crystal's frontend) fetches and displays friends
 - Friends.jsx shows friend list and pending requests
 - TopBar might show friend request notifications
 
-Think about:
-- How do you prevent duplicate friendships? (unique_together or check in view)
-- How do you prevent self-friendship? (validate user1 != user2)
-- When request is accepted, create Friendship and delete/update request?
-- How do you get all friends for a user? (Q objects: Q(user1=user) | Q(user2=user))
+Expected response for GET /api/friends/:
+[
+  { "id": 2, "username": "alice", "first_name": "Alice", "last_name": "Smith" },
+  { "id": 3, "username": "bob", "first_name": "Bob", "last_name": "Jones" }
+]
 
-Hint: Use choices for status: STATUS_CHOICES = [('pending', 'Pending'), ('accepted', 'Accepted'), ('declined', 'Declined')]
-Hint: For unique together: class Meta: unique_together = ['user1', 'user2']
-Hint: related_name helps with reverse lookups: related_name='friendships_as_user1'
+Think about:
+- How do you get all friends for a user? (Friendship.objects.filter(user=user))
+- When accepting: create Friendship(user=to_user, friend=from_user) AND Friendship(user=from_user, friend=to_user)
+- When declining: just delete the FriendRequest
+- How do you prevent duplicate friendships? (Check in view before creating)
+- How do you prevent self-friendship? (Validate in view)
+
+Hint: user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friendships')
+Hint: friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friends_of')
+Hint: created_at = models.DateTimeField(auto_now_add=True)
+Hint: class Meta: unique_together = ['user', 'friend']
 """
 
 from django.db import models
 from django.contrib.auth.models import User
 
 class Friendship(models.Model):
+    # user → friend (directional, not symmetric)
     # Your code here
     pass
 
 class FriendRequest(models.Model):
+    # from_user, to_user, created_at (NO status field!)
     # Your code here
     pass
 ```
@@ -840,7 +900,7 @@ class FriendRequest(models.Model):
 TODO: Create Friends API Views - manage friendships and requests
 
 Unlike Posts (CRUD on single model), friends has custom operations.
-Consider using function-based views or APIView instead of ViewSet.
+Use function-based views with @api_view decorator.
 
 Endpoints to create:
 - GET /api/friends/ - List current user's friends
@@ -852,45 +912,79 @@ Endpoints to create:
 
 All endpoints require authentication (must be logged in).
 
+IMPORTANT: friend_list returns simple user data, NOT serialized Friendship objects!
 Expected response for GET /api/friends/:
 [
   {
     "id": 1,
     "username": "alice",
-    "avatar": "/media/profile_pics/alice.jpg"
+    "first_name": "Alice",
+    "last_name": "Smith"
   },
   {
     "id": 2,
     "username": "bob",
-    "avatar": null
+    "first_name": "Bob",
+    "last_name": "Jones"
   }
 ]
 
-Think about:
-- How do you find all friends for current user? (Q objects for both sides)
-- When accepting request, do you create Friendship and delete request?
-- What if user tries to friend themselves? (Return error)
-- What if friend request already exists? (Return error or existing request)
-- What if users are already friends? (Return error)
-- For remove, do you delete Friendship where user is on either side?
+Expected response for GET /api/friends/requests/:
+[
+  {
+    "id": 1,
+    "from_user": {
+      "id": 5,
+      "username": "charlie",
+      "first_name": "Charlie",
+      "last_name": "Brown"
+    },
+    "created_at": "2024-12-19T10:30:00Z"
+  }
+]
 
-Hint: from django.db.models import Q
-Hint: Friendship.objects.filter(Q(user1=request.user) | Q(user2=request.user))
-Hint: Use @api_view decorator for function-based views
-Hint: Or create a ViewSet with custom @action methods
+For accept_request:
+1. Find the FriendRequest by ID
+2. Verify to_user is current user
+3. Create TWO Friendship records (both directions)
+4. DELETE the FriendRequest
+5. Return the new friend's data
+
+For decline_request:
+1. Find the FriendRequest by ID
+2. Verify to_user is current user
+3. DELETE the FriendRequest
+4. Return success response
+
+For remove_friend:
+1. Delete Friendship where user=me AND friend=target
+2. Also delete reverse: user=target AND friend=me
+3. Return success
+
+Think about:
+- How do you find all friends? (Friendship.objects.filter(user=request.user))
+- When accepting, create BOTH directions of friendship
+- What if user tries to friend themselves? (Return 400 error)
+- What if friend request already exists? (Return 400 error)
+- What if users are already friends? (Return 400 error)
+
+Hint: Use @api_view(['GET']) and @api_view(['POST']) decorators
+Hint: Use @permission_classes([IsAuthenticated])
+Hint: Build response dict manually in views (not using serializers for simple cases)
 Hint: Return proper status codes: 201 Created, 400 Bad Request, 404 Not Found
+Hint: For accept: Friendship.objects.create(user=to_user, friend=from_user)
+Hint: For accept: Friendship.objects.create(user=from_user, friend=to_user)
 """
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from django.db.models import Q
 from django.contrib.auth.models import User
 from .models import Friendship, FriendRequest
-from .serializers import FriendshipSerializer, FriendRequestSerializer, UserFriendSerializer
 
-# Your views here
+# Your views here:
+# friend_list, pending_requests, send_request, accept_request, decline_request, remove_friend
 ```
 
 #### `backend/friends/serializers.py`
@@ -900,40 +994,48 @@ from .serializers import FriendshipSerializer, FriendRequestSerializer, UserFrie
 TODO: Create Friends Serializers - format friendship data
 
 You need serializers for:
-1. UserFriendSerializer: Simple user data for friend lists (id, username, avatar)
-2. FriendshipSerializer: Full friendship data (optional, for admin/debugging)
-3. FriendRequestSerializer: Friend request data with from_user and to_user
+1. FriendshipSerializer: Serializes Friendship with nested user/friend data
+2. FriendRequestSerializer: Serializes FriendRequest with nested from_user/to_user
 
-For friend list (GET /api/friends/):
-- Just return array of user objects, not Friendship objects
-- Each user needs: id, username, avatar
+These serializers use UserSerializer from the users app for nested user data.
 
-For friend requests (GET /api/friends/requests/):
-- Return: id (request id), from_user (nested), created_at
-- from_user should include: id, username, avatar
+For FriendshipSerializer:
+- user: nested UserSerializer (read_only)
+- friend: nested UserSerializer (read_only)
+- fields: id, user, friend, created_at
+- read_only_fields: created_at
+
+For FriendRequestSerializer:
+- from_user: nested UserSerializer (read_only)
+- to_user: nested UserSerializer (read_only)
+- fields: id, from_user, to_user, created_at
+- read_only_fields: created_at
+
+NOTE: In views, you may build response dicts manually instead of using
+these serializers for simple endpoints like friend_list. These serializers
+are useful for more complex scenarios.
 
 Think about:
-- UserFriendSerializer is similar to AuthorSerializer from posts
-- How do you include avatar from Profile model?
-- For FriendRequestSerializer, which user is nested? (from_user, since to_user is current user)
+- Import UserSerializer from users app
+- Both serializers are read_only focused (no create via serializer)
+- How do you make nested serializers read_only? (read_only=True parameter)
 
-Hint: Reuse the pattern from PostSerializer's AuthorSerializer
-Hint: avatar = serializers.URLField(source='profile.avatar', read_only=True)
+Hint: from users.serializers import UserSerializer
+Hint: user = UserSerializer(read_only=True)
+Hint: friend = UserSerializer(read_only=True)
 """
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import Friendship, FriendRequest
-
-class UserFriendSerializer(serializers.ModelSerializer):
-    # Your code here
-    pass
+from users.serializers import UserSerializer
 
 class FriendshipSerializer(serializers.ModelSerializer):
+    # Nested user and friend
     # Your code here
     pass
 
 class FriendRequestSerializer(serializers.ModelSerializer):
+    # Nested from_user and to_user
     # Your code here
     pass
 ```

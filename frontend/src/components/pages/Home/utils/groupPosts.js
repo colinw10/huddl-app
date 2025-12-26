@@ -1,10 +1,18 @@
 /**
  * Groups posts by USER ONLY for Timeline River layout
  * All posts from the same user go into ONE row (carousel navigates between them)
+ * Posts are capped at MAX_POSTS_PER_TYPE for carousel performance
  * @param {Array} posts - Flat array of posts
+ * @param {Object} options - Configuration options
+ * @param {number} options.maxPostsPerType - Max posts per type (default: 12)
  * @returns {Object} Structure: { oderId: { user, thoughts[], media[], milestones[], mostRecentDate } }
  */
-export const groupPostsByUserAndDay = (posts) => {
+
+// Maximum posts per type in carousel (prevents excessive clicking)
+const MAX_POSTS_PER_TYPE = 12;
+
+export const groupPostsByUserAndDay = (posts, options = {}) => {
+  const maxPosts = options.maxPostsPerType ?? MAX_POSTS_PER_TYPE;
   const grouped = {}; // 🔵 Keyed by userId only (not date!)
 
   posts.forEach((post) => {
@@ -52,6 +60,7 @@ export const groupPostsByUserAndDay = (posts) => {
         media: [],
         milestones: [],
         mostRecentDate: postDate, // Track most recent post date
+        totalCounts: { thoughts: 0, media: 0, milestones: 0 }, // Track total before cap
       };
     }
 
@@ -61,9 +70,13 @@ export const groupPostsByUserAndDay = (posts) => {
     }
 
     // Add post to correct category (thoughts/media/milestones)
+    // Cap at maxPosts per type for carousel performance
     const type = post.type || "thoughts";
     if (grouped[oderId][type]) {
-      grouped[oderId][type].push(post);
+      grouped[oderId].totalCounts[type]++; // Track total count
+      if (grouped[oderId][type].length < maxPosts) {
+        grouped[oderId][type].push(post);
+      }
     }
   });
 

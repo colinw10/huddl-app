@@ -60,15 +60,20 @@ Before starting:
 // log in/out/signup gets that from here.
 //
 // State you need:
-// - user: Object with user data (id, username, email, profile) or null if not logged in
-// - loading: Boolean - are we checking auth status? (important for initial load)
+// - user: Object with user data (id, username, email, first_name, last_name, profile) or null if not logged in
+// - isLoading: Boolean - are we checking auth status? (important for initial load)
+// - isAuthenticated: Boolean - is user logged in?
 // - error: String - any error messages from auth operations
 //
 // Functions you need to provide:
-// - login(credentials): Send username/password to API, store token, set user
-// - signup(userData): Create account, store token, set user
-// - logout(): Clear token and user state
+// - login(credentials): Send EMAIL/password to API, store tokens, set user
+// - signup(userData): Create account, auto-login, redirect
+// - logout(): Clear tokens and user state
 // - checkAuth(): Check if token exists and is valid, fetch current user
+//
+// IMPORTANT: Login uses EMAIL, not username!
+// Frontend sends: { email: "user@example.com", password: "..." }
+// Backend returns: { access: "...", refresh: "..." }
 //
 // Integration points:
 // - Uses apiClient.js (Tito builds) for HTTP requests
@@ -76,39 +81,45 @@ Before starting:
 // - Login.jsx and Signup.jsx call login() and signup()
 // - ProtectedRoute.jsx checks if user exists
 // - TopBar.jsx displays current user info
-// - PostsContext and FriendsContext might need user.id for filtering
+// - PostsContext and FriendsContext check isAuthenticated before fetching
 //
 // User object format (from backend /api/auth/me/):
 // {
 //   id: number,
 //   username: string,
 //   email: string,
+//   first_name: string,
+//   last_name: string,
 //   profile: {
+//     id: number,
+//     bio: string,
 //     avatar: string | null,
-//     bio: string
+//     location: string,
+//     website: string
 //   }
 // }
 //
 // Token storage:
-// - Store JWT access token in localStorage
-// - On login/signup: save token, then fetch user with /api/auth/me/
-// - On app load: check localStorage for token, if exists fetch user
-// - On logout: clear localStorage, set user to null
-// - On 401 error: token expired, logout automatically
+// - Store JWT access token AND refresh token in localStorage
+// - Keys: 'accessToken' and 'refreshToken'
+// - On login: save both tokens, then fetch user with /api/auth/me/
+// - On app load: check localStorage for accessToken, if exists fetch user
+// - On logout: clear both tokens from localStorage, set user to null
+// - On 401 error: token expired, apiClient handles refresh automatically
 //
 // Think about:
-// - What happens on initial app load? (Check for existing token)
+// - What happens on initial app load? (Check for existing token, fetch user)
 // - How do you handle token refresh? (apiClient interceptor handles this)
 // - What if /api/auth/me/ fails? (Token invalid, logout)
-// - Should loading be true during login/signup? (Yes, for button states)
-// - When should error be cleared? (On new attempt or when user types)
+// - Should isLoading be true during login/signup? (Yes, for button states)
+// - PostsContext and FriendsContext should wait for authLoading to be false
 //
 // Hint: Use createContext() and useContext()
 // Hint: Create custom useAuth() hook for easy consumption
 // Hint: useEffect on mount to check existing auth
-// Hint: Store token: localStorage.setItem('token', token)
-// Hint: Get token: localStorage.getItem('token')
-// Hint: Remove token: localStorage.removeItem('token')
+// Hint: Store tokens: localStorage.setItem('accessToken', token)
+// Hint: Get token: localStorage.getItem('accessToken')
+// Hint: Remove tokens: localStorage.removeItem('accessToken')
 
 import { createContext, useState, useEffect, useContext } from "react";
 import apiClient from "../services/apiClient";
@@ -131,14 +142,16 @@ export function useAuth() {
 //
 // This is where existing users sign in to NUMENEON.
 //
+// IMPORTANT: Login uses EMAIL, not username!
+//
 // Component should:
-// 1. Display a form with username and password fields
+// 1. Display a form with EMAIL and password fields
 // 2. Call AuthContext.login() when user submits
 // 3. Redirect to /home on successful login
 // 4. Display error messages if login fails
 //
 // State you need:
-// - formData: { username: '', password: '' }
+// - formData: { email: '', password: '' }
 // - localError: For form validation errors (optional, context has error too)
 //
 // Integration points:
@@ -148,9 +161,9 @@ export function useAuth() {
 // - Uses Pablo's design system for styling
 //
 // User flow:
-// 1. User enters username and password
+// 1. User enters email and password
 // 2. User clicks "Log In" button
-// 3. Component calls login({ username, password })
+// 3. Component calls login({ email, password })
 // 4. If success: redirect to /home
 // 5. If error: display error message
 //
@@ -166,7 +179,7 @@ export function useAuth() {
 // - Use Pablo's design system variables and mixins
 // - Check src/styles/_variables.scss and _mixins.scss
 //
-// Hint: const { login, error, loading } = useAuth();
+// Hint: const { login, error, isLoading } = useAuth();
 // Hint: const navigate = useNavigate();
 // Hint: After login succeeds, navigate('/home');
 // Hint: Use useEffect to redirect when user becomes truthy
@@ -424,33 +437,48 @@ export default function ProtectedRoute({ children }) {
 //
 // State you need:
 // - posts: Array of post objects from the API
-// - loading: Boolean - are we fetching?
+// - isLoading: Boolean - are we fetching?
 // - error: String - any error messages
 //
 // Functions you need to provide:
 // - fetchPosts(): Get all posts from API, store in state
+// - fetchPostsByUsername(username): Get posts by a specific user (for profile pages)
 // - createPost(postData): Create new post, add to state
 // - updatePost(id, updates): Edit existing post
 // - deletePost(id): Remove post from API and state
+// - fetchReplies(postId): Get all replies for a post
+// - createReply(parentId, content): Create a reply to a post
 // - likePost(id): Toggle like on a post, update state with new likes_count
 // - sharePost(id): Increment share count, update state with new shares_count
-// - getPostsByUser(userId): Filter posts by author (optional helper)
+//
+// IMPORTANT: Wait for AuthContext to finish loading before fetching!
+// - Import useAuth and check authLoading and isAuthenticated
+// - useEffect should depend on [user, authLoading, isAuthenticated]
+//
+// fetchPostsByUsername behavior:
+// - Calls postsService.getByUsername(username)
+// - Merges returned posts into existing posts (avoid duplicates)
+// - Returns { success: true, data: [...] } or { success: false, error: "..." }
 //
 // likePost behavior:
-// - Calls postsService.likePost(id) which hits POST /api/posts/:id/like/
+// - Calls postsService.like(id) which hits POST /api/posts/:id/like/
 // - Backend returns updated post with new likes_count and is_liked
 // - Update that post in local state so UI reflects change immediately
 // - Timeline River shows filled/empty heart based on is_liked
 //
 // sharePost behavior:
-// - Calls postsService.sharePost(id) which hits POST /api/posts/:id/share/
+// - Calls postsService.share(id) which hits POST /api/posts/:id/share/
 // - Backend increments shares_count and returns updated post
 // - Update that post in local state
+//
+// createReply behavior:
+// - Calls postsService.createReply(parentId, content)
+// - Increment reply_count on the parent post in local state
 //
 // Integration points:
 // - Uses postsService.js (you build this too) for API calls
 // - Pablo's Home.jsx consumes posts for TimelineRiverFeed
-// - Pablo's Profile.jsx consumes posts filtered by user
+// - Pablo's Profile.jsx consumes posts filtered by user + shows "All Posts" section
 // - Pablo's ComposerModal calls createPost()
 // - Pablo's DeleteConfirmModal calls deletePost()
 // - Pablo's TimelineRiverRow calls likePost() on heart icon click
@@ -459,20 +487,24 @@ export default function ProtectedRoute({ children }) {
 // RIVER TIMELINE "SPACE ECONOMY":
 // - Posts are grouped BY USER (not by date!) in groupPosts.js
 // - Each user = ONE row with carousel navigation between posts
-// - Need 3+ posts per type per user for carousel arrows to appear
+// - MAX_POSTS_PER_TYPE = 12 (carousel capped for performance)
+// - Profile page: River Timeline (max 12 per type) + "All Posts" section below (chronological, unlimited)
+// - Home feed: Same max 12 limit per user per type
+// - Need 2+ posts per type per user for carousel arrows to appear
 // - seed_posts.py creates 9 posts/user (3 per type) for testing
 //
 // Post object format:
 // {
 //   id: number,
-//   author: { id: number, username: string, avatar: string | null },
+//   author: { id: number, username: string, first_name: string, last_name: string },
 //   type: 'thoughts' | 'media' | 'milestones',
 //   content: string,
-//   image: string | null,
+//   media_url: string | null,  // NOT 'image'!
 //   parent: number | null,
+//   parent_id: number | null,
 //   created_at: string (ISO timestamp),
 //   likes_count: number,      // REQUIRED for ProfileCard analytics
-//   comment_count: number,    // REQUIRED for ProfileCard analytics
+//   reply_count: number,      // NOT 'comment_count'!
 //   shares_count: number,     // REQUIRED for ProfileCard analytics
 //   is_liked: boolean         // Has current user liked this post?
 // }
@@ -483,20 +515,25 @@ export default function ProtectedRoute({ children }) {
 // - These fields MUST be included in the API response!
 //
 // Think about:
-// - When should fetchPosts() run? (On mount, or let components trigger it?)
+// - When should fetchPosts() run? (After auth is done loading AND user is authenticated)
 // - After createPost, refetch all or just add to array? (Add to array is faster)
 // - After likePost, how do you update just that one post? (map and replace)
 // - How do you handle optimistic updates vs waiting for API?
 // - Should posts be sorted? (Newest first: sort by created_at descending)
-// - How do you update a single post in the array? (map and replace)
+// - How do you merge posts from fetchPostsByUsername? (avoid duplicates by ID)
 //
-// Hint: useEffect(() => { fetchPosts(); }, []); for initial load
+// Hint: const { user, isLoading: authLoading, isAuthenticated } = useAuth();
+// Hint: useEffect depends on [user, authLoading, isAuthenticated]
+// Hint: if (authLoading) return; // Wait for auth
+// Hint: if (user && isAuthenticated) fetchPosts();
 // Hint: After create: setPosts(prev => [newPost, ...prev]);
 // Hint: After delete: setPosts(prev => prev.filter(p => p.id !== id));
 // Hint: After update/like: setPosts(prev => prev.map(p => p.id === id ? updated : p));
+// Hint: For merge: const existingIds = new Set(prev.map(p => p.id));
 
 import { createContext, useState, useEffect, useContext } from "react";
-import * as postsService from "../services/postsService";
+import postsService from "../services/postsService";
+import { useAuth } from "./AuthContext";
 
 export const PostsContext = createContext();
 
@@ -517,23 +554,36 @@ export function usePosts() {
 // This file contains functions that make HTTP requests to the backend.
 // It's the bridge between PostsContext and the Django API.
 //
-// Functions you need:
-// - getPosts(): GET /api/posts/ → returns array of posts
-// - getPost(id): GET /api/posts/:id/ → returns single post
-// - createPost(postData): POST /api/posts/ → returns created post
-// - updatePost(id, updates): PATCH /api/posts/:id/ → returns updated post
-// - deletePost(id): DELETE /api/posts/:id/ → returns nothing (204)
-// - getReplies(postId): GET /api/posts/:id/replies/ → returns array of replies
-// - likePost(id): POST /api/posts/:id/like/ → toggles like, returns updated post
-// - sharePost(id): POST /api/posts/:id/share/ → increments share count, returns updated post
+// IMPORTANT: Export as default object with methods, NOT named exports!
 //
-// likePost behavior:
+// Functions you need:
+// - getAll(): GET /api/posts/ → returns array of posts
+// - getByUsername(username): GET /api/posts/?username=xxx → returns posts by user
+// - getById(id): GET /api/posts/:id/ → returns single post
+// - create(data): POST /api/posts/ → returns created post
+// - createReply(parentId, data): POST /api/posts/ with parent_id → returns created reply
+// - update(id, updates): PATCH /api/posts/:id/ → returns updated post
+// - delete(id): DELETE /api/posts/:id/ → returns nothing (204)
+// - getReplies(postId): GET /api/posts/:id/replies/ → returns array of replies
+// - like(id): POST /api/posts/:id/like/ → toggles like, returns updated post
+// - share(id): POST /api/posts/:id/share/ → increments share count, returns updated post
+//
+// getByUsername behavior:
+// - Appends ?username=xxx query parameter to /api/posts/
+// - Backend filters posts by author.username
+// - Used for viewing a specific user's profile posts
+//
+// createReply behavior:
+// - Sends POST to /api/posts/ with parent_id in the data
+// - Spread the data object and add parent_id: parentId
+//
+// like behavior:
 // - Sends POST to /api/posts/:id/like/
 // - Backend toggles the like (creates or deletes Like record)
 // - Returns updated post with new likes_count and is_liked boolean
 // - Frontend uses is_liked to show filled/empty heart icon
 //
-// sharePost behavior:
+// share behavior:
 // - Sends POST to /api/posts/:id/share/
 // - Backend increments shares_count (no toggle - each call adds)
 // - Returns updated post with new shares_count
@@ -543,59 +593,26 @@ export function usePosts() {
 // - PostsContext calls these functions
 // - All functions return response.data (not full axios response)
 //
-// For createPost with images:
-// - If postData.image is a File, use FormData
-// - Otherwise, send as JSON
-//
 // Think about:
 // - Should you handle errors here or throw them? (Throw - let context handle)
-// - How do you detect if there's an image to upload? (postData.image instanceof File)
-// - For FormData: append each field individually
+// - All trailing slashes matter for Django! (/posts/ not /posts)
 //
 // Hint: import apiClient from './apiClient';
 // Hint: const response = await apiClient.get('/posts/');
 // Hint: return response.data;
-// Hint: For likePost: await apiClient.post(`/posts/${id}/like/`);
-// Hint: For sharePost: await apiClient.post(`/posts/${id}/share/`);
-// Hint: For FormData:
-//   const formData = new FormData();
-//   formData.append('type', postData.type);
-//   formData.append('content', postData.content);
-//   if (postData.image) formData.append('image', postData.image);
+// Hint: For getByUsername: apiClient.get(`/posts/?username=${username}`)
+// Hint: For createReply: apiClient.post('/posts/', { ...data, parent_id: parentId })
+// Hint: For like: await apiClient.post(`/posts/${id}/like/`);
+// Hint: For share: await apiClient.post(`/posts/${id}/share/`);
 
 import apiClient from "./apiClient";
 
-export async function getPosts() {
+const postsService = {
+  // getAll, getByUsername, getById, create, createReply, update, delete, getReplies, like, share
   // Your code here
-}
+};
 
-export async function getPost(id) {
-  // Your code here
-}
-
-export async function createPost(postData) {
-  // Your code here
-}
-
-export async function updatePost(id, updates) {
-  // Your code here
-}
-
-export async function deletePost(id) {
-  // Your code here
-}
-
-export async function getReplies(postId) {
-  // Your code here
-}
-
-export async function likePost(id) {
-  // Your code here
-}
-
-export async function sharePost(id) {
-  // Your code here
-}
+export default postsService;
 ```
 
 ---
@@ -612,17 +629,27 @@ export async function sharePost(id) {
 //
 // State you need:
 // - friends: Array of friend user objects
-// - requests: Array of pending friend requests (received)
-// - loading: Boolean
+// - pendingRequests: Array of pending friend requests (received) - NOT just 'requests'!
+// - isLoading: Boolean
 // - error: String
 //
 // Functions you need to provide:
-// - fetchFriends(): Get current user's friends list
-// - fetchRequests(): Get pending friend requests
+// - fetchFriends(): Get current user's friends list AND pending requests (in parallel!)
 // - sendRequest(userId): Send friend request to user
 // - acceptRequest(requestId): Accept a friend request
 // - declineRequest(requestId): Decline a friend request
 // - removeFriend(userId): Unfriend someone
+//
+// IMPORTANT: Wait for AuthContext to finish loading before fetching!
+// - Import useAuth and check authLoading
+// - useEffect should depend on [user, authLoading]
+// - If authLoading, return early (don't fetch yet)
+//
+// fetchFriends behavior:
+// - Fetch BOTH friends AND pending requests in parallel using Promise.all
+// - friendsService.getAll() for friends
+// - friendsService.getPendingRequests() for pending requests
+// - Set both states at once
 //
 // Integration points:
 // - Uses friendsService.js (you build this too) for API calls
@@ -633,27 +660,34 @@ export async function sharePost(id) {
 // {
 //   id: number,
 //   username: string,
-//   avatar: string | null
+//   first_name: string,
+//   last_name: string
 // }
 //
 // Request object format:
 // {
 //   id: number,
-//   from_user: { id: number, username: string, avatar: string | null },
+//   from_user: { id: number, username: string, first_name: string, last_name: string },
 //   created_at: string
 // }
 //
 // Think about:
-// - When to fetch? (On mount, or when Friends page loads?)
-// - After accepting request: add to friends, remove from requests
-// - After declining: just remove from requests
-// - After sending request: maybe show success message?
+// - When to fetch? (After auth is done loading AND user exists)
+// - After accepting request: add to friends, remove from pendingRequests
+// - After declining: just remove from pendingRequests
+// - After removing friend: filter out from friends array
+// - Clear data when logged out (user becomes null)
 //
-// Hint: Similar pattern to PostsContext
-// Hint: After accept: setFriends(prev => [...prev, newFriend]); setRequests(prev => prev.filter(...))
+// Hint: const { user, isLoading: authLoading } = useAuth();
+// Hint: useEffect depends on [user, authLoading]
+// Hint: if (authLoading) return;
+// Hint: if (user) fetchFriends(); else clear arrays
+// Hint: Promise.all([friendsService.getAll(), friendsService.getPendingRequests()])
+// Hint: After accept: setFriends(prev => [...prev, newFriend]); setPendingRequests(prev => prev.filter(...))
 
 import { createContext, useState, useEffect, useContext } from "react";
-import * as friendsService from "../services/friendsService";
+import friendsService from "../services/friendsService";
+import { useAuth } from "./AuthContext";
 
 export const FriendsContext = createContext();
 
@@ -671,13 +705,25 @@ export function useFriends() {
 ```javascript
 // TODO: Create Friends Service - handles all friends API calls
 //
+// IMPORTANT: Export as default object with methods, NOT named exports!
+//
 // Functions you need:
-// - getFriends(): GET /api/friends/ → array of friend users
-// - getRequests(): GET /api/friends/requests/ → array of pending requests
+// - getAll(): GET /api/friends/ → array of friend users
+// - getPendingRequests(): GET /api/friends/requests/ → array of pending requests
 // - sendRequest(userId): POST /api/friends/request/:userId/ → created request
-// - acceptRequest(requestId): POST /api/friends/accept/:requestId/ → success
+// - acceptRequest(requestId): POST /api/friends/accept/:requestId/ → new friend data
 // - declineRequest(requestId): POST /api/friends/decline/:requestId/ → success
-// - removeFriend(userId): DELETE /api/friends/remove/:userId/ → success
+// - remove(userId): DELETE /api/friends/remove/:userId/ → success (no response body)
+//
+// Note the URL patterns:
+// - /friends/ (no params) for listing friends
+// - /friends/requests/ for pending requests
+// - /friends/request/:userId/ for sending request (note singular 'request')
+// - /friends/accept/:requestId/ for accepting
+// - /friends/decline/:requestId/ for declining
+// - /friends/remove/:userId/ for removing friend
+//
+// acceptRequest returns the new friend's data so you can add to friends array
 //
 // Integration points:
 // - Uses apiClient.js (Tito builds)
@@ -686,32 +732,16 @@ export function useFriends() {
 // Hint: Same pattern as postsService.js
 // Hint: apiClient.post(`/friends/request/${userId}/`)
 // Hint: apiClient.delete(`/friends/remove/${userId}/`)
+// Hint: For remove, use await without return (no response body)
 
 import apiClient from "./apiClient";
 
-export async function getFriends() {
+const friendsService = {
+  // getAll, getPendingRequests, sendRequest, acceptRequest, declineRequest, remove
   // Your code here
-}
+};
 
-export async function getRequests() {
-  // Your code here
-}
-
-export async function sendRequest(userId) {
-  // Your code here
-}
-
-export async function acceptRequest(requestId) {
-  // Your code here
-}
-
-export async function declineRequest(requestId) {
-  // Your code here
-}
-
-export async function removeFriend(userId) {
-  // Your code here
-}
+export default friendsService;
 ```
 
 #### `frontend/src/components/pages/Friends/Friends.jsx`
@@ -729,12 +759,12 @@ export async function removeFriend(userId) {
 // - My Friends list
 //
 // For each friend request:
-// - Show sender's profile picture, username
+// - Show sender's username, name
 // - Accept button → calls acceptRequest()
 // - Decline button → calls declineRequest()
 //
 // For each friend:
-// - Show profile picture, username
+// - Show username, name
 // - Remove button → calls removeFriend() (maybe with confirmation)
 //
 // Integration points:
@@ -747,8 +777,9 @@ export async function removeFriend(userId) {
 // - Should remove friend have a confirmation? (Good UX - prevents accidents)
 // - Loading states for each action?
 //
-// Hint: const { friends, requests, acceptRequest, declineRequest, removeFriend } = useFriends();
-// Hint: Map over friends and requests to render lists
+// Hint: const { friends, pendingRequests, acceptRequest, declineRequest, removeFriend } = useFriends();
+// Hint: Map over friends and pendingRequests to render lists
+// Hint: Note: variable is 'pendingRequests' not 'requests'
 
 import { useEffect } from "react";
 import { useFriends } from "../../../contexts/FriendsContext";
@@ -1142,7 +1173,7 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 **Home Page System:**
 
 - `frontend/src/components/pages/Home/Home.jsx`
-- `frontend/src/components/pages/Home/utils/groupPosts.js` ← **Groups by USER ONLY (not date!)**
+- `frontend/src/components/pages/Home/utils/groupPosts.js` ← **Groups by USER ONLY (not date!), MAX 12 posts per type**
 - `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx`
 - `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`
 - `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`
@@ -1158,6 +1189,7 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
   - Uses `useParams()` to detect which profile to show
   - `isOwnProfile` flag controls conditional rendering of composer, toggle, edit/delete
   - `profileUser` lookup from friends or post authors
+  - **Layout:** ProfileCard → River Timeline (max 12 per type) → All Posts section (chronological)
 - `frontend/src/components/pages/Profile/components/ComposerModal/ComposerModal.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.jsx`

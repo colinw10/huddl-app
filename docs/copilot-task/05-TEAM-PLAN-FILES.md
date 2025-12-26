@@ -306,12 +306,12 @@ You're building the posts system - the core content that users create and view. 
 - [ ] author field (ForeignKey to User)
 - [ ] type field (choices: 'thoughts', 'media', 'milestones')
 - [ ] content field (TextField, can be blank)
-- [ ] image field (ImageField, optional)
+- [ ] media_url field (URLField, optional) - NOT ImageField!
 - [ ] parent field (ForeignKey to self, for replies)
 - [ ] created_at timestamp (auto)
-- [ ] likes_count field (IntegerField, default=0)
-- [ ] comment_count field (IntegerField, default=0)
-- [ ] shares_count field (IntegerField, default=0)
+- [ ] likes_count field (PositiveIntegerField, default=0)
+- [ ] reply_count field (PositiveIntegerField, default=0) - NOT comment_count!
+- [ ] shares_count field (PositiveIntegerField, default=0)
 - [ ] Ordered by newest first
 - [ ] Like model with user, post ForeignKeys and unique_together constraint
 
@@ -359,8 +359,8 @@ Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 - [ ] POST /api/posts/:id/like/ toggles like (creates/deletes Like, updates likes_count)
 - [ ] POST /api/posts/:id/share/ increments shares_count
 - [ ] Author auto-set from request.user
-- [ ] Nested author data in response (id, username, avatar)
-- [ ] Include engagement fields in response (likes_count, comment_count, shares_count)
+- [ ] Nested author data in response (id, username, first_name, last_name)
+- [ ] Include engagement fields in response (likes_count, reply_count, shares_count)
 - [ ] Include `is_liked` boolean in response (has current user liked this post?)
 
 **Think about:**
@@ -396,17 +396,21 @@ Toggle buttons are mobile-responsive (breakpoints: 600px, 480px, 375px).
 **Acceptance Criteria:**
 
 - [ ] `posts` state (array)
-- [ ] `loading` state
+- [ ] `isLoading` state
 - [ ] `error` state
 - [ ] `fetchPosts()` gets all posts
+- [ ] `fetchPostsByUsername(username)` gets posts by a specific user
 - [ ] `createPost(data)` creates and adds to state
 - [ ] `updatePost(id, data)` updates in state
 - [ ] `deletePost(id)` removes from state
+- [ ] `fetchReplies(postId)` gets replies for a post
+- [ ] `createReply(parentId, content)` creates reply, increments parent's reply_count
 - [ ] `likePost(id)` toggles like, updates post in state
 - [ ] `sharePost(id)` increments share count, updates post in state
 - [ ] Custom `usePosts()` hook exported
 - [ ] Posts sorted newest first
-- [ ] Post objects include engagement fields (likes_count, comment_count, shares_count)
+- [ ] Wait for AuthContext to finish loading before fetching
+- [ ] Post objects include engagement fields (likes_count, reply_count, shares_count)
 - [ ] Post objects include `is_liked` boolean for current user
 
 **NOTE:** Pablo's ProfileCard.jsx consumes posts for analytics visualizations.
@@ -513,17 +517,23 @@ You're building the friends system - the social connections between users. Frien
 
 **Acceptance Criteria:**
 
-- [ ] Friendship model with user1, user2 fields
-- [ ] FriendRequest model with from_user, to_user, status
-- [ ] Status choices: pending, accepted, declined
+- [ ] Friendship model with user, friend fields (DIRECTIONAL, not symmetric!)
+- [ ] FriendRequest model with from_user, to_user (NO status field!)
 - [ ] created_at timestamps
 - [ ] Prevent duplicate friendships (unique_together)
-- [ ] Prevent self-friendship
+- [ ] Prevent self-friendship (validate in view)
+
+**IMPORTANT: Different from typical symmetric pattern!**
+
+- When accepting a request, create TWO Friendship records (both directions)
+- When removing, delete BOTH Friendship records
+- FriendRequest has NO status field - just delete when accepted/declined
 
 **Think about:**
 
-- Friendship is symmetric: Alice-Bob = Bob-Alice
-- How do you query "all friends of user X"?
+- How do you query "all friends of user X"? (Friendship.objects.filter(user=X))
+- When accepting: create Friendship(user=to_user, friend=from_user) AND Friendship(user=from_user, friend=to_user)
+- When declining: just delete the FriendRequest
 
 ---
 
@@ -540,17 +550,18 @@ You're building the friends system - the social connections between users. Frien
 - [ ] GET /api/friends/ lists current user's friends
 - [ ] GET /api/friends/requests/ lists pending requests
 - [ ] POST /api/friends/request/:user_id/ sends request
-- [ ] POST /api/friends/accept/:request_id/ accepts
-- [ ] POST /api/friends/decline/:request_id/ declines
-- [ ] DELETE /api/friends/remove/:user_id/ unfriends
+- [ ] POST /api/friends/accept/:request_id/ accepts (creates TWO friendships, deletes request)
+- [ ] POST /api/friends/decline/:request_id/ declines (deletes request)
+- [ ] DELETE /api/friends/remove/:user_id/ unfriends (deletes BOTH directions)
 - [ ] All require authentication
 - [ ] Proper error handling
+- [ ] Returns simple user dicts (id, username, first_name, last_name)
 
 **Think about:**
 
 - What if already friends? (Error)
 - What if request already sent? (Error)
-- When accepting, create Friendship and update request
+- When accepting, create BOTH Friendship directions and DELETE request
 
 ---
 
@@ -577,13 +588,17 @@ You're building the friends system - the social connections between users. Frien
 
 - [ ] `friends` state (array of users)
 - [ ] `requests` state (array of requests)
-- [ ] `loading` and `error` states
-- [ ] `fetchFriends()` and `fetchRequests()`
+- [ ] `isLoading` and `error` states
+- [ ] `fetchFriends()` gets both friends AND pending requests in parallel
 - [ ] `sendRequest(userId)`
 - [ ] `acceptRequest(requestId)`
 - [ ] `declineRequest(requestId)`
 - [ ] `removeFriend(userId)`
 - [ ] Custom `useFriends()` hook
+- [ ] Wait for AuthContext to finish loading before fetching
+- [ ] Clear data when logged out
+
+**Note:** Variable names are `friends` and `pendingRequests` (not just `requests`)
 
 ---
 
@@ -595,7 +610,13 @@ You're building the friends system - the social connections between users. Frien
 
 **Acceptance Criteria:**
 
-- [ ] All CRUD functions for friends/requests
+- [ ] `getAll()` - GET /api/friends/
+- [ ] `getPendingRequests()` - GET /api/friends/requests/
+- [ ] `sendRequest(userId)` - POST /api/friends/request/:userId/
+- [ ] `acceptRequest(requestId)` - POST /api/friends/accept/:requestId/
+- [ ] `declineRequest(requestId)` - POST /api/friends/decline/:requestId/
+- [ ] `remove(userId)` - DELETE /api/friends/remove/:userId/
+- [ ] Export as default object (not named exports)
 - [ ] Uses Tito's apiClient
 
 ---
@@ -699,22 +720,25 @@ You've already built the complete UI architecture for NUMENEON - all 75+ compone
   "author": {
     "id": 5,
     "username": "alice",
-    "avatar": "/media/pics/alice.jpg"
+    "first_name": "Alice",
+    "last_name": "Smith"
   },
   "type": "thoughts",
   "content": "Hello world",
-  "image": null,
+  "media_url": null,
   "parent": null,
+  "parent_id": null,
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
-  "comment_count": 7,
-  "shares_count": 3
+  "reply_count": 7,
+  "shares_count": 3,
+  "is_liked": false
 }
 ```
 
 **CRITICAL:** ProfileCard.jsx uses engagement fields for analytics:
 
-- `likes_count`, `comment_count`, `shares_count` → Wave chart engagement totals
+- `likes_count`, `reply_count`, `shares_count` → Wave chart engagement totals
 - `created_at` → Heatmap posting frequency calendar
 - `type` → Post type breakdown donut chart
 - **UI Note:** Wave/Heatmap toggle buttons are responsive (breakpoints at 600px, 480px, 375px)
@@ -1136,15 +1160,17 @@ Collaborative files - each person adds exactly ONE thing
   "author": {
     "id": 5,
     "username": "alice",
-    "avatar": "/media/profile_pics/alice.jpg"
+    "first_name": "Alice",
+    "last_name": "Smith"
   },
   "type": "thoughts",
   "content": "Hello NUMENEON!",
-  "image": null,
+  "media_url": null,
   "parent": null,
+  "parent_id": null,
   "created_at": "2024-12-19T10:30:00Z",
   "likes_count": 42,
-  "comment_count": 7,
+  "reply_count": 7,
   "shares_count": 3,
   "is_liked": false
 }
@@ -1152,7 +1178,7 @@ Collaborative files - each person adds exactly ONE thing
 
 **⚠️ CRITICAL:** Engagement fields + is_liked are REQUIRED:
 
-- `likes_count`, `comment_count`, `shares_count` → Used by wave chart
+- `likes_count`, `reply_count`, `shares_count` → Used by wave chart
 - `created_at` → Used by heatmap calendar
 - `type` → Used by post type breakdown donut chart
 - `is_liked` → Heart icon state (filled/empty) in TimelineRiverRow
@@ -1171,9 +1197,15 @@ Collaborative files - each person adds exactly ONE thing
   "id": 1,
   "username": "alice",
   "email": "alice@example.com",
+  "first_name": "Alice",
+  "last_name": "Smith",
+  "date_joined": "2024-12-01T...",
   "profile": {
-    "avatar": "/media/profile_pics/alice.jpg",
-    "bio": "Cyberpunk enthusiast"
+    "id": 1,
+    "bio": "Cyberpunk enthusiast",
+    "avatar": null,
+    "location": "",
+    "website": ""
   }
 }
 ```
@@ -1181,23 +1213,27 @@ Collaborative files - each person adds exactly ONE thing
 ### Friend Object (in list)
 
 ```json
-"id": 2,
-"username": "bob",
-"avatar": null
+{
+  "id": 2,
+  "username": "bob",
+  "first_name": "Bob",
+  "last_name": "Jones"
 }
-Friend Request Object
-json{
-"id": 1,
-"from_user": {
-"id": 3,
-"username": "charlie",
-"avatar": "/media/profile_pics/charlie.jpg"
-},
-"created_at": "2024-12-19T09:00:00Z"
-}
-
 ```
 
+### Friend Request Object
+
+```json
+{
+  "id": 1,
+  "from_user": {
+    "id": 3,
+    "username": "charlie",
+    "first_name": "Charlie",
+    "last_name": "Brown"
+  },
+  "created_at": "2024-12-19T09:00:00Z"
+}
 ```
 
 ---
@@ -1249,4 +1285,7 @@ After creating all 5 instruction files and 6 team plan files:
 
 That's all 5 files! Here's the summary:
 FileNameContent101-CONTEXT-AND-STRATEGY.mdBackground, strategy, assignments, pseudocode guidelines202-PSEUDOCODE-EXAMPLES.mdAll 11 example templates303-BACKEND-INSTRUCTIONS.mdFull pseudocode for all backend Python files404-FRONTEND-INSTRUCTIONS.mdFull pseudocode for frontend + usage comment instructions505-TEAM-PLAN-FILES.mdTemplates for all 6 team-plan markdown files
+
+```
+
 ```
