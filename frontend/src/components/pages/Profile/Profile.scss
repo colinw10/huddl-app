@@ -833,7 +833,7 @@ html:not([data-theme="light"]) {
 /* Note: .river-card styles come from TimelineRiver.scss which is imported by the TimelineRiver component */
 
 .all-posts-section.river-style {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
   padding: var(--space-lg);
   background: var(--bg-glass);
   border: 1px solid var(--border-subtle);

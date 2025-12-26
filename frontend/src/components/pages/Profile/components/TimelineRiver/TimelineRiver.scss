@@ -5,7 +5,7 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px 200px;
+  padding: 0 20px 40px;
   position: relative;
   box-sizing: border-box;
 }
@@ -111,8 +111,8 @@
 
 /* River Continuation - All posts after first 12 */
 .river-continuation {
-  margin-top: var(--space-2xl);
-  padding-top: var(--space-xl);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
@@ -499,6 +499,54 @@
   gap: var(--space-md);
 }
 
+/* Mobile: Apply same column show/hide to friend rows */
+@media (max-width: 768px) {
+  .friend-row .river-streams {
+    grid-template-columns: 1fr;
+  }
+  
+  .friend-row .river-streams .river-column {
+    display: none;
+  }
+  
+  .friend-row .river-streams.mobile-show-thoughts .left-stream {
+    display: flex;
+  }
+  
+  .friend-row .river-streams.mobile-show-media .center-stream {
+    display: flex;
+  }
+  
+  .friend-row .river-streams.mobile-show-milestones .right-stream {
+    display: flex;
+  }
+  
+  /* Show mobile tabs for Friends Feed */
+  .friends-feed-tabs {
+    display: flex;
+    margin-bottom: var(--space-lg);
+  }
+  
+  /* Hide desktop labels in Friends Feed on mobile */
+  .friends-feed-labels {
+    display: none;
+  }
+}
+
+/* Desktop: Hide mobile tabs in Friends Feed, show labels */
+@media (min-width: 769px) {
+  .friends-feed-tabs {
+    display: none;
+  }
+  
+  .friends-feed-labels {
+    display: grid;
+    position: sticky;
+    top: 60px;
+    z-index: 5;
+  }
+}
+
 .friend-row-header {
   display: flex;
   align-items: center;
@@ -507,7 +555,31 @@
   padding-left: var(--space-sm);
 }
 
-/* Clickable friend header - navigates to their profile */
+/* Clickable friend header inside card - navigates to their profile */
+.river-card-author.clickable-friend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  &:hover {
+    .friend-avatar {
+      border-color: var(--cyan);
+      box-shadow: 0 0 12px rgba(79, 255, 255, 0.4);
+    }
+    
+    .friend-name {
+      color: var(--cyan);
+      text-shadow: 0 0 8px rgba(79, 255, 255, 0.5);
+    }
+  }
+}
+
+/* Legacy standalone header - keep for backwards compatibility */
 .friend-row-header.clickable-friend {
   cursor: pointer;
   transition: all 0.2s ease;
@@ -530,26 +602,30 @@
   }
 }
 
+/* Friend avatar - used in both standalone header and inside cards */
 .friend-avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(26, 115, 231, 0.4), rgba(220, 8, 188, 0.4));
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(79, 255, 255, 0.3);
+  transition: all 0.2s ease;
 }
 
 .friend-name {
   font-family: var(--font-title);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
   letter-spacing: 0.02em;
+  transition: all 0.2s ease;
 }
 
 .empty-column {
@@ -804,6 +880,13 @@
   border-radius: 12px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.3);
+  aspect-ratio: 16/9;
+  
+  .media-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .media-placeholder {

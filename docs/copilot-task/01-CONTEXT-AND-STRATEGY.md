@@ -400,6 +400,38 @@ See `docs/stretch-goals/` for implementation plans.
 - Uses `fetchReplies()`, `createReply()`, `updateReply()`, `deleteReply()` from PostsContext
 - Files: `TimelineRiver.jsx` (lines 325-620)
 
+**Card User Headers (Dec 2024):**
+
+- All timeline cards now display avatar + username INSIDE the card
+- Provides consistent visual identity so users know whose content they're viewing
+- Applied to: Home feed, Friends Feed, My Timeline carousel, River Continuation, All Posts section
+- Friends Feed cards are clickable (navigate to friend's profile)
+- My Timeline cards show profile owner info (not clickable - already on profile)
+- Helper function `getInitials(user)` extracts initials for avatar display
+- CSS: `.river-card-author`, `.friend-avatar`, `.friend-name`, `.clickable-friend`
+- Full documentation: `docs/features-implemented/CardUserHeaders.md`
+
+**Friends Feed Mobile Category Tabs (Dec 2024):**
+
+- Mobile category tabs now work for Friends Feed (not just My Timeline)
+- `mobileCategory` state shared across both view modes
+- Tabs placed inside feed mode section for proper scoping
+- CSS classes: `.friend-row .river-streams.mobile-show-{category}`
+- Each friend row respects the selected mobile category
+
+**River Continuation Spacing (Dec 2024):**
+
+- Reduced gap between carousel section and river continuation
+- `.timeline-river` bottom padding: 200px → 40px
+- `.river-continuation` margin: var(--space-2xl) → var(--space-lg)
+- `.all-posts-section` margin: var(--space-xl) → var(--space-lg)
+
+**All Posts Section User Headers (Dec 2024):**
+
+- Added `getInitials()` helper function to Profile.jsx
+- All Posts cards now show profile owner's avatar and username
+- Consistent with timeline cards structure
+
 ---
 
 **NEXT:** Read `02-PSEUDOCODE-EXAMPLES.md` for all 11 example templates

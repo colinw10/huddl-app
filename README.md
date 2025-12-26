@@ -1,121 +1,176 @@
 # NUMENEON
 
-## For the Team
+> A cyberpunk-themed social media app with a unique **River Timeline** feed design.
 
-This repo uses **Express analogies** throughout the Django backend to make learning easier for those of us coming from Node.js. All comments in the `backend/huddl/` folder compare Django concepts to Express equivalents (middleware, routing, config, etc.).
-
-See **[BACKEND_SETUP.md](./BACKEND_SETUP.md)** for setup instructions and a project structure breakdown.
-
-## Project Structure
-
-```
-huddl-app/
-├── backend/
-│   ├── manage.py          # CLI tool (like "npm run" scripts)
-│   ├── db.sqlite3         # Database file (like your .db or MongoDB data)
-│   ├── venv/              # Virtual environment (like node_modules)
-│   └── huddl/             # Main Django project folder
-│       ├── settings.py    # Config file (like app.js setup + .env)
-│       ├── urls.py        # Main router (like Express app.get/post)
-│       ├── wsgi.py        # Production server entry (like server.listen())
-│       ├── asgi.py        # Async server (like Socket.io setup)
-│       └── __init__.py    # Package marker (no Express equivalent)
-│
-└── frontend/              # React app (TBD)
-```
-
-**Express → Django Quick Map:**
-
-- `app.js` config → `settings.py`
-- Route definitions → `urls.py`
-- `app.use()` middleware → `MIDDLEWARE` array in settings
-- Controllers → Views (coming when we build apps)
-- Models → Models (Django ORM, like Mongoose/Sequelize)
-
-## How Frontend & Backend Talk
-
-```
-User clicks "Post" button
-    ↓
-React (frontend) sends HTTP request
-    ↓
-Django (backend) receives request at /api/posts/
-    ↓
-Django saves to database
-    ↓
-Django sends response back
-    ↓
-React updates the UI
-```
-
-This is the same flow as Express + React. Django handles the backend API, React handles the UI.
-
-## 🎨 Visual Identity & Theme System
-
-Huddl features a **dual-theme design system** with distinct visual identities:
-
-### Dark Mode (Default)
-
-The primary experience - a **cyberpunk-inspired holographic UI**:
-
-- **Color Palette**: Cyan (#4fffff), Purple (#c9a8ff), Green accent (#1ae784)
-- **Holographic Elements**: Layered gradients, glowing accents, clip-path cut corners
-- **Custom Iconography**:
-  - Hexagon hub (Home) - represents the network center
-  - Targeting reticle (Search) - precision finding
-  - Connected nodes (Friends) - network graph visualization
-  - Broadcast waves (Notifications) - signal pulses
-  - Hexagon avatar frame (Profile) - consistent identity
-- **Micro-interactions**: Energy-charge send button, gradient dividers, alternating hover colors
-- **Depth System**: Layered backgrounds with ambient corner glows
-
-### Light Mode (Toggle)
-
-A clean, accessible alternative:
-
-- Classic, universally-recognized icons
-- High contrast for readability
-- Familiar UI patterns for casual users
-
-**Design Philosophy**: Dark mode is the "premium" immersive experience that showcases the app's unique identity. Light mode provides accessibility and familiarity. Users see the best of Huddl first, with the option to switch.
-
-## Code Formatting
-
-The frontend uses **Prettier** for consistent code formatting. After running `npm install` in the `frontend/` folder, VS Code will auto-format your code on save.
-
-**Config:** `.prettierrc` enforces 2-space indentation, single quotes, and semicolons across the team.
+Built with **React + Vite** (frontend) and **Django REST Framework** (backend).
 
 ---
 
-## 🎯 Stretch Goals & Future Features
+## 🌊 The River Timeline
 
-### Collaborative Thread Building
+NUMENEON's signature feature is the **River Timeline** — a feed that flows like three parallel streams instead of one endless scroll.
 
-An innovative commenting system that goes beyond traditional linear threads:
+```
+┌─────────────────────────────────────────────────────────┐
+│                    RIVER TIMELINE                        │
+├───────────────┬───────────────┬─────────────────────────┤
+│ 💭 THOUGHTS   │ 🖼️ MEDIA      │ 🏆 MILESTONES           │
+│ Text posts    │ Photos/videos │ Achievements            │
+├───────────────┼───────────────┼─────────────────────────┤
+│ User A Ep2    │ User A Ep2    │ User A Ep2              │
+│ [◀ 2/12 ▶]    │ [◀ 1/12 ▶]    │                         │
+├───────────────┼───────────────┼─────────────────────────┤
+│ User B        │ User B        │ User B                  │
+│ [◀ 5/12 ▶]    │ [◀ 3/12 ▶]    │ [◀ 1/12 ▶]              │
+├───────────────┼───────────────┼─────────────────────────┤
+│ User A Ep1    │ User A Ep1    │ User A Ep1              │
+│ [12/12 full]  │ [◀ 3/12 ▶]    │                         │
+└───────────────┴───────────────┴─────────────────────────┘
+```
 
-**Concept:** Instead of simple reply chains, users can build "thought webs" where comments connect to multiple previous comments, creating a visual knowledge graph.
+**How it works:**
 
-**Features:**
+1. **One row = one user + one epoch** — A user's posts are grouped into a single row
+2. **Three columns = three content types** — Thoughts (text), Media (images), Milestones (achievements)
+3. **Carousel navigation** — Click arrows to browse posts without scrolling
+4. **Max 12 per category** — When any column fills up, a new "epoch" (row) is created
+5. **Pure recency sorting** — Newest activity rises to the top, no algorithmic manipulation
 
-- **Quote & Connect**: Select text from any comment to build upon specific ideas
-- **Visual Thread Connections**: Relationship lines show how ideas connect
-- **Multi-parent Replies**: One comment can respond to multiple previous comments
-- **Topic Clustering**: Related ideas automatically group together visually
-- **Highlight Connections**: Hover over comments to see all related thoughts
+**Why this design?**
 
-**Why It's Innovative:**
+- **Scan 10 users at a glance** instead of scrolling through 30+ individual posts
+- **Context stays grouped** — see all of someone's recent content together
+- **Discover content types** — quickly see if someone posts thoughts vs media vs achievements
+- **No "rich get richer"** — engagement doesn't boost visibility, only recency matters
 
-- Facebook/Twitter use linear comment streams
-- This creates a **conversation map** instead of a list
-- Makes discussions more meaningful and easier to follow
-- Helps surface the most important ideas and connections
-- Encourages thoughtful responses rather than quick reactions
+See [docs/features/RiverTimeline.md](./docs/features/RiverTimeline.md) for the full technical specification.
 
-**Technical Implementation:**
+---
 
-- Text selection API to capture quoted content
-- Graph data structure for comment relationships
-- Visual indicators (borders, icons, animations) for connections
-- Smart filtering to show/hide thread branches
+## ✨ Key Features
 
-This feature transforms social commenting from a stream into a collaborative knowledge-building tool.
+| Feature                  | Description                                                          |
+| ------------------------ | -------------------------------------------------------------------- |
+| **River Timeline**       | Three-column feed with epoch-based grouping and carousel navigation  |
+| **Profile Flip Card**    | Dual-sided card — profile info on front, analytics dashboard on back |
+| **Engagement Analytics** | Wave chart + GitHub-style activity heatmap                           |
+| **Direct Messaging**     | Real-time DMs with conversation list                                 |
+| **User Navigation**      | Click any avatar/username to view their profile                      |
+| **Card User Headers**    | Every card shows who posted it (avatar + username inside)            |
+| **Mobile Category Tabs** | Tab-based navigation for mobile (Thoughts/Media/Milestones)          |
+| **Search Modal**         | Search users and posts globally                                      |
+| **Theme Toggle**         | Dark mode (cyberpunk) / Light mode (clean)                           |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+
+
+### Backend
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python seed_posts.py       # Create demo data
+python manage.py runserver
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+App runs at `http://localhost:5173` • API at `http://localhost:8000`
+
+---
+
+## 📁 Project Structure
+
+```
+numeneon/
+├── backend/                 # Django REST API
+│   ├── numeneon/           # Project settings
+│   ├── users/              # Auth & profiles
+│   ├── posts/              # Posts, likes, replies
+│   ├── friends/            # Friend requests & connections
+│   └── seed_posts.py       # Demo data generator
+│
+├── frontend/               # React + Vite
+│   └── src/
+│       ├── components/
+│       │   ├── layout/     # TopBar, SideNav, MessageModal
+│       │   └── pages/      # Home, Profile, Login, etc.
+│       ├── contexts/       # Auth, Posts, Friends, Messages, Theme
+│       ├── services/       # API client
+│       └── styles/         # Global SCSS design system
+│
+└── docs/                   # Documentation
+    ├── features/           # Feature specs (RiverTimeline, etc.)
+    └── features-implemented/  # Implementation details
+```
+
+---
+
+## 🎨 Design System
+
+**Colors:**
+
+- Cyan `#4fffff` — Thoughts, primary actions
+- Purple `#c9a8ff` — Media, secondary
+- Green `#1ae784` — Milestones, success
+- Magenta `#e94ec8` — Accents
+
+**Fonts:**
+
+- Orbitron — Headings (futuristic)
+- Rajdhani — Body text (clean, readable)
+
+**Effects:**
+
+- Glassmorphic surfaces with backdrop blur
+- Neon glow shadows
+- Chamfered corners (clip-path, not border-radius)
+- Scan line overlays
+
+---
+
+## 📖 Documentation
+
+- [Backend Setup](./BACKEND_SETUP.md)
+- [River Timeline](./docs/features/RiverTimeline.md)
+- [Implemented Features](./docs/features-implemented/README.md)
+- [Visual Identity](./docs/features/VisualIdentitySystem.md)
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer    | Tech                                          |
+| -------- | --------------------------------------------- |
+| Frontend | React 18, Vite, React Router, SCSS            |
+| Backend  | Django 4.x, Django REST Framework, Simple JWT |
+| Database | SQLite (dev), PostgreSQL (prod)               |
+
+---
+
+## 👥 Team
+
+- **Pablo** — UI Architecture, Visual Design
+- **Natalia** — Backend, Auth, Migrations
+- **Colin** — Posts, Team Lead
+- **Crystal** — Friends, Frontend
+- **Tito** — Infrastructure, Utilities
+
+---
+
+_"In the neon glow, every post tells a story."_

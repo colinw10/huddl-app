@@ -2,7 +2,14 @@
 
 ## Overview
 
-On mobile devices (≤768px), the profile timeline's three-column layout transforms into a tab-based navigation system, allowing users to switch between Thoughts, Media, and Milestones categories.
+On mobile devices (≤768px), the profile timeline's three-column layout transforms into a tab-based navigation system, allowing users to switch between Thoughts, Media, and Milestones categories. This applies to both **My Timeline** and **Friends Feed** modes.
+
+## Supported Views
+
+| View         | Location                 | Description                        |
+| ------------ | ------------------------ | ---------------------------------- |
+| My Timeline  | Profile page (own/other) | User's posts in three categories   |
+| Friends Feed | Profile page (own only)  | Friends' posts in three categories |
 
 ## Design
 

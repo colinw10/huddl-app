@@ -66,6 +66,17 @@ function Profile() {
     return fullName || user.username || 'User';
   };
   
+  // Helper to get initials from user
+  const getInitials = (user) => {
+    if (!user) return '??';
+    const first = user.first_name?.[0] || '';
+    const last = user.last_name?.[0] || '';
+    if (first && last) return `${first}${last}`.toUpperCase();
+    if (first) return first.toUpperCase();
+    if (user.username) return user.username.slice(0, 2).toUpperCase();
+    return '??';
+  };
+
   const [isFlipped, setIsFlipped] = useState(false);
   const [showComposer, setShowComposer] = useState(false);
   const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
@@ -274,6 +285,7 @@ function Profile() {
         onDeletePost={isOwnProfile ? deletePost : null}
         onUpdatePost={isOwnProfile ? updatePost : null}
         isOwnProfile={isOwnProfile}
+        profileUser={profileUser}
       />
 
       {/* All Posts Section - Uses same chamfered river-card styles as timeline carousel */}
@@ -298,6 +310,11 @@ function Profile() {
                 const cardTypeClass = post.type === 'thoughts' ? 'text-card' : post.type === 'media' ? 'media-card' : 'achievement-card';
                 return (
                   <div key={post.id} className={`river-card ${cardTypeClass}`}>
+                    {/* User header inside card */}
+                    <div className="river-card-author">
+                      <div className="friend-avatar">{getInitials(profileUser)}</div>
+                      <span className="friend-name">{profileUser?.username || 'User'}</span>
+                    </div>
                     {/* Achievement badge for milestones */}
                     {post.type === 'milestones' && (
                       <div className="achievement-badge">

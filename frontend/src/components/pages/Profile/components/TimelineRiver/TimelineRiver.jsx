@@ -37,7 +37,8 @@ function TimelineRiver({
   feedAchievementPosts,
   onDeletePost,
   onUpdatePost,
-  isOwnProfile = true // Default to own profile for backwards compatibility
+  isOwnProfile = true, // Default to own profile for backwards compatibility
+  profileUser // The user whose profile we're viewing
 }) {
   // Get likePost and reply functions from context
   const { posts: allPosts, likePost, createReply, fetchReplies, updatePost: updateReply, deletePost: deleteReply } = usePosts();
@@ -601,64 +602,68 @@ function TimelineRiver({
 
   return (
     <div className="timeline-river">
-      {/* Mobile Category Tabs - visible only on mobile */}
-      <div className="mobile-category-tabs">
-        <button 
-          className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
-          onClick={() => setMobileCategory('thoughts')}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span>Thoughts</span>
-        </button>
-        <button 
-          className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
-          onClick={() => setMobileCategory('media')}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Media</span>
-        </button>
-        <button 
-          className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
-          onClick={() => setMobileCategory('milestones')}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-          <span>Milestones</span>
-        </button>
-      </div>
+      {/* Mobile Category Tabs - visible only on mobile, only for My Timeline */}
+      {viewMode === 'timeline' && (
+        <div className="mobile-category-tabs">
+          <button 
+            className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
+            onClick={() => setMobileCategory('thoughts')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Thoughts</span>
+          </button>
+          <button 
+            className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
+            onClick={() => setMobileCategory('media')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>Media</span>
+          </button>
+          <button 
+            className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
+            onClick={() => setMobileCategory('milestones')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Milestones</span>
+          </button>
+        </div>
+      )}
 
-      {/* River Column Labels */}
-      <div className="river-labels">
-        <div className="river-label left-label">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span>Thoughts</span>
+      {/* River Column Labels - only for My Timeline */}
+      {viewMode === 'timeline' && (
+        <div className="river-labels">
+          <div className="river-label left-label">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Thoughts</span>
+          </div>
+          <div className="river-label center-label">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>Media</span>
+          </div>
+          <div className="river-label right-label">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Milestones</span>
+          </div>
         </div>
-        <div className="river-label center-label">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Media</span>
-        </div>
-        <div className="river-label right-label">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-          <span>Milestones</span>
-        </div>
-      </div>
+      )}
 
       {/* MY TIMELINE MODE - User's own posts */}
       {viewMode === 'timeline' && (() => {
@@ -687,6 +692,11 @@ function TimelineRiver({
                 {carouselThoughts.length > 0 ? (
                   <>
                     <div className="river-card text-card">
+                      {/* User header inside card */}
+                      <div className="river-card-author">
+                        <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
+                        <span className="friend-name">{profileUser?.username || 'User'}</span>
+                      </div>
                       <div className="river-card-content">
                         <p className="river-post-text">{carouselThoughts[getDeckIndex('me', 'thoughts')]?.content}</p>
                         <span className="river-timestamp">{formatDate(carouselThoughts[getDeckIndex('me', 'thoughts')]?.created_at)}</span>
@@ -726,6 +736,11 @@ function TimelineRiver({
                 {carouselMedia.length > 0 ? (
                   <>
                     <div className="river-card media-card">
+                      {/* User header inside card */}
+                      <div className="river-card-author">
+                        <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
+                        <span className="friend-name">{profileUser?.username || 'User'}</span>
+                      </div>
                       <div 
                         className="river-card-media clickable"
                         onClick={() => carouselMedia[getDeckIndex('me', 'media')]?.media_url && setExpandedMediaPost(carouselMedia[getDeckIndex('me', 'media')])}
@@ -786,6 +801,11 @@ function TimelineRiver({
                 {carouselMilestones.length > 0 ? (
                   <>
                     <div className="river-card achievement-card">
+                      {/* User header inside card */}
+                      <div className="river-card-author">
+                        <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
+                        <span className="friend-name">{profileUser?.username || 'User'}</span>
+                      </div>
                       <div className="achievement-badge">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
@@ -828,6 +848,11 @@ function TimelineRiver({
                     <div className="river-column left-stream">
                       {riverThoughts[rowIndex] && (
                         <div className="river-card text-card">
+                          {/* User header inside card */}
+                          <div className="river-card-author">
+                            <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
+                            <span className="friend-name">{profileUser?.username || 'User'}</span>
+                          </div>
                           <div className="river-card-content">
                             <p className="river-post-text">{riverThoughts[rowIndex].content}</p>
                             <span className="river-timestamp">{formatDate(riverThoughts[rowIndex].created_at)}</span>
@@ -842,6 +867,11 @@ function TimelineRiver({
                     <div className="river-column center-stream">
                       {riverMedia[rowIndex] && (
                         <div className="river-card media-card">
+                          {/* User header inside card */}
+                          <div className="river-card-author">
+                            <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
+                            <span className="friend-name">{profileUser?.username || 'User'}</span>
+                          </div>
                           <div 
                             className="river-card-media clickable"
                             onClick={() => riverMedia[rowIndex].media_url && setExpandedMediaPost(riverMedia[rowIndex])}
@@ -878,6 +908,11 @@ function TimelineRiver({
                     <div className="river-column right-stream">
                       {riverMilestones[rowIndex] && (
                         <div className="river-card achievement-card">
+                          {/* User header inside card */}
+                          <div className="river-card-author">
+                            <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
+                            <span className="friend-name">{profileUser?.username || 'User'}</span>
+                          </div>
                           <div className="achievement-badge">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
@@ -903,21 +938,81 @@ function TimelineRiver({
       {/* FRIENDS FEED MODE - Each friend in their own row */}
       {viewMode === 'feed' && (
         <div className="friends-feed-rows">
+          {/* Mobile Category Tabs for Friends Feed */}
+          <div className="mobile-category-tabs friends-feed-tabs">
+            <button 
+              className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
+              onClick={() => setMobileCategory('thoughts')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Thoughts</span>
+            </button>
+            <button 
+              className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
+              onClick={() => setMobileCategory('media')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Media</span>
+            </button>
+            <button 
+              className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
+              onClick={() => setMobileCategory('milestones')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span>Milestones</span>
+            </button>
+          </div>
+
+          {/* Column Labels for Friends Feed - desktop only */}
+          <div className="river-labels friends-feed-labels">
+            <div className="river-label left-label">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Thoughts</span>
+            </div>
+            <div className="river-label center-label">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Media</span>
+            </div>
+            <div className="river-label right-label">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span>Milestones</span>
+            </div>
+          </div>
+
           {friendsGrouped.map((friend) => (
             <div key={friend.username} className="friend-row">
-              <div 
-                className="friend-row-header clickable-friend"
-                onClick={() => navigate(`/profile/${friend.username}`)}
-                title={`View ${friend.username}'s profile`}
-              >
-                <div className="friend-avatar">{friend.avatar}</div>
-                <span className="friend-name">{friend.username}</span>
-              </div>
               <div className={`river-streams mobile-show-${mobileCategory}`}>
                 <div className="river-column left-stream" data-category="thoughts">
                   {friend.thoughts.length > 0 ? (
                     <>
                       <div className="river-card text-card">
+                        {/* User header inside card - matches Home feed */}
+                        <div 
+                          className="river-card-author clickable-friend"
+                          onClick={() => navigate(`/profile/${friend.username}`)}
+                          title={`View ${friend.username}'s profile`}
+                        >
+                          <div className="friend-avatar">{friend.avatar}</div>
+                          <span className="friend-name">{friend.username}</span>
+                        </div>
                         <div className="river-card-content">
                           <p className="river-post-text">{friend.thoughts[getDeckIndex(friend.username, 'thoughts')]?.content}</p>
                           <span className="river-timestamp">{formatDate(friend.thoughts[getDeckIndex(friend.username, 'thoughts')]?.created_at)}</span>
@@ -953,6 +1048,15 @@ function TimelineRiver({
                   {friend.media.length > 0 ? (
                     <>
                       <div className="river-card media-card">
+                        {/* User header inside card - matches Home feed */}
+                        <div 
+                          className="river-card-author clickable-friend"
+                          onClick={() => navigate(`/profile/${friend.username}`)}
+                          title={`View ${friend.username}'s profile`}
+                        >
+                          <div className="friend-avatar">{friend.avatar}</div>
+                          <span className="friend-name">{friend.username}</span>
+                        </div>
                         <div className="river-card-media">
                           {friend.media[getDeckIndex(friend.username, 'media')]?.media_url ? (
                             <img src={friend.media[getDeckIndex(friend.username, 'media')].media_url} alt="" className="media-image" />
@@ -999,6 +1103,15 @@ function TimelineRiver({
                   {friend.milestones.length > 0 ? (
                     <>
                       <div className="river-card achievement-card">
+                        {/* User header inside card - matches Home feed */}
+                        <div 
+                          className="river-card-author clickable-friend"
+                          onClick={() => navigate(`/profile/${friend.username}`)}
+                          title={`View ${friend.username}'s profile`}
+                        >
+                          <div className="friend-avatar">{friend.avatar}</div>
+                          <span className="friend-name">{friend.username}</span>
+                        </div>
                         <div className="achievement-badge">
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>

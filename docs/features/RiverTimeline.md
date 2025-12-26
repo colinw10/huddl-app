@@ -2,7 +2,7 @@
 
 ## Overview
 
-The River Timeline is Numeneon's signature feed display that groups all posts by user into single rows with carousel navigation. This "space economy" design lets users quickly scan many people's activity while preserving the ability to deep-dive into any individual's content.
+The River Timeline is Numeneon's signature feed display that groups posts by user into rows with carousel navigation. Each row holds up to 12 posts per category. When any category fills up, a fresh new row is created for that user — the old row stays in the feed, just further down.
 
 ---
 
@@ -15,7 +15,32 @@ Imagine three parallel streams flowing down your feed:
 | 💭 Thoughts     | 🖼️ Media      | 🏆 Milestones |
 | Text-only posts | Image/video   | Achievements  |
 
-Each **row = one user**. Their posts flow through the three columns based on type. Rows are sorted by **most recent activity** — whoever posted most recently appears at the top.
+Each **row = one user + one epoch**. An epoch is a batch of posts (max 12 per category). When any category hits 12, the row is "sealed" and a new epoch begins. Rows are sorted by **most recent activity** — the row with the newest post appears at the top.
+
+### Epoch Example
+
+```
+User A posts 12 thoughts, 3 media, 0 milestones → Epoch 1 sealed (thoughts maxed)
+User A posts 2 more thoughts, 1 media         → Epoch 2 created at top
+
+Feed looks like:
+┌─────────────────────────────────────────────┐
+│ User A - Epoch 2 (newest)                   │
+│ [Thoughts 2/12] [Media 1/12] [Milestones 0] │
+├─────────────────────────────────────────────┤
+│ User B - Epoch 1                            │
+│ [Thoughts 5/12] [Media 2/12] [Milestones 1] │
+├─────────────────────────────────────────────┤
+│ User A - Epoch 1 (sealed, scroll to find)   │
+│ [Thoughts 12/12] [Media 3/12] [Milestones 0]│
+└─────────────────────────────────────────────┘
+```
+
+**Key points:**
+
+- Categories are **independent** — thoughts hitting 12 doesn't cap media/milestones in that row
+- Old rows **persist** in the feed (scrollable history)
+- Each row sorted by its **most recent post timestamp**
 
 ---
 
@@ -25,19 +50,23 @@ Each **row = one user**. Their posts flow through the three columns based on typ
 
 **Problem:** Traditional feeds show one post per row, creating infinite scroll fatigue.
 
-**Solution:** Group all posts from the same user into a single row with carousel navigation.
+**Solution:** Group posts from the same user into rows with carousel navigation. Each row can hold up to 12 posts per category before a new row is created.
 
 ```
-Traditional Feed:          River Timeline:
+Traditional Feed:          River Timeline (with epochs):
 ┌─────────────────┐        ┌───────┬───────┬───────┐
 │ User A - Post 1 │        │ UserA │ UserA │ UserA │
-├─────────────────┤        │ ◀ 1/3 │ ◀ 2/5 │ ◀ 1/2 │ ← Carousel arrows
-│ User B - Post 1 │        ├───────┼───────┼───────┤
-├─────────────────┤        │ UserB │ UserB │ UserB │
-│ User A - Post 2 │        │ ◀ 1/4 │ ◀ 1/3 │ ◀ 2/2 │
-├─────────────────┤        └───────┴───────┴───────┘
-│ User A - Post 3 │
-└─────────────────┘
+├─────────────────┤        │ Ep2   │ Ep2   │ Ep2   │ ← Newest epoch
+│ User B - Post 1 │        │ ◀ 2/12│ ◀ 1/12│       │
+├─────────────────┤        ├───────┼───────┼───────┤
+│ User A - Post 2 │        │ UserB │ UserB │ UserB │
+├─────────────────┤        │ Ep1   │ Ep1   │ Ep1   │
+│ User A - Post 3 │        │ ◀ 5/12│ ◀ 3/12│ ◀ 1/12│
+├─────────────────┤        ├───────┼───────┼───────┤
+│ ...13 more...   │        │ UserA │ UserA │ UserA │
+└─────────────────┘        │ Ep1   │ Ep1   │ Ep1   │ ← Sealed (thoughts=12)
+                           │ 12/12 │ ◀ 3/12│       │
+                           └───────┴───────┴───────┘
 ```
 
 ### 2. Content Type Separation
@@ -48,13 +77,15 @@ Each column has a distinct purpose:
 - **Media (purple/center):** Photos, videos, visual content
 - **Milestones (green/right):** Achievements, life events, celebrations
 
-### 3. Performance Limit (MAX_POSTS_PER_TYPE = 12)
+### 3. Epoch System (MAX_POSTS_PER_TYPE = 12)
 
-To keep the carousel navigable:
+To keep carousels navigable while allowing infinite scrolling:
 
-- Maximum **12 posts per type** per user in the feed carousel
-- Prevents excessive clicking (12 is the upper limit of "quick browse")
-- Users can see **all posts** on the Profile page's "All Posts" section
+- Maximum **12 posts per type** per row (epoch)
+- When **any category hits 12**, that row is "sealed"
+- A **fresh new row** is created for that user's next post
+- Old rows **stay in the feed** — just further down as you scroll
+- Categories are **independent** — thoughts filling doesn't affect media/milestones in that row
 
 ### 4. Carousel Navigation
 
@@ -81,7 +112,7 @@ Chamfered nav buttons with neon glow effects, dimmed by default until hovered:
 
 ## 🔧 Technical Implementation
 
-### Grouping Logic
+### Grouping Logic (Epoch-Based)
 
 Located in `frontend/src/components/pages/Home/utils/groupPosts.js`:
 
@@ -89,67 +120,105 @@ Located in `frontend/src/components/pages/Home/utils/groupPosts.js`:
 // Maximum posts per type in carousel (prevents excessive clicking)
 const MAX_POSTS_PER_TYPE = 12;
 
-export const groupPostsByUserAndDay = (posts, options = {}) => {
+export const groupPostsByUserAndEpoch = (posts, options = {}) => {
   const maxPosts = options.maxPostsPerType ?? MAX_POSTS_PER_TYPE;
-  const grouped = {}; // Keyed by userId only (not date!)
 
-  posts.forEach((post) => {
-    const authorObj = typeof post.author === "object" ? post.author : null;
-    const userId = post.userId || (authorObj ? authorObj.id : post.author);
+  // Track epochs per user: { userId: [epoch1, epoch2, ...] }
+  const userEpochs = {};
 
-    if (!grouped[userId]) {
-      grouped[userId] = {
-        user: { id: userId, name: authorObj?.username /* ... */ },
+  // Sort posts oldest-first so we fill epochs chronologically
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(a.created_at) - new Date(b.created_at)
+  );
+
+  sortedPosts.forEach((post) => {
+    const userId = post.userId || post.author?.id || post.author;
+    const type = post.type || "thoughts";
+
+    if (!userEpochs[userId]) {
+      userEpochs[userId] = [];
+    }
+
+    // Find the latest epoch that can still accept this post type
+    let targetEpoch = userEpochs[userId].find(
+      (epoch) => epoch[type].length < maxPosts
+    );
+
+    // If no epoch has room, create a new one
+    if (!targetEpoch) {
+      targetEpoch = {
+        user: { id: userId, name: post.author?.username },
+        epochIndex: userEpochs[userId].length,
         thoughts: [],
         media: [],
         milestones: [],
-        mostRecentDate: postDate,
-        totalCounts: { thoughts: 0, media: 0, milestones: 0 }, // Track total before cap
+        mostRecentTimestamp: 0,
       };
+      userEpochs[userId].push(targetEpoch);
     }
 
-    // Add post to category (capped at maxPosts)
-    const type = post.type || "thoughts";
-    grouped[userId].totalCounts[type]++; // Track total
-    if (grouped[userId][type].length < maxPosts) {
-      grouped[userId][type].push(post);
-    }
+    // Add post to the epoch
+    targetEpoch[type].push(post);
+    targetEpoch.mostRecentTimestamp = Math.max(
+      targetEpoch.mostRecentTimestamp,
+      new Date(post.created_at).getTime()
+    );
   });
 
-  return grouped;
+  // Flatten all epochs into a single array
+  return Object.values(userEpochs).flat();
 };
 
 export const sortGroupedPosts = (grouped) => {
   // Sort by most recent post timestamp (newest first)
-  return Object.values(grouped).sort(
-    (a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp
-  );
+  return grouped.sort((a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp);
 };
 ```
 
-### Why User-Only Grouping?
+### Epoch Logic Explained
 
-**Previous (broken):** Grouped by `date + userId`
+**When does a new epoch get created?**
 
-- ❌ Same user appeared in multiple rows
-- ❌ Carousel arrows never showed (only 1 post per row)
-- ❌ Defeated the space economy purpose
+A new row (epoch) is created when the current epoch can't fit the new post:
 
-**Current (correct):** Grouped by `userId` only
+- If `thoughts` has 12 posts and user posts another thought → new epoch
+- If `media` has 12 posts and user posts another media → new epoch
+- If `milestones` has 12 posts and user posts another milestone → new epoch
 
-- ✅ Each user = exactly ONE row
-- ✅ Carousel arrows work (2+ posts per type)
-- ✅ True space economy achieved
-- ✅ Most active users bubble to top
+**Categories are independent:**
 
-### Why Recency Sorting (Not Date-Based Filtering)?
+- User has 12 thoughts, 3 media, 0 milestones in Epoch 1
+- User posts a new media → goes into Epoch 1 (media only has 3)
+- User posts a new thought → creates Epoch 2 (thoughts is full)
 
-There's **no arbitrary time cutoff** (like "show only posts from last 3 days"). Instead:
+### Why Epoch-Based Grouping?
 
-- All posts are grouped and sorted by **most recent timestamp**
-- Fresh content naturally rises to top
-- Old content doesn't disappear, just ranks lower
-- No confusion about "where did my friend's posts go?"
+**Previous (flawed):** Grouped by `userId` only
+
+- ❌ Users with 50+ posts had unusable carousels
+- ❌ Capped at 12 meant content was hidden
+- ❌ No way to scroll through older content
+
+**Current (correct):** Grouped by `userId + epoch`
+
+- ✅ Each row = max 12 per category (manageable carousel)
+- ✅ New epochs create fresh rows at top
+- ✅ Old rows stay in feed (scrollable history)
+- ✅ Categories independent within each epoch
+- ✅ Users can scroll to find older epochs
+
+### Why Recency Sorting (Pure, No Engagement Weighting)?
+
+Rows are sorted by **most recent post timestamp only**. Reactions/likes do NOT affect visibility.
+
+**Why pure recency (not engagement-weighted)?**
+
+- ✅ Predictable: users know exactly why content is where it is
+- ✅ Fair: avoids "rich get richer" where popular users dominate forever
+- ✅ No gaming: can't manipulate feed position with fake engagement
+- ✅ Simple: easy to implement, debug, and reason about
+
+**Design decision:** Fresh content rises, old content sinks. No algorithmic boosting.
 
 ---
 
@@ -214,16 +283,17 @@ frontend/src/components/pages/Profile/
 
 ## 🎯 Why This Design is Efficient
 
-| Benefit               | Description                                                  |
-| --------------------- | ------------------------------------------------------------ |
-| **Scan Speed**        | See 10 users at a glance vs scrolling through 30+ posts      |
-| **Context Grouping**  | All of a user's content together, not scattered              |
-| **Type Discovery**    | Quickly see if someone posts thoughts vs media vs milestones |
-| **Less Fatigue**      | Compact view reduces endless scrolling                       |
-| **Carousel Depth**    | Click arrows to explore without leaving the row              |
-| **Capped at 12**      | Carousel never becomes tedious (12 clicks max per type)      |
-| **Profile Deep Dive** | Full posts list available on Profile page when needed        |
-| **Fresh Content**     | Recency sorting keeps active users visible                   |
+| Benefit                    | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| **Scan Speed**             | See 10 users at a glance vs scrolling through 30+ posts      |
+| **Context Grouping**       | User's content grouped per epoch, not scattered              |
+| **Type Discovery**         | Quickly see if someone posts thoughts vs media vs milestones |
+| **Scrollable History**     | Old epochs stay in feed — scroll to find them                |
+| **Carousel Depth**         | Click arrows to explore without leaving the row              |
+| **Capped at 12**           | Each row manageable (12 clicks max per type)                 |
+| **Independent Categories** | Thoughts filling doesn't block media/milestones in same row  |
+| **Fresh Content**          | New posts create new epochs that rise to top                 |
+| **No Rich-Get-Richer**     | Pure recency sorting — no engagement manipulation            |
 
 ---
 
@@ -264,10 +334,12 @@ frontend/src/components/pages/Profile/
 
 The River Timeline transforms a traditional endless feed into a structured, scannable view where:
 
-1. **One row = one user** (space economy)
+1. **One row = one user + one epoch** (space economy with scrollable history)
 2. **Three columns = three content types** (visual organization)
-3. **Max 12 per carousel** (prevents navigation fatigue)
-4. **Recency sorted** (fresh content rises naturally)
-5. **Profile has full list** (deep exploration available)
+3. **Max 12 per category per row** (manageable carousels)
+4. **New epoch when any category fills** (fresh rows appear at top)
+5. **Categories are independent** (thoughts filling doesn't cap media/milestones)
+6. **Pure recency sorting** (no engagement-based manipulation)
+7. **Old epochs persist** (scroll down to find them)
 
-This design respects users' time while preserving content richness.
+This design respects users' time while preserving content richness and avoiding algorithmic "rich get richer" dynamics.
