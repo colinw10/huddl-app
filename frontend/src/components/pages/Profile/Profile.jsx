@@ -5,6 +5,23 @@ import { useParams } from 'react-router-dom';
 // Supports viewing own profile (/profile) and other users' profiles (/profile/:username)
 
 import './Profile.scss';
+import {
+  UserIcon,
+  FriendsIcon,
+  MilestoneIcon,
+  ExpandIcon,
+  HeartDynamicIcon,
+  MessageBubbleIcon,
+  RepostIcon,
+  EditIcon,
+  TrashIcon,
+  CloseIcon,
+  ChevronRightIcon,
+  MaximizeIcon,
+  MessageLineIcon,
+  GridIcon,
+  PostTriangleIcon
+} from '../../../assets/icons';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
 import TimelineRiver from './components/TimelineRiver';
@@ -172,21 +189,14 @@ function Profile() {
             className={`view-toggle-btn ${viewMode === 'timeline' ? 'active' : ''}`}
             onClick={() => setViewMode('timeline')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
+            <UserIcon size={18} />
             My Timeline
           </button>
           <button 
             className={`view-toggle-btn feed-btn ${viewMode === 'feed' ? 'active' : ''}`}
             onClick={() => setViewMode('feed')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
+            <FriendsIcon size={18} />
             Friends Feed
           </button>
         </div>
@@ -207,10 +217,7 @@ function Profile() {
             })}
             title={`Message ${getDisplayName(profileUser)}`}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              <line x1="9" y1="10" x2="15" y2="10"/>
-            </svg>
+            <MessageLineIcon size={20} />
           </button>
         </div>
       )}
@@ -220,9 +227,7 @@ function Profile() {
         <div className="quick-composer-buttons">
           <div className="quick-composer-section unified-composer">
             <div className="quick-composer-avatar">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
+              <UserIcon size={24} />
             </div>
             <div className="quick-composer-input-wrapper">
               <textarea
@@ -241,9 +246,7 @@ function Profile() {
                   onClick={handleInlinePost}
                   title="Post"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="12,3 21,19 3,19"/>
-                  </svg>
+                  <PostTriangleIcon size={16} />
                 </span>
               )}
             </div>
@@ -252,12 +255,7 @@ function Profile() {
               onClick={() => setShowComposer(true)}
               title="Expand"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 3 21 3 21 9"/>
-                <polyline points="9 21 3 21 3 15"/>
-                <line x1="21" y1="3" x2="14" y2="10"/>
-                <line x1="3" y1="21" x2="10" y2="14"/>
-              </svg>
+              <MaximizeIcon size={14} strokeWidth="2.5" />
             </button>
           </div>
         </div>
@@ -293,12 +291,7 @@ function Profile() {
         <div className="all-posts-section river-style">
           <div className="all-posts-header">
             <h3 className="all-posts-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
+              <GridIcon size={18} />
               All Posts
             </h3>
             <span className="all-posts-count">{profilePosts.length} posts</span>
@@ -318,9 +311,7 @@ function Profile() {
                     {/* Achievement badge for milestones */}
                     {post.type === 'milestones' && (
                       <div className="achievement-badge">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                        </svg>
+                        <MilestoneIcon size={24} />
                       </div>
                     )}
                     {/* Clickable media - opens lightbox */}
@@ -332,9 +323,7 @@ function Profile() {
                       >
                         <img src={post.media_url} alt="" loading="lazy" className="media-image" />
                         <div className="media-expand-hint">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                          </svg>
+                          <ExpandIcon size={20} />
                         </div>
                       </div>
                     )}
@@ -361,12 +350,7 @@ function Profile() {
                           await likePost(post.id);
                         }}
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24">
-                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                                fill={post.is_liked ? "#3b82f6" : "none"} 
-                                stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
-                                strokeWidth="1.5"/>
-                        </svg>
+                        <HeartDynamicIcon size={18} filled={post.is_liked} />
                         {post.likes_count || 0}
                       </div>
                       {/* Comment button - opens inline composer */}
@@ -384,9 +368,7 @@ function Profile() {
                           }
                         }}
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
-                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                        </svg>
+                        <MessageBubbleIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
                         {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
                       </button>
                       {/* Share/Repost button */}
@@ -399,12 +381,7 @@ function Profile() {
                           navigator.clipboard.writeText(url);
                         }}
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(79,255,255,0.5)" strokeWidth="1.5">
-                          <polyline points="17 1 21 5 17 9"/>
-                          <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-                          <polyline points="7 23 3 19 7 15"/>
-                          <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-                        </svg>
+                        <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" />
                       </button>
                       {/* Expand to lightbox button for media posts */}
                       {post.media_url && (
@@ -416,9 +393,7 @@ function Profile() {
                             setAllPostsLightboxPost(post);
                           }}
                         >
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(167,131,255,0.6)" strokeWidth="1.5">
-                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                          </svg>
+                          <ExpandIcon size={18} stroke="rgba(167,131,255,0.6)" strokeWidth="1.5" />
                         </button>
                       )}
                       {/* Edit button */}
@@ -431,10 +406,7 @@ function Profile() {
                           setAllPostsEditContent(post.content || '');
                         }}
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,193,7,0.6)" strokeWidth="1.5">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                        </svg>
+                        <EditIcon size={18} stroke="rgba(255,193,7,0.6)" strokeWidth="1.5" />
                       </button>
                       {/* Delete button */}
                       <button 
@@ -445,10 +417,7 @@ function Profile() {
                           setAllPostsDeleteId(post.id);
                         }}
                       >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.6)" strokeWidth="1.5">
-                          <polyline points="3 6 5 6 21 6"/>
-                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                        </svg>
+                        <TrashIcon size={18} stroke="rgba(255,82,82,0.6)" strokeWidth="1.5" />
                       </button>
                     </div>
                     
@@ -494,9 +463,7 @@ function Profile() {
                             }
                           }}
                         >
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                            <polyline points="9 6 15 12 9 18"/>
-                          </svg>
+                          <ChevronRightIcon size={20} strokeWidth="2.5" />
                         </button>
                       </div>
                     )}
@@ -522,12 +489,7 @@ function Profile() {
         <div className="delete-confirm-overlay" onClick={() => setAllPostsDeleteId(null)}>
           <div className="delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
             <div className="delete-confirm-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.8)" strokeWidth="1.5">
-                <polyline points="3 6 5 6 21 6"/>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                <line x1="10" y1="11" x2="10" y2="17"/>
-                <line x1="14" y1="11" x2="14" y2="17"/>
-              </svg>
+              <TrashIcon size={48} stroke="rgba(255,82,82,0.8)" strokeWidth="1.5" />
             </div>
             <h3 className="delete-confirm-title">Delete Post?</h3>
             <p className="delete-confirm-text">This action cannot be undone.</p>
@@ -562,10 +524,7 @@ function Profile() {
                 className="edit-modal-close"
                 onClick={() => { setAllPostsEditId(null); setAllPostsEditContent(''); }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
+                <CloseIcon size={20} />
               </button>
             </div>
             <textarea

@@ -997,3 +997,111 @@ export const MapPinIcon = ({ size = 20, className = '', ...props }) => (
     <circle cx="12" cy="10" r="3"/>
   </svg>
 );
+
+// ============================================
+// TIMELINE RIVER ICONS
+// ============================================
+
+/** Repost arrows - used for Share/Repost action */
+export const RepostIcon = ({ size = 18, className = '', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    className={className}
+    {...props}
+  >
+    <polyline points="17 1 21 5 17 9"/>
+    <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+    <polyline points="7 23 3 19 7 15"/>
+    <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+  </svg>
+);
+
+/** Milestone checkmark in circle - used for achievement badge */
+export const MilestoneIcon = ({ size = 24, className = '', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className={className}
+    {...props}
+  >
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+    <polyline points="22 4 12 14.01 9 11.01"/>
+  </svg>
+);
+
+/** Message bubble with line - used for DM action on friend posts */
+export const MessageLineIcon = ({ size = 18, className = '', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    className={className}
+    {...props}
+  >
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    <line x1="9" y1="10" x2="15" y2="10"/>
+  </svg>
+);
+
+/** Dynamic Heart icon - handles both filled and outline states via props */
+export const HeartDynamicIcon = ({ size = 18, className = '', filled = false, fillColor = '#3b82f6', strokeColor = 'rgba(201,168,255,0.5)', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    className={className}
+    {...props}
+  >
+    <path 
+      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+      fill={filled ? fillColor : "none"} 
+      stroke={filled ? fillColor : strokeColor} 
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+/** Grid of 4 squares - used for All Posts section */
+export const GridIcon = ({ size = 18, className = '', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className={className}
+    {...props}
+  >
+    <rect x="3" y="3" width="7" height="7"/>
+    <rect x="14" y="3" width="7" height="7"/>
+    <rect x="14" y="14" width="7" height="7"/>
+    <rect x="3" y="14" width="7" height="7"/>
+  </svg>
+);
+
+/** Triangle/Arrow up for post icon */
+export const PostTriangleIcon = ({ size = 16, className = '', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    {...props}
+  >
+    <polygon points="12,3 21,19 3,19"/>
+  </svg>
+);

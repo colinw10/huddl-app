@@ -5,6 +5,23 @@ import React, { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import './TimelineRiver.scss';
+import {
+  HeartDynamicIcon,
+  MessageBubbleIcon,
+  RepostIcon,
+  BookmarkIcon,
+  EditIcon,
+  TrashIcon,
+  MessageLineIcon,
+  UserIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ImageIcon,
+  ExpandIcon,
+  MilestoneIcon,
+  CloseIcon,
+  CheckIcon
+} from '../../../../../assets/icons';
 import DeleteConfirmModal from '../../../Home/components/DeleteConfirmModal/DeleteConfirmModal';
 import MediaLightbox from '../../../Home/components/MediaLightbox/MediaLightbox';
 import { usePosts, useMessages, useAuth } from '../../../../../contexts';
@@ -192,12 +209,7 @@ function TimelineRiver({
         
         {/* Share/Repost button */}
         <button className="river-action-btn" title="Repost">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(79,255,255,0.5)" strokeWidth="1.5">
-            <polyline points="17 1 21 5 17 9"/>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-            <polyline points="7 23 3 19 7 15"/>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-          </svg>
+          <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" />
         </button>
         
         {/* Message button */}
@@ -213,17 +225,12 @@ function TimelineRiver({
             });
           }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,0.5)" strokeWidth="1.5">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            <line x1="9" y1="10" x2="15" y2="10"/>
-          </svg>
+          <MessageLineIcon size={18} stroke="rgba(0,212,255,0.5)" />
         </button>
         
         {/* Bookmark button */}
         <button className="river-action-btn" title="Bookmark">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-          </svg>
+          <BookmarkIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
         </button>
       </div>
     );
@@ -245,12 +252,7 @@ function TimelineRiver({
           title={post.is_liked ? 'Unlike' : 'Like'}
           style={{ cursor: 'pointer' }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                  fill={post.is_liked ? "#3b82f6" : "none"} 
-                  stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
-                  strokeWidth="1.5"/>
-          </svg>
+          <HeartDynamicIcon size={18} filled={post.is_liked} />
           {post.likes_count || 0}
         </div>
         
@@ -260,28 +262,19 @@ function TimelineRiver({
           title="Comment"
           onClick={() => handleCommentClick(post.id)}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
+          <MessageBubbleIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
           {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
         </button>
         
         {/* Share/Repost button */}
         <button className="river-action-btn" title="Share">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(79,255,255,0.5)" strokeWidth="1.5">
-            <polyline points="17 1 21 5 17 9"/>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-            <polyline points="7 23 3 19 7 15"/>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-          </svg>
+          <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" />
         </button>
         
         {/* Save/Bookmark button - ONLY on other user's profile */}
         {!isOwnProfile && (
           <button className="river-action-btn river-action-btn--save" title="Save Post">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(167,131,255,0.6)" strokeWidth="1.5">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
+            <BookmarkIcon size={18} stroke="rgba(167,131,255,0.6)" strokeWidth="1.5" />
           </button>
         )}
         
@@ -298,10 +291,7 @@ function TimelineRiver({
               setIsComposerExpanded(true);
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,193,7,0.6)" strokeWidth="1.5">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-            </svg>
+            <EditIcon size={18} stroke="rgba(255,193,7,0.6)" strokeWidth="1.5" />
           </button>
         )}
         
@@ -315,10 +305,7 @@ function TimelineRiver({
               setDeleteModalPostId(post.id);
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.6)" strokeWidth="1.5">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-            </svg>
+            <TrashIcon size={18} stroke="rgba(255,82,82,0.6)" strokeWidth="1.5" />
           </button>
         )}
       </div>
@@ -458,9 +445,7 @@ function TimelineRiver({
               disabled={!commentText.trim()}
               onClick={() => handleCommentSubmit(post.id)}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="9 6 15 12 9 18"/>
-              </svg>
+              <ChevronRightIcon size={20} strokeWidth="2.5" />
             </button>
           </div>
         )}
@@ -505,9 +490,7 @@ function TimelineRiver({
                           <div className="reply-card">
                             <div className="reply-header">
                               <div className="reply-avatar">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                </svg>
+                                <UserIcon size={14} />
                               </div>
                               <span className="reply-author">{reply.author?.username || 'User'}</span>
                               <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
@@ -524,10 +507,7 @@ function TimelineRiver({
                                       setEditingReplyParentId(post.id);
                                     }}
                                   >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                                    </svg>
+                                    <EditIcon size={14} />
                                   </button>
                                   <button 
                                     className="reply-action-btn reply-action-btn--delete"
@@ -539,10 +519,7 @@ function TimelineRiver({
                                       setEditingReplyParentId(post.id);
                                     }}
                                   >
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                      <polyline points="3 6 5 6 21 6"/>
-                                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                    </svg>
+                                    <TrashIcon size={14} />
                                   </button>
                                 </div>
                               )}
@@ -609,30 +586,21 @@ function TimelineRiver({
             className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
             onClick={() => setMobileCategory('thoughts')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+            <MessageBubbleIcon size={18} />
             <span>Thoughts</span>
           </button>
           <button 
             className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
             onClick={() => setMobileCategory('media')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
+            <ImageIcon size={18} />
             <span>Media</span>
           </button>
           <button 
             className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
             onClick={() => setMobileCategory('milestones')}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
-            </svg>
+            <MilestoneIcon size={18} />
             <span>Milestones</span>
           </button>
         </div>
@@ -642,24 +610,15 @@ function TimelineRiver({
       {viewMode === 'timeline' && (
         <div className="river-labels">
           <div className="river-label left-label">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+            <MessageBubbleIcon size={20} />
             <span>Thoughts</span>
           </div>
           <div className="river-label center-label">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
+            <ImageIcon size={20} />
             <span>Media</span>
           </div>
           <div className="river-label right-label">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <polyline points="22 4 12 14.01 9 11.01"/>
-            </svg>
+            <MilestoneIcon size={20} />
             <span>Milestones</span>
           </div>
         </div>
@@ -684,9 +643,7 @@ function TimelineRiver({
               {/* Thoughts Column */}
               <div className="river-column left-stream" data-category="thoughts">
                 <div className="river-column-label mobile-only">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
+                  <MessageBubbleIcon size={18} />
                   <span>Thoughts</span>
                 </div>
                 {carouselThoughts.length > 0 ? (
@@ -707,7 +664,7 @@ function TimelineRiver({
                     {carouselThoughts.length > 1 && (
                       <div className="smart-deck-nav">
                         <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'thoughts', carouselThoughts.length)}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                          <ChevronLeftIcon size={16} />
                         </button>
                         <div className="smart-deck-dots">
                           {carouselThoughts.map((_, idx) => (
@@ -715,7 +672,7 @@ function TimelineRiver({
                           ))}
                         </div>
                         <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'thoughts', carouselThoughts.length)}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                          <ChevronRightIcon size={16} />
                         </button>
                       </div>
                     )}
@@ -726,11 +683,7 @@ function TimelineRiver({
               {/* Media Column */}
               <div className="river-column center-stream" data-category="media">
                 <div className="river-column-label mobile-only">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                  </svg>
+                  <ImageIcon size={18} />
                   <span>Media</span>
                 </div>
                 {carouselMedia.length > 0 ? (
@@ -750,16 +703,12 @@ function TimelineRiver({
                           <>
                             <img src={carouselMedia[getDeckIndex('me', 'media')].media_url} alt="" className="media-image" />
                             <div className="media-expand-hint">
-                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                              </svg>
+                              <ExpandIcon size={20} />
                             </div>
                           </>
                         ) : (
                           <div className="media-placeholder">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                            </svg>
+                            <ImageIcon size={40} strokeWidth="1.5" />
                           </div>
                         )}
                       </div>
@@ -773,7 +722,7 @@ function TimelineRiver({
                     {carouselMedia.length > 1 && (
                       <div className="smart-deck-nav">
                         <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'media', carouselMedia.length)}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                          <ChevronLeftIcon size={16} />
                         </button>
                         <div className="smart-deck-dots">
                           {carouselMedia.map((_, idx) => (
@@ -781,7 +730,7 @@ function TimelineRiver({
                           ))}
                         </div>
                         <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'media', carouselMedia.length)}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                          <ChevronRightIcon size={16} />
                         </button>
                       </div>
                     )}
@@ -792,10 +741,7 @@ function TimelineRiver({
               {/* Milestones Column */}
               <div className="river-column right-stream" data-category="milestones">
                 <div className="river-column-label mobile-only">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                  </svg>
+                  <MilestoneIcon size={18} />
                   <span>Milestones</span>
                 </div>
                 {carouselMilestones.length > 0 ? (
@@ -807,9 +753,7 @@ function TimelineRiver({
                         <span className="friend-name">{profileUser?.username || 'User'}</span>
                       </div>
                       <div className="achievement-badge">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                        </svg>
+                        <MilestoneIcon size={24} />
                       </div>
                       <div className="river-card-content">
                         <p className="river-post-text">{carouselMilestones[getDeckIndex('me', 'milestones')]?.content}</p>
@@ -821,7 +765,7 @@ function TimelineRiver({
                     {carouselMilestones.length > 1 && (
                       <div className="smart-deck-nav">
                         <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'milestones', carouselMilestones.length)}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                          <ChevronLeftIcon size={16} />
                         </button>
                         <div className="smart-deck-dots">
                           {carouselMilestones.map((_, idx) => (
@@ -829,7 +773,7 @@ function TimelineRiver({
                           ))}
                         </div>
                         <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'milestones', carouselMilestones.length)}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                          <ChevronRightIcon size={16} />
                         </button>
                       </div>
                     )}
@@ -881,16 +825,12 @@ function TimelineRiver({
                               <>
                                 <img src={riverMedia[rowIndex].media_url} alt="" className="media-image" />
                                 <div className="media-expand-hint">
-                                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                                  </svg>
+                                  <ExpandIcon size={20} />
                                 </div>
                               </>
                             ) : (
                               <div className="media-placeholder">
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                                </svg>
+                                <ImageIcon size={40} strokeWidth="1.5" />
                               </div>
                             )}
                           </div>
@@ -914,9 +854,7 @@ function TimelineRiver({
                             <span className="friend-name">{profileUser?.username || 'User'}</span>
                           </div>
                           <div className="achievement-badge">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
+                            <MilestoneIcon size={24} />
                           </div>
                           <div className="river-card-content">
                             <p className="river-post-text">{riverMilestones[rowIndex].content}</p>
@@ -944,30 +882,21 @@ function TimelineRiver({
               className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
               onClick={() => setMobileCategory('thoughts')}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
+              <MessageBubbleIcon size={18} />
               <span>Thoughts</span>
             </button>
             <button 
               className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
               onClick={() => setMobileCategory('media')}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
+              <ImageIcon size={18} />
               <span>Media</span>
             </button>
             <button 
               className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
               onClick={() => setMobileCategory('milestones')}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
+              <MilestoneIcon size={18} />
               <span>Milestones</span>
             </button>
           </div>
@@ -975,24 +904,15 @@ function TimelineRiver({
           {/* Column Labels for Friends Feed - desktop only */}
           <div className="river-labels friends-feed-labels">
             <div className="river-label left-label">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
+              <MessageBubbleIcon size={20} />
               <span>Thoughts</span>
             </div>
             <div className="river-label center-label">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
+              <ImageIcon size={20} />
               <span>Media</span>
             </div>
             <div className="river-label right-label">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
+              <MilestoneIcon size={20} />
               <span>Milestones</span>
             </div>
           </div>
@@ -1025,7 +945,7 @@ function TimelineRiver({
                       {friend.thoughts.length > 1 && (
                         <div className="smart-deck-nav">
                           <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'thoughts', friend.thoughts.length)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                            <ChevronLeftIcon size={16} />
                           </button>
                           {friend.thoughts.length <= 5 ? (
                             <div className="smart-deck-dots">
@@ -1037,7 +957,7 @@ function TimelineRiver({
                             <span className="smart-deck-count">{getDeckIndex(friend.username, 'thoughts') + 1}/{friend.thoughts.length}</span>
                           )}
                           <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'thoughts', friend.thoughts.length)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            <ChevronRightIcon size={16} />
                           </button>
                         </div>
                       )}
@@ -1062,9 +982,7 @@ function TimelineRiver({
                             <img src={friend.media[getDeckIndex(friend.username, 'media')].media_url} alt="" className="media-image" />
                           ) : (
                             <div className="media-placeholder">
-                              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-                              </svg>
+                              <ImageIcon size={40} strokeWidth="1.5" />
                             </div>
                           )}
                         </div>
@@ -1080,7 +998,7 @@ function TimelineRiver({
                       {friend.media.length > 1 && (
                         <div className="smart-deck-nav">
                           <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'media', friend.media.length)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                            <ChevronLeftIcon size={16} />
                           </button>
                           {friend.media.length <= 5 ? (
                             <div className="smart-deck-dots">
@@ -1092,7 +1010,7 @@ function TimelineRiver({
                             <span className="smart-deck-count">{getDeckIndex(friend.username, 'media') + 1}/{friend.media.length}</span>
                           )}
                           <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'media', friend.media.length)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            <ChevronRightIcon size={16} />
                           </button>
                         </div>
                       )}
@@ -1113,9 +1031,7 @@ function TimelineRiver({
                           <span className="friend-name">{friend.username}</span>
                         </div>
                         <div className="achievement-badge">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                          </svg>
+                          <MilestoneIcon size={24} />
                         </div>
                         <div className="river-card-content">
                           <p className="river-post-text">{friend.milestones[getDeckIndex(friend.username, 'milestones')]?.content}</p>
@@ -1129,7 +1045,7 @@ function TimelineRiver({
                       {friend.milestones.length > 1 && (
                         <div className="smart-deck-nav">
                           <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'milestones', friend.milestones.length)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+                            <ChevronLeftIcon size={16} />
                           </button>
                           {friend.milestones.length <= 5 ? (
                             <div className="smart-deck-dots">
@@ -1141,7 +1057,7 @@ function TimelineRiver({
                             <span className="smart-deck-count">{getDeckIndex(friend.username, 'milestones') + 1}/{friend.milestones.length}</span>
                           )}
                           <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'milestones', friend.milestones.length)}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            <ChevronRightIcon size={16} />
                           </button>
                         </div>
                       )}
@@ -1206,10 +1122,7 @@ function TimelineRiver({
           <div className="expanded-composer-modal edit-mode" onClick={(e) => e.stopPropagation()}>
             <div className="expanded-composer-header">
               <h3>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
+                <EditIcon size={20} />
                 Edit Post
               </h3>
               <button 
@@ -1221,10 +1134,7 @@ function TimelineRiver({
                   setCommentText('');
                 }}
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
+                <CloseIcon size={24} />
               </button>
             </div>
             <div className="expanded-composer-body">
@@ -1255,9 +1165,7 @@ function TimelineRiver({
                 }}
                 title="Save"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
+                <CheckIcon size={24} strokeWidth="2.5" />
               </button>
             </div>
           </div>

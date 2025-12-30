@@ -517,7 +517,7 @@
 }
 
 .composer-post-btn {
-  padding: 12px 24px;
+  padding: 8px 98px;
   font-family: var(--font-main);
   font-size: var(--font-size-sm);
   font-weight: 400;
@@ -525,7 +525,7 @@
   text-transform: uppercase;
   color: white !important;
   background: rgba(0, 0, 0, 0.963) !important;
-  border: 2px solid rgba(255, 255, 255, 0.588);
+  border: 2px solid rgba(255, 255, 255, 0.407);
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -536,7 +536,7 @@
 
 .composer-post-btn:hover:not(:disabled) {
   background: rgba(0, 0, 0, 1) !important;
-  border-color: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 0.633);
   transform: translateY(-2px);
   box-shadow: none;
 }
