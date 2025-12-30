@@ -1,126 +1,121 @@
 /**
- * NUMENEON Icon Library - Modular Index
+ * Numeneon Icon Library - Barrel Export
  * 
- * Re-exports all icons from category files for easy importing.
+ * This is the main entry point for all icons.
+ * Icons are organized by category in separate files.
  * 
- * Usage Options:
- * 
- * 1. Import from main barrel (recommended):
- *    import { HeartIcon, UserIcon } from '../../assets/icons';
- * 
- * 2. Import from specific category:
- *    import { HeartIcon } from '../../assets/icons/engagement';
- * 
- * 3. Import all from a category:
- *    import * as EngagementIcons from '../../assets/icons/engagement';
+ * Usage:
+ *   import { HeartIcon, CommentIcon } from '../../assets/icons'
+ *   // OR import from specific category:
+ *   import { HeartIcon } from '../../assets/icons/engagement'
  */
 
-// Navigation Icons
-export { 
-  TargetReticleIcon, 
-  BroadcastIcon, 
-  LogoutIcon, 
-  LoginIcon, 
-  ChevronLeftIcon, 
-  ChevronRightIcon, 
-  BackIcon, 
-  FlipIcon 
-} from './navigation.jsx';
+// Navigation
+export {
+  TargetReticleIcon,
+  BroadcastIcon,
+  LogoutIcon,
+  LoginIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  BackIcon,
+  FlipIcon,
+} from './navigation';
 
-// User & Profile Icons
-export { 
-  UserIcon, 
-  GlobeIcon, 
-  LockIcon, 
-  FriendsIcon 
-} from './user.jsx';
+// User & Profile
+export {
+  UserIcon,
+  GlobeIcon,
+  LockIcon,
+  FriendsIcon,
+  HexProfileIcon,
+} from './user';
 
-// Engagement Icons
-export { 
-  HeartIcon, 
-  HeartFilledIcon, 
+// Engagement
+export {
+  HeartIcon,
+  HeartFilledIcon,
   HeartDynamicIcon,
-  CommentIcon, 
-  ShareIcon, 
+  CommentIcon,
+  ShareIcon,
   BookmarkIcon,
-  RepostIcon 
-} from './engagement.jsx';
+  RepostIcon,
+} from './engagement';
 
-// Action Icons
-export { 
-  EditIcon, 
-  TrashIcon, 
-  CloseIcon, 
-  PlusIcon, 
-  CheckIcon, 
+// Actions
+export {
+  EditIcon,
+  TrashIcon,
+  CloseIcon,
+  PlusIcon,
+  CheckIcon,
   SendIcon,
   ShatterIcon,
-  UnlinkIcon
-} from './actions.jsx';
+  UnlinkIcon,
+} from './actions';
 
-// Media Icons
-export { 
-  ImageIcon, 
-  ExpandIcon, 
-  MaximizeIcon, 
-  MinimizeIcon 
-} from './media.jsx';
+// Media
+export {
+  ImageIcon,
+  ExpandIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+} from './media';
 
-// UI Icons
-export { 
-  SettingsIcon, 
-  EyeIcon, 
-  EyeOffIcon, 
-  MoreIcon, 
+// UI
+export {
+  SettingsIcon,
+  EyeIcon,
+  EyeOffIcon,
+  MoreIcon,
   MoreHorizontalIcon,
   CircleIcon,
   GridIcon,
-  ClockIcon
-} from './ui.jsx';
+  ClockIcon,
+} from './ui';
 
-// Sidenav Icons
-export { 
-  HexHomeIcon, 
-  SignalIcon, 
-  NetworkIcon, 
-  HexProfileIcon, 
-  CircuitInfoIcon 
-} from './sidenav.jsx';
+// Sidenav
+export {
+  HexHomeIcon,
+  SignalIcon,
+  NetworkIcon,
+  CircuitInfoIcon,
+} from './sidenav';
 
-// Analytics Icons
-export { 
-  BoltIcon, 
-  BarChartIcon, 
-  ShieldIcon, 
-  AppearanceIcon, 
-  DocumentIcon, 
+// Analytics
+export {
+  BoltIcon,
+  BarChartIcon,
+  ShieldIcon,
+  AppearanceIcon,
+  DocumentIcon,
   ActivityIcon,
   GraphLineIcon,
-  EnsoIcon
-} from './analytics.jsx';
+  EnsoIcon,
+} from './analytics';
 
-// Profile Icons
-export { 
-  LocationIcon, 
-  LinkIcon, 
-  CalendarIcon, 
-  MilestoneIcon, 
+// Profile
+export {
+  LocationIcon,
+  LinkIcon,
+  CalendarIcon,
+  MilestoneIcon,
   FlagIcon,
   StarIcon,
-  BackArrowGradientIcon
-} from './profile.jsx';
+  BackArrowGradientIcon,
+} from './profile';
 
-// Messaging Icons
-export { 
-  MessageBubbleIcon, 
-  MessageLineIcon, 
+// Messaging
+export {
+  MessageBubbleIcon,
+  MessageLineIcon,
   EmojiIcon,
-  ThoughtBubbleIcon
-} from './messaging.jsx';
+  ThoughtBubbleIcon,
+} from './messaging';
 
-// Misc Icons
-export { 
-  MusicIcon, 
-  MapPinIcon, 
-  PostTriangleIcon 
-} from './misc.jsx';
+// Misc
+export {
+  MusicIcon,
+  MapPinIcon,
+  PostTriangleIcon,
+} from './misc';
