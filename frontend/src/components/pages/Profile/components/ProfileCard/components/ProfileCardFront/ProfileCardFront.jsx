@@ -3,6 +3,17 @@
 
 import { useState, useRef } from 'react';
 import './ProfileCardFront.scss';
+import {
+  UserIcon,
+  LocationIcon,
+  LinkIcon,
+  CalendarIcon,
+  BookmarkIcon,
+  ShareIcon,
+  CheckIcon,
+  MoreHorizontalIcon,
+  ActivityIcon
+} from '../../../../../../../assets/icons';
 
 // Color variants for interactive letters
 const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
@@ -145,9 +156,7 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
             </svg>
           </div>
           <div className="profile-avatar">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
+            <UserIcon size={80} />
           </div>
         </div>
       </div>
@@ -163,10 +172,7 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
             <span className="profile-handle">@{user?.username || 'user'}</span>
             {user?.profile?.location && (
               <div className="profile-location">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
+                <LocationIcon size={14} />
                 <span>{user.profile.location}</span>
               </div>
             )}
@@ -184,20 +190,12 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
           <div className="profile-details">
             {user?.profile?.website && (
               <div className="profile-detail-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                </svg>
+                <LinkIcon size={16} />
                 <a href={user.profile.website} target="_blank" rel="noopener noreferrer">{user.profile.website.replace(/^https?:\/\//, '')}</a>
               </div>
             )}
             <div className="profile-detail-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
+              <CalendarIcon size={16} />
               <span>Joined {user?.date_joined ? new Date(user.date_joined).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}</span>
             </div>
           </div>
@@ -217,27 +215,17 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
         {/* Save button - only on other users' profiles */}
         {!isOwnProfile && (
           <button className="action-icon-btn save-btn" title="Save Profile">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
+            <BookmarkIcon size={18} />
           </button>
         )}
         <button className="action-icon-btn share-btn" title="Share Profile" onClick={handleShareProfile}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="18" cy="5" r="3"/>
-            <circle cx="6" cy="12" r="3"/>
-            <circle cx="18" cy="19" r="3"/>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-          </svg>
+          <ShareIcon size={18} />
         </button>
 
         {/* Share toast notification */}
         {showShareToast && (
           <div className="share-toast">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
+            <CheckIcon size={16} />
             Link copied!
           </div>
         )}
@@ -245,16 +233,10 @@ function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
         {isOwnProfile && (
           <>
             <button className="action-icon-btn more-btn" title="More Options">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="1"/>
-                <circle cx="19" cy="12" r="1"/>
-                <circle cx="5" cy="12" r="1"/>
-              </svg>
+              <MoreHorizontalIcon size={18} />
             </button>
             <button className="action-icon-btn analytics-btn" onClick={() => setIsFlipped(true)} title="Analytics">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-              </svg>
+              <ActivityIcon size={18} />
             </button>
           </>
         )}

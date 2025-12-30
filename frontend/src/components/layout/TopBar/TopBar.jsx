@@ -9,6 +9,13 @@ import SearchModal from './SearchModal/SearchModal';
 import NotificationModal from './NotificationModal/NotificationModal';
 import { ThemeToggle } from '../../ui/ThemeToggle';
 import { useMessages, useAuth, useFriends } from '../../../contexts';
+import { 
+  TargetReticleIcon, 
+  MessageBubbleIcon, 
+  BroadcastIcon, 
+  LogoutIcon, 
+  LoginIcon 
+} from '../../../assets/icons';
 
 function TopBar() {
   const { isMessageModalOpen, openMessages, closeMessages } = useMessages();
@@ -46,24 +53,14 @@ function TopBar() {
             onClick={() => setIsSearchOpen(true)}
             style={{ cursor: 'pointer' }}
           >
-            {/* Targeting reticle */}
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="8"/>
-              <circle cx="12" cy="12" r="3"/>
-              <line x1="12" y1="2" x2="12" y2="6"/>
-              <line x1="12" y1="18" x2="12" y2="22"/>
-              <line x1="2" y1="12" x2="6" y2="12"/>
-              <line x1="18" y1="12" x2="22" y2="12"/>
-            </svg>
+            <TargetReticleIcon size={20} />
           </div>
           <div 
             className="icon-placeholder icon-messages" 
             title="Messages"
             onClick={openMessages}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+            <MessageBubbleIcon size={20} />
           </div>
           {user && (
             <>
@@ -73,13 +70,7 @@ function TopBar() {
                 onClick={() => setIsNotificationsOpen(true)}
                 style={{ cursor: 'pointer', position: 'relative' }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="2"/>
-                  <path d="M16.24 7.76a6 6 0 0 1 0 8.49"/>
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                  <path d="M7.76 16.24a6 6 0 0 1 0-8.49"/>
-                  <path d="M4.93 19.07a10 10 0 0 1 0-14.14"/>
-                </svg>
+                <BroadcastIcon size={20} />
                 {/* Notification badge */}
                 {pendingRequests.length > 0 && (
                   <span className="notification-badge">{pendingRequests.length}</span>
@@ -91,11 +82,7 @@ function TopBar() {
                 onClick={handleLogout}
                 style={{ cursor: 'pointer' }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                  <polyline points="16 17 21 12 16 7"/>
-                  <line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
+                <LogoutIcon size={20} />
               </div>
             </>
           )}
@@ -107,11 +94,7 @@ function TopBar() {
               onClick={() => navigate('/login')}
               style={{ cursor: 'pointer' }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-                <polyline points="10 17 15 12 10 7"/>
-                <line x1="15" y1="12" x2="3" y2="12"/>
-              </svg>
+              <LoginIcon size={20} />
             </div>
           )}
         </div>

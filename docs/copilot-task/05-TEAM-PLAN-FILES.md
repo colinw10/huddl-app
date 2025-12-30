@@ -284,16 +284,16 @@ You're building the posts system - the core content that users create and view. 
 
 ### Frontend Files (8 total)
 
-| File                                                        | Description            |
-| ----------------------------------------------------------- | ---------------------- |
-| `frontend/src/contexts/PostsContext.jsx`                    | Posts state management |
-| `frontend/src/services/postsService.js`                     | Posts API calls        |
-| `frontend/src/components/pages/Home/components/ComposerModal/ComposerModal.jsx` | Create post form |
-| `frontend/src/components/pages/Home/components/ComposerModal/ComposerModal.scss` | Composer styling |
-| `frontend/src/components/pages/Home/components/ComposerModal/index.js` | Export |
-| `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx` | Delete confirmation |
-| `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.scss` | Delete modal styling |
-| `frontend/src/components/pages/Home/components/DeleteConfirmModal/index.js` | Export |
+| File                                                                                       | Description            |
+| ------------------------------------------------------------------------------------------ | ---------------------- |
+| `frontend/src/contexts/PostsContext.jsx`                                                   | Posts state management |
+| `frontend/src/services/postsService.js`                                                    | Posts API calls        |
+| `frontend/src/components/pages/Home/components/ComposerModal/ComposerModal.jsx`            | Create post form       |
+| `frontend/src/components/pages/Home/components/ComposerModal/ComposerModal.scss`           | Composer styling       |
+| `frontend/src/components/pages/Home/components/ComposerModal/index.js`                     | Export                 |
+| `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx`  | Delete confirmation    |
+| `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.scss` | Delete modal styling   |
+| `frontend/src/components/pages/Home/components/DeleteConfirmModal/index.js`                | Export                 |
 
 ---
 
@@ -681,33 +681,33 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 
 ### Timeline System (17 files)
 
-| File | Description |
-| ---- | ----------- |
-| `frontend/src/components/pages/Home/Home.jsx` | Home page wrapper |
-| `frontend/src/components/pages/Home/Home.scss` | Home styling |
-| `frontend/src/components/pages/Home/index.js` | Export |
-| `frontend/src/components/pages/Home/utils/groupPosts.js` | Post grouping algorithm |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx` | Main feed container |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss` | Feed styling |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js` | Export |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx` | Single user row with carousel |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss` | Row styling |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js` | Export |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/partials/*.scss` | 11 SCSS partials |
-| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx` | Image viewer modal |
-| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss` | Lightbox styling |
-| `frontend/src/components/pages/Home/components/MediaLightbox/index.js` | Export |
+| File                                                                                     | Description                   |
+| ---------------------------------------------------------------------------------------- | ----------------------------- |
+| `frontend/src/components/pages/Home/Home.jsx`                                            | Home page wrapper             |
+| `frontend/src/components/pages/Home/Home.scss`                                           | Home styling                  |
+| `frontend/src/components/pages/Home/index.js`                                            | Export                        |
+| `frontend/src/components/pages/Home/utils/groupPosts.js`                                 | Post grouping algorithm       |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`  | Main feed container           |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss` | Feed styling                  |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js`               | Export                        |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`    | Single user row with carousel |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss`   | Row styling                   |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js`                | Export                        |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/partials/*.scss`         | 11 SCSS partials              |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`          | Image viewer modal            |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss`         | Lightbox styling              |
+| `frontend/src/components/pages/Home/components/MediaLightbox/index.js`                   | Export                        |
 
 ### Profile Card System (12 files)
 
-| File | Description |
-| ---- | ----------- |
-| `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx` | Card container with flip |
-| `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.scss` | Card styling |
-| `frontend/src/components/pages/Profile/components/ProfileCard/index.js` | Export |
-| `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront.jsx` | Front face (avatar, stats) |
-| `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardBack.jsx` | Back face (analytics) |
-| `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/*` | Wave chart, heatmap |
+| File                                                                                              | Description                |
+| ------------------------------------------------------------------------------------------------- | -------------------------- |
+| `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx`                    | Card container with flip   |
+| `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.scss`                   | Card styling               |
+| `frontend/src/components/pages/Profile/components/ProfileCard/index.js`                           | Export                     |
+| `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront.jsx`    | Front face (avatar, stats) |
+| `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardBack.jsx`     | Back face (analytics)      |
+| `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/*` | Wave chart, heatmap        |
 
 ---
 
@@ -730,6 +730,7 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 - [ ] Posts within each type sorted by date (newest first)
 
 **Algorithm:**
+
 ```javascript
 // Input: [{ id, author: { id, username }, type, created_at, ... }, ...]
 // Output: {
@@ -793,6 +794,7 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 - [ ] Click username → navigate to profile
 
 **Icons Used (import from icons.jsx):**
+
 - UserIcon, HeartIcon, HeartFilledIcon, CommentIcon, ShareIcon
 - EditIcon, TrashIcon, ExpandIcon, GlobeIcon, LockIcon, FriendsIcon
 - ChevronLeftIcon, ChevronRightIcon
@@ -1191,12 +1193,14 @@ Friends.jsx [Crystal]
 | Shared | ~10 | ~17 | ~27 | Config, styles (DO NOT TOUCH) |
 
 ```
-XL Pablo:    █████████████████████████████  29 files
-L  Natalia:  ███████████████████            19 files
-M  Colin:    ███████████████                15 files
-M  Crystal:  ████████████                   12 files
-S  Tito:     ██████                          6 files
-```
+
+XL Pablo: █████████████████████████████ 29 files
+L Natalia: ███████████████████ 19 files
+M Colin: ███████████████ 15 files
+M Crystal: ████████████ 12 files
+S Tito: ██████ 6 files
+
+````
 
 ---
 
@@ -1235,7 +1239,7 @@ S  Tito:     ██████                          6 files
   "shares_count": 3,
   "is_liked": false
 }
-```
+````
 
 **⚠️ CRITICAL:** Engagement fields + is_liked are REQUIRED:
 

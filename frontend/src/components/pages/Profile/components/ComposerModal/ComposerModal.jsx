@@ -4,6 +4,18 @@
 import React, { useState } from 'react';
 import './ComposerModal.scss';
 import { useAuth, usePosts } from '../../../../../contexts';
+import {
+  MinimizeIcon,
+  MaximizeIcon,
+  CloseIcon,
+  UserIcon,
+  CircleIcon,
+  ImageIcon,
+  MessageBubbleIcon,
+  FlagIcon,
+  EmojiIcon,
+  MapPinIcon
+} from '../../../../../assets/icons';
 
 function ComposerModal({ showComposer, setShowComposer, composerType, setComposerType }) {
   const { user } = useAuth();
@@ -62,31 +74,14 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
               onClick={() => setIsFullscreen(!isFullscreen)}
               title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
             >
-              {isFullscreen ? (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="4 14 10 14 10 20"/>
-                  <polyline points="20 10 14 10 14 4"/>
-                  <line x1="14" y1="10" x2="21" y2="3"/>
-                  <line x1="3" y1="21" x2="10" y2="14"/>
-                </svg>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="15 3 21 3 21 9"/>
-                  <polyline points="9 21 3 21 3 15"/>
-                  <line x1="21" y1="3" x2="14" y2="10"/>
-                  <line x1="3" y1="21" x2="10" y2="14"/>
-                </svg>
-              )}
+              {isFullscreen ? <MinimizeIcon size={18} /> : <MaximizeIcon size={18} />}
             </button>
             <button 
               className="close-btn-glow"
               onClick={() => setShowComposer(false)}
               aria-label="Close"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
+              <CloseIcon size={20} />
             </button>
           </div>
         </div>
@@ -94,16 +89,12 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
         <div className="composer-modal-body">
           <div className="composer-avatar-section">
             <div className="composer-avatar-small">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
+              <UserIcon size={40} />
             </div>
             <div className="composer-user-info">
               <span className="composer-user-name">{user?.username || 'User'}</span>
               <span className="composer-privacy">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/>
-                </svg>
+                <CircleIcon size={12} />
                 Public
               </span>
             </div>
@@ -123,11 +114,7 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
           {composerType === 'media' && (
             <div className="media-upload-area">
               <div className="media-upload-placeholder">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
+                <ImageIcon size={48} />
                 <p>Click to upload photo or video</p>
                 <span>or drag and drop</span>
               </div>
@@ -158,30 +145,21 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
               className={`type-toggle-btn type-toggle-thought ${composerType === 'thought' ? 'active' : ''}`}
               onClick={() => setComposerType('thought')}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
+              <MessageBubbleIcon size={18} />
               Thought
             </button>
             <button 
               className={`type-toggle-btn type-toggle-media ${composerType === 'media' ? 'active' : ''}`}
               onClick={() => setComposerType('media')}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
+              <ImageIcon size={18} />
               Media
             </button>
             <button 
               className={`type-toggle-btn type-toggle-milestone ${composerType === 'milestone' ? 'active' : ''}`}
               onClick={() => setComposerType('milestone')}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
-                <line x1="4" y1="22" x2="4" y2="15"/>
-              </svg>
+              <FlagIcon size={18} />
               Milestone
             </button>
           </div>
@@ -190,18 +168,10 @@ function ComposerModal({ showComposer, setShowComposer, composerType, setCompose
         <div className="composer-modal-footer">
           <div className="composer-actions-left">
             <button className="composer-icon-btn" aria-label="Add emoji">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                <line x1="9" y1="9" x2="9.01" y2="9"/>
-                <line x1="15" y1="9" x2="15.01" y2="9"/>
-              </svg>
+              <EmojiIcon size={20} />
             </button>
             <button className="composer-icon-btn" aria-label="Add location">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
+              <MapPinIcon size={20} />
             </button>
           </div>
           <button 
