@@ -24,49 +24,76 @@ I (Pablo) built a complete working prototype of NUMENEON, a cyberpunk-themed soc
 
 **Team (T-Shirt Sizing):**
 
-- **Pablo (XL):** UI architect, designed entire system, professional artist background
-- **Natalia (L):** Backend + Frontend, migration management
-- **Colin (M):** Team lead, backend + frontend
-- **Crystal (M):** Backend + frontend
-- **Tito (S):** Infrastructure, utilities
+| Person | Size | Files | Focus Area |
+|--------|------|-------|------------|
+| **Pablo** | XL | 29 | Complex UI: Timeline, ProfileCard, Carousel, Analytics |
+| **Natalia** | L | 19 | Auth system + Migration management |
+| **Colin** | M | 15 | Posts CRUD + ComposerModal + DeleteConfirmModal |
+| **Crystal** | M | 12 | Friends system + Friends page |
+| **Tito** | S | 6 | Infrastructure: apiClient, Theme, main.jsx |
 
 ---
 
-## THE STRATEGY (REVISED)
+## THE STRATEGY (FINAL - Dec 2024)
 
-### Original Plan:
+### Approach: Everyone Rebuilds From Pseudocode Shells
 
-Team rebuilds everything from pseudocode shells
+**ALL team members** (including Pablo) rebuild their assigned files from pseudocode shells.
+- Styles (SCSS) are provided/injected - team focuses on JSX logic
+- SVG icons are extracted to shared `icons.jsx` - team imports them
+- Each person creates PRs showing their contribution over time
 
-### Revised Plan (More Realistic):
+### Why This Works:
 
-**Pablo's UI stays intact** - team rebuilds backend + state management layer
+- **Git history matters** - everyone has PR records of their work
+- **Learning value** - team learns architecture, state, component patterns
+- **Realistic scope** - styles provided, logic rebuilt
+- **No overlap** - each person owns distinct files
 
-**Why the change:**
+### SVG Icon Strategy:
 
-- Pablo's UI includes 75+ files with sophisticated animations (scan lines, 3D flips, glassmorphic effects)
-- Even Pablo used AI tools to orchestrate this visual complexity
-- Expecting bootcamp students to replicate sophisticated styling from pseudocode = unrealistic
-- Learning value is in architecture, backend, state management - not replicating artist-level UI work
+All inline SVGs extracted to `frontend/src/assets/icons.jsx`:
+- Team imports: `import { UserIcon, HeartIcon, etc } from '../../assets/icons'`
+- Icons provided as completed file (not pseudocode)
+- Keeps JSX pseudocode clean and focused on logic
 
 ---
 
 ## BRANCH STRUCTURE
 
-Create TWO branches from main:
+Create TWO shell branches from main:
 
 1. **`team-shell-frontend` branch:**
 
    - Delete the entire `backend/` folder
    - Keep `frontend/` folder with all files
-   - Add pseudocode to frontend files as instructed
+   - Replace implementation with pseudocode shells
+   - Inject SCSS styles (provided)
+   - Inject `icons.jsx` (provided)
 
 2. **`team-shell-backend` branch:**
    - Delete the entire `frontend/` folder
    - Keep `backend/` folder with all files
-   - Add pseudocode to backend files as instructed
+   - Replace implementation with pseudocode shells
 
-These branches will be used to create separate repos in January.
+**Workflow for each team member:**
+1. Clone shell repo
+2. Create feature branch: `git checkout -b [name]/[feature]`
+3. Build from pseudocode over multiple commits
+4. Create PR to merge into main
+5. Git history shows contribution timeline
+
+---
+
+## ASSETS PROVIDED (Not Pseudocode)
+
+These files are PROVIDED as-is, not rebuilt:
+
+| File | Why Provided |
+|------|--------------|
+| `frontend/src/assets/icons.jsx` | All SVG icons extracted here |
+| `frontend/src/styles/*` (13 files) | Design system (variables, mixins, etc.) |
+| All `.scss` files | Styles injected, team writes JSX only |
 
 ---
 
@@ -81,116 +108,205 @@ These branches will be used to create separate repos in January.
 
 ## FILE CATEGORIES & ASSIGNMENTS
 
-### CATEGORY 1: KEEP INTACT (Pablo's UI - Add Usage Comments Only)
+### CATEGORY 1: PABLO (XL - 29 files)
 
-**All of Pablo's component files (~75 files):**
+**Rebuilds these complex UI components from pseudocode:**
 
-**Layout Components:**
+**Timeline System (20 files):**
+```
+frontend/src/components/pages/Home/
+├── Home.jsx, Home.scss, index.js (3)
+├── utils/groupPosts.js (1)
+├── components/
+│   ├── TimelineRiverFeed/ (3 files)
+│   │   ├── TimelineRiverFeed.jsx
+│   │   ├── TimelineRiverFeed.scss
+│   │   └── index.js
+│   ├── TimelineRiverRow/ (14 files)
+│   │   ├── TimelineRiverRow.jsx
+│   │   ├── TimelineRiverRow.scss
+│   │   ├── index.js
+│   │   └── partials/ (11 SCSS partials)
+│   └── MediaLightbox/ (9 files) ← PABLO
+│       ├── MediaLightbox.jsx
+│       ├── MediaLightbox.scss
+│       ├── index.js
+│       └── partials/ (6 SCSS partials)
+```
 
-- `frontend/src/App.jsx`
-- All files in `frontend/src/components/layout/TopBar/` (including MessageModal with 8 SCSS partials)
-- All files in `frontend/src/components/layout/SideNav/`
+**Profile System (9 files):**
+```
+frontend/src/components/pages/Profile/components/
+├── ProfileCard/
+│   ├── ProfileCard.jsx
+│   ├── ProfileCard.scss
+│   ├── index.js
+│   └── components/
+│       ├── ProfileCardFront.jsx
+│       ├── ProfileCardBack.jsx
+│       └── ActivityVisualization/ (all files)
+```
 
-**Home Page System:**
-
-- All files in `frontend/src/components/pages/Home/` including:
-  - `Home.jsx`, `Home.scss`, `index.js`
-  - `utils/groupPosts.js`
-  - `components/DeleteConfirmModal/` (all files)
-  - `components/MediaLightbox/` (all files + 7 SCSS partials)
-  - `components/TimelineRiverFeed/` (all files)
-  - `components/TimelineRiverRow/` (all files + 11 SCSS partials)
-
-**Profile Page System:**
-
-- All files in `frontend/src/components/pages/Profile/` including all subcomponents
-
-**Other Pages:**
-
-- `frontend/src/components/pages/About/` (all files)
-- `frontend/src/components/pages/Landing/` (all files)
-- `frontend/src/components/pages/NotFound/` (all files)
-
-**Contexts:**
-
-- `frontend/src/contexts/MessageContext.jsx`
-
-**Global Design System (DO NOT TOUCH - 13 files):**
-
-- All files in `frontend/src/styles/`
-
-**What to do:** Keep implementation 100% intact, add brief USAGE comment block at top
+**Key Complexity:**
+- 3D flip animation (ProfileCard)
+- Carousel deck system (TimelineRiverRow)
+- Analytics charts: Wave, Heatmap, Donut (ProfileCardBack)
+- Touch handlers for mobile swipe
+- Thread expansion for replies
 
 ---
 
-### CATEGORY 2: ADD FULL PSEUDOCODE (Team Rebuilds These)
+### CATEGORY 2: COLIN (M - 15 files)
 
-**NATALIA (L - 21 files total):**
+**Backend (7 files):**
+- `backend/posts/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
+- `backend/posts/__init__.py`, `admin.py`
 
-Backend (11 files):
+**Frontend (8 files):**
+- `frontend/src/contexts/PostsContext.jsx`
+- `frontend/src/services/postsService.js`
+- `frontend/src/components/pages/Home/components/ComposerModal/` (3 files)
+- `frontend/src/components/pages/Home/components/DeleteConfirmModal/` (3 files)
 
+**Why ComposerModal + DeleteConfirmModal → Colin:**
+- ComposerModal creates posts → Colin owns PostsContext
+- DeleteConfirmModal deletes posts → Colin owns PostsContext
+- Keeps post-related UI with post-related logic
+
+---
+
+### CATEGORY 3: NATALIA (L - 19 files)
+
+**Backend (11 files):**
 - `backend/users/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
 - `backend/users/__init__.py`
 - `backend/users/management/__init__.py`, `commands/__init__.py`, `commands/create_test_user.py`
 - `backend/users/migrations/0001_initial.py`, `__init__.py`
 
-Frontend (10 files):
-
+**Frontend (8 files):**
 - `frontend/src/contexts/AuthContext.jsx`
 - `frontend/src/components/pages/Login/` (Login.jsx, Login.scss, index.js)
 - `frontend/src/components/pages/Signup/` (Signup.jsx, Signup.scss, index.js)
 - `frontend/src/components/ui/ProtectedRoute.jsx`
 
-**Special:** Migration management
+**Special Responsibility:** Migration Manager (reviews all team migrations)
 
 ---
 
-**COLIN (M - 9 files total):**
+### CATEGORY 4: CRYSTAL (M - 12 files)
 
-Backend (7 files):
-
-- `backend/posts/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
-- `backend/posts/__init__.py`, `admin.py`
-
-Frontend (2 files):
-
-- `frontend/src/contexts/PostsContext.jsx`
-- `frontend/src/services/postsService.js`
-
----
-
-**CRYSTAL (M - 12 files total):**
-
-Backend (7 files):
-
+**Backend (7 files):**
 - `backend/friends/models.py`, `views.py`, `serializers.py`, `urls.py`, `apps.py`
 - `backend/friends/__init__.py`, `admin.py`
 
-Frontend (5 files):
-
+**Frontend (5 files):**
 - `frontend/src/contexts/FriendsContext.jsx`
 - `frontend/src/services/friendsService.js`
 - `frontend/src/components/pages/Friends/` (Friends.jsx, Friends.scss, index.js)
 
+**Integration Note:** NotificationModal consumes FriendsContext for pending requests
+
 ---
 
-**TITO (S - 6 files total):**
+### CATEGORY 5: TITO (S - 6 files)
 
 - `frontend/src/main.jsx`
 - `frontend/src/services/apiClient.js`
 - `frontend/src/contexts/ThemeContext.jsx`
 - `frontend/src/components/ui/ThemeToggle/` (ThemeToggle.jsx, ThemeToggle.scss, index.js)
 
+**Critical:** apiClient.js must be built FIRST - all services depend on it
+
 ---
 
-### CATEGORY 3: COLLABORATIVE FILES
+### CATEGORY 6: PROVIDED (Not Rebuilt)
+
+**Layout Components (Pablo's - styles injected, not rebuilt):**
+- All files in `frontend/src/components/layout/TopBar/` (TopBar, MessageModal, NotificationModal, SearchModal)
+- All files in `frontend/src/components/layout/SideNav/`
+
+**Other Pages (styles injected):**
+- `frontend/src/components/pages/About/` (all files)
+- `frontend/src/components/pages/Landing/` (all files)
+- `frontend/src/components/pages/NotFound/` (all files)
+
+**Contexts (already complete):**
+- `frontend/src/contexts/MessageContext.jsx`
+
+**Design System (DO NOT TOUCH):**
+- All 13 files in `frontend/src/styles/`
+- `frontend/src/assets/icons.jsx` (SVG icons)
+
+---
+
+## FILE COUNT SUMMARY
+
+```
+XL Pablo:    █████████████████████████████  29 files (complex animations, charts)
+L  Natalia:  ███████████████████            19 files (auth foundation)
+M  Colin:    ███████████████                15 files (posts + modals)
+M  Crystal:  ████████████                   12 files (friends system)
+S  Tito:     ██████                          6 files (infrastructure)
+                                           ───
+                                            81 files rebuilt by team
+```
+
+---
+
+## BUILD DEPENDENCY CHAIN
+
+**Phase 1 - Foundation (Start Here):**
+```
+Tito: apiClient.js → Everyone's services depend on this
+Natalia: users/models.py → Colin/Crystal need User ForeignKey
+```
+
+**Phase 2 - Backend Models:**
+```
+Colin: posts/models.py (parallel)
+Crystal: friends/models.py (parallel)
+```
+
+**Phase 3 - Backend APIs:**
+```
+Natalia: users/views.py, serializers.py, urls.py
+Colin: posts/views.py, serializers.py, urls.py
+Crystal: friends/views.py, serializers.py, urls.py
+```
+
+**Phase 4 - Frontend Services:**
+```
+Colin: postsService.js
+Crystal: friendsService.js
+```
+
+**Phase 5 - Frontend Contexts:**
+```
+Natalia: AuthContext.jsx → Must complete before others
+Colin: PostsContext.jsx → Waits for AuthContext
+Crystal: FriendsContext.jsx → Waits for AuthContext
+Tito: ThemeContext.jsx
+```
+
+**Phase 6 - Frontend Pages/Components:**
+```
+Natalia: Login/, Signup/, ProtectedRoute.jsx
+Colin: ComposerModal/, DeleteConfirmModal/
+Crystal: Friends/ page
+Pablo: TimelineRiverFeed, TimelineRiverRow, ProfileCard, MediaLightbox
+Tito: ThemeToggle/, main.jsx (provider nesting)
+```
+
+---
+
+### CATEGORY 7: COLLABORATIVE FILES
 
 - `backend/numeneon/urls.py` - Each backend person adds their `include()` line
 - `frontend/src/contexts/index.js` - Each context owner adds their export
 
 ---
 
-### CATEGORY 4: SHARED FILES (~27 files - DO NOT TOUCH)
+### CATEGORY 8: SHARED CONFIG (DO NOT TOUCH)
 
 Backend Config: `manage.py`, `db.sqlite3`, `seed_posts.py`, `numeneon/settings.py`, etc.
 Frontend Config: `eslint.config.js`, `vite.config.js`, `package.json`, `index.html`

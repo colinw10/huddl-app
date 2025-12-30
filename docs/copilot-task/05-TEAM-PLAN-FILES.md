@@ -266,7 +266,7 @@ python manage.py migrate --fake app 0001  # Mark as done without running
 
 ## Your Mission
 
-You're building the posts system - the core content that users create and view. Posts are what make NUMENEON a social app! Your backend serves the data, your context manages it, and Pablo's UI displays it.
+You're building the posts system - the core content that users create and view. Posts are what make NUMENEON a social app! Your backend serves the data, your context manages it, and you also build the modals for creating and deleting posts.
 
 ## Files You Own
 
@@ -282,12 +282,18 @@ You're building the posts system - the core content that users create and view. 
 | `backend/posts/__init__.py`    | Package marker                            |
 | `backend/posts/admin.py`       | Admin registration                        |
 
-### Frontend Files (2 total)
+### Frontend Files (8 total)
 
-| File                                     | Description            |
-| ---------------------------------------- | ---------------------- |
-| `frontend/src/contexts/PostsContext.jsx` | Posts state management |
-| `frontend/src/services/postsService.js`  | Posts API calls        |
+| File                                                        | Description            |
+| ----------------------------------------------------------- | ---------------------- |
+| `frontend/src/contexts/PostsContext.jsx`                    | Posts state management |
+| `frontend/src/services/postsService.js`                     | Posts API calls        |
+| `frontend/src/components/pages/Home/components/ComposerModal/ComposerModal.jsx` | Create post form |
+| `frontend/src/components/pages/Home/components/ComposerModal/ComposerModal.scss` | Composer styling |
+| `frontend/src/components/pages/Home/components/ComposerModal/index.js` | Export |
+| `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx` | Delete confirmation |
+| `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.scss` | Delete modal styling |
+| `frontend/src/components/pages/Home/components/DeleteConfirmModal/index.js` | Export |
 
 ---
 
@@ -669,188 +675,217 @@ You're building the friends system - the social connections between users. Frien
 
 ## Your Mission
 
-You've already built the complete UI architecture for NUMENEON - all 75+ component and styling files. Your role now is integration support: documenting data requirements, reviewing teammate implementations, and debugging when things don't connect.
+You're rebuilding the most complex UI components in NUMENEON - the Timeline River system with carousel navigation, the 3D flip ProfileCard with analytics charts, and the MediaLightbox. These require sophisticated state management, animations, and data visualization.
 
-## Your UI (Pre-Built - DO NOT REBUILD)
+## Files You Own (29 total)
 
-### What You Built:
+### Timeline System (17 files)
 
-- **Layout:** TopBar, SideNav, MessageModal, App routing
-- **Home:** TimelineRiverFeed, TimelineRiverRow, MediaLightbox, DeleteConfirmModal
-- **Profile:** ProfileCard (with flip animation), ComposerModal, TimelineRiver
-- **Pages:** Landing, About, NotFound
-- **Design System:** 13 SCSS files (variables, mixins, animations, themes)
-- **Contexts:** MessageContext
+| File | Description |
+| ---- | ----------- |
+| `frontend/src/components/pages/Home/Home.jsx` | Home page wrapper |
+| `frontend/src/components/pages/Home/Home.scss` | Home styling |
+| `frontend/src/components/pages/Home/index.js` | Export |
+| `frontend/src/components/pages/Home/utils/groupPosts.js` | Post grouping algorithm |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx` | Main feed container |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss` | Feed styling |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js` | Export |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx` | Single user row with carousel |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss` | Row styling |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js` | Export |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/partials/*.scss` | 11 SCSS partials |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx` | Image viewer modal |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss` | Lightbox styling |
+| `frontend/src/components/pages/Home/components/MediaLightbox/index.js` | Export |
 
-**Total: ~75 files** - These stay 100% intact.
+### Profile Card System (12 files)
+
+| File | Description |
+| ---- | ----------- |
+| `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx` | Card container with flip |
+| `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.scss` | Card styling |
+| `frontend/src/components/pages/Profile/components/ProfileCard/index.js` | Export |
+| `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardFront.jsx` | Front face (avatar, stats) |
+| `frontend/src/components/pages/Profile/components/ProfileCard/components/ProfileCardBack.jsx` | Back face (analytics) |
+| `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/*` | Wave chart, heatmap |
 
 ---
 
-## Your Responsibilities
+## Task Breakdown
 
-### ✅ Task 1: Document Data Requirements
+### ✅ Task 1: Build groupPosts Algorithm
 
-**What:** Add USAGE comment blocks to your components.
+**File:** `utils/groupPosts.js`
 
-**Why:** Team needs to know what data format you expect.
+**What:** Groups posts by USER (not date) for "space economy" layout.
+
+**Why:** Each user = ONE row with all their posts, enabling carousel navigation.
 
 **Acceptance Criteria:**
 
-- [ ] Every major JSX component has USAGE comment
-- [ ] Comments specify which context is consumed
-- [ ] Comments show expected data format
-- [ ] Comments explain integration points
-- [ ] All marked "DO NOT MODIFY"
+- [ ] Input: Array of posts from PostsContext
+- [ ] Output: Object keyed by userId
+- [ ] Each user entry has: thoughts[], media[], milestones[]
+- [ ] Each entry has mostRecentDate for "Last active" display
+- [ ] Posts within each type sorted by date (newest first)
 
----
-
-### ✅ Task 2: Define API Contracts
-
-**What:** Document exact JSON structures your components expect.
-
-**Why:** Backend team needs specs to build correct APIs.
-
-**Key Formats to Document:**
-
-**Post Object (REQUIRED for ProfileCard analytics):**
-
-```json
-{
-  "id": 1,
-  "author": {
-    "id": 5,
-    "username": "alice",
-    "first_name": "Alice",
-    "last_name": "Smith"
-  },
-  "type": "thoughts",
-  "content": "Hello world",
-  "media_url": null,
-  "parent": null,
-  "parent_id": null,
-  "created_at": "2024-12-19T10:30:00Z",
-  "likes_count": 42,
-  "reply_count": 7,
-  "shares_count": 3,
-  "is_liked": false
-}
-```
-
-**CRITICAL:** ProfileCard.jsx uses engagement fields for analytics:
-
-- `likes_count`, `reply_count`, `shares_count` → Wave chart engagement totals
-- `created_at` → Heatmap posting frequency calendar
-- `type` → Post type breakdown donut chart
-- **UI Note:** Wave/Heatmap toggle buttons are responsive (breakpoints at 600px, 480px, 375px)
-
-**User Object:**
-
-```json
-{
-  "id": 1,
-  "username": "alice",
-  "email": "alice@example.com",
-  "profile": {
-    "avatar": "/media/pics/alice.jpg",
-    "bio": "Hello!"
-  }
-}
+**Algorithm:**
+```javascript
+// Input: [{ id, author: { id, username }, type, created_at, ... }, ...]
+// Output: {
+//   "userId": {
+//     user: { id, name, avatar },
+//     thoughts: [posts...],
+//     media: [posts...],
+//     milestones: [posts...],
+//     mostRecentDate: Date
+//   }
+// }
 ```
 
 ---
 
-### ✅ Task 3: Review Context Implementations
+### ✅ Task 2: Build TimelineRiverFeed
 
-**What:** Code review teammates' contexts as they build.
+**Files:** TimelineRiverFeed.jsx, .scss, index.js
 
-**Why:** Ensure data flows correctly to your components.
+**What:** Container that fetches posts and renders rows.
 
-**Review Checklist:**
+**Why:** Main feed component on Home page.
 
-- [ ] PostsContext provides correct post format
-- [ ] AuthContext provides correct user format
-- [ ] FriendsContext provides correct friends format
-- [ ] All contexts handle loading/error states
-- [ ] Custom hooks work correctly
+**Acceptance Criteria:**
 
----
-
-### ✅ Task 4: Integration Debugging
-
-**What:** Help teammates when their code doesn't connect to your UI.
-
-**Common Issues:**
-
-- Date format mismatches (ISO string vs Date object)
-- Missing nested fields (author: 5 vs author: {...})
-- Null handling (component crashes on null image)
-- Type mismatches (string "5" vs number 5)
-
-**Debugging Tools:**
-
-- Browser Console for errors
-- Network tab for API responses
-- React DevTools for state inspection
+- [ ] Consumes PostsContext via usePosts()
+- [ ] Calls fetchPosts() on mount
+- [ ] Passes posts through groupPosts()
+- [ ] Renders TimelineRiverRow for each user
+- [ ] Shows loading state while fetching
+- [ ] Shows empty state when no posts
 
 ---
 
-## What You DON'T Do
+### ✅ Task 3: Build TimelineRiverRow (COMPLEX)
 
-- ❌ Rebuild any components
-- ❌ Add pseudocode to your files
-- ❌ Strip implementation
-- ❌ Modify styling/animations
-- ❌ Change design system files
+**Files:** TimelineRiverRow.jsx + 11 SCSS partials
+
+**What:** Single row showing one user's posts across 3 columns with carousel.
+
+**Why:** Core timeline interaction - most complex component.
+
+**State Required:**
+
+- [ ] `deckIndex` - { thoughts: 0, media: 0, milestones: 0 } for carousel
+- [ ] `expandedThreadId` - which post's replies are showing
+- [ ] `threadReplies` - cached replies per post
+- [ ] `editingPostId` - which post is being edited
+- [ ] `deleteModalPostId` - which post has delete modal open
+- [ ] `isMobile` - responsive breakpoint detection
+- [ ] `mobileActiveTab` - which column showing on mobile
+
+**Features:**
+
+- [ ] Carousel navigation (prev/next buttons when 3+ posts)
+- [ ] Thread expansion (view/add replies)
+- [ ] Edit mode for own posts
+- [ ] Delete confirmation modal integration
+- [ ] Like/share button handlers
+- [ ] Touch swipe for mobile
+- [ ] Click username → navigate to profile
+
+**Icons Used (import from icons.jsx):**
+- UserIcon, HeartIcon, HeartFilledIcon, CommentIcon, ShareIcon
+- EditIcon, TrashIcon, ExpandIcon, GlobeIcon, LockIcon, FriendsIcon
+- ChevronLeftIcon, ChevronRightIcon
 
 ---
 
-## ⚠️ Placeholder Components (Team Awareness)
+### ✅ Task 4: Build ProfileCard with 3D Flip
 
-### Engagement Ring (ProfileCardFront.jsx)
+**Files:** ProfileCard.jsx, ProfileCardFront.jsx, ProfileCardBack.jsx
 
-**Status:** PLACEHOLDER - decorative animation only
+**What:** User profile card that flips between front (info) and back (analytics).
 
-**Location:** `frontend/src/components/pages/Profile/ProfileCardFront.jsx` (lines 78-101)
+**Why:** Signature UI feature - shows user stats and activity visualization.
 
-**What it does now:**
+**Acceptance Criteria:**
 
-- SVG ring around profile avatar that fills to ~12.5% on page load
-- CSS animation only - no real data backing it
+- [ ] `isFlipped` state controls rotation
+- [ ] CSS 3D transform: `rotateY(180deg)` on flip
+- [ ] Front: Avatar, username, bio, follower stats
+- [ ] Back: Analytics charts (wave, heatmap, donut)
+- [ ] Flip button triggers animation
+- [ ] `isOwnProfile` prop controls what's shown
 
-**Future Implementation Options (see `docs/stretch-goals/EngagementRing.md`):**
+---
 
-1. Profile Completion % (easiest)
-2. Weekly Activity Score
-3. XP/Level System
-4. Engagement Score
+### ✅ Task 5: Build Analytics Visualizations
 
-**Team Action:**
+**Files:** ActivityVisualization component
 
-- Do NOT assume this shows real data
-- Do NOT "fix" why it only fills partially
-- When ready to implement, see stretch goal doc for full plan
+**What:** Wave chart and heatmap showing engagement over time.
+
+**Why:** Visual representation of user activity.
+
+**Wave Chart:**
+
+- [ ] SVG path showing weekly engagement totals
+- [ ] X-axis: 52 weeks
+- [ ] Y-axis: Normalized engagement (likes + replies + shares)
+- [ ] Animated draw-on effect
+
+**Heatmap:**
+
+- [ ] 52x7 grid (weeks × days)
+- [ ] Color intensity based on post count
+- [ ] Levels: 0 (empty), 1 (low), 2 (medium), 3 (high)
+- [ ] Hover shows date and count
+
+**Post Type Donut:**
+
+- [ ] SVG donut chart
+- [ ] Segments: Thoughts (green), Media (blue), Milestones (magenta)
+- [ ] Percentages calculated from user's posts
+
+---
+
+### ✅ Task 6: Build MediaLightbox
+
+**Files:** MediaLightbox.jsx, .scss, index.js
+
+**What:** Full-screen modal for viewing images.
+
+**Why:** Allows expanding media posts.
+
+**Acceptance Criteria:**
+
+- [ ] Opens via portal (createPortal)
+- [ ] Shows image full-size
+- [ ] Close on backdrop click or X button
+- [ ] Close on Escape key
+- [ ] Smooth fade-in animation
 
 ---
 
 ## Integration Points
 
-**You Provide:**
-
-- Complete UI layer
-- Design system (variables, mixins) for team to use
-- Data format specifications
-- MessageContext (already complete)
-
 **You Consume:**
 
-- PostsContext (Colin) → for Timeline components
-- AuthContext (Natalia) → for TopBar, ProtectedRoute
-- FriendsContext (Crystal) → if any component needs it
-- ThemeContext (Tito) → for theme switching
+- PostsContext (Colin) → posts array, likePost(), sharePost(), deletePost()
+- AuthContext (Natalia) → current user for edit/delete permissions
+- FriendsContext (Crystal) → for friend status checks
+- Icons from `assets/icons.jsx` → all SVG icons
+
+**You Provide:**
+
+- Complete Timeline UI → displays posts from Colin's context
+- ProfileCard analytics → visualizes engagement data
+- MediaLightbox → image viewing experience
 
 **Work Closely With:**
 
-- **Everyone** → You're the integration expert
+- **Colin:** Post data format must match your expectations
+- **Natalia:** User data format for profile display
+- **Tito:** Import icons from shared icons.jsx
 ````
 
 ---
@@ -1140,15 +1175,41 @@ useFriends() hook
 ↓
 Friends.jsx [Crystal]
 
-File Counts
-PersonBackendFrontendTotalPablo0~75~75 (pre-built)Natalia11819 (+migrations)Colin729Crystal7512Tito066Shared~10~17~27
+```
 
-Critical Rules
+---
 
-NO TWO PEOPLE work on the same file - prevents merge conflicts
-Pablo's UI stays 100% intact - team builds the engine
-Global styles are untouchable - everyone uses, nobody modifies
-Collaborative files - each person adds exactly ONE thing
+## File Counts (UPDATED Dec 2024)
+
+| Person | Backend | Frontend | Total | Notes |
+|--------|---------|----------|-------|-------|
+| Pablo (XL) | 0 | 29 | **29** | Timeline, ProfileCard, MediaLightbox |
+| Natalia (L) | 11 | 8 | **19** | Auth system + migrations |
+| Colin (M) | 7 | 8 | **15** | Posts + ComposerModal + DeleteConfirmModal |
+| Crystal (M) | 7 | 5 | **12** | Friends system |
+| Tito (S) | 0 | 6 | **6** | Infrastructure |
+| Shared | ~10 | ~17 | ~27 | Config, styles (DO NOT TOUCH) |
+
+```
+XL Pablo:    █████████████████████████████  29 files
+L  Natalia:  ███████████████████            19 files
+M  Colin:    ███████████████                15 files
+M  Crystal:  ████████████                   12 files
+S  Tito:     ██████                          6 files
+```
+
+---
+
+## Critical Rules
+
+1. **NO TWO PEOPLE work on the same file** - prevents merge conflicts
+2. **Everyone rebuilds from pseudocode** - git history shows contribution
+3. **Styles (SCSS) are provided** - team focuses on JSX logic
+4. **SVG icons in shared icons.jsx** - team imports, not inline
+5. **Global styles untouchable** - everyone uses, nobody modifies
+6. **Collaborative files** - each person adds exactly ONE thing
+
+---
 
 ## API Response Formats
 
