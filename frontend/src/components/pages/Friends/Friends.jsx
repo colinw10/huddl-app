@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFriends, useMessages } from '../../../contexts';
 import DeleteConfirmModal from '../Home/components/DeleteConfirmModal/DeleteConfirmModal';
+import { MessageBubbleIcon, UnlinkIcon, PlusIcon } from '../../../assets/icons';
 import './Friends.scss';
 
 // Helper function to assign color variants to cards
@@ -193,23 +194,14 @@ function Friends() {
                   onClick={(e) => handleMessageFriend(e, friend)} 
                   title="Message friend"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
+                  <MessageBubbleIcon size={20} />
                 </button>
                 <button 
                   className="friend-remove-btn" 
                   onClick={(e) => handleRemoveClick(e, friend)} 
                   title="Remove friend"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M18.84 12.25l1.72-1.71a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                    <path d="M5.17 11.75l-1.71 1.71a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                    <line x1="8" y1="2" x2="8" y2="5"/>
-                    <line x1="2" y1="8" x2="5" y2="8"/>
-                    <line x1="16" y1="19" x2="16" y2="22"/>
-                    <line x1="19" y1="16" x2="22" y2="16"/>
-                  </svg>
+                  <UnlinkIcon size={16} />
                 </button>
               </div>
             ))}
@@ -256,10 +248,7 @@ function Friends() {
                   <span className="friend-mutual">{suggestion.mutualFriends} mutual friends</span>
                 </div>
                 <button className="btn-add-friend">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                  </svg>
+                  <PlusIcon size={16} />
                   Add
                 </button>
               </div>

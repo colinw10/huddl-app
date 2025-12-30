@@ -8,6 +8,7 @@
 // 4. Shows real messages from context state
 
 import { useState, useRef, useEffect } from 'react';
+import { MinimizeIcon, MaximizeIcon, CloseIcon, ChevronLeftIcon, ChevronRightIcon, MessageBubbleIcon } from '../../../../assets/icons';
 import { useMessages } from '../../../../contexts/MessageContext';
 import './MessageModal.scss';
 
@@ -140,26 +141,13 @@ function MessageModal({ onClose }) {
               title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
             >
               {isFullscreen ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="4 14 10 14 10 20"/>
-                  <polyline points="20 10 14 10 14 4"/>
-                  <line x1="14" y1="10" x2="21" y2="3"/>
-                  <line x1="3" y1="21" x2="10" y2="14"/>
-                </svg>
+                <MinimizeIcon size={20} />
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="15 3 21 3 21 9"/>
-                  <polyline points="9 21 3 21 3 15"/>
-                  <line x1="21" y1="3" x2="14" y2="10"/>
-                  <line x1="3" y1="21" x2="10" y2="14"/>
-                </svg>
+                <MaximizeIcon size={20} />
               )}
             </button>
             <button className="close-btn-glow" onClick={onClose}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
+              <CloseIcon size={24} />
             </button>
           </div>
         </div>
@@ -186,10 +174,7 @@ function MessageModal({ onClose }) {
                     onClick={() => setSearchQuery('')}
                     title="Clear search"
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <line x1="18" y1="6" x2="6" y2="18"/>
-                      <line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
+                    <CloseIcon size={14} />
                   </button>
                 )}
               </div>
@@ -258,9 +243,7 @@ function MessageModal({ onClose }) {
                     className="chat-back-btn"
                     onClick={() => setMobileView('list')}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="15 18 9 12 15 6"/>
-                    </svg>
+                    <ChevronLeftIcon size={20} />
                   </button>
                   <div className="chat-user-info">
                     <div className="chat-avatar">
@@ -311,9 +294,7 @@ function MessageModal({ onClose }) {
                     onClick={handleSend}
                     disabled={!messageText.trim()}
                   >
-                    <svg className="send-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="9 6 15 12 9 18"/>
-                    </svg>
+                    <ChevronRightIcon size={26} className="send-icon" strokeWidth="2.5" />
                   </button>
                 </div>
               </>
@@ -321,9 +302,7 @@ function MessageModal({ onClose }) {
               /* No conversation selected state */
               <div className="chat-no-selection">
                 <div className="no-selection-icon">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.4)" strokeWidth="1.5">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
+                  <MessageBubbleIcon size={48} stroke="rgba(201,168,255,0.4)" strokeWidth="1.5" />
                 </div>
                 <p>Select a conversation</p>
                 <p className="no-selection-hint">or message someone from their post</p>

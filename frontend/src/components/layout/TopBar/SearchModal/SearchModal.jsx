@@ -4,6 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePosts, useFriends, useMessages } from '../../../../contexts';
+import { TargetReticleIcon, CloseIcon, MessageBubbleIcon } from '../../../../assets/icons';
 import './SearchModal.scss';
 
 // Helper to get initials from name
@@ -130,10 +131,7 @@ function SearchModal({ isOpen, onClose }) {
         {/* Search Header */}
         <div className="search-header">
           <div className="search-input-wrapper">
-            <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
+            <TargetReticleIcon size={20} className="search-icon" />
             <input
               ref={inputRef}
               type="text"
@@ -153,10 +151,7 @@ function SearchModal({ isOpen, onClose }) {
             )}
           </div>
           <button className="close-btn-glow" onClick={handleClose}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+            <CloseIcon size={20} />
           </button>
         </div>
 
@@ -224,9 +219,7 @@ function SearchModal({ isOpen, onClose }) {
                     onClick={(e) => handleMessageUser(e, user)}
                     title="Send message"
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                    </svg>
+                    <MessageBubbleIcon size={16} />
                   </button>
                 </div>
               ))}

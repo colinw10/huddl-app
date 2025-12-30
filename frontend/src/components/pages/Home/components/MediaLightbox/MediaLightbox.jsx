@@ -5,6 +5,19 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { usePosts } from '../../../../../contexts/PostsContext';
 import { useAuth } from '../../../../../contexts/AuthContext';
+import { 
+  MinimizeIcon, 
+  MaximizeIcon, 
+  CloseIcon, 
+  UserIcon, 
+  HeartDynamicIcon, 
+  MessageBubbleIcon, 
+  ShareIcon, 
+  BookmarkIcon,
+  ChevronRightIcon,
+  EditIcon,
+  TrashIcon
+} from '../../../../../assets/icons';
 import './MediaLightbox.scss';
 
 function MediaLightbox({ post, onClose, commentText, setCommentText }) {
@@ -83,21 +96,14 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
           title={isExpanded ? 'Collapse' : 'Expand to fullscreen'}
         >
           {isExpanded ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>
-            </svg>
+            <MinimizeIcon size={20} />
           ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-            </svg>
+            <MaximizeIcon size={20} />
           )}
         </button>
         
         <button className="close-btn-glow" onClick={onClose}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
+          <CloseIcon size={24} />
         </button>
         
         <div className="media-lightbox-image-container">
@@ -107,9 +113,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
         <div className="media-lightbox-info">
           <div className="media-lightbox-header">
             <div className="river-avatar">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
+              <UserIcon size={32} />
             </div>
             <div>
               <div className="media-lightbox-author">
@@ -127,43 +131,31 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
               className={`media-action-btn media-action-btn--like ${post.is_liked ? 'media-action-btn--liked' : ''}`}
               onClick={handleLike}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                      fill={post.is_liked ? "#3b82f6" : "none"} 
-                      stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
-                      strokeWidth="1.5"/>
-              </svg>
+              <HeartDynamicIcon 
+                size={18} 
+                filled={post.is_liked}
+                fillColor="#3b82f6"
+                strokeColor={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"}
+              />
               <span className="action-count">{post.likes_count || 0}</span>
             </button>
             <button className="media-action-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
+              <MessageBubbleIcon size={18} strokeWidth="1.5" />
               <span className="action-count">{post.comment_count || 0}</span>
             </button>
             <button className="media-action-btn" onClick={handleShare}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="18" cy="5" r="3"/>
-                <circle cx="6" cy="12" r="3"/>
-                <circle cx="18" cy="19" r="3"/>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-              </svg>
+              <ShareIcon size={18} strokeWidth="1.5" />
               <span className="action-count">{post.shares_count || 0}</span>
             </button>
             <button className="media-action-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-              </svg>
+              <BookmarkIcon size={18} strokeWidth="1.5" />
             </button>
           </div>
 
           {/* Comment Section in Lightbox */}
           <div className="media-lightbox-comments">
             <div className="lightbox-comments-header">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
+              <MessageBubbleIcon size={16} />
               <span>Comments</span>
             </div>
             
@@ -193,9 +185,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
                   disabled={!commentText.trim() || isSubmitting}
                   onClick={handleCommentSubmit}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 6 15 12 9 18"/>
-                  </svg>
+                  <ChevronRightIcon size={20} strokeWidth="2.5" />
                 </button>
               </div>
             </div>
@@ -210,9 +200,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
                 return (
                   <div key={reply.id} className={`lightbox-comment-item ${isEditingThis ? 'is-editing' : ''}`}>
                     <div className="comment-composer-avatar">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                      </svg>
+                      <UserIcon size={20} />
                     </div>
                     <div className="lightbox-comment-content">
                       <div className="lightbox-comment-header">
@@ -227,20 +215,14 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
                                 setEditingCommentContent(reply.content);
                               }}
                             >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                              </svg>
+                              <EditIcon size={14} />
                             </button>
                             <button 
                               className="comment-action-btn comment-action-btn--delete" 
                               title="Delete"
                               onClick={() => setDeletingCommentId(reply.id)}
                             >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <polyline points="3 6 5 6 21 6"/>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                              </svg>
+                              <TrashIcon size={14} />
                             </button>
                           </div>
                         )}
@@ -300,9 +282,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
                 return (
                   <div key={reply.id} className={`lightbox-comment-item lightbox-comment-item--new ${isEditingThis ? 'is-editing' : ''}`}>
                     <div className="comment-composer-avatar">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                      </svg>
+                      <UserIcon size={20} />
                     </div>
                     <div className="lightbox-comment-content">
                       <div className="lightbox-comment-header">
@@ -317,20 +297,14 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
                                 setEditingCommentContent(reply.content);
                               }}
                             >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                              </svg>
+                              <EditIcon size={14} />
                             </button>
                             <button 
                               className="comment-action-btn comment-action-btn--delete" 
                               title="Delete"
                               onClick={() => setDeletingCommentId(reply.id)}
                             >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <polyline points="3 6 5 6 21 6"/>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                              </svg>
+                              <TrashIcon size={14} />
                             </button>
                           </div>
                         )}
@@ -396,12 +370,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
           <div className="lightbox-delete-overlay" onClick={() => setDeletingCommentId(null)}>
             <div className="lightbox-delete-modal" onClick={(e) => e.stopPropagation()}>
               <div className="lightbox-delete-icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.8)" strokeWidth="1.5">
-                  <polyline points="3 6 5 6 21 6"/>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                  <line x1="10" y1="11" x2="10" y2="17"/>
-                  <line x1="14" y1="11" x2="14" y2="17"/>
-                </svg>
+                <TrashIcon size={48} stroke="rgba(255,82,82,0.8)" strokeWidth="1.5" />
               </div>
               <h3 className="lightbox-delete-title">Delete Comment?</h3>
               <p className="lightbox-delete-text">This action cannot be undone.</p>

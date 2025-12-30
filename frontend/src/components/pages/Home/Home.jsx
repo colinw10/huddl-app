@@ -6,6 +6,7 @@ import './Home.scss';
 import TimelineRiverFeed from './components/TimelineRiverFeed';
 import ComposerModal from '../Profile/components/ComposerModal/ComposerModal';
 import { usePosts, useFriends } from '../../../contexts';
+import { UserIcon, PostTriangleIcon, MaximizeIcon } from '../../../assets/icons';
 
 function Home() {
   // Get real data from contexts
@@ -112,9 +113,7 @@ function Home() {
        {/* 🟢 Section 1: Composer (click to open modal) */}
       <div className="composer-section">
         <div className="composer-avatar">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
+          <UserIcon size={24} />
         </div>
         <div className="composer-input-wrapper">
           <textarea
@@ -133,9 +132,7 @@ function Home() {
               onClick={handleInlinePost}
               title="Post"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="12,3 21,19 3,19"/>
-              </svg>
+              <PostTriangleIcon size={16} />
             </span>
           )}
         </div>
@@ -144,12 +141,7 @@ function Home() {
           onClick={() => setShowComposer(true)}
           title="More options"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 3 21 3 21 9"/>
-            <polyline points="9 21 3 21 3 15"/>
-            <line x1="21" y1="3" x2="14" y2="10"/>
-            <line x1="3" y1="21" x2="10" y2="14"/>
-          </svg>
+          <MaximizeIcon size={14} strokeWidth="2.5" />
         </button>
       </div>
 
@@ -169,9 +161,7 @@ function Home() {
                   <div className="add-story-icon">+</div>
                 ) : (
                   // Other stories - show person icon
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
+                  <UserIcon size={28} />
                 )}
               </div>
               <div className="story-name">{story.name}</div>

@@ -8,6 +8,27 @@ import './TimelineRiverRow.scss';
 import MediaLightbox from '../MediaLightbox/MediaLightbox';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import { useAuth, usePosts, useMessages } from '../../../../../contexts';
+import { 
+  UserIcon, 
+  HeartDynamicIcon, 
+  MessageBubbleIcon, 
+  RepostIcon, 
+  BookmarkIcon,
+  MessageLineIcon,
+  GraphLineIcon,
+  EditIcon,
+  TrashIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  CheckIcon,
+  CloseIcon,
+  ImageIcon,
+  MilestoneIcon,
+  StarIcon,
+  ThoughtBubbleIcon
+} from '../../../../../assets/icons';
 
 // Helper function to format relative time (e.g., "2h ago", "3d ago")
 const formatRelativeTime = (dateString) => {
@@ -249,9 +270,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             onClick={(e) => handleUserClick(e, user.id, user.username)}
             title={`View ${user.name}'s profile`}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
+            <UserIcon size={24} />
           </div>
           <div className="river-post-info">
             <div 
@@ -291,9 +310,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           }}>
             <img src={post.media_url} alt="Post media" className="river-media-image" />
             <div className="media-expand-hint">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-              </svg>
+              <MaximizeIcon size={20} />
             </div>
           </div>
         )}
@@ -313,12 +330,12 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             title={post.is_liked ? 'Unlike' : 'Like'}
             style={{ cursor: 'pointer' }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                    fill={post.is_liked ? "#3b82f6" : "none"} 
-                    stroke={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"} 
-                    strokeWidth="1.5"/>
-            </svg>
+            <HeartDynamicIcon 
+              size={18} 
+              filled={post.is_liked}
+              fillColor="#3b82f6"
+              strokeColor={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"}
+            />
             {post.likes_count || 0}
           </div>
           <button 
@@ -326,23 +343,14 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             title="Comment"
             onClick={() => onCommentClick(post.id)}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+            <MessageBubbleIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
             {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
           </button>
           <button className="river-action-btn" title="Repost">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(79,255,255,0.5)" strokeWidth="1.5">
-              <polyline points="17 1 21 5 17 9"/>
-              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-              <polyline points="7 23 3 19 7 15"/>
-              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-            </svg>
+            <RepostIcon size={20} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
           </button>
           <button className="river-action-btn" title="Bookmark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,255,0.5)" strokeWidth="1.5">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
+            <BookmarkIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
           </button>
           
           {/* 🔵 Message button - only show on OTHER people's posts */}
@@ -360,10 +368,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                 });
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,0.5)" strokeWidth="1.5">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                <line x1="9" y1="10" x2="15" y2="10"/>
-              </svg>
+              <MessageLineIcon size={20} stroke="rgba(0,212,255,0.5)" strokeWidth="1.5" />
             </button>
           )}
           
@@ -371,9 +376,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           {currentUser && post.author?.id === currentUser.id && (
             <>
               <button className="river-action-btn" title="Analytics">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(26,231,132,0.5)" strokeWidth="1.5">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
+                <GraphLineIcon size={20} stroke="rgba(26,231,132,0.5)" strokeWidth="1.5" />
               </button>
               <button 
                 className="river-action-btn river-action-btn--edit" 
@@ -388,10 +391,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                   setIsComposerExpanded(true);
                 }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,193,7,0.6)" strokeWidth="1.5">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
+                <EditIcon size={20} stroke="rgba(255,193,7,0.6)" strokeWidth="1.5" />
               </button>
               <button 
                 className="river-action-btn river-action-btn--delete" 
@@ -401,12 +401,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                   setDeleteModalPostId(post.id);
                 }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,82,82,0.6)" strokeWidth="1.5">
-                  <polyline points="3 6 5 6 21 6"/>
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                  <line x1="10" y1="11" x2="10" y2="17"/>
-                  <line x1="14" y1="11" x2="14" y2="17"/>
-                </svg>
+                <TrashIcon size={20} stroke="rgba(255,82,82,0.6)" strokeWidth="1.5" />
               </button>
             </>
           )}
@@ -449,12 +444,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                 onClick={() => setIsComposerExpanded(true)}
                 title="Expand"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 3 21 3 21 9"/>
-                  <polyline points="9 21 3 21 3 15"/>
-                  <line x1="21" y1="3" x2="14" y2="10"/>
-                  <line x1="3" y1="21" x2="10" y2="14"/>
-                </svg>
+                <MaximizeIcon size={12} strokeWidth="2.5" />
               </button>
             </div>
             <button 
@@ -472,9 +462,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                 }
               }}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 6 15 12 9 18"/>
-              </svg>
+              <ChevronRightIcon size={22} strokeWidth="2.5" />
             </button>
           </div>
         )}
@@ -519,9 +507,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                     <div className="reply-card">
                       <div className="reply-header">
                         <div className="reply-avatar">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                          </svg>
+                          <UserIcon size={14} />
                         </div>
                         <span className="reply-author">{reply.author?.username || 'User'}</span>
                         <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
@@ -538,10 +524,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                                 setEditContent(reply.content);
                               }}
                             >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                              </svg>
+                              <EditIcon size={14} />
                             </button>
                             <button 
                               className="reply-action-btn reply-action-btn--delete"
@@ -553,10 +536,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                                 setDeleteModalParentId(post.id); // Mark as reply deletion
                               }}
                             >
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <polyline points="3 6 5 6 21 6"/>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                              </svg>
+                              <TrashIcon size={14} />
                             </button>
                           </div>
                         )}
@@ -588,10 +568,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                               }}
                               title="Cancel"
                             >
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                              </svg>
+                              <CloseIcon size={16} />
                             </button>
                             <button 
                               className="reply-edit-save"
@@ -618,9 +595,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                               {isSaving ? (
                                 <span className="saving-dots">...</span>
                               ) : (
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                  <polyline points="20 6 9 17 4 12"/>
-                                </svg>
+                                <CheckIcon size={20} strokeWidth="2.5" />
                               )}
                             </button>
                           </div>
@@ -747,12 +722,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                     }}
                     title="Minimize"
                   >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="4 14 10 14 10 20"/>
-                      <polyline points="20 10 14 10 14 4"/>
-                      <line x1="14" y1="10" x2="21" y2="3"/>
-                      <line x1="3" y1="21" x2="10" y2="14"/>
-                    </svg>
+                    <MinimizeIcon size={12} strokeWidth="2.5" />
                   </button>
                 </div>
                 
@@ -766,11 +736,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       console.log('Media upload clicked');
                     }}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                      <circle cx="8.5" cy="8.5" r="1.5"/>
-                      <polyline points="21 15 16 10 5 21"/>
-                    </svg>
+                    <ImageIcon size={20} strokeWidth="1.5" />
                   </button>
                 )}
                 
@@ -797,13 +763,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                   }}
                 >
                   {isEditMode ? (
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
+                    <CheckIcon size={22} strokeWidth="2.5" />
                   ) : (
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="9 6 15 12 9 18"/>
-                    </svg>
+                    <ChevronRightIcon size={22} strokeWidth="2.5" />
                   )}
                 </button>
               </div>
@@ -864,22 +826,13 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   if (isMobile && availableTabs.length > 0) {
     const tabConfig = {
       thoughts: { label: 'Thoughts', icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
+        <MessageBubbleIcon size={16} />
       )},
       media: { label: 'Media', icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
+        <ImageIcon size={16} />
       )},
       milestones: { label: 'Milestones', icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
+        <MilestoneIcon size={16} />
       )}
     };
     
@@ -918,9 +871,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       [effectiveTab]: prev[effectiveTab] === 0 ? currentTabPosts.length - 1 : prev[effectiveTab] - 1
                     }))}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="15 18 9 12 15 6"/>
-                    </svg>
+                    <ChevronLeftIcon size={20} />
                   </button>
                   
                   <div className="mobile-card-indicators">
@@ -940,9 +891,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
                       [effectiveTab]: (prev[effectiveTab] + 1) % currentTabPosts.length
                     }))}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="9 18 15 12 9 6"/>
-                    </svg>
+                    <ChevronRightIcon size={20} />
                   </button>
                 </div>
               )}
@@ -979,21 +928,13 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     // SVG icons for each type
     const typeIcons = {
       thoughts: (
-        <svg className="smart-deck-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-        </svg>
+        <ThoughtBubbleIcon className="smart-deck-icon-svg" />
       ),
       media: (
-        <svg className="smart-deck-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
+        <ImageIcon className="smart-deck-icon-svg" />
       ),
       milestones: (
-        <svg className="smart-deck-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
+        <StarIcon className="smart-deck-icon-svg" />
       )
     };
     
@@ -1031,9 +972,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               }}
               aria-label="Previous card"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="15 18 9 12 15 6"/>
-              </svg>
+              <ChevronLeftIcon size={16} />
             </button>
             
             {/* Dot indicators */}
@@ -1058,9 +997,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               }}
               aria-label="Next card"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="9 18 15 12 9 6"/>
-              </svg>
+              <ChevronRightIcon size={16} />
             </button>
           </div>
         )}
@@ -1091,18 +1028,14 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             onClick={handlePrevColumn}
             title="Previous card"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
+            <ChevronLeftIcon size={20} />
           </button>
           <button 
             className="desktop-stack-btn desktop-stack-btn--next"
             onClick={handleNextColumn}
             title="Next card"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
+            <ChevronRightIcon size={20} />
           </button>
         </div>
       )}

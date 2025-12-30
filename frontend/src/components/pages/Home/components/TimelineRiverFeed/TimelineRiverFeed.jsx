@@ -3,6 +3,7 @@
 
 import { groupPostsByUserAndDay, sortGroupedPosts } from '../../utils/groupPosts';
 import TimelineRiverRow from '../TimelineRiverRow';
+import { MessageBubbleIcon, ClockIcon } from '../../../../../assets/icons';
 import './TimelineRiverFeed.scss';
 
 function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText, onDeletePost, onUpdatePost }) {
@@ -24,9 +25,7 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
   if (!posts || posts.length === 0) {
     return (
       <div className="timeline-river-empty">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
+        <MessageBubbleIcon size={48} />
         <p>No posts yet. Be the first to share!</p>
       </div>
     );
@@ -43,10 +42,7 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
           {/* 🎨 Last Active Header */}
           <div className="river-date-header">
             <div className="river-date-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
+              <ClockIcon size={16} />
               Last active: {new Date(date).toLocaleDateString('en-US', { 
                 month: 'short', 
                 day: 'numeric'
