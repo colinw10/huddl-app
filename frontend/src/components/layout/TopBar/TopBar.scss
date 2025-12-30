@@ -30,6 +30,7 @@
 /* Notifications icon - amber/gold */
 .icon-notifications {
   color: var(--amber);
+  position: relative;
 }
 
 .icon-notifications:hover {
@@ -37,6 +38,56 @@
   background: rgba(251, 191, 36, 0.15);
   box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
   transform: scale(1.1);
+}
+
+/* Notification badge - 3D amber orb */
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  
+  /* Amber orb gradient */
+  background: 
+    radial-gradient(circle at 35% 25%, rgba(255, 255, 200, 0.9) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, #47ffff 0%, #00fff2ca 50%, #008bcc90 100%);
+  
+  color: rgba(28, 10, 1, 0.965);
+  font-size: 0.7rem;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* 3D depth */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 8px rgba(204, 85, 0, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(255, 140, 0, 0.5);
+  
+  /* Subtle animation */
+  animation: orbPulse 2s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+  0%, 100% {
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(204, 85, 0, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 0 12px rgba(255, 140, 0, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(204, 85, 0, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 0 18px rgba(255, 140, 0, 0.7);
+  }
 }
 
 .top-bar-logo {

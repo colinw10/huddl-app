@@ -246,16 +246,46 @@ NUMENEON UI wireframe series, minimal dark interface design: Hover states compar
 NUMENEON UI wireframe series, minimal dark interface design: Page transition sequence. Pure black background #010102. Three panels: page fading down, transition gradient sweep, new page rising up. Timeline bar bottom. Vignette effect. Animation study. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
 ```
 
-### 35. Desktop vs Tablet (1792x1024)
+### 35. Desktop vs Tablet (1792x1024)✅
 
 ```
 NUMENEON UI wireframe series, minimal dark interface design: Responsive desktop to tablet. Pure black background #010102. Split: LEFT desktop full sidebar, 3 columns, full header. RIGHT tablet icon sidebar, 2 columns, condensed header. 768px breakpoint line. Reflow arrows. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1792x1024
 ```
 
-### 36. Tablet vs Mobile (1792x1024)
+### 36. Tablet vs Mobile (1792x1024)✅
 
 ```
 NUMENEON UI wireframe series, minimal dark interface design: Responsive tablet to mobile. Pure black background #010102. Split: LEFT tablet side nav, 2 columns. RIGHT mobile NO side nav, bottom nav bar, 1 column, compact header. 480px breakpoint. Arrows showing nav move. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1792x1024
+```
+
+### 37. Delete Post Confirmation Modal (1024x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Delete post confirmation dialog. Pure black background #010102 with 80% overlay. Centered glassmorphic modal, chamfered corners. Top: trash icon with pink #ff6b9d glow. Title rectangle bold, description text rectangles explaining permanent deletion. Two buttons bottom: left ghost outline "Cancel" with cyan #00d4ff border, right filled "Delete" pink #ff6b9d with glow. Post preview mini-card above buttons showing what will be deleted. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
+```
+
+### 38. Remove Friend Confirmation Modal (1024x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Remove friend confirmation dialog. Pure black background #010102 with 80% overlay. Centered glassmorphic modal, chamfered corners. Top: avatar circle with broken heart or unlink icon, amber #fbbf24 warning glow. Title rectangle, description rectangles. Friend info row: avatar circle, name rectangle, mutual friends count. Two buttons: left ghost outline "Cancel" cyan #00d4ff border, right filled "Remove" pink #ff6b9d glow. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
+```
+
+### 39. Share Post Modal (1024x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Share post modal. Pure black background #010102 with 80% overlay. Glassmorphic modal, chamfered corners. Header: share icon purple #a783ff, title, X close. Post preview card mini with cyan #00d4ff border. Share options grid: message icon, copy link icon, social platform circles. Friends quick-share row: 5 avatar circles with checkboxes, search bar. Add comment textarea. Share button emerald #1ae784 glow bottom. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
+```
+
+### 40. About Page (1792x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Editorial about page, no sidebar. Pure black background #010102. Centered narrow column layout (900px max). TOP HERO: small label rectangle, massive "NUMENEON" letters spaced apart - each letter a separate shape with different neon glow (magenta #dc08bc, cyan #00d4ff, purple #a783ff, emerald #1ae784), two-line tagline rectangles below, thin horizontal divider. BELOW: asymmetric editorial grid of content blocks - varying sizes, no cards, just bold title rectangles and paragraph text rectangles. One large pull-quote block with quotation marks. Final CTA text block at bottom. Brutalist typography hierarchy, generous whitespace, scanline texture hints. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1792x1024
+```
+
+### 41. Repost Modal (1024x1024)
+
+```
+NUMENEON UI wireframe series, minimal dark interface design: Repost/quote post modal. Pure black background #010102 with 80% overlay. Glassmorphic modal, chamfered corners. Header: repost icon (two curved arrows loop) cyan #00d4ff, title, X close. Two option cards stacked: TOP card "Repost" with repost icon, instant share to your timeline, cyan #00d4ff border on hover. BOTTOM card "Quote Post" with quote icon, opens composer. Below options: embedded original post preview card with avatar circle, name rectangle, content preview, cyan border, slightly inset. If Quote selected: text area appears above preview for adding commentary, character counter, post button emerald #1ae784 glow. Clean vector wireframe. No realistic photography, no 3D rendering, no readable text, simple shapes only. 1024x1024
 ```
 
 ---

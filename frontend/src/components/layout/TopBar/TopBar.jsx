@@ -6,16 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import './TopBar.scss';
 import MessageModal from './MessageModal/MessageModal';
 import SearchModal from './SearchModal/SearchModal';
+import NotificationModal from './NotificationModal/NotificationModal';
 import { ThemeToggle } from '../../ui/ThemeToggle';
-import { useMessages, useAuth } from '../../../contexts';
+import { useMessages, useAuth, useFriends } from '../../../contexts';
 
 function TopBar() {
   const { isMessageModalOpen, openMessages, closeMessages } = useMessages();
   const { logout, user } = useAuth();
+  const { pendingRequests } = useFriends();
   const navigate = useNavigate();
   
   // 🔵 Local state for search modal
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  
+  // 🔵 Local state for notification modal
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -65,8 +70,8 @@ function TopBar() {
               <div 
                 className="icon-placeholder icon-notifications" 
                 title="Notifications"
-                onClick={() => console.log('Notifications clicked')}
-                style={{ cursor: 'pointer' }}
+                onClick={() => setIsNotificationsOpen(true)}
+                style={{ cursor: 'pointer', position: 'relative' }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="12" cy="12" r="2"/>
@@ -75,6 +80,10 @@ function TopBar() {
                   <path d="M7.76 16.24a6 6 0 0 1 0-8.49"/>
                   <path d="M4.93 19.07a10 10 0 0 1 0-14.14"/>
                 </svg>
+                {/* Notification badge */}
+                {pendingRequests.length > 0 && (
+                  <span className="notification-badge">{pendingRequests.length}</span>
+                )}
               </div>
               <div 
                 className="icon-placeholder icon-logout" 
@@ -117,6 +126,12 @@ function TopBar() {
       <SearchModal 
         isOpen={isSearchOpen} 
         onClose={() => setIsSearchOpen(false)} 
+      />
+      
+      {/* Notification Modal */}
+      <NotificationModal
+        isOpen={isNotificationsOpen}
+        onClose={() => setIsNotificationsOpen(false)}
       />
     </>
   );

@@ -11,12 +11,19 @@
  * =============================================================================
  */
 
+// 📁 FILE: AuthContext.jsx
+// ⬆️ RECEIVES: nothing - this is a provider that GIVES data to others
+// ⬇️ SENDS: user, isLoading, isAuthenticated, login(), signup(), logout(), updateProfile()
+
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import apiClient from '../services/apiClient';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  // children = whatever is inside <AuthProvider>...</AuthProvider>
+  // In main.jsx, children is <PostsProvider><FriendsProvider><App/></FriendsProvider></PostsProvider>
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
