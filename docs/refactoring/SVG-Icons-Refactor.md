@@ -19,10 +19,16 @@ const Profile = () => {
   return (
     <div>
       {/* Inline SVG #1 */}
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06..."/>
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+      >
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06..." />
       </svg>
-      
+
       {/* Same icon duplicated in TimelineRiver.jsx, Friends.jsx, Home.jsx... */}
     </div>
   );
@@ -30,6 +36,7 @@ const Profile = () => {
 ```
 
 **Pain points:**
+
 - `icons.jsx` grew to **1,220 lines** as a monolithic file
 - No organization by category or purpose
 - Developers couldn't quickly find icons
@@ -64,7 +71,7 @@ frontend/src/assets/
 Every icon follows the same pattern:
 
 ```jsx
-export const HeartIcon = ({ size = 18, className = '', ...props }) => (
+export const HeartIcon = ({ size = 18, className = "", ...props }) => (
   <svg
     width={size}
     height={size}
@@ -75,12 +82,13 @@ export const HeartIcon = ({ size = 18, className = '', ...props }) => (
     className={className}
     {...props}
   >
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06..."/>
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06..." />
   </svg>
 );
 ```
 
 **Consistent props across all icons:**
+
 - `size` - Controls both width and height (maintains aspect ratio)
 - `className` - For styling overrides
 - `...props` - Pass-through for onClick, aria-label, etc.
@@ -91,17 +99,17 @@ Some icons have additional props for dynamic behavior:
 
 ```jsx
 // HeartDynamicIcon - toggles between filled/outline
-export const HeartDynamicIcon = ({ 
-  size = 18, 
-  className = '', 
+export const HeartDynamicIcon = ({
+  size = 18,
+  className = '',
   filled = false,           // Controls fill state
   fillColor = '#3b82f6',    // Color when filled
   strokeColor = 'rgba(201,168,255,0.5)',  // Color when outline
-  ...props 
+  ...props
 }) => (
   <svg ...>
-    <path 
-      fill={filled ? fillColor : "none"} 
+    <path
+      fill={filled ? fillColor : "none"}
       stroke={filled ? fillColor : strokeColor}
       ...
     />
@@ -116,21 +124,21 @@ export const HeartDynamicIcon = ({
 ### Method 1: From barrel export (recommended)
 
 ```jsx
-import { HeartIcon, CommentIcon, ShareIcon } from '../../assets/icons';
+import { HeartIcon, CommentIcon, ShareIcon } from "../../assets/icons";
 ```
 
 ### Method 2: From specific category (tree-shakeable)
 
 ```jsx
-import { HeartIcon } from '../../assets/icons/engagement';
-import { CloseIcon } from '../../assets/icons/actions';
+import { HeartIcon } from "../../assets/icons/engagement";
+import { CloseIcon } from "../../assets/icons/actions";
 ```
 
 ### Method 3: Legacy import (backwards compatible)
 
 ```jsx
 // Still works! icons.jsx re-exports everything
-import { HeartIcon } from '../../assets/icons.jsx';
+import { HeartIcon } from "../../assets/icons.jsx";
 ```
 
 ---
@@ -149,6 +157,7 @@ Components
 ```
 
 **icons/index.js (barrel file):**
+
 ```js
 // Engagement
 export {
@@ -159,7 +168,7 @@ export {
   ShareIcon,
   BookmarkIcon,
   RepostIcon,
-} from './engagement';
+} from "./engagement";
 
 // Actions
 export {
@@ -167,18 +176,19 @@ export {
   TrashIcon,
   CloseIcon,
   // ...
-} from './actions';
+} from "./actions";
 
 // ... all other categories
 ```
 
 **icons.jsx (legacy compatibility):**
+
 ```jsx
 /**
  * DEPRECATED: This file re-exports from the modular icons/ directory.
  * For new code, import directly from icons/index.js
  */
-export * from './icons/index';
+export * from "./icons/index";
 ```
 
 ---
@@ -187,12 +197,12 @@ export * from './icons/index';
 
 ### Before vs After
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| `icons.jsx` lines | 1,220 | 24 | **98% smaller** |
-| Files touched to add icon | 1 (monolith) | 1 (category) | Same, but organized |
-| Find icon by category | Ctrl+F guessing | Navigate to folder | **Instant** |
-| Code review readability | Poor | Excellent | **Huge** |
+| Metric                    | Before          | After              | Improvement         |
+| ------------------------- | --------------- | ------------------ | ------------------- |
+| `icons.jsx` lines         | 1,220           | 24                 | **98% smaller**     |
+| Files touched to add icon | 1 (monolith)    | 1 (category)       | Same, but organized |
+| Find icon by category     | Ctrl+F guessing | Navigate to folder | **Instant**         |
+| Code review readability   | Poor            | Excellent          | **Huge**            |
 
 ### File Size Distribution
 
@@ -242,22 +252,29 @@ Total:            1,198 lines (same icons, better organized)
 ## Why This Pattern Works
 
 ### 1. **Single Source of Truth**
+
 Each icon is defined once. No more hunting for duplicates.
 
 ### 2. **Semantic Organization**
+
 Need a heart icon? Check `engagement.jsx`. Need a settings gear? Check `ui.jsx`. No guessing.
 
 ### 3. **Backwards Compatible**
+
 Existing imports still work. Zero breaking changes to refactor.
 
 ### 4. **Tree-Shakeable**
+
 Import from specific categories and bundlers can eliminate unused icons.
 
 ### 5. **Consistent API**
+
 Every icon works the same way: `<IconName size={24} className="my-class" />`
 
 ### 6. **Easy to Extend**
+
 Adding a new icon:
+
 1. Identify the category
 2. Add the export to that file
 3. Add to index.js re-exports
@@ -280,7 +297,7 @@ Adding a new icon:
 feature/svg-icons-refactor branch:
 
 767fa8d - Initial SVG extraction for TimelineRiver and Profile
-6a2dd2d - Complete extraction (70+ icons, 10+ component files)  
+6a2dd2d - Complete extraction (70+ icons, 10+ component files)
 7af3579 - Modularize into 10 category files (re-exports only)
 b75a16a - Move actual icons from icons.jsx to category files
 ```

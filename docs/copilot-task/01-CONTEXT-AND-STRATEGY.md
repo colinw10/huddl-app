@@ -53,11 +53,53 @@ I (Pablo) built a complete working prototype of NUMENEON, a cyberpunk-themed soc
 
 ### SVG Icon Strategy:
 
-All inline SVGs extracted to `frontend/src/assets/icons.jsx`:
+All inline SVGs extracted to a modular icon system in `frontend/src/assets/icons/`:
 
-- Team imports: `import { UserIcon, HeartIcon, etc } from '../../assets/icons'`
-- Icons provided as completed file (not pseudocode)
-- Keeps JSX pseudocode clean and focused on logic
+```
+frontend/src/assets/
+├── icons.jsx          # 24 lines - barrel re-export (backwards compatible)
+└── icons/
+    ├── index.js       # Aggregates all category exports
+    ├── navigation.jsx # Target, arrows, back, flip, login/logout
+    ├── user.jsx       # UserIcon, GlobeIcon, LockIcon, FriendsIcon
+    ├── engagement.jsx # HeartIcon, CommentIcon, ShareIcon, BookmarkIcon
+    ├── actions.jsx    # EditIcon, TrashIcon, CloseIcon, PlusIcon, SendIcon
+    ├── media.jsx      # ImageIcon, ExpandIcon, MaximizeIcon, MinimizeIcon
+    ├── ui.jsx         # SettingsIcon, EyeIcon, MoreIcon, GridIcon, ClockIcon
+    ├── sidenav.jsx    # HexHomeIcon, SignalIcon, NetworkIcon
+    ├── analytics.jsx  # BoltIcon, BarChartIcon, ShieldIcon, ActivityIcon
+    ├── profile.jsx    # LocationIcon, LinkIcon, CalendarIcon, StarIcon
+    ├── messaging.jsx  # MessageBubbleIcon, MessageLineIcon, EmojiIcon
+    └── misc.jsx       # MusicIcon, MapPinIcon, PostTriangleIcon
+```
+
+**How to import icons (two methods - both work):**
+
+```jsx
+// Method 1: From barrel export (recommended)
+import { HeartIcon, CommentIcon, CloseIcon } from '../../assets/icons';
+
+// Method 2: From specific category (tree-shakeable)
+import { HeartIcon } from '../../assets/icons/engagement';
+import { CloseIcon } from '../../assets/icons/actions';
+```
+
+**Icon API (consistent across ALL icons):**
+
+```jsx
+<HeartIcon size={18} className="my-class" onClick={handleClick} />
+```
+
+- `size` - Controls width AND height (default varies by icon)
+- `className` - For styling overrides
+- `...props` - Pass-through for onClick, aria-label, etc.
+
+**Finding the right icon:**
+1. Check the category files - icons are grouped semantically
+2. See `docs/refactoring/SVG-Icons-Refactor.md` for full icon inventory
+3. All 70+ icons listed with their category
+
+Icons provided as completed files (not pseudocode) - team just imports them
 
 ---
 
@@ -252,7 +294,12 @@ frontend/src/components/pages/Profile/components/
 **Design System (DO NOT TOUCH):**
 
 - All 13 files in `frontend/src/styles/`
-- `frontend/src/assets/icons.jsx` (SVG icons)
+
+**Icon Library (PROVIDED - just import and use):**
+
+- `frontend/src/assets/icons.jsx` (barrel re-export)
+- `frontend/src/assets/icons/` directory (11 category files + index.js)
+- See `docs/refactoring/SVG-Icons-Refactor.md` for full documentation
 
 ---
 

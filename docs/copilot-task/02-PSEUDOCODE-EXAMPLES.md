@@ -1,4 +1,4 @@
-This file contains all 11 detailed examples that Copilot praised as "Chef's Kiss" - the templates for every file type.
+This file contains all 12 detailed examples that Copilot praised as "Chef's Kiss" - the templates for every file type.
 
 markdown# NUMENEON TEAM REBUILD - Part 2: Pseudocode Examples
 
@@ -340,10 +340,18 @@ export async function getReplies(parentId) {
 // Hint: Store username/password in a single formData object for cleaner code
 // Hint: useNavigate() hook from react-router-dom for programmatic navigation
 // Hint: Look at Signup.jsx structure (you'll build that too) - similar pattern
+//
+// ICONS:
+// - All icons are in frontend/src/assets/icons/ (modular by category)
+// - Import what you need: import { LoginIcon, EyeIcon } from '../../assets/icons'
+// - Use with size prop: <LoginIcon size={20} className="icon" />
+// - Find icons by category: navigation.jsx, actions.jsx, ui.jsx, etc.
+// - Full icon list: docs/refactoring/SVG-Icons-Refactor.md
 
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { LoginIcon, EyeIcon, EyeOffIcon } from "../../assets/icons";
 import "./Login.scss";
 
 export default function Login() {
@@ -510,7 +518,74 @@ export { default } from "./Login";
 
 ---
 
-## EXAMPLE 9: Collaborative File (Backend URLs)
+## EXAMPLE 9: Using the Icon Library
+
+```javascript
+// REFERENCE: How to use NUMENEON's modular icon system
+//
+// All 70+ SVG icons are organized by category in frontend/src/assets/icons/
+// 
+// ICON CATEGORIES (browse these files to find what you need):
+// ├── navigation.jsx  → TargetReticleIcon, ChevronLeftIcon, BackIcon, FlipIcon, LoginIcon, LogoutIcon
+// ├── user.jsx        → UserIcon, GlobeIcon, LockIcon, FriendsIcon, HexProfileIcon
+// ├── engagement.jsx  → HeartIcon, HeartFilledIcon, HeartDynamicIcon, CommentIcon, ShareIcon, BookmarkIcon
+// ├── actions.jsx     → EditIcon, TrashIcon, CloseIcon, PlusIcon, CheckIcon, SendIcon, ShatterIcon
+// ├── media.jsx       → ImageIcon, ExpandIcon, MaximizeIcon, MinimizeIcon
+// ├── ui.jsx          → SettingsIcon, EyeIcon, EyeOffIcon, MoreIcon, GridIcon, ClockIcon
+// ├── sidenav.jsx     → HexHomeIcon, SignalIcon, NetworkIcon, CircuitInfoIcon
+// ├── analytics.jsx   → BoltIcon, BarChartIcon, ShieldIcon, ActivityIcon, GraphLineIcon
+// ├── profile.jsx     → LocationIcon, LinkIcon, CalendarIcon, StarIcon, MilestoneIcon
+// ├── messaging.jsx   → MessageBubbleIcon, MessageLineIcon, EmojiIcon, ThoughtBubbleIcon
+// └── misc.jsx        → MusicIcon, MapPinIcon, PostTriangleIcon
+//
+// HOW TO IMPORT:
+// Method 1 - From barrel export (recommended):
+import { HeartIcon, CommentIcon, TrashIcon } from '../../assets/icons';
+
+// Method 2 - From specific category file (tree-shakeable):
+import { HeartIcon } from '../../assets/icons/engagement';
+import { TrashIcon } from '../../assets/icons/actions';
+
+// HOW TO USE:
+// Every icon accepts these props:
+// - size: number (controls both width & height)
+// - className: string (for CSS styling)
+// - ...props: any other props pass through (onClick, aria-label, etc.)
+
+function MyComponent() {
+  return (
+    <div>
+      {/* Basic usage */}
+      <HeartIcon size={18} />
+      
+      {/* With className for styling */}
+      <CommentIcon size={20} className="action-icon" />
+      
+      {/* With click handler */}
+      <TrashIcon size={16} className="delete-btn" onClick={handleDelete} />
+      
+      {/* HeartDynamicIcon is special - has filled prop */}
+      <HeartDynamicIcon 
+        size={18} 
+        filled={isLiked}           // true = filled, false = outline
+        fillColor="#3b82f6"        // color when filled
+        strokeColor="rgba(201,168,255,0.5)"  // color when outline
+      />
+    </div>
+  );
+}
+
+// FINDING THE RIGHT ICON:
+// 1. Think about what category it belongs to (engagement? actions? ui?)
+// 2. Open that category file and browse the exports
+// 3. Or check docs/refactoring/SVG-Icons-Refactor.md for full inventory
+//
+// FULL DOCUMENTATION: docs/refactoring/SVG-Icons-Refactor.md
+```
+
+---
+
+## EXAMPLE 10: Collaborative File (Backend URLs)
 
 ```python
 """
@@ -549,7 +624,7 @@ urlpatterns = [
 
 ---
 
-## EXAMPLE 10: Collaborative File (Frontend Context Exports)
+## EXAMPLE 11: Collaborative File (Frontend Context Exports)
 
 ```javascript
 // TODO: Export all context providers and hooks
@@ -589,7 +664,7 @@ urlpatterns = [
 
 ---
 
-## EXAMPLE 11: Pablo's Component (Usage Comment Only)
+## EXAMPLE 12: Pablo's Component (Usage Comment Only)
 
 ```javascript
 /**
