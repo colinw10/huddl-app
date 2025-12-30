@@ -77,11 +77,11 @@ frontend/src/assets/
 
 ```jsx
 // Method 1: From barrel export (recommended)
-import { HeartIcon, CommentIcon, CloseIcon } from '../../assets/icons';
+import { HeartIcon, CommentIcon, CloseIcon } from "../../assets/icons";
 
 // Method 2: From specific category (tree-shakeable)
-import { HeartIcon } from '../../assets/icons/engagement';
-import { CloseIcon } from '../../assets/icons/actions';
+import { HeartIcon } from "../../assets/icons/engagement";
+import { CloseIcon } from "../../assets/icons/actions";
 ```
 
 **Icon API (consistent across ALL icons):**
@@ -95,6 +95,7 @@ import { CloseIcon } from '../../assets/icons/actions';
 - `...props` - Pass-through for onClick, aria-label, etc.
 
 **Finding the right icon:**
+
 1. Check the category files - icons are grouped semantically
 2. See `docs/refactoring/SVG-Icons-Refactor.md` for full icon inventory
 3. All 70+ icons listed with their category

@@ -945,15 +945,11 @@ function TimelineRiver({
                           <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'thoughts', friend.thoughts.length)}>
                             <ChevronLeftIcon size={16} />
                           </button>
-                          {friend.thoughts.length <= 5 ? (
-                            <div className="smart-deck-dots">
-                              {friend.thoughts.map((_, idx) => (
-                                <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-thoughts`]: idx}))} />
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="smart-deck-count">{getDeckIndex(friend.username, 'thoughts') + 1}/{friend.thoughts.length}</span>
-                          )}
+                          <div className="smart-deck-dots">
+                            {friend.thoughts.map((_, idx) => (
+                              <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-thoughts`]: idx}))} />
+                            ))}
+                          </div>
                           <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'thoughts', friend.thoughts.length)}>
                             <ChevronRightIcon size={16} />
                           </button>
@@ -998,15 +994,11 @@ function TimelineRiver({
                           <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'media', friend.media.length)}>
                             <ChevronLeftIcon size={16} />
                           </button>
-                          {friend.media.length <= 5 ? (
-                            <div className="smart-deck-dots">
-                              {friend.media.map((_, idx) => (
-                                <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-media`]: idx}))} />
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="smart-deck-count">{getDeckIndex(friend.username, 'media') + 1}/{friend.media.length}</span>
-                          )}
+                          <div className="smart-deck-dots">
+                            {friend.media.map((_, idx) => (
+                              <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-media`]: idx}))} />
+                            ))}
+                          </div>
                           <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'media', friend.media.length)}>
                             <ChevronRightIcon size={16} />
                           </button>
@@ -1045,15 +1037,11 @@ function TimelineRiver({
                           <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'milestones', friend.milestones.length)}>
                             <ChevronLeftIcon size={16} />
                           </button>
-                          {friend.milestones.length <= 5 ? (
-                            <div className="smart-deck-dots">
-                              {friend.milestones.map((_, idx) => (
-                                <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-milestones`]: idx}))} />
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="smart-deck-count">{getDeckIndex(friend.username, 'milestones') + 1}/{friend.milestones.length}</span>
-                          )}
+                          <div className="smart-deck-dots">
+                            {friend.milestones.map((_, idx) => (
+                              <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-milestones`]: idx}))} />
+                            ))}
+                          </div>
                           <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'milestones', friend.milestones.length)}>
                             <ChevronRightIcon size={16} />
                           </button>

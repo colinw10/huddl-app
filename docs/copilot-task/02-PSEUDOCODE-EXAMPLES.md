@@ -524,7 +524,7 @@ export { default } from "./Login";
 // REFERENCE: How to use NUMENEON's modular icon system
 //
 // All 70+ SVG icons are organized by category in frontend/src/assets/icons/
-// 
+//
 // ICON CATEGORIES (browse these files to find what you need):
 // ├── navigation.jsx  → TargetReticleIcon, ChevronLeftIcon, BackIcon, FlipIcon, LoginIcon, LogoutIcon
 // ├── user.jsx        → UserIcon, GlobeIcon, LockIcon, FriendsIcon, HexProfileIcon
@@ -540,11 +540,11 @@ export { default } from "./Login";
 //
 // HOW TO IMPORT:
 // Method 1 - From barrel export (recommended):
-import { HeartIcon, CommentIcon, TrashIcon } from '../../assets/icons';
+import { HeartIcon, CommentIcon, TrashIcon } from "../../assets/icons";
 
 // Method 2 - From specific category file (tree-shakeable):
-import { HeartIcon } from '../../assets/icons/engagement';
-import { TrashIcon } from '../../assets/icons/actions';
+import { HeartIcon } from "../../assets/icons/engagement";
+import { TrashIcon } from "../../assets/icons/actions";
 
 // HOW TO USE:
 // Every icon accepts these props:
@@ -557,19 +557,19 @@ function MyComponent() {
     <div>
       {/* Basic usage */}
       <HeartIcon size={18} />
-      
+
       {/* With className for styling */}
       <CommentIcon size={20} className="action-icon" />
-      
+
       {/* With click handler */}
       <TrashIcon size={16} className="delete-btn" onClick={handleDelete} />
-      
+
       {/* HeartDynamicIcon is special - has filled prop */}
-      <HeartDynamicIcon 
-        size={18} 
-        filled={isLiked}           // true = filled, false = outline
-        fillColor="#3b82f6"        // color when filled
-        strokeColor="rgba(201,168,255,0.5)"  // color when outline
+      <HeartDynamicIcon
+        size={18}
+        filled={isLiked} // true = filled, false = outline
+        fillColor="#3b82f6" // color when filled
+        strokeColor="rgba(201,168,255,0.5)" // color when outline
       />
     </div>
   );
