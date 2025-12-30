@@ -1,9 +1,9 @@
 /**
  * Numeneon Icon Library - Barrel Export
- * 
+ *
  * This is the main entry point for all icons.
  * Icons are organized by category in separate files.
- * 
+ *
  * Usage:
  *   import { HeartIcon, CommentIcon } from '../../assets/icons'
  *   // OR import from specific category:
@@ -20,7 +20,7 @@ export {
   ChevronRightIcon,
   BackIcon,
   FlipIcon,
-} from './navigation';
+} from "./navigation";
 
 // User & Profile
 export {
@@ -29,7 +29,7 @@ export {
   LockIcon,
   FriendsIcon,
   HexProfileIcon,
-} from './user';
+} from "./user";
 
 // Engagement
 export {
@@ -40,7 +40,7 @@ export {
   ShareIcon,
   BookmarkIcon,
   RepostIcon,
-} from './engagement';
+} from "./engagement";
 
 // Actions
 export {
@@ -52,15 +52,10 @@ export {
   SendIcon,
   ShatterIcon,
   UnlinkIcon,
-} from './actions';
+} from "./actions";
 
 // Media
-export {
-  ImageIcon,
-  ExpandIcon,
-  MaximizeIcon,
-  MinimizeIcon,
-} from './media';
+export { ImageIcon, ExpandIcon, MaximizeIcon, MinimizeIcon } from "./media";
 
 // UI
 export {
@@ -72,7 +67,7 @@ export {
   CircleIcon,
   GridIcon,
   ClockIcon,
-} from './ui';
+} from "./ui";
 
 // Sidenav
 export {
@@ -80,7 +75,7 @@ export {
   SignalIcon,
   NetworkIcon,
   CircuitInfoIcon,
-} from './sidenav';
+} from "./sidenav";
 
 // Analytics
 export {
@@ -92,7 +87,7 @@ export {
   ActivityIcon,
   GraphLineIcon,
   EnsoIcon,
-} from './analytics';
+} from "./analytics";
 
 // Profile
 export {
@@ -103,7 +98,7 @@ export {
   FlagIcon,
   StarIcon,
   BackArrowGradientIcon,
-} from './profile';
+} from "./profile";
 
 // Messaging
 export {
@@ -111,11 +106,7 @@ export {
   MessageLineIcon,
   EmojiIcon,
   ThoughtBubbleIcon,
-} from './messaging';
+} from "./messaging";
 
 // Misc
-export {
-  MusicIcon,
-  MapPinIcon,
-  PostTriangleIcon,
-} from './misc';
+export { MusicIcon, MapPinIcon, PostTriangleIcon } from "./misc";
