@@ -10,6 +10,12 @@
   padding-top: 10px;
   margin-top: 4px;
   position: relative;
+  
+  /* 3D Layer - Actions float at front */
+  transform: translateZ(18px);
+  transition: transform 0.3s ease;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 /* Align likes (heart + count) with other action buttons */

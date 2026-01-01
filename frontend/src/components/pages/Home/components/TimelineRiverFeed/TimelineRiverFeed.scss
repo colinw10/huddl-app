@@ -7,9 +7,14 @@
   width: 100%;
   max-width: 1150px;
   margin: 0 auto;
-  padding: var(--space-md) 0;
+  padding: var(--space-md) var(--space-md);
   position: relative;
-  overflow-x: hidden;
+  overflow-x: visible;
+  
+  /* Advanced 3D Parallax Setup */
+  perspective: 1500px;
+  perspective-origin: center center;
+  transform-style: preserve-3d;
 }
 
 /* Canopy shadow - actual element */

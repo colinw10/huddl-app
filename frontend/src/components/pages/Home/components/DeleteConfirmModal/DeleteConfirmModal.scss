@@ -160,3 +160,82 @@
     padding-left: 80px;
   }
 }
+
+/* ============================================
+   LIGHT MODE
+   ============================================ */
+
+[data-theme="light"] {
+  .delete-modal-overlay {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+  }
+
+  .delete-modal-content {
+    /* Clean white background with subtle gradient */
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.676), rgba(250, 252, 255, 0.711)),
+      linear-gradient(
+        45deg,
+        rgba(220, 8, 188, 0.02),
+        rgba(138, 43, 226, 0.02),
+        rgba(220, 8, 188, 0.02)
+      );
+    background-size: 100% 100%, 200% 200%;
+    background-blend-mode: normal;
+    
+    border: 1.5px solid rgba(220, 8, 188, 0.25);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .delete-modal-icon {
+    color: #c2185b;
+    filter: drop-shadow(0 0 8px rgba(220, 8, 188, 0.3));
+  }
+
+  .delete-modal-title {
+    background: linear-gradient(135deg, #c2185b, #d32f2f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .delete-modal-message {
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .delete-modal-btn--cancel {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(26, 115, 231, 0.4);
+    color: var(--blue-primary);
+  }
+
+  .delete-modal-btn--cancel:hover {
+    background: var(--blue-primary);
+    border-color: var(--blue-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 
+      0 4px 12px rgba(26, 115, 231, 0.3),
+      0 8px 20px rgba(26, 115, 231, 0.2);
+  }
+
+  .delete-modal-btn--confirm {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1.5px solid rgba(211, 47, 47, 0.5);
+    color: #d32f2f;
+  }
+
+  .delete-modal-btn--confirm:hover {
+    background: #d32f2f;
+    border-color: #d32f2f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 
+      0 4px 12px rgba(211, 47, 47, 0.4),
+      0 8px 20px rgba(211, 47, 47, 0.2);
+  }
+}

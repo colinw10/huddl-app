@@ -893,11 +893,11 @@
 
 [data-theme="light"] {
   .friends-page {
-    background: var(--bg-base);
+    background: transparent !important; // Let blobs show through like Profile and Home
     color: var(--text-inverse);
     
     &::before {
-      background: none !important;
+      background: rgba(255, 255, 255, 0.6); // Light veil overlay like Profile page
     }
   }
 
@@ -911,12 +911,17 @@
   }
 
   .stat-value {
-    color: var(--text-inverse);
+    color: var(--blue-primary);
     text-shadow: none;
   }
 
   .stat-label {
     color: rgba(0, 0, 0, 0.7);
+  }
+
+  .stat-dot {
+    background: rgba(26, 115, 231, 0.6);
+    box-shadow: 0 0 6px rgba(26, 115, 231, 0.4);
   }
 
   .stat-divider {
