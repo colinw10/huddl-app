@@ -1,0 +1,409 @@
+# NUMENEON Team Structure & Workflow
+
+## Project Overview
+
+**NUMENEON** (formerly HUDDL) is a cyberpunk-themed social media application with a React frontend and Django backend. Pablo built a complete working prototype. Now the 5-person bootcamp team will **rebuild** portions of the codebase as a learning exercise.
+
+**Why rebuild instead of build from scratch?**
+
+- Pablo's UI is sophisticated (75+ files with advanced animations, 3D effects, glassmorphic styling)
+- Learning value is in architecture, backend, and state management
+- Team focuses on rebuilding backend + context layer while Pablo's UI stays intact
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- **Framework:** React 18+ with Vite
+- **Routing:** React Router DOM
+- **Styling:** Vanilla CSS/SCSS with modular architecture
+- **State:** React Context API
+- **HTTP Client:** Axios
+- **Design:** Cyberpunk theme with light/dark mode
+
+### Backend
+
+- **Framework:** Django 4.x
+- **API:** Django REST Framework
+- **Database:** SQLite (development)
+- **Auth:** JWT tokens
+
+---
+
+## Team Roles & T-Shirt Sizing
+
+| Person      | Size | Strengths                               | Focus Areas                             |
+| ----------- | ---- | --------------------------------------- | --------------------------------------- |
+| **Pablo**   | XL   | UI/UX, visual design, artist background | Documentation only (UI pre-built)       |
+| **Natalia** | L    | Backend + Frontend, migrations          | Auth system (backend + frontend)        |
+| **Colin**   | M    | Backend + Frontend, team lead           | Posts system (backend + context)        |
+| **Crystal** | M    | Backend + Frontend                      | Friends system (backend + context + UI) |
+| **Tito**    | S    | Infrastructure                          | API client, theme system, app entry     |
+
+**T-shirt sizing = complexity × file count**, not hours. Everyone works at their own pace.
+
+---
+
+## Project Structure
+
+```
+numeneon/
+├── backend/                 [Django]
+│   ├── users/              [Natalia] - Auth system
+│   ├── posts/              [Colin] - Posts/content system
+│   ├── friends/            [Crystal] - Friend relationships
+│   ├── numeneon/           [Shared] - Django config
+│   └── manage.py           [Shared] - Django management
+│
+├── frontend/               [React]
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── layout/    [Pablo - Pre-built]
+│   │   │   ├── pages/
+│   │   │   │   ├── Home/         [Pablo - Pre-built]
+│   │   │   │   ├── Profile/      [Pablo - Pre-built]
+│   │   │   │   ├── Login/        [Natalia - Rebuild]
+│   │   │   │   ├── Signup/       [Natalia - Rebuild]
+│   │   │   │   └── Friends/      [Crystal - Rebuild]
+│   │   │   └── ui/               [Mixed]
+│   │   ├── contexts/
+│   │   │   ├── AuthContext.jsx       [Natalia]
+│   │   │   ├── PostsContext.jsx      [Colin]
+│   │   │   ├── FriendsContext.jsx    [Crystal]
+│   │   │   ├── ThemeContext.jsx      [Tito]
+│   │   │   └── MessageContext.jsx    [Pablo - Pre-built]
+│   │   ├── services/
+│   │   │   ├── apiClient.js          [Tito]
+│   │   │   ├── authService.js        [Natalia]
+│   │   │   ├── postsService.js       [Colin]
+│   │   │   └── friendsService.js     [Crystal]
+│   │   ├── styles/          [Pablo - Design system, DO NOT TOUCH]
+│   │   └── main.jsx         [Tito - App entry point]
+│   └── package.json         [Shared config]
+│
+└── team-plan/              [This folder]
+    ├── natalia.md
+    ├── colin.md
+    ├── crystal.md
+    ├── pablo.md
+    ├── tito.md
+    └── team-structure.md
+```
+
+---
+
+## Work Distribution
+
+### Backend Files
+
+| App        | Owner   | File Count | Purpose                                 |
+| ---------- | ------- | ---------- | --------------------------------------- |
+| `users/`   | Natalia | 11         | User model, auth views, serializers     |
+| `posts/`   | Colin   | 7          | Post model, CRUD views, serializers     |
+| `friends/` | Crystal | 7          | Friendship model, requests, serializers |
+
+### Frontend Files
+
+| Category             | Owner   | File Count | Purpose                          |
+| -------------------- | ------- | ---------- | -------------------------------- |
+| Contexts             | N/C/C/T | 4          | State management layers          |
+| Services             | N/C/C/T | 4          | API call wrappers                |
+| Login/Signup         | Natalia | 8          | Auth UI                          |
+| Friends page         | Crystal | 3          | Friends management UI            |
+| Theme/Infrastructure | Tito    | 4          | API client, theme toggle         |
+| Pablo's UI           | Pablo   | ~75        | Complete UI (documentation only) |
+
+---
+
+## Data Flow Architecture
+
+### Request Flow (Frontend → Backend)
+
+```
+User Action (click, submit)
+    ↓
+React Component (Login.jsx, ComposerModal, etc.)
+    ↓
+Context Function (AuthContext.login(), PostsContext.createPost())
+    ↓
+Service Function (authService.login(), postsService.createPost())
+    ↓
+API Client (apiClient.js with JWT token)
+    ↓
+HTTP Request
+    ↓
+Django View (users/views.py, posts/views.py)
+    ↓
+Serializer (validation, formatting)
+    ↓
+Model (database query/save)
+    ↓
+Serializer (format response)
+    ↓
+HTTP Response
+    ↓
+Service (returns data)
+    ↓
+Context (updates state)
+    ↓
+Component (re-renders with new data)
+```
+
+### Example: Creating a Post
+
+1. User types post in `ComposerModal.jsx` (Pablo's UI)
+2. User clicks "Post" button
+3. `ComposerModal` calls `PostsContext.createPost({ type, content, image })`
+4. `PostsContext` calls `postsService.createPost(postData)`
+5. `postsService` uses `apiClient.post('/api/posts/', postData)`
+6. `apiClient` attaches JWT token from localStorage
+7. Django `PostViewSet.create()` receives request
+8. `PostSerializer` validates data
+9. `Post` model saves to database
+10. `PostSerializer` formats response with nested author data
+11. Response flows back through service → context → component
+12. `TimelineRiverFeed` re-renders with new post in feed
+
+---
+
+## Critical Integration Points
+
+### 1. Post Data Format
+
+**Colin's backend must return posts in this exact format:**
+
+```javascript
+{
+  id: 1,
+  author: {
+    id: 5,
+    username: "alice",
+    profile_picture: "https://..."  // full URL
+  },
+  type: "thought",  // or "media" or "milestone"
+  content: "This is my post",
+  image: "https://..." | null,
+  parent: 3 | null,
+  created_at: "2024-12-19T10:00:00Z",  // ISO 8601
+  likes_count: 5,
+  comment_count: 2
+}
+```
+
+**Why?** Pablo's `TimelineRiverFeed` expects this structure. Column placement depends on `type` field.
+
+### 2. User/Auth Data Format
+
+**Natalia's backend must return user data in this format:**
+
+```javascript
+{
+  id: 5,
+  username: "alice",
+  email: "alice@example.com",
+  profile_picture: "https://..." | null,
+  bio: "This is my bio" | null
+}
+```
+
+**Why?** Posts, friends, and profile components all expect this nested in responses.
+
+### 3. Friendship Data Format
+
+**Crystal's backend must return friendships in this format:**
+
+```javascript
+{
+  id: 1,
+  user1: { id: 5, username: "alice", profile_picture: "..." },
+  user2: { id: 7, username: "bob", profile_picture: "..." },
+  status: "accepted",  // or "pending" or "rejected"
+  action_user: 5,  // who sent the request
+  created_at: "2024-12-19T10:00:00Z"
+}
+```
+
+---
+
+## Collaborative Files
+
+Some files require multiple people to add content:
+
+### 1. `backend/numeneon/urls.py`
+
+Each backend person adds ONE line:
+
+```python
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/auth/', include('users.urls')),      # Natalia adds this
+    path('api/posts/', include('posts.urls')),     # Colin adds this
+    path('api/friends/', include('friends.urls')), # Crystal adds this
+]
+```
+
+### 2. `frontend/src/contexts/index.js`
+
+Each context owner adds ONE export:
+
+```javascript
+export { AuthProvider, useAuth } from "./AuthContext"; // Natalia
+export { PostsProvider, usePosts } from "./PostsContext"; // Colin
+export { FriendsProvider, useFriends } from "./FriendsContext"; // Crystal
+export { ThemeProvider, useTheme } from "./ThemeContext"; // Tito
+export { MessageProvider, useMessage } from "./MessageContext"; // Pablo
+```
+
+### 3. `frontend/src/main.jsx`
+
+Tito configures this file, nesting everyone's providers:
+
+```javascript
+<ThemeProvider>      // Tito
+  <AuthProvider>      // Natalia
+    <PostsProvider>    // Colin
+      <FriendsProvider>  // Crystal
+        <MessageProvider>  // Pablo
+          <App />
+```
+
+---
+
+## Workflow & Best Practices
+
+### Branch Strategy
+
+- Everyone works on `main` branch for now
+- **Later** (in January): Create two branches for separate repos
+  - `team-shell-frontend` (delete backend/)
+  - `team-shell-backend` (delete frontend/)
+
+### Avoiding Merge Conflicts
+
+1. **Never modify files you don't own** (see individual task files)
+2. **Collaborative files:** Only add your specific lines (marked with TODO comments)
+3. **Shared files:** Read-only (configs, Pablo's design system)
+4. **Communicate:** Let team know before modifying any shared config
+
+### Development Workflow
+
+1. Read your task file (`natalia.md`, `colin.md`, etc.)
+2. Start with backend (models → serializers → views → URLs)
+3. Test backend with Django admin or Postman/curl
+4. Build frontend service layer
+5. Build context layer
+6. Build/modify UI components (if applicable)
+7. Test integration end-to-end
+
+### Testing Strategy
+
+- **Backend:** Use Django admin + Postman to test APIs manually
+- **Frontend:** Use React DevTools to inspect context state
+- **Integration:** Test in browser with network tab open
+- **Each person:** Run through their testing checklist in task file
+
+---
+
+## Communication Channels
+
+### Daily Standups (Suggested)
+
+- What did you complete yesterday?
+- What are you working on today?
+- Any blockers?
+
+### Integration Points to Discuss
+
+- **Natalia ↔ Colin:** User model structure for post author
+- **Natalia ↔ Crystal:** User model structure for friendships
+- **Colin ↔ Pablo:** Post data format for Timeline UI
+- **Crystal ↔ Pablo:** Friend request notification format for TopBar
+- **Tito ↔ Everyone:** API client configuration, any auth issues
+
+---
+
+## Getting Started
+
+### 1. Read Your Task File
+
+- `natalia.md` - Auth system
+- `colin.md` - Posts system
+- `crystal.md` - Friends system
+- `pablo.md` - UI documentation
+- `tito.md` - Infrastructure
+
+### 2. Review Integration Points
+
+- Who depends on your work?
+- Whose work do you depend on?
+
+### 3. Start with Backend
+
+- Models first (database structure)
+- Then serializers (data formatting)
+- Then views (API endpoints)
+- Test with Django admin
+
+### 4. Build Frontend Layer
+
+- Service functions (API calls)
+- Context (state management)
+- Components (UI)
+
+### 5. Test Integration
+
+- Can frontend fetch data from backend?
+- Does data format match expectations?
+- Do all CRUD operations work?
+
+---
+
+## Success Criteria
+
+**Project is complete when:**
+
+- [ ] Users can signup and login
+- [ ] Users can create posts (thoughts, media, milestones)
+- [ ] Posts appear in Timeline River UI with correct column placement
+- [ ] Users can send/accept/reject friend requests
+- [ ] Friends page shows connections
+- [ ] Theme toggle switches between light/dark mode
+- [ ] All contexts provide data to Pablo's UI
+- [ ] All API endpoints return data in expected formats
+- [ ] No merge conflicts occur during development
+
+---
+
+## Resources
+
+### Django/DRF Docs
+
+- Models: https://docs.djangoproject.com/en/4.2/topics/db/models/
+- Views: https://www.django-rest-framework.org/api-guide/viewsets/
+- Serializers: https://www.django-rest-framework.org/api-guide/serializers/
+
+### React Docs
+
+- Context: https://react.dev/learn/passing-data-deeply-with-context
+- Hooks: https://react.dev/reference/react
+
+### Pablo's Design System
+
+- All files in `frontend/src/styles/`
+- Variables in `_variables.scss`
+- Mixins in `_mixins.scss`
+- Button styles in `_buttons.scss`
+
+---
+
+## Questions?
+
+Check with:
+
+- **Pablo** - UI integration, design system, data format questions
+- **Colin** - Team lead, general questions, posts system
+- **Natalia** - Auth issues, user model questions, migrations
+- **Crystal** - Friends system questions
+- **Tito** - API client issues, theme problems
