@@ -1,22 +1,25 @@
-This file contains templates for creating the 6 team plan markdown files in the team-plan/ folder.
+This file contains templates for creating the 6 team plan markdown files in the docs/team-plan/ folder.
 
 markdown# NUMENEON TEAM REBUILD - Part 5: Team Plan Files
 
 ## HOW TO USE THESE FILES
 
+**⚠️ READ [00-START-HERE.md](./00-START-HERE.md) FIRST if you haven't already!**
+
 This is Part 5 of 5. Read these files in order:
 
+0. `00-START-HERE.md` - Quick overview, workflow, FAQ
 1. `01-CONTEXT-AND-STRATEGY.md` - Background, strategy, assignments
-2. `02-PSEUDOCODE-EXAMPLES.md` - All 11 example templates
+2. `02-PSEUDOCODE-EXAMPLES.md` - All 12 example templates
 3. `03-BACKEND-INSTRUCTIONS.md` - Backend pseudocode tasks
 4. `04-FRONTEND-INSTRUCTIONS.md` - Frontend pseudocode tasks
 5. `05-TEAM-PLAN-FILES.md` ← YOU ARE HERE
 
 ---
 
-## CREATE: `team-plan/` FOLDER
+## CREATE: `docs/team-plan/` FOLDER
 
-Create a folder called `team-plan/` in the project root with these 6 files:
+Create a folder called `docs/team-plan/` with these 6 files:
 
 1. `natalia.md`
 2. `colin.md`
@@ -27,7 +30,7 @@ Create a folder called `team-plan/` in the project root with these 6 files:
 
 ---
 
-## FILE 1: `team-plan/natalia.md`
+## FILE 1: `docs/team-plan/natalia.md`
 
 ````markdown
 # Natalia's Tasks (Size: L)
@@ -259,7 +262,7 @@ python manage.py migrate --fake app 0001  # Mark as done without running
 
 ---
 
-## FILE 2: `team-plan/colin.md`
+## FILE 2: `docs/team-plan/colin.md`
 
 ```markdown
 # Colin's Tasks (Size: M)
@@ -476,7 +479,7 @@ Each user = ONE row with carousel navigation between posts.
 
 ---
 
-## FILE 3: `team-plan/crystal.md`
+## FILE 3: `docs/team-plan/crystal.md`
 
 ```markdown
 # Crystal's Tasks (Size: M)
@@ -668,7 +671,7 @@ You're building the friends system - the social connections between users. Frien
 
 ---
 
-## FILE 4: `team-plan/pablo.md`
+## FILE 4: `docs/team-plan/pablo.md`
 
 ````markdown
 # Pablo's Tasks (Size: XL)
@@ -892,7 +895,7 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 
 ---
 
-## FILE 5: `team-plan/tito.md`
+## FILE 5: `docs/team-plan/tito.md`
 
 ```markdown
 # Tito's Tasks (Size: S)
@@ -1029,7 +1032,7 @@ You're building the infrastructure layer - the foundation that everyone else dep
 
 ---
 
-## FILE 6: `team-plan/team-structure.md`
+## FILE 6: `docs/team-plan/team-structure.md`
 
 ```markdown
 # NUMENEON Project Structure & Ownership
@@ -1305,7 +1308,7 @@ S Tito: ██████ 6 files
 
 ## SUMMARY: FILES TO CREATE
 
-Create `team-plan/` folder with:
+Create `docs/team-plan/` folder with:
 
 1. `natalia.md` - Auth system tasks
 2. `colin.md` - Posts system tasks
@@ -1342,7 +1345,7 @@ After creating all 5 instruction files and 6 team plan files:
 
 ### In project root (both branches):
 
-- [ ] Create `team-plan/` folder with 6 markdown files
+- [ ] Create `docs/team-plan/` folder with 6 markdown files
 
 ---
 

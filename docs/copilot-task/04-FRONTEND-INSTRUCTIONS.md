@@ -6,10 +6,13 @@ markdown# NUMENEON TEAM REBUILD - Part 4: Frontend Instructions
 
 ## HOW TO USE THESE FILES
 
+**⚠️ READ [00-START-HERE.md](./00-START-HERE.md) FIRST if you haven't already!**
+
 This is Part 4 of 5. Read these files in order:
 
+0. `00-START-HERE.md` - Quick overview, workflow, FAQ
 1. `01-CONTEXT-AND-STRATEGY.md` - Background, strategy, assignments
-2. `02-PSEUDOCODE-EXAMPLES.md` - All 11 example templates
+2. `02-PSEUDOCODE-EXAMPLES.md` - All 12 example templates
 3. `03-BACKEND-INSTRUCTIONS.md` - Backend pseudocode tasks
 4. `04-FRONTEND-INSTRUCTIONS.md` ← YOU ARE HERE
 5. `05-TEAM-PLAN-FILES.md` - Team markdown file templates

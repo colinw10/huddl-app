@@ -4,8 +4,11 @@ markdown# NUMENEON TEAM REBUILD - Part 2: Pseudocode Examples
 
 ## HOW TO USE THESE FILES
 
+**⚠️ READ [00-START-HERE.md](./00-START-HERE.md) FIRST if you haven't already!**
+
 This is Part 2 of 5. Read these files in order:
 
+0. `00-START-HERE.md` - Quick overview, workflow, FAQ
 1. `01-CONTEXT-AND-STRATEGY.md` - Background, strategy, assignments
 2. `02-PSEUDOCODE-EXAMPLES.md` ← YOU ARE HERE
 3. `03-BACKEND-INSTRUCTIONS.md` - Backend pseudocode tasks
