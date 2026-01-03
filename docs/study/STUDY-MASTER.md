@@ -1,4 +1,4 @@
-# NUMENEON FRONTEND STUDY PROMPT
+# NUMENEON FRONTEND STUDY PROMPT 2
 
 ## WHO I AM
 
@@ -111,7 +111,12 @@ Then a summary AFTER the code block tying it together.
 
 **Profile Components:**
 
-- ⏳ ProfileCard/ProfileCard.jsx → connects to user data, FriendsContext
+- ⏳ ProfileCard/ProfileCard.jsx → connects to ProfileCardFront, ProfileCardBack
+- ⏳ ProfileCard/components/ProfileCardFront.jsx → user avatar, stats, bio
+- ⏳ ProfileCard/components/ProfileCardBack.jsx → flipped view with analytics
+- ⏳ ProfileCard/components/ActivityVisualization.jsx → GitHub-style contribution grid
+- ⏳ ProfileCard/components/PostTypeBreakdown.jsx → pie/bar chart of content types
+- ⏳ ProfileCard/components/QuickSettings.jsx → profile settings panel
 - ⏳ TimelineRiver → Profile version of timeline
 - ⏳ ComposerModal → creates new posts, connects to PostsContext
 
@@ -417,3 +422,4 @@ Just finished apiClient.js.
 - POST /api/friends/accept/:id/ → Accept friend request
 - POST /api/friends/reject/:id/ → Reject friend request
 - GET /api/friends/profile/:username/ → Get user profile data
+

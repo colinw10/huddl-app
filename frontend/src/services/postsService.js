@@ -1,8 +1,9 @@
 /**
  * =============================================================================
- * POSTS SERVICE
- * =============================================================================
- *
+ * POSTS SERVICE: 
+ * postsService is an OBJECT (not a class, not a function)
+ It's a collection of async functions that make API calls
+ 
  * File: frontend/src/services/postsService.js
  * Assigned to: COLIN
  * Responsibility: API calls for posts CRUD

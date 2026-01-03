@@ -1,6 +1,6 @@
-# Claude Teaching Prompt - Huddl App Deep Dive
+# Claude Teaching Prompt - Numeneon App Deep Dive
 
-Hey Claude! I need you to teach me the architecture, component flow, syntax, and systems thinking behind my Huddl social media app. I built most of this with Copilot's help, and now I need to deeply understand it for technical interviews. I don't just want to memorize - I want to think like a systems architect.
+Hey Claude! I need you to teach me the architecture, component flow, syntax, and systems thinking behind my Numeneon social media app. I built most of this with Copilot's help, and now I need to deeply understand it for technical interviews. I don't just want to memorize - I want to think like a systems architect.
 
 ---
 
@@ -36,7 +36,7 @@ Please teach me using:
 ## 🏗️ Project Structure You'll Be Teaching
 
 ```
-huddl-app/
+numeneon/
 ├── .gitignore
 ├── BACKEND_README.md
 ├── BACKEND_SETUP.md
@@ -48,7 +48,7 @@ huddl-app/
 │   ├── manage.py
 │   ├── seed_posts.py
 │   │
-│   ├── huddl/                    # Django project settings
+│   ├── numeneon/                 # Django project settings
 │   │   ├── __init__.py
 │   │   ├── asgi.py
 │   │   ├── settings.py           # CORS, installed apps, database config
@@ -73,14 +73,16 @@ huddl-app/
 │   │   ├── __init__.py
 │   │   ├── admin.py
 │   │   ├── apps.py
-│   │   ├── models.py             # Post model (with parent for replies)
+│   │   ├── models.py             # Post model (with parent for replies, likes)
 │   │   ├── serializers.py
 │   │   ├── urls.py
 │   │   ├── views.py
 │   │   └── migrations/
 │   │       ├── __init__.py
 │   │       ├── 0001_initial.py
-│   │       └── 0002_post_parent.py
+│   │       ├── 0002_post_parent.py
+│   │       ├── 0003_post_comment_count_post_likes_count_and_more.py
+│   │       └── 0004_like.py      # Like model migration
 │   │
 │   └── friends/                  # Friend relationships
 │       ├── __init__.py
@@ -95,46 +97,66 @@ huddl-app/
 │           └── 0001_initial.py
 │
 ├── docs/
-│   ├── huddl-app-summary.md
+│   ├── ProfileCard-Flip-System.txt
+│   ├── copilot-task-long.txt
 │   ├── prompt.md
 │   ├── study.md
 │   │
-│   ├── features/
+│   ├── copilot-task/             # Detailed implementation guides
+│   │   ├── 00-START-HERE.md
+│   │   ├── 01-CONTEXT-AND-STRATEGY.md
+│   │   ├── 02-PSEUDOCODE-EXAMPLES.md
+│   │   ├── 03-BACKEND-INSTRUCTIONS.md
+│   │   └── 04-FRONTEND-INSTRUCTIONS.md
+│   │
+│   ├── dev-sessions/
+│   │   ├── README.md
+│   │   └── 2024-12-23-profile-navigation.md
+│   │
+│   ├── features/                 # Planned features
 │   │   ├── ActivityVisualization.md
+│   │   ├── PresentationTalkingPoints.md
 │   │   ├── ProfileCardFeatures.md
+│   │   ├── ProfileCardFlipSystem.md
+│   │   ├── RiverTimeline.md
 │   │   └── VisualIdentitySystem.md
 │   │
+│   ├── features-implemented/     # Completed feature documentation
+│   │   ├── CardUserHeaders.md
+│   │   ├── EngagementAnalytics.md
+│   │   ├── MessagingSystem.md
+│   │   ├── MobileCategoryTabs.md
+│   │   ├── MobileMessageModal.md
+│   │   ├── ProfilePrivacyControls.md
+│   │   ├── SearchModal.md
+│   │   ├── TimelineCarousel.md
+│   │   ├── UnifiedCloseButton.md
+│   │   └── UserProfileNavigation.md
+│   │
 │   ├── refactoring/
-│   │   ├── CSS_REFACTOR_TODO.md
-│   │   └── SCSS_CONSOLIDATION_PLAN.md
+│   │   └── SVG-Icons-Refactor.md
 │   │
 │   ├── stretch-goals/
 │   │   ├── AdvancedAnalytics.md
+│   │   ├── EngagementRing.md
 │   │   ├── MySpaceEasterEgg.md
-│   │   └── Posts.md
+│   │   ├── Posts.md
+│   │   └── README.md
 │   │
 │   ├── study/
-│   │   └── ActivityVisualizationDeepDive.md
+│   │   ├── ActivityVisualizationDeepDive.md
+│   │   └── study-prompt.md
 │   │
-│   └── team-plan-v2/
-│       ├── PROJECT_TREE.md
-│       ├── README.md
-│       └── members/
-│           ├── colin/
-│           │   ├── OVERVIEW.md
-│           │   └── TASKS.md
-│           ├── crystal/
-│           │   ├── OVERVIEW.md
-│           │   └── TASKS.md
-│           ├── natalia/
-│           │   ├── OVERVIEW.md
-│           │   └── TASKS.md
-│           ├── pablo/
-│           │   ├── OVERVIEW.md
-│           │   └── TASKS.md
-│           └── tito/
-│               ├── OVERVIEW.md
-│               └── TASKS.md
+│   ├── team-plan/                # Team member assignments
+│   │   ├── team-structure.md
+│   │   ├── colin.md
+│   │   ├── crystal.md
+│   │   ├── natalia.md
+│   │   ├── pablo.md
+│   │   └── tito.md
+│   │
+│   └── wireframe-prompt/
+│       └── NUMENEON-WIREFRAME-GUIDE.md
 │
 └── frontend/
     ├── .gitignore
@@ -153,7 +175,8 @@ huddl-app/
         ├── main.jsx               # React app entry point
         │
         ├── assets/
-        │   └── huddl-logo.svg
+        │   ├── icons/              # SVG icon assets
+        │   └── icons.jsx           # Icon component exports
         │
         ├── components/
         │   │
@@ -168,18 +191,29 @@ huddl-app/
         │   │       ├── TopBar.jsx
         │   │       ├── TopBar.scss
         │   │       ├── index.js
-        │   │       └── MessageModal/
-        │   │           ├── MessageModal.jsx
-        │   │           ├── MessageModal.scss
-        │   │           └── styles/
-        │   │               ├── _animations.scss
-        │   │               ├── _chat.scss
-        │   │               ├── _composer.scss
-        │   │               ├── _conversations.scss
-        │   │               ├── _header.scss
-        │   │               ├── _light-mode.scss
-        │   │               ├── _overlay.scss
-        │   │               └── _responsive.scss
+        │   │       │
+        │   │       ├── MessageModal/       # Direct messaging system
+        │   │       │   ├── MessageModal.jsx
+        │   │       │   ├── MessageModal.scss
+        │   │       │   └── styles/
+        │   │       │       ├── _animations.scss
+        │   │       │       ├── _chat.scss
+        │   │       │       ├── _composer.scss
+        │   │       │       ├── _conversations.scss
+        │   │       │       ├── _header.scss
+        │   │       │       ├── _light-mode.scss
+        │   │       │       ├── _overlay.scss
+        │   │       │       └── _responsive.scss
+        │   │       │
+        │   │       ├── NotificationModal/    # Notification center
+        │   │       │   ├── NotificationModal.jsx
+        │   │       │   ├── NotificationModal.scss
+        │   │       │   └── index.js
+        │   │       │
+        │   │       └── SearchModal/          # Global search functionality
+        │   │           ├── SearchModal.jsx
+        │   │           ├── SearchModal.scss
+        │   │           └── index.js
         │   │
         │   ├── pages/             # Route-level components
         │   │   │
@@ -354,21 +388,30 @@ huddl-app/
 2. **`frontend/src/App.jsx`** - Routing structure, component imports
 3. **`frontend/src/components/layout/SideNav/SideNav.jsx`** - Responsive state management example
 4. **`frontend/src/components/pages/Home/Home.jsx`** - Main feature component
-5. **`frontend/src/components/pages/Home/components/TimelineRiverFeed.jsx`** - Data transformation logic
+5. **`frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`** - Data transformation logic
 6. **`frontend/src/components/pages/Profile/Profile.jsx`** - View toggle state management
-7. **`backend/huddl/urls.py`** - Backend routing
-8. **`backend/posts/models.py`** - Database models
+7. **`backend/numeneon/urls.py`** - Backend routing
+8. **`backend/posts/models.py`** - Database models (Post, Like)
 9. **`backend/posts/views.py`** - API endpoint logic
 10. **`backend/posts/serializers.py`** - Data serialization
 
+### Context Providers (Global State)
+
+1. **`frontend/src/contexts/AuthContext.jsx`** - Authentication state management
+2. **`frontend/src/contexts/PostsContext.jsx`** - Posts data and operations
+3. **`frontend/src/contexts/FriendsContext.jsx`** - Friend relationships
+4. **`frontend/src/contexts/MessageContext.jsx`** - Direct messaging state
+5. **`frontend/src/contexts/ThemeContext.jsx`** - Light/dark theme toggle
+
 ### Styling Deep Dive
 
-1. **`frontend/src/styles/design-const.css`** - Unified design tokens (colors, spacing, typography)
-2. **`frontend/src/styles/utilities.css`** - Reusable component classes (buttons, cards, animations)
-3. **`frontend/src/index.css`** - Global reset and base
-4. **`frontend/src/components/pages/Home/Home.css`** - Holographic design patterns (story cards, feed)
-5. **`frontend/src/components/layout/SideNav/SideNav.css`** - Responsive navigation with refined icons
-6. **`frontend/src/components/pages/Home/components/TimelineRiverRow.css`** - Card type differentiation and stacking
+1. **`frontend/src/styles/_variables.scss`** - Design tokens (colors, spacing, typography)
+2. **`frontend/src/styles/_utilities.scss`** - Reusable utility classes
+3. **`frontend/src/styles/_reset.scss`** - Global reset and base
+4. **`frontend/src/styles/main.scss`** - Entry point that imports all partials
+5. **`frontend/src/components/pages/Home/Home.scss`** - Holographic design patterns
+6. **`frontend/src/components/layout/SideNav/SideNav.scss`** - Responsive navigation
+7. **`frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss`** - Card type differentiation
 
 ---
 
@@ -686,7 +729,7 @@ Trace this flow:
 
 ### React Fundamentals
 
-1. "Explain the difference between props and state in your Huddl app. Give examples from your code."
+1. "Explain the difference between props and state in your Numeneon app. Give examples from your code."
 2. "Walk me through your component hierarchy. Which components are parents of which?"
 3. "Why did you choose functional components with hooks instead of class components?"
 4. "Explain how React Router works in your App.jsx. What happens when a user navigates?"
@@ -921,3 +964,238 @@ Then, based on my questions, we can dive deeper into specific files and concepts
 I'm ready to learn! Please teach me like I'm going to be grilled by a senior engineer in a technical interview, and I need to prove I understand not just what the code does, but WHY it's structured this way and HOW all the pieces fit together.
 
 Let's build my systems thinking! 🧠🚀
+
+---
+
+## 🏆 Implemented Features to Study
+
+These features are already built - study them to understand implementation patterns:
+
+### Layout & Navigation
+
+1. **SearchModal** (`TopBar/SearchModal/`) - Global search with filtering
+2. **NotificationModal** (`TopBar/NotificationModal/`) - Real-time notification center
+3. **MessageModal** (`TopBar/MessageModal/`) - Direct messaging with conversation view
+4. **SideNav** - Responsive navigation (desktop sidebar ↔ mobile bottom nav)
+
+### Profile System
+
+1. **ProfileCard Flip System** - 3D card flip with front/back views
+2. **ProfileCardFront** - User avatar, stats, bio display
+3. **ProfileCardBack** - ActivityVisualization, QuickSettings, PostTypeBreakdown
+4. **ProfilePrivacyControls** - Visibility settings per profile section
+5. **UserProfileNavigation** - Navigate to any user's profile via clicking headers
+
+### Timeline & Posts
+
+1. **TimelineRiverFeed** - Main feed component with post grouping
+2. **TimelineRiverRow** - Individual post rows with carousel support
+3. **TimelineCarousel** - Horizontal scrolling through post stacks
+4. **MediaLightbox** - Full-screen media viewing with comments
+5. **DeleteConfirmModal** - Safe deletion confirmation pattern
+6. **CardUserHeaders** - Clickable user headers on all cards
+
+### Analytics & Visualization
+
+1. **ActivityVisualization** - GitHub-style contribution grid
+2. **PostTypeBreakdown** - Pie/bar chart of content types
+3. **EngagementAnalytics** - Likes, comments, shares metrics
+
+### Mobile Experience
+
+1. **MobileCategoryTabs** - Touch-friendly category switching
+2. **MobileMessageModal** - Optimized messaging for small screens
+3. **UnifiedCloseButton** - Consistent close pattern across modals
+
+---
+
+## 🔄 Context Provider Deep Dive
+
+Study these context files to understand global state management:
+
+### AuthContext.jsx
+
+**Purpose**: Manage user authentication state
+**Key Concepts**:
+
+- Login/logout functions
+- Token storage (localStorage)
+- Current user data
+- Protected route integration
+
+**Interview Question**: "How do you persist authentication across page refreshes?"
+
+### PostsContext.jsx
+
+**Purpose**: Centralized posts data management
+**Key Concepts**:
+
+- CRUD operations for posts
+- Optimistic updates
+- Cache invalidation patterns
+- Feed pagination
+
+**Interview Question**: "Why use Context instead of prop drilling for posts?"
+
+### FriendsContext.jsx
+
+**Purpose**: Friend relationships and suggestions
+**Key Concepts**:
+
+- Friend request flow (send/accept/decline)
+- Friends list management
+- Friend suggestions algorithm
+
+### MessageContext.jsx
+
+**Purpose**: Direct messaging state
+**Key Concepts**:
+
+- Conversation management
+- Message history
+- Unread counts
+- Real-time updates (future WebSocket)
+
+### ThemeContext.jsx
+
+**Purpose**: Light/dark mode toggle
+**Key Concepts**:
+
+- CSS variable switching
+- localStorage persistence
+- System preference detection
+- Theme-aware component styling
+
+---
+
+## 🎨 SCSS Architecture Study
+
+Your project uses a modular SCSS architecture. Study these patterns:
+
+### Global Partials (`frontend/src/styles/`)
+
+- **\_variables.scss** - CSS custom properties, breakpoints
+- **\_mixins.scss** - Reusable SCSS mixins (responsive, flexbox helpers)
+- **\_reset.scss** - Normalize browser defaults
+- **\_typography.scss** - Font stacks, text utilities
+- **\_animations.scss** - Keyframes, transition presets
+- **\_buttons.scss** - Button variants and states
+- **\_cards.scss** - Card component styles
+- **\_layout.scss** - Grid systems, containers
+- **\_light-mode.scss** - Light theme overrides
+- **\_blobs.scss** - Decorative blob shapes
+- **\_utilities.scss** - Utility classes (margins, padding, etc.)
+- **\_theme.scss** - Theme-specific styling
+
+### Component-Level SCSS Patterns
+
+Each component folder has its own `.scss` file. Complex components split styles into partials:
+
+```
+TimelineRiverRow/
+├── TimelineRiverRow.scss      # Main styles, imports partials
+└── styles/
+    ├── _base.scss
+    ├── _carousel.scss
+    ├── _light-mode.scss
+    └── _responsive.scss
+```
+
+**Interview Question**: "Why split component styles into partials?"
+
+---
+
+## 🔌 API Service Layer Study
+
+### apiClient.js
+
+**Purpose**: Axios instance configuration
+**Key Concepts**:
+
+- Base URL configuration
+- Request/response interceptors
+- Token injection
+- Error handling middleware
+
+### postsService.js
+
+**Purpose**: Posts API operations
+**Key Methods to understand**:
+
+- `getPosts()` - Fetch feed with pagination
+- `createPost()` - New post with media upload
+- `updatePost()` - Edit existing post
+- `deletePost()` - Remove post
+- `likePost()` / `unlikePost()` - Engagement
+
+### friendsService.js
+
+**Purpose**: Friends API operations
+**Key Methods**:
+
+- `getFriends()` - User's friend list
+- `sendFriendRequest()` - Initiate connection
+- `acceptFriendRequest()` - Confirm friendship
+- `removeFriend()` - End friendship
+
+---
+
+## 🗄️ Backend Models Study
+
+### Post Model (posts/models.py)
+
+**Fields to understand**:
+
+- `author` - ForeignKey to User
+- `content` - TextField for post body
+- `parent` - Self-referential ForeignKey (for replies/threads)
+- `likes_count` - Denormalized count field
+- `comment_count` - Denormalized count field
+- `created_at` / `updated_at` - Timestamps
+
+**Interview Question**: "Why denormalize like counts instead of using aggregation?"
+
+### Like Model (posts/models.py)
+
+**Fields**:
+
+- `user` - ForeignKey to User
+- `post` - ForeignKey to Post
+- `created_at` - Timestamp
+
+**Key Concept**: Unique constraint on (user, post) prevents double-likes
+
+### Friendship Model (friends/models.py)
+
+**Fields**:
+
+- `from_user` - Who sent request
+- `to_user` - Who received request
+- `status` - pending/accepted/declined
+- `created_at` - Timestamp
+
+**Interview Question**: "How would you query mutual friends?"
+
+---
+
+## 📚 Documentation Resources
+
+Your project has excellent documentation - use these for deeper study:
+
+### Implementation Guides (`docs/copilot-task/`)
+
+- **00-START-HERE.md** - Project overview and setup
+- **01-CONTEXT-AND-STRATEGY.md** - Architecture decisions explained
+- **02-PSEUDOCODE-EXAMPLES.md** - Code patterns and examples
+- **03-BACKEND-INSTRUCTIONS.md** - Django/DRF patterns
+- **04-FRONTEND-INSTRUCTIONS.md** - React/Vite patterns
+
+### Feature Documentation (`docs/features-implemented/`)
+
+Read these to understand completed features:
+
+- **MessagingSystem.md** - DM architecture
+- **SearchModal.md** - Search implementation
+- **TimelineCarousel.md** - Carousel logic
+- **ProfilePrivacyControls.md** - Privacy patterns
+- **EngagementAnalytics.md** - Analytics system

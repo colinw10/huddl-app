@@ -128,3 +128,50 @@ Messages follow the neon aesthetic:
 - [ ] Message reactions
 - [ ] Image/media attachments
 - [ ] Group conversations
+
+---
+
+## Mobile Enhancements
+
+### Mobile View State
+
+A `mobileView` state toggles between panels on small screens:
+
+```jsx
+const [mobileView, setMobileView] = useState("list"); // 'list' or 'chat'
+```
+
+### Back Button Navigation
+
+On mobile, a back arrow returns to conversation list:
+
+```jsx
+<button className="chat-back-btn" onClick={() => setMobileView("list")}>
+  <svg>
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+</button>
+```
+
+### Full Viewport Coverage
+
+Modal uses `z-index: 9999` to cover bottom navbar on mobile:
+
+```scss
+@media (max-width: 768px) {
+  .message-modal-overlay {
+    z-index: 9999 !important;
+  }
+  .message-modal {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+}
+```
+
+### Key Mobile CSS Classes
+
+- `.message-conversations.show` - Visible conversation list
+- `.message-chat.hide` - Hidden chat panel
+- `.chat-back-btn` - Back arrow (hidden on desktop)
