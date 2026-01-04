@@ -5,7 +5,7 @@
  * @param {Array} posts - Flat array of posts
  * @param {Object} options - Configuration options
  * @param {number} options.maxPostsPerType - Max posts per type (default: 12)
- * @returns {Object} Structure: { oderId: { user, thoughts[], media[], milestones[], mostRecentDate } }
+ * @returns {Object} Structure: { orderId: { user, thoughts[], media[], milestones[], mostRecentDate } }
  */
 
 // Maximum posts per type in carousel (prevents excessive clicking)
@@ -18,7 +18,7 @@ export const groupPostsByUserAndDay = (posts, options = {}) => {
   posts.forEach((post) => {
     // Handle author as object (backend) or string (mock)
     const authorObj = typeof post.author === "object" ? post.author : null;
-    const oderId = post.userId || (authorObj ? authorObj.id : post.author);
+    const orderId = post.userId || (authorObj ? authorObj.id : post.author);
 
     // Get display name - always use username
     const getDisplayName = (author) => {
@@ -44,10 +44,10 @@ export const groupPostsByUserAndDay = (posts, options = {}) => {
     const postDate = new Date(post.createdAt || post.created_at || Date.now());
 
     // Create user bucket if it doesn't exist
-    if (!grouped[oderId]) {
-      grouped[oderId] = {
+    if (!grouped[orderId]) {
+      grouped[orderId] = {
         user: {
-          id: oderId,
+          id: orderId,
           name: authorName,
           username:
             authorObj?.username ||
@@ -65,17 +65,17 @@ export const groupPostsByUserAndDay = (posts, options = {}) => {
     }
 
     // Update most recent date if this post is newer
-    if (postDate > grouped[oderId].mostRecentDate) {
-      grouped[oderId].mostRecentDate = postDate;
+    if (postDate > grouped[orderId].mostRecentDate) {
+      grouped[orderId].mostRecentDate = postDate;
     }
 
     // Add post to correct category (thoughts/media/milestones)
     // Cap at maxPosts per type for carousel performance
     const type = post.type || "thoughts";
-    if (grouped[oderId][type]) {
-      grouped[oderId].totalCounts[type]++; // Track total count
-      if (grouped[oderId][type].length < maxPosts) {
-        grouped[oderId][type].push(post);
+    if (grouped[orderId][type]) {
+      grouped[orderId].totalCounts[type]++; // Track total count
+      if (grouped[orderId][type].length < maxPosts) {
+        grouped[orderId][type].push(post);
       }
     }
   });
@@ -87,13 +87,13 @@ export const groupPostsByUserAndDay = (posts, options = {}) => {
  * Converts grouped posts into sorted array for rendering
  * Sorts by most recent post timestamp - whoever posted most recently appears first
  * @param {Object} grouped - Result from groupPostsByUserAndDay
- * @returns {Array} Sorted array of { oderId, data, mostRecentTimestamp }
+ * @returns {Array} Sorted array of { orderId, data, mostRecentTimestamp }
  */
 export const sortGroupedPosts = (grouped) => {
   const rows = [];
 
-  Object.keys(grouped).forEach((oderId) => {
-    const userData = grouped[oderId];
+  Object.keys(grouped).forEach((orderId) => {
+    const userData = grouped[orderId];
 
     // Find the most recent post timestamp across all types
     const allPosts = [
@@ -116,7 +116,7 @@ export const sortGroupedPosts = (grouped) => {
 
     rows.push({
       date: mostRecentDate, // Show most recent post date
-      oderId,
+      orderId,
       data: userData,
       mostRecentTimestamp,
     });

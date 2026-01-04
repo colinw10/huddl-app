@@ -346,8 +346,16 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
             <MessageBubbleIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
             {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
           </button>
-          <button className="river-action-btn" title="Repost">
+          <button 
+            className="river-action-btn" 
+            title="Repost"
+            onClick={async (e) => {
+              e.stopPropagation();
+              await sharePost(post.id);
+            }}
+          >
             <RepostIcon size={20} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
+            {post.shares_count > 0 && <span className="share-count">{post.shares_count}</span>}
           </button>
           <button className="river-action-btn" title="Bookmark">
             <BookmarkIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />

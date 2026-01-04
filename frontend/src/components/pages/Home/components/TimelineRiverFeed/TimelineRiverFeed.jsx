@@ -35,10 +35,10 @@ function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId,
     <div className="timeline-river-feed">
       {/* Canopy shadow overlay */}
       <div className="timeline-canopy"></div>
-      {groupedAndSortedPosts.map(({ date, oderId, data }) => (
+      {groupedAndSortedPosts.map(({ date, orderId, data }) => (
         // Loop through each user group
 
-        <div key={oderId} className="timeline-river-section">
+        <div key={orderId} className="timeline-river-section">
           {/* 🎨 Last Active Header */}
           <div className="river-date-header">
             <div className="river-date-badge">

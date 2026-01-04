@@ -30,7 +30,7 @@ The `groupPosts.js` utility only stored partial user data:
 ```javascript
 // BEFORE - Missing username!
 user: {
-  id: oderId,
+  id: orderId,
   name: authorName,
   avatar: getInitials(...)
 }
@@ -44,7 +44,7 @@ Added complete user data to `groupPosts.js`:
 ```javascript
 // AFTER - All required fields
 user: {
-  id: oderId,
+  id: orderId,
   name: authorName,
   username: authorObj?.username || ...,
   first_name: authorObj?.first_name || '',

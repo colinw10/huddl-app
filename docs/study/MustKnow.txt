@@ -1,0 +1,45 @@
+LET ME COUNT THE CRITICAL FILES:
+
+🎯 FRONTEND (Must Know)
+Core Flow (8 files)
+
+main.jsx - App entry
+App.jsx - Routing
+PostsContext.jsx - Posts state
+postsService.js - Posts API
+apiClient.js - Axios setup
+Home.jsx - Main feed
+TimelineRiverFeed.jsx - Displays posts
+TimelineRiverRow.jsx - Single post
+
+Supporting (4 files)
+
+AuthContext.jsx - Login/logout
+FriendsContext.jsx - Friends state
+Profile.jsx - Profile page
+ComposerModal.jsx - Create posts
+
+Total Frontend: 12 files
+
+🎯 BACKEND (Must Know)
+Django Core (8 files)
+
+settings.py - Config
+urls.py (main) - Route everything
+posts/models.py - Post database model
+posts/views.py - Post API endpoints
+posts/serializers.py - JSON conversion
+posts/urls.py - Post routes
+users/views.py - Auth endpoints
+friends/models.py - Friendships
+
+Total Backend: 8 files
+
+✅ TOTAL MUST-KNOW FILES
+20 files (12 frontend + 8 backend)
+Out of 100+ files, you only need ~20 files deeply.
+The rest are:
+
+Styling (SCSS)
+Icons (SVG)
+Similar patterns (friendsService = same as postsService)
