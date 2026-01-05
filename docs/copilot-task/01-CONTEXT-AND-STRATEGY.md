@@ -166,17 +166,25 @@ These files are PROVIDED as-is, not rebuilt:
 ```
 frontend/src/components/pages/Home/
 ├── Home.jsx, Home.scss, index.js (3)
-├── utils/groupPosts.js (1)
+├── utils/
+│   ├── groupPosts.js (post grouping algorithm)
+│   └── timeFormatters.js (relative time formatting)
 ├── components/
 │   ├── TimelineRiverFeed/ (3 files)
 │   │   ├── TimelineRiverFeed.jsx
 │   │   ├── TimelineRiverFeed.scss
 │   │   └── index.js
-│   ├── TimelineRiverRow/ (14 files)
-│   │   ├── TimelineRiverRow.jsx
+│   ├── TimelineRiverRow/ (MODULAR - refactored Jan 2025)
+│   │   ├── TimelineRiverRow.jsx (main orchestrator)
 │   │   ├── TimelineRiverRow.scss
 │   │   ├── index.js
-│   │   └── partials/ (11 SCSS partials)
+│   │   ├── styles/ (SCSS partials)
+│   │   └── components/
+│   │       ├── PostCard/ (individual post rendering)
+│   │       ├── SmartDeck/ (carousel deck navigation)
+│   │       ├── ThreadView/ (inline replies thread)
+│   │       ├── MobileTabNav/ (mobile category tabs)
+│   │       └── index.js (barrel export)
 │   └── MediaLightbox/ (9 files) ← PABLO
 │       ├── MediaLightbox.jsx
 │       ├── MediaLightbox.scss
@@ -201,10 +209,12 @@ frontend/src/components/pages/Profile/components/
 **Key Complexity:**
 
 - 3D flip animation (ProfileCard)
-- Carousel deck system (TimelineRiverRow)
+- Carousel deck system (SmartDeck component within TimelineRiverRow)
 - Analytics charts: Wave, Heatmap, Donut (ProfileCardBack)
 - Touch handlers for mobile swipe
-- Thread expansion for replies
+- Thread expansion for replies (ThreadView component)
+- Modular post cards (PostCard component)
+- Mobile tab navigation (MobileTabNav component)
 
 ---
 
@@ -498,6 +508,24 @@ See `docs/stretch-goals/` for implementation plans.
 - TimelineRiver.jsx (Profile): Added clickable friend headers in Friends Feed
 - CSS: `.clickable-user` and `.clickable-friend` classes with hover effects
 - Full documentation: `docs/features-implemented/UserProfileNavigation.md`
+
+**TimelineRiverRow Modularization (Jan 2025):**
+
+- Refactored monolithic TimelineRiverRow.jsx into smaller, focused components
+- New components extracted:
+  - `PostCard.jsx` - Individual post rendering with all actions (like, share, comment, edit, delete)
+  - `SmartDeck.jsx` - Carousel deck display with prev/next navigation
+  - `ThreadView.jsx` - Inline replies thread (Twitter-style)
+  - `MobileTabNav.jsx` - Mobile category tab navigation (thoughts/media/milestones)
+- New utility: `utils/timeFormatters.js` - `formatRelativeTime()` function extracted
+- TimelineRiverRow.jsx now orchestrates sub-components instead of handling everything
+- All components use barrel exports via `components/index.js`
+
+**Bug Fixes (Jan 2025):**
+
+- Fixed typo: `oderId` → `orderId` across groupPosts.js, TimelineRiverFeed.jsx
+- Wired up `sharePost()` function to Repost button (was imported but unused)
+- Fixed light mode blobs: Disabled `mix-blend-mode: screen` for light theme (was causing white-out)
 
 **Profile Privacy Controls (Dec 2024):**
 

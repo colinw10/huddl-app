@@ -711,6 +711,11 @@ urlpatterns = [
  * - Calls: PostsContext.fetchPosts() on component mount
  * - Carousel arrows appear when user has 3+ posts of same type
  *
+ * TimelineRiverRow Architecture (Refactored Jan 2025):
+ * - Main orchestrator in TimelineRiverRow.jsx
+ * - Sub-components: PostCard, SmartDeck, ThreadView, MobileTabNav
+ * - Utilities: timeFormatters.js (formatRelativeTime), groupPosts.js
+ *
  * Team Integration:
  * - Colin: Build PostsContext to provide posts array in above format
  * - Colin: Build postsService with likePost() and sharePost() functions

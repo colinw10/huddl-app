@@ -680,26 +680,32 @@ You're building the friends system - the social connections between users. Frien
 
 You're rebuilding the most complex UI components in NUMENEON - the Timeline River system with carousel navigation, the 3D flip ProfileCard with analytics charts, and the MediaLightbox. These require sophisticated state management, animations, and data visualization.
 
-## Files You Own (29 total)
+## Files You Own (29+ total)
 
-### Timeline System (17 files)
+### Timeline System (Refactored Jan 2025 - Modular Architecture)
 
-| File                                                                                     | Description                   |
-| ---------------------------------------------------------------------------------------- | ----------------------------- |
-| `frontend/src/components/pages/Home/Home.jsx`                                            | Home page wrapper             |
-| `frontend/src/components/pages/Home/Home.scss`                                           | Home styling                  |
-| `frontend/src/components/pages/Home/index.js`                                            | Export                        |
-| `frontend/src/components/pages/Home/utils/groupPosts.js`                                 | Post grouping algorithm       |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`  | Main feed container           |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss` | Feed styling                  |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js`               | Export                        |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`    | Single user row with carousel |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss`   | Row styling                   |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js`                | Export                        |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/partials/*.scss`         | 11 SCSS partials              |
-| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`          | Image viewer modal            |
-| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss`         | Lightbox styling              |
-| `frontend/src/components/pages/Home/components/MediaLightbox/index.js`                   | Export                        |
+| File                                                                                     | Description                            |
+| ---------------------------------------------------------------------------------------- | -------------------------------------- |
+| `frontend/src/components/pages/Home/Home.jsx`                                            | Home page wrapper                      |
+| `frontend/src/components/pages/Home/Home.scss`                                           | Home styling                           |
+| `frontend/src/components/pages/Home/index.js`                                            | Export                                 |
+| `frontend/src/components/pages/Home/utils/groupPosts.js`                                 | Post grouping algorithm                |
+| `frontend/src/components/pages/Home/utils/timeFormatters.js`                             | **NEW** Relative time formatting       |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`  | Main feed container                    |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss` | Feed styling                           |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js`               | Export                                 |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`    | Main orchestrator (uses sub-components)|
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss`   | Row styling                            |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js`                | Export                                 |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/*.scss`           | SCSS partials                          |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/index.js`     | **NEW** Barrel export for sub-components|
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/PostCard/`    | **NEW** Individual post card rendering |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/SmartDeck/`   | **NEW** Carousel deck with navigation  |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/ThreadView/`  | **NEW** Inline replies thread display  |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/MobileTabNav/`| **NEW** Mobile category tab navigation |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`          | Image viewer modal                     |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss`         | Lightbox styling                       |
+| `frontend/src/components/pages/Home/components/MediaLightbox/index.js`                   | Export                                 |
 
 ### Profile Card System (12 files)
 
@@ -768,15 +774,40 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 
 ---
 
-### ✅ Task 3: Build TimelineRiverRow (COMPLEX)
+### ✅ Task 3: Build TimelineRiverRow (MODULAR ARCHITECTURE - Refactored Jan 2025)
 
-**Files:** TimelineRiverRow.jsx + 11 SCSS partials
+**Files:** TimelineRiverRow.jsx + sub-components + SCSS
 
 **What:** Single row showing one user's posts across 3 columns with carousel.
 
-**Why:** Core timeline interaction - most complex component.
+**Why:** Core timeline interaction - refactored into modular sub-components for maintainability.
 
-**State Required:**
+**Architecture (Jan 2025 Refactor):**
+
+The original monolithic TimelineRiverRow.jsx has been split into focused sub-components:
+
+```
+TimelineRiverRow/
+├── TimelineRiverRow.jsx      # Main orchestrator
+├── TimelineRiverRow.scss
+├── styles/                   # SCSS partials
+└── components/
+    ├── index.js              # Barrel export
+    ├── PostCard/             # Individual post with all actions
+    │   ├── PostCard.jsx
+    │   └── PostCard.scss
+    ├── SmartDeck/            # Carousel deck with navigation
+    │   ├── SmartDeck.jsx
+    │   └── SmartDeck.scss
+    ├── ThreadView/           # Inline replies thread
+    │   ├── ThreadView.jsx
+    │   └── ThreadView.scss
+    └── MobileTabNav/         # Mobile category tabs
+        ├── MobileTabNav.jsx
+        └── MobileTabNav.scss
+```
+
+**State (in TimelineRiverRow.jsx - passed to sub-components):**
 
 - [ ] `deckIndex` - { thoughts: 0, media: 0, milestones: 0 } for carousel
 - [ ] `expandedThreadId` - which post's replies are showing
@@ -786,15 +817,17 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 - [ ] `isMobile` - responsive breakpoint detection
 - [ ] `mobileActiveTab` - which column showing on mobile
 
-**Features:**
+**Sub-Component Responsibilities:**
 
-- [ ] Carousel navigation (prev/next buttons when 3+ posts)
-- [ ] Thread expansion (view/add replies)
-- [ ] Edit mode for own posts
-- [ ] Delete confirmation modal integration
-- [ ] Like/share button handlers
-- [ ] Touch swipe for mobile
-- [ ] Click username → navigate to profile
+- **PostCard.jsx**: Renders a single post card with all action buttons (like, share, comment, edit, delete), media display, visibility icons
+- **SmartDeck.jsx**: Carousel container with prev/next navigation when 3+ posts, shows current index
+- **ThreadView.jsx**: Twitter-style inline replies thread, fetches and displays replies
+- **MobileTabNav.jsx**: Tab buttons for switching between thoughts/media/milestones on mobile
+
+**Utility Files:**
+
+- `utils/timeFormatters.js` - `formatRelativeTime()` extracted for reuse
+- `utils/groupPosts.js` - Groups posts by user (uses `orderId` not `oderId` - typo fixed Jan 2025)
 
 **Icons Used (import from icons.jsx):**
 

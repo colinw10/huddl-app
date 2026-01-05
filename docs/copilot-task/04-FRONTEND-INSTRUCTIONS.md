@@ -1176,12 +1176,19 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 **Home Page System:**
 
 - `frontend/src/components/pages/Home/Home.jsx`
-- `frontend/src/components/pages/Home/utils/groupPosts.js` ← **Groups by USER ONLY (not date!), MAX 12 posts per type**
+- `frontend/src/components/pages/Home/utils/groupPosts.js` ← **Groups by USER ONLY (not date!), MAX 12 posts per type, uses `orderId` field**
+- `frontend/src/components/pages/Home/utils/timeFormatters.js` ← **NEW (Jan 2025):** `formatRelativeTime()` utility
 - `frontend/src/components/pages/Home/components/DeleteConfirmModal/DeleteConfirmModal.jsx`
 - `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`
 - `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`
 - `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`
-  - **Note:** Usernames and avatars are clickable → navigate to user's profile
+  - **REFACTORED (Jan 2025):** Now uses modular sub-components
+  - Sub-components in `TimelineRiverRow/components/`:
+    - `PostCard/` - Individual post rendering with all actions
+    - `SmartDeck/` - Carousel deck with prev/next navigation
+    - `ThreadView/` - Inline replies thread (Twitter-style)
+    - `MobileTabNav/` - Mobile category tab navigation
+  - Usernames and avatars are clickable → navigate to user's profile
   - Uses `handleUserClick()` with `useNavigate()` from React Router
   - CSS classes: `.clickable-user` with hover glow effects
 
