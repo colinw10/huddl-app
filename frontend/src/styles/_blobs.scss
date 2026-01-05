@@ -285,6 +285,15 @@
 }
 
 // ============================================
-// LIGHT MODE - Blobs use same styles as dark mode
-// No overrides - blobs stay consistent across themes
+// LIGHT MODE - Disable screen blend mode
+// Screen blend adds light = white on light backgrounds
 // ============================================
+
+[data-theme="light"] {
+  .App::before,
+  .App::after,
+  .blob-left,
+  .blob-right {
+    mix-blend-mode: normal;
+  }
+}

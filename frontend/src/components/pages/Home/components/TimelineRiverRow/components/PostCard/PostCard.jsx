@@ -1,0 +1,425 @@
+// 🔵 PABLO - UI Component
+// PostCard.jsx - Individual post card with actions
+
+import { createPortal } from 'react-dom';
+import { formatRelativeTime } from '../../../../utils/timeFormatters';
+import ThreadView from '../ThreadView';
+import {
+  UserIcon,
+  HeartDynamicIcon,
+  MessageBubbleIcon,
+  RepostIcon,
+  BookmarkIcon,
+  MessageLineIcon,
+  GraphLineIcon,
+  EditIcon,
+  TrashIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  ChevronRightIcon,
+  CheckIcon,
+  CloseIcon,
+  ImageIcon
+} from '../../../../../../../assets/icons';
+import './PostCard.scss';
+
+function PostCard({
+  post,
+  type,
+  user,
+  currentUser,
+  isActive,
+  isSinglePost,
+  isShortPost,
+  // Actions
+  onCardClick,
+  onUserClick,
+  onLike,
+  onShare,
+  onComment,
+  onMessage,
+  onEdit,
+  onDelete,
+  onExpandMedia,
+  // Thread props
+  onToggleThread,
+  expandedThreadId,
+  threadReplies,
+  loadingThread,
+  showAllReplies,
+  onToggleShowAllReplies,
+  onReplySubmit,
+  onUpdateReply,
+  onDeleteReply,
+  // Comment composer props
+  activeCommentPostId,
+  commentText,
+  setCommentText,
+  setActiveCommentPostId,
+  isComposerExpanded,
+  setIsComposerExpanded,
+  isEditMode,
+  setIsEditMode,
+  editingPostId,
+  setEditingPostId,
+  onUpdatePost,
+  isSaving
+}) {
+  return (
+    <div 
+      className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} ${isShortPost ? 'post--compact' : ''} fade-in hover-lift`}
+      onClick={() => onCardClick(post.id)}
+      style={{ zIndex: isActive ? 100 : 'auto' }}
+    >
+      {/* Header: Avatar + Name + Type Badge */}
+      <div className="river-post-header">
+        <div 
+          className="river-avatar clickable-user" 
+          onClick={(e) => onUserClick(e, user.id, user.username)}
+          title={`View ${user.name}'s profile`}
+        >
+          <UserIcon size={24} />
+        </div>
+        <div className="river-post-info">
+          <div 
+            className="river-author clickable-user"
+            onClick={(e) => onUserClick(e, user.id, user.username)}
+            title={`View ${user.name}'s profile`}
+          >
+            {user.name}
+          </div>
+          <div className="river-meta">
+            <span className="river-timestamp">{formatRelativeTime(post.created_at || post.createdAt)}</span>
+          </div>
+        </div>
+        {/* Privacy icon */}
+        <svg className="privacy-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          {post.visibility === 'private' ? (
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" 
+                  fill="currentColor"/>
+          ) : post.visibility === 'public' ? (
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" 
+                  fill="currentColor"/>
+          ) : (
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" 
+                  fill="currentColor"/>
+          )}
+        </svg>
+      </div>
+
+      {/* Media Image (only for media posts) */}
+      {type === 'media' && post.media_url && (
+        <div className="river-post-media" onClick={(e) => {
+          e.stopPropagation();
+          onExpandMedia(post);
+        }}>
+          <img src={post.media_url} alt="Post media" className="river-media-image" />
+          <div className="media-expand-hint">
+            <MaximizeIcon size={20} />
+          </div>
+        </div>
+      )}
+      
+      {/* Post Content */}
+      <p className="river-post-content">{post.content}</p>
+
+      {/* Post Actions */} 
+      <div className="river-post-actions">
+        {/* Likes */}
+        <div 
+          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+          onClick={async (e) => {
+            e.stopPropagation();
+            await onLike(post.id);
+          }}
+          title={post.is_liked ? 'Unlike' : 'Like'}
+          style={{ cursor: 'pointer' }}
+        >
+          <HeartDynamicIcon 
+            size={18} 
+            filled={post.is_liked}
+            fillColor="#3b82f6"
+            strokeColor={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"}
+          />
+          {post.likes_count || 0}
+        </div>
+        
+        {/* Comment */}
+        <button 
+          className={`river-action-btn ${post.reply_count > 0 ? 'has-replies' : ''}`}
+          title="Comment"
+          onClick={() => onComment(post.id)}
+        >
+          <MessageBubbleIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+          {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
+        </button>
+        
+        {/* Repost/Share */}
+        <button 
+          className="river-action-btn" 
+          title="Repost"
+          onClick={async (e) => {
+            e.stopPropagation();
+            await onShare(post.id);
+          }}
+        >
+          <RepostIcon size={20} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
+          {post.shares_count > 0 && <span className="share-count">{post.shares_count}</span>}
+        </button>
+        
+        {/* Bookmark */}
+        <button className="river-action-btn" title="Bookmark">
+          <BookmarkIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+        </button>
+        
+        {/* Message button - only on OTHER people's posts */}
+        {currentUser && post.author?.id !== currentUser.id && (
+          <button 
+            className="river-action-btn river-action-btn--message" 
+            title={`Message ${post.author?.username || 'user'}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onMessage({
+                id: post.author?.id,
+                username: post.author?.username,
+                displayName: post.author?.username,
+              });
+            }}
+          >
+            <MessageLineIcon size={20} stroke="rgba(0,212,255,0.5)" strokeWidth="1.5" />
+          </button>
+        )}
+        
+        {/* Analytics, Edit & Delete - only for your own posts */}
+        {currentUser && post.author?.id === currentUser.id && (
+          <>
+            <button className="river-action-btn" title="Analytics">
+              <GraphLineIcon size={20} stroke="rgba(26,231,132,0.5)" strokeWidth="1.5" />
+            </button>
+            <button 
+              className="river-action-btn river-action-btn--edit" 
+              title="Edit"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(post);
+              }}
+            >
+              <EditIcon size={20} stroke="rgba(255,193,7,0.6)" strokeWidth="1.5" />
+            </button>
+            <button 
+              className="river-action-btn river-action-btn--delete" 
+              title="Delete"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(post.id);
+              }}
+            >
+              <TrashIcon size={20} stroke="rgba(255,82,82,0.6)" strokeWidth="1.5" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Inline Comment Composer */}
+      {activeCommentPostId === post.id && !isComposerExpanded && (
+        <div className="inline-comment-composer">
+          <div className="comment-input-wrapper">
+            <textarea
+              className="comment-input"
+              placeholder="Comment..."
+              value={commentText}
+              onChange={(e) => {
+                setCommentText(e.target.value);
+                e.target.style.height = 'auto';
+                e.target.style.height = e.target.scrollHeight + 'px';
+              }}
+              rows={1}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  if (commentText.trim()) {
+                    onReplySubmit(post.id, commentText);
+                  }
+                }
+                if (e.key === 'Escape') {
+                  setActiveCommentPostId(null);
+                  setCommentText('');
+                }
+              }}
+            />
+            <button 
+              className="expand-composer-btn"
+              onClick={() => setIsComposerExpanded(true)}
+              title="Expand"
+            >
+              <MaximizeIcon size={12} strokeWidth="2.5" />
+            </button>
+          </div>
+          <button 
+            className="comment-submit-btn"
+            disabled={!commentText.trim()}
+            onClick={async () => {
+              if (commentText.trim()) {
+                await onReplySubmit(post.id, commentText);
+              }
+            }}
+          >
+            <ChevronRightIcon size={22} strokeWidth="2.5" />
+          </button>
+        </div>
+      )}
+
+      {/* View Thread Link */}
+      {post.reply_count > 0 && expandedThreadId !== post.id && (
+        <button 
+          className="view-thread-btn"
+          onClick={() => onToggleThread(post.id)}
+        >
+          <span className="thread-line" />
+          View {post.reply_count} {post.reply_count === 1 ? 'reply' : 'replies'}
+        </button>
+      )}
+
+      {/* Thread View */}
+      {expandedThreadId === post.id && (
+        <ThreadView
+          postId={post.id}
+          replies={threadReplies[post.id]}
+          isLoading={loadingThread === post.id}
+          currentUser={currentUser}
+          onCollapse={() => onToggleThread(post.id)}
+          onUpdateReply={onUpdateReply}
+          onDeleteReply={onDeleteReply}
+          showAllReplies={showAllReplies[post.id]}
+          onToggleShowAll={() => onToggleShowAllReplies(post.id)}
+        />
+      )}
+
+      {/* Expanded Composer Modal */}
+      {activeCommentPostId === post.id && isComposerExpanded && createPortal(
+        <div className="expanded-composer-overlay">
+          <div 
+            className="composer-backdrop"
+            onClick={() => {
+              setIsComposerExpanded(false);
+              setIsEditMode(false);
+            }}
+          />
+          <div className={`expanded-composer-modal ${isEditMode ? 'edit-mode' : ''}`}>
+            {/* Original Post Context - only when replying */}
+            {!isEditMode && (
+              <div className="reply-context">
+                <div className="reply-context-avatar">
+                  {user.avatar}
+                </div>
+                <div className="reply-context-body">
+                  <div className="reply-context-header">
+                    <span className="reply-context-name">{user.display_name}</span>
+                    <span className="reply-context-handle">@{user.username}</span>
+                    <span className="reply-context-dot">·</span>
+                    <span className="reply-context-time">{post.timestamp}</span>
+                  </div>
+                  <p className="reply-context-content">{post.content}</p>
+                  {type === 'media' && post.media_url && (
+                    <div className="reply-context-media">
+                      <img src={post.media_url} alt="Post media" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <div className="reply-divider">
+              <span className="reply-divider-line"></span>
+              <span className="reply-divider-text">{isEditMode ? 'Edit Post' : 'Replying'}</span>
+              <span className="reply-divider-line"></span>
+            </div>
+
+            <div className="modal-comment-area">
+              <div className="comment-input-wrapper">
+                <textarea
+                  className="comment-input"
+                  placeholder={isEditMode ? "Edit your post..." : "Share your thoughts..."}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  rows={4}
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      if (commentText.trim()) {
+                        if (isEditMode) {
+                          onUpdatePost(editingPostId, { content: commentText.trim() });
+                          setEditingPostId(null);
+                          setIsEditMode(false);
+                        } else {
+                          onReplySubmit(post.id, commentText);
+                        }
+                        setCommentText('');
+                        setActiveCommentPostId(null);
+                        setIsComposerExpanded(false);
+                      }
+                    }
+                    if (e.key === 'Escape') {
+                      setIsComposerExpanded(false);
+                      setIsEditMode(false);
+                    }
+                  }}
+                />
+                <button 
+                  className="minimize-composer-btn"
+                  onClick={() => {
+                    setIsComposerExpanded(false);
+                    setIsEditMode(false);
+                  }}
+                  title="Minimize"
+                >
+                  <MinimizeIcon size={12} strokeWidth="2.5" />
+                </button>
+              </div>
+              
+              {!isEditMode && (
+                <button 
+                  className="comment-media-btn"
+                  title="Add media"
+                  onClick={() => console.log('Media upload clicked')}
+                >
+                  <ImageIcon size={20} strokeWidth="1.5" />
+                </button>
+              )}
+              
+              <button 
+                className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
+                disabled={!commentText.trim() || isSaving}
+                onClick={async () => {
+                  if (commentText.trim()) {
+                    if (isEditMode) {
+                      await onUpdatePost(editingPostId, { content: commentText.trim() });
+                      setEditingPostId(null);
+                      setIsEditMode(false);
+                    } else {
+                      await onReplySubmit(post.id, commentText);
+                    }
+                    setCommentText('');
+                    setActiveCommentPostId(null);
+                    setIsComposerExpanded(false);
+                  }
+                }}
+              >
+                {isEditMode ? (
+                  <CheckIcon size={22} strokeWidth="2.5" />
+                ) : (
+                  <ChevronRightIcon size={22} strokeWidth="2.5" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </div>
+  );
+}
+
+export default PostCard;
