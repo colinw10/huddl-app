@@ -38,13 +38,14 @@ You're building the Posts system - the heart of NUMENEON's social feed. Users cr
 **Acceptance Criteria:**
 
 - [ ] Post has `author` field (ForeignKey to User)
-- [ ] Post has `type` field (choices: 'thought', 'media', 'milestone')
+- [ ] Post has `type` field (choices: 'thoughts', 'media', 'milestones')
 - [ ] Post has `content` field (text, can be blank for media-only posts)
-- [ ] Post has `image` field (optional file upload)
+- [ ] Post has `media_url` field (optional URL field, NOT ImageField)
 - [ ] Post has `parent` field (ForeignKey to self, for replies - nullable)
 - [ ] Post has `created_at` field (auto-set timestamp)
 - [ ] Post has `likes_count` field (integer, default 0)
-- [ ] Post has `comment_count` field (integer, default 0)
+- [ ] Post has `reply_count` field (integer, default 0) - NOT comment_count!
+- [ ] Post has `shares_count` field (integer, default 0)
 
 **Think about:**
 
@@ -100,6 +101,7 @@ You're building the Posts system - the heart of NUMENEON's social feed. Users cr
 - [ ] DELETE /api/posts/:id/ - Delete post (author only)
 - [ ] GET /api/posts/:id/replies/ - Get all replies to a post
 - [ ] POST /api/posts/:id/like/ - Toggle like on a post
+- [ ] POST /api/posts/:id/share/ - Share/repost (increments shares_count)
 
 **Think about:**
 
@@ -172,6 +174,7 @@ You're building the Posts system - the heart of NUMENEON's social feed. Users cr
 - [ ] Provides `deletePost(id)` function
 - [ ] Provides `getReplies(parentId)` function
 - [ ] Provides `likePost(id)` function
+- [ ] Provides `sharePost(id)` function (increments shares_count)
 - [ ] Handles loading and error states
 - [ ] Fetches posts on mount
 
@@ -251,21 +254,24 @@ Pablo's Timeline UI expects posts in this EXACT format:
     username: "alice",
     profile_picture: "https://..."  // full URL
   },
-  type: "thought",  // or "media" or "milestone"
+  type: "thoughts",  // or "media" or "milestones" (NOT singular!)
   content: "This is my post text",
-  image: "https://..." | null,
+  media_url: "https://..." | null,  // NOT 'image'!
   parent: 3 | null,  // ID of parent post if this is a reply
+  parent_id: 3 | null,  // Also include parent_id
   created_at: "2024-12-19T10:00:00Z",  // ISO format
   likes_count: 5,
-  comment_count: 2
+  reply_count: 2,  // NOT comment_count!
+  shares_count: 3,  // NEW - required for share button
+  is_liked: false  // Has current user liked this post?
 }
 ```
 
 **Column Logic:**
 
-- `type === 'thought'` → Left column (text posts)
+- `type === 'thoughts'` → Left column (text posts)
 - `type === 'media'` → Center column (image posts)
-- `type === 'milestone'` → Right column (achievements)
+- `type === 'milestones'` → Right column (achievements)
 
 ---
 

@@ -27,11 +27,19 @@ For each of your ~75 component files, add a comment block at the top that explai
 
 - `frontend/src/components/pages/Home/` - Main feed page (3 files)
   - `Home.jsx`, `Home.scss`, `index.js`
-  - `utils/groupPosts.js` - Utility for organizing posts
+  - `utils/groupPosts.js` - Utility for organizing posts by user
+  - `utils/timeFormatters.js` - **NEW** Relative time formatting utilities
   - `components/DeleteConfirmModal/` - Confirmation dialog (3 files)
   - `components/MediaLightbox/` - Image viewer modal (2 files + 7 SCSS partials)
   - `components/TimelineRiverFeed/` - Main feed container (3 files)
-  - `components/TimelineRiverRow/` - Individual feed rows (2 files + 11 SCSS partials)
+  - `components/TimelineRiverRow/` - **REFACTORED (Jan 2025)** Modular architecture:
+    - `TimelineRiverRow.jsx` - Main orchestrator component
+    - `TimelineRiverRow.scss` - Main styles
+    - `styles/` - SCSS partials
+    - `components/PostCard/` - Individual post rendering with actions
+    - `components/SmartDeck/` - Carousel deck with navigation
+    - `components/ThreadView/` - Inline replies thread (Twitter-style)
+    - `components/MobileTabNav/` - Mobile category tab navigation
 
 ### Profile Page System
 
@@ -166,17 +174,29 @@ Add this to the top of each JSX component file:
  * {
  *   id: number,
  *   author: { id: number, username: string, profile_picture: string },
- *   type: 'thought' | 'media' | 'milestone',
+ *   type: 'thoughts' | 'media' | 'milestones',
  *   content: string,
- *   image: string | null,
+ *   media_url: string | null,  // NOT 'image'!
  *   created_at: ISO timestamp string (e.g., "2024-12-19T10:00:00Z"),
- *   parent: number | null
+ *   parent: number | null,
+ *   parent_id: number | null,
+ *   likes_count: number,
+ *   reply_count: number,      // NOT 'comment_count'!
+ *   shares_count: number,
+ *   is_liked: boolean
  * }
  *
  * Integration Points:
  * - Used by: Home.jsx (main feed page)
  * - Renders: TimelineRiverRow components for each user/date group
  * - Calls: PostsContext.fetchPosts() on component mount
+ * - groupPosts.js uses `orderId` field for sorting (NOT `oderId` - typo fixed Jan 2025)
+ *
+ * TimelineRiverRow Architecture (Jan 2025 Refactor):
+ * - PostCard.jsx handles individual post rendering (like, share, comment, edit, delete)
+ * - SmartDeck.jsx handles carousel deck with prev/next navigation
+ * - ThreadView.jsx handles inline replies thread display
+ * - MobileTabNav.jsx handles mobile category tab switching
  *
  * Team Integration:
  * - Colin: Build PostsContext to provide the posts array in above format

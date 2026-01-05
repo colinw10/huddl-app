@@ -63,6 +63,9 @@ numeneon/
 │   │   │   ├── layout/    [Pablo - Pre-built]
 │   │   │   ├── pages/
 │   │   │   │   ├── Home/         [Pablo - Pre-built]
+│   │   │   │   │   └── components/TimelineRiverRow/
+│   │   │   │   │       ├── components/  [NEW: PostCard, SmartDeck, ThreadView, MobileTabNav]
+│   │   │   │   │       └── styles/
 │   │   │   │   ├── Profile/      [Pablo - Pre-built]
 │   │   │   │   ├── Login/        [Natalia - Rebuild]
 │   │   │   │   ├── Signup/       [Natalia - Rebuild]
@@ -83,7 +86,7 @@ numeneon/
 │   │   └── main.jsx         [Tito - App entry point]
 │   └── package.json         [Shared config]
 │
-└── team-plan/              [This folder]
+└── docs/team-plan/         [This folder]
     ├── natalia.md
     ├── colin.md
     ├── crystal.md
@@ -91,6 +94,35 @@ numeneon/
     ├── tito.md
     └── team-structure.md
 ```
+
+---
+
+## Recent Updates (Jan 2025)
+
+### TimelineRiverRow Modularization
+
+The monolithic `TimelineRiverRow.jsx` has been refactored into focused sub-components:
+
+- **PostCard/** - Individual post rendering with all actions (like, share, comment, edit, delete)
+- **SmartDeck/** - Carousel deck with prev/next navigation
+- **ThreadView/** - Inline replies thread (Twitter-style)
+- **MobileTabNav/** - Mobile category tab navigation
+- **timeFormatters.js** - New utility for relative time formatting
+
+### Critical Field Name Fixes
+
+- `oderId` → `orderId` (typo fixed in groupPosts.js, TimelineRiverFeed.jsx)
+- Post types are PLURAL: `'thoughts'`, `'media'`, `'milestones'` (not singular)
+- Use `media_url` NOT `image` for post media
+- Use `reply_count` NOT `comment_count`
+- `shares_count` is now wired up and functional
+- `is_liked` boolean needed for heart icon state
+
+### Light Mode Blob Fix
+
+- Disabled `mix-blend-mode: screen` for light theme in `_blobs.scss`
+- Screen blend adds light, causing white-out on light backgrounds
+- Now uses `mix-blend-mode: normal` for light mode
 
 ---
 
@@ -182,17 +214,27 @@ Component (re-renders with new data)
     username: "alice",
     profile_picture: "https://..."  // full URL
   },
-  type: "thought",  // or "media" or "milestone"
+  type: "thoughts",  // or "media" or "milestones" (PLURAL forms!)
   content: "This is my post",
-  image: "https://..." | null,
+  media_url: "https://..." | null,  // NOT 'image'!
   parent: 3 | null,
+  parent_id: 3 | null,
   created_at: "2024-12-19T10:00:00Z",  // ISO 8601
   likes_count: 5,
-  comment_count: 2
+  reply_count: 2,  // NOT 'comment_count'!
+  shares_count: 3,  // Required for share/repost button
+  is_liked: false  // Has current user liked this post?
 }
 ```
 
 **Why?** Pablo's `TimelineRiverFeed` expects this structure. Column placement depends on `type` field.
+
+**Important field name notes:**
+- `media_url` NOT `image`
+- `reply_count` NOT `comment_count`
+- `shares_count` for repost tracking
+- `is_liked` for heart icon state
+- Type values are PLURAL: 'thoughts', 'media', 'milestones'
 
 ### 2. User/Auth Data Format
 

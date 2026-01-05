@@ -269,7 +269,25 @@ You're building the authentication system - the foundation that lets users creat
 - Auth API endpoints that return JWT tokens
 - AuthContext that other components use via useAuth() hook
 - ProtectedRoute that wraps authenticated pages
-- User model structure (id, username, profile_picture, bio) that others reference
+- User model structure with profile data that others reference
+
+**User data format expected by Pablo's UI:**
+```javascript
+{
+  id: number,
+  username: string,
+  email: string,
+  first_name: string,
+  last_name: string,
+  profile: {
+    id: number,
+    bio: string,
+    avatar: string | null,  // profile picture URL
+    location: string,
+    website: string
+  }
+}
+```
 
 **You consume:**
 
