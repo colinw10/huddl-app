@@ -233,27 +233,31 @@
     color: #059669 !important; /* darker green */
   }
 
-  /* Reply context text in expanded composer modal */
-  .reply-context-avatar {
+  /* Reply context in full-page composer */
+  .full-page-content .reply-context-avatar {
     background: linear-gradient(135deg, rgba(26, 115, 231, 0.2), rgba(220, 8, 188, 0.2)) !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     color: #000000 !important;
   }
 
-  .reply-context-name {
+  .full-page-content .reply-context-name {
     color: #000000 !important;
+    background: linear-gradient(180deg, #000000 22%, rgba(79, 88, 88, 0.699) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
   }
 
-  .reply-context-handle,
-  .reply-context-time {
+  .full-page-content .reply-context-handle,
+  .full-page-content .reply-context-time {
     color: rgba(0, 0, 0, 0.5) !important;
   }
 
-  .reply-context-dot {
+  .full-page-content .reply-context-dot {
     color: rgba(0, 0, 0, 0.3) !important;
   }
 
-  .reply-context-content {
+  .full-page-content .reply-context-content {
     color: #000000 !important;
   }
 
@@ -262,32 +266,8 @@
   }
 
   /* ============================================
-     EXPANDED COMPOSER MODAL - LIGHT MODE
-     Keep holographic dark style for consistency
+     INLINE COMPOSER - LIGHT MODE
      ============================================ */
-
-  .expanded-composer-modal {
-    /* Bright white/light gray modal in light mode */
-    background: rgba(255, 255, 255, 0.98) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
-  }
-
-  .composer-backdrop {
-    background: rgba(0, 0, 0, 0.3) !important;
-  }
-
-  .modal-close-btn {
-    background: rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
-  }
-
-  .modal-close-btn:hover {
-    background: rgba(220, 8, 188, 0.1) !important;
-    border-color: rgba(220, 8, 188, 0.5) !important;
-    color: rgba(220, 8, 188, 0.9) !important;
-  }
 
   /* Inline comment composer wrapper */
   .inline-comment-composer {
@@ -295,9 +275,8 @@
     border-color: rgba(0, 0, 0, 0.1) !important;
   }
 
-  /* Comment input - holographic black preserved for both inline and modal */
-  .comment-input,
-  .modal-comment-area .comment-input {
+  /* Comment input - holographic black preserved */
+  .comment-input {
     /* Keep dark holographic background - same as dark mode */
     background:
       linear-gradient(145deg, #0a0a0a, #000000),
@@ -313,13 +292,11 @@
     border: 1px solid rgba(0, 212, 255, 0.4) !important;
   }
 
-  .comment-input::placeholder,
-  .modal-comment-area .comment-input::placeholder {
+  .comment-input::placeholder {
     color: rgba(255, 255, 255, 0.5) !important;
   }
 
-  .comment-input:focus,
-  .modal-comment-area .comment-input:focus {
+  .comment-input:focus {
     border-color: rgba(0, 212, 255, 0.7) !important;
     box-shadow:
       0 0 25px rgba(0, 212, 255, 0.4),
@@ -339,48 +316,14 @@
     color: var(--blue-primary) !important;
   }
 
-  /* Minimize button in modal */
-  .minimize-composer-btn {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.5) !important;
-  }
-
-  .minimize-composer-btn:hover {
-    background: rgba(220, 8, 188, 0.15) !important;
-    border-color: rgba(220, 8, 188, 0.5) !important;
-    color: rgba(220, 8, 188, 0.9) !important;
-  }
-
-  /* Media and submit buttons in modal */
-  .comment-media-btn {
-    color: rgba(26, 115, 231, 0.6) !important;
-  }
-
-  .comment-media-btn:hover {
-    color: var(--blue-primary) !important;
-    filter: drop-shadow(0 0 8px rgba(26, 115, 231, 0.5)) !important;
-  }
-
-  .comment-submit-btn,
-  .modal-comment-area .comment-submit-btn {
+  /* Submit button */
+  .comment-submit-btn {
     color: rgba(26, 231, 132, 0.7) !important;
   }
 
-  .comment-submit-btn:hover:not(:disabled),
-  .modal-comment-area .comment-submit-btn:hover:not(:disabled) {
+  .comment-submit-btn:hover:not(:disabled) {
     color: var(--accent) !important;
     filter: drop-shadow(0 0 8px rgba(26, 231, 132, 0.6)) !important;
-  }
-
-  /* Reply divider line */
-  .reply-divider-line {
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(26, 115, 231, 0.3), 
-      rgba(220, 8, 188, 0.3),
-      transparent
-    ) !important;
   }
 
   /* ============================================
@@ -456,5 +399,53 @@
         box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
       }
     }
+  }
+
+  /* ============================================
+     FULL PAGE COMPOSER - LIGHT MODE
+     ============================================ */
+
+  .full-page-composer-overlay {
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .full-page-composer {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .full-page-header {
+    background: rgba(248, 250, 252, 0.95) !important;
+    border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .full-page-content {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .full-page-thread {
+    border-top-color: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .full-page-composer-fixed {
+    background: rgba(248, 250, 252, 0.95) !important;
+    border-top-color: rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .comment-media-btn {
+    color: rgba(220, 8, 188, 0.7) !important;
+  }
+
+  .comment-media-btn:hover {
+    color: var(--magenta) !important;
+    background: rgba(220, 8, 188, 0.15) !important;
+  }
+
+  .composer-actions .comment-submit-btn {
+    color: rgba(26, 231, 132, 0.8) !important;
+  }
+
+  .composer-actions .comment-submit-btn:hover:not(:disabled) {
+    background: rgba(26, 231, 132, 0.15) !important;
   }
 }

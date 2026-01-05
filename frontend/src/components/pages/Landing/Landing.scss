@@ -920,13 +920,13 @@
 /* Login button - dark glass with cyan/green glow */
 .btn-login {
   background: rgba(0, 0, 0, 0.2);
-  color: white;
+  color: rgb(255, 255, 255);
   box-shadow: 0 4px 12px rgba(95, 241, 239, 0.448),
               0 8px 20px rgba(26, 115, 231, 0.476);
 }
 
 .btn-login::before {
-  background: radial-gradient(circle, rgba(26, 231, 132, 0.3), rgba(26, 115, 231, 0.3));
+  background: radial-gradient(circle, rgba(56, 43, 249, 0.166), rgba(7, 106, 236, 0.476));
 }
 
 /* Signup button - light filled with magenta/gold glow */
@@ -947,8 +947,8 @@
   transform: translateY(-5px) scale(1.05);
   border-color: rgba(255, 255, 255, 1);
   outline: none;
-  box-shadow: 0 8px 20px rgba(120, 224, 156, 0.7),
-              0 15px 35px rgba(223, 224, 204, 0.5);
+  box-shadow: 0 8px 90px rgba(120, 224, 215, 0.306),
+              0 15px 35px rgba(102, 193, 216, 0.5);
 }
 
 .btn-signup:hover::before {
@@ -962,7 +962,7 @@
   border-color: var(--text-primary);
   transform: translateY(-5px) scale(1.05);
   outline: none;
-  box-shadow: 0 8px 20px rgba(26, 231, 132, 0.7),
+  box-shadow: 0 20px 90px rgba(26, 190, 231, 0.451),
               0 15px 35px rgba(26, 115, 231, 0.6);
 }
 

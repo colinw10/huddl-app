@@ -1,11 +1,10 @@
 // 🔵 PABLO - Utility Functions
 // timeFormatters.js - Date/time formatting utilities
 
-/**
- * Format a date string as relative time (e.g., "2h ago", "3d ago")
- * @param {string} dateString - ISO date string or Date object
- * @returns {string} Formatted relative time string
- */
+//WHAT THIS FILE DOES:
+// Converts timestamps into human-readable "time ago" format.
+
+
 export const formatRelativeTime = (dateString) => {
   if (!dateString) return "";
 
@@ -38,3 +37,26 @@ export const formatShortDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 };
+//===========================================
+//ILLUSION OF PERSISTENCE
+// Timestamp never changes.
+// Display text keeps updating.
+// Feels like it's "tracking time" but it's just math on each render.
+//=============================================
+// User sees post
+//   ↓
+// Component renders
+//   ↓
+// Calls formatRelativeTime("2026-01-04T19:45:00Z")
+//   ↓
+// Shows "2h ago"
+//   ↓
+// [2 hours pass]
+//   ↓
+// User refreshes page
+//   ↓
+// Component renders AGAIN
+//   ↓
+// Calls formatRelativeTime("2026-01-04T19:45:00Z") [same timestamp]
+//   ↓
+// Shows "4h ago" [different result]

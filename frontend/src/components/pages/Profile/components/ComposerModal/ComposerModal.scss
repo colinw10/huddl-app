@@ -172,28 +172,7 @@
   margin: 0;
 }
 
-.composer-close-btn {
-  background: transparent;
-  border: 1px solid var(--border-strong);
-  color: var(--text-secondary);
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  line-height: 1;
-  padding: 0;
-}
-
-.composer-close-btn:hover {
-  background: var(--bg-glass);
-  border-color: rgba(220, 8, 188, 0.5);
-  color: rgba(220, 8, 188, 0.9);
-}
+// Close Button: Uses global .close-btn-glow class from /styles/_buttons.scss
 
 .composer-modal-body {
   padding: 0;
@@ -525,7 +504,7 @@
   text-transform: uppercase;
   color: white !important;
   background: rgba(0, 0, 0, 0.963) !important;
-  border: 2px solid rgba(255, 255, 255, 0.407);
+  border: 2px solid rgba(255, 255, 255, 0.588);
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -536,7 +515,7 @@
 
 .composer-post-btn:hover:not(:disabled) {
   background: rgba(0, 0, 0, 1) !important;
-  border-color: rgba(255, 255, 255, 0.633);
+  border-color: rgba(255, 255, 255, 1);
   transform: translateY(-2px);
   box-shadow: none;
 }
@@ -599,12 +578,6 @@
   }
   
   .composer-modal-title {
-    font-size: var(--font-size-title);
-  }
-  
-  .composer-close-btn {
-    width: 32px;
-    height: 32px;
     font-size: var(--font-size-title);
   }
   
@@ -712,17 +685,6 @@
   .composer-modal-title {
     color: var(--text-inverse) !important;
     text-shadow: none !important;
-  }
-
-  .composer-close-btn {
-    background: rgba(0, 0, 0, 0.05) !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    color: rgba(0, 0, 0, 0.6) !important;
-  }
-
-  .composer-close-btn:hover {
-    background: rgba(0, 0, 0, 0.1) !important;
-    color: var(--color-error) !important;
   }
 
   .type-toggle-btn {

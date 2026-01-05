@@ -89,7 +89,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   const [activeColumnType, setActiveColumnType] = useState(null);
   const [activePostId, setActivePostId] = useState(null);
   const [expandedMediaPost, setExpandedMediaPost] = useState(null);
-  const [isComposerExpanded, setIsComposerExpanded] = useState(false);
+
+  const [isComposerFullPage, setIsComposerFullPage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   
   // Smart Deck state
@@ -178,6 +179,20 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     return false;
   };
   
+  // Handle expand media - fetch replies if not already loaded
+  const handleExpandMedia = async (post) => {
+    setExpandedMediaPost(post);
+    // Fetch replies if not already loaded
+    if (!threadReplies[post.id]) {
+      setLoadingThread(post.id);
+      const result = await fetchReplies(post.id);
+      if (result.success) {
+        setThreadReplies(prev => ({ ...prev, [post.id]: result.data }));
+      }
+      setLoadingThread(null);
+    }
+  };
+  
   // Handle reply delete
   const handleDeleteReply = (replyId, parentId) => {
     setDeleteModalPostId(replyId);
@@ -195,7 +210,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     setActiveCommentPostId(post.id);
     setCommentText(post.content);
     setIsEditMode(true);
-    setIsComposerExpanded(true);
+    setIsComposerFullPage(true);
   };
   
   // Render a post card with all necessary props
@@ -228,7 +243,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         onMessage={openMessages}
         onEdit={handleEditPost}
         onDelete={(id) => setDeleteModalPostId(id)}
-        onExpandMedia={setExpandedMediaPost}
+        onExpandMedia={handleExpandMedia}
         // Thread props
         onToggleThread={toggleThread}
         expandedThreadId={expandedThreadId}
@@ -244,8 +259,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         commentText={commentText}
         setCommentText={setCommentText}
         setActiveCommentPostId={setActiveCommentPostId}
-        isComposerExpanded={isComposerExpanded}
-        setIsComposerExpanded={setIsComposerExpanded}
+
+        isComposerFullPage={isComposerFullPage}
+        setIsComposerFullPage={setIsComposerFullPage}
         isEditMode={isEditMode}
         setIsEditMode={setIsEditMode}
         editingPostId={editingPostId}
@@ -359,6 +375,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
           onClose={() => setExpandedMediaPost(null)}
           commentText={commentText}
           setCommentText={setCommentText}
+          threadReplies={threadReplies}
+          onReplySubmit={handleReplySubmit}
         />
       </div>
     );
@@ -436,6 +454,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         onClose={() => setExpandedMediaPost(null)}
         commentText={commentText}
         setCommentText={setCommentText}
+        threadReplies={threadReplies}
+        onReplySubmit={handleReplySubmit}
       />
 
       <DeleteConfirmModal

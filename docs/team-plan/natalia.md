@@ -272,6 +272,7 @@ You're building the authentication system - the foundation that lets users creat
 - User model structure with profile data that others reference
 
 **User data format expected by Pablo's UI:**
+
 ```javascript
 {
   id: number,

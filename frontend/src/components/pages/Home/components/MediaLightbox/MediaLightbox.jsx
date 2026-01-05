@@ -20,7 +20,7 @@ import {
 } from '../../../../../assets/icons';
 import './MediaLightbox.scss';
 
-function MediaLightbox({ post, onClose, commentText, setCommentText }) {
+function MediaLightbox({ post, onClose, commentText, setCommentText, threadReplies = {}, onReplySubmit }) {
   const { likePost, sharePost, createReply, updatePost, deletePost } = usePosts();
   const { user: currentUser } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +33,9 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
   const [deletingCommentId, setDeletingCommentId] = useState(null);
   
   if (!post) return null;
+
+  // Get replies from threadReplies or post.replies
+  const displayReplies = threadReplies[post.id] || post.replies || [];
 
   const handleLike = async (e) => {
     e.stopPropagation();
@@ -141,7 +144,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
             </button>
             <button className="media-action-btn">
               <MessageBubbleIcon size={18} strokeWidth="1.5" />
-              <span className="action-count">{post.comment_count || 0}</span>
+              <span className="action-count">{displayReplies.length + localReplies.length}</span>
             </button>
             <button className="media-action-btn" onClick={handleShare}>
               <ShareIcon size={18} strokeWidth="1.5" />
@@ -193,7 +196,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText }) {
             {/* Comments List - shows real replies */}
             <div className="lightbox-comments-list">
               {/* Show post's existing replies if any */}
-              {post.replies && post.replies.length > 0 && post.replies.map(reply => {
+              {displayReplies && displayReplies.length > 0 && displayReplies.map(reply => {
                 const isOwnComment = currentUser && reply.author?.id === currentUser.id;
                 const isEditingThis = editingCommentId === reply.id;
                 

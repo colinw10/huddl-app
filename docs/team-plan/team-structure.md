@@ -230,6 +230,7 @@ Component (re-renders with new data)
 **Why?** Pablo's `TimelineRiverFeed` expects this structure. Column placement depends on `type` field.
 
 **Important field name notes:**
+
 - `media_url` NOT `image`
 - `reply_count` NOT `comment_count`
 - `shares_count` for repost tracking

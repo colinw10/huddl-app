@@ -192,32 +192,32 @@
   display: block;
   width: auto;
   margin: 12px auto;
-  padding: 2px 80px;
+  padding: 6px 80px;
   font-family: var(--font-main);
   font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: white;
-  background: rgba(0, 0, 0, 0.615) !important;
-  border: 2px solid rgba(174, 187, 189, 0.297);
+  color: white !important;
+  background: rgba(0, 0, 0, 0.963) !important;
+  border: 2px solid rgba(255, 255, 255, 0.588) !important;
   border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  box-shadow: none;
+  box-shadow: none !important;
   position: relative;
   overflow: hidden;
-  
-  &:hover {
-    background: rgba(0, 0, 0, 1) !important;
-    border-color: rgba(255, 255, 255, 0.63);
-    transform: translateY(1px);
-    box-shadow: none;
-  }
-  
-  &:active {
-    transform: translateY(-2px) scale(0.98);
-  }
+}
+
+.notif-viewall:hover {
+  background: rgba(0, 0, 0, 1) !important;
+  border-color: rgba(255, 255, 255, 1) !important;
+  transform: translateY(-2px);
+  box-shadow: none !important;
+}
+
+.notif-viewall:active {
+  transform: translateY(-2px) scale(0.98);
 }
 
 @media (max-width: 480px) {
@@ -331,15 +331,28 @@
     }
   }
 
+  /* Light mode View All button - matches login/signup button style */
   .notif-viewall {
-    color: var(--blue-primary);
-    background: rgba(255, 255, 255, 0.8) !important;
-    border: 1px solid rgba(26, 115, 231, 0.441);
-    
-    &:hover {
-      background: rgba(0, 0, 255, 0.234) !important;
-      color: white;
-      border-color: var(--blue-primary);
-    }
+    background: linear-gradient(135deg, var(--blue-primary), var(--accent)) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box !important;
+    color: white !important;
+    border: 2px solid rgba(26, 115, 231, 0.3) !important;
+    box-shadow: 0 4px 16px rgba(26, 115, 231, 0.25) !important;
+    border-radius: 60% 40% 55% 45% / 45% 55% 40% 60% !important;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  }
+
+  .notif-viewall:hover {
+    background: white !important;
+    background-clip: padding-box !important;
+    color: var(--blue-primary) !important;
+    border: 2px solid var(--blue-primary) !important;
+    box-shadow: 0 6px 24px rgba(26, 115, 231, 0.4) !important;
+    transform: translateY(-2px);
+  }
+
+  .notif-viewall:active {
+    transform: translateY(-2px) scale(0.98);
   }
 }

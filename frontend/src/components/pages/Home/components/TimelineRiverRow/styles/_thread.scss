@@ -165,7 +165,7 @@
 }
 
 .reply-content {
-  font-family: 'sweet-square-pro', sans-serif;
+  font-family: var(--font-main);
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   line-height: 1.4;

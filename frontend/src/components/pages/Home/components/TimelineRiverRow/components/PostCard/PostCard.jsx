@@ -56,8 +56,8 @@ function PostCard({
   commentText,
   setCommentText,
   setActiveCommentPostId,
-  isComposerExpanded,
-  setIsComposerExpanded,
+  isComposerFullPage,
+  setIsComposerFullPage,
   isEditMode,
   setIsEditMode,
   editingPostId,
@@ -221,7 +221,7 @@ function PostCard({
       </div>
 
       {/* Inline Comment Composer */}
-      {activeCommentPostId === post.id && !isComposerExpanded && (
+      {activeCommentPostId === post.id && !isComposerFullPage && (
         <div className="inline-comment-composer">
           <div className="comment-input-wrapper">
             <textarea
@@ -250,8 +250,8 @@ function PostCard({
             />
             <button 
               className="expand-composer-btn"
-              onClick={() => setIsComposerExpanded(true)}
-              title="Expand"
+              onClick={() => setIsComposerFullPage(true)}
+              title="Expand to full page"
             >
               <MaximizeIcon size={12} strokeWidth="2.5" />
             </button>
@@ -296,29 +296,40 @@ function PostCard({
         />
       )}
 
-      {/* Expanded Composer Modal */}
-      {activeCommentPostId === post.id && isComposerExpanded && createPortal(
-        <div className="expanded-composer-overlay">
-          <div 
-            className="composer-backdrop"
-            onClick={() => {
-              setIsComposerExpanded(false);
-              setIsEditMode(false);
-            }}
-          />
-          <div className={`expanded-composer-modal ${isEditMode ? 'edit-mode' : ''}`}>
-            {/* Original Post Context - only when replying */}
-            {!isEditMode && (
-              <div className="reply-context">
-                <div className="reply-context-avatar">
-                  {user.avatar}
-                </div>
-                <div className="reply-context-body">
+
+      {/* Full Page Composer View */}
+      {activeCommentPostId === post.id && isComposerFullPage && createPortal(
+        <div className="full-page-composer-overlay">
+          <div className="full-page-composer">
+            {/* Header with close button */}
+            <div className="full-page-header">
+              <button 
+                className="close-btn-glow"
+                onClick={() => {
+                  setIsComposerFullPage(false);
+                  setIsEditMode(false);
+                  setActiveCommentPostId(null);
+                  setCommentText('');
+                }}
+                title="Close"
+              >
+                <CloseIcon size={20} />
+              </button>
+            </div>
+
+            {/* Scrollable content area */}
+            <div className="full-page-content">
+              {/* Original Post Context */}
+              {!isEditMode && (
+                <div className="reply-context">
                   <div className="reply-context-header">
-                    <span className="reply-context-name">{user.display_name}</span>
+                    <div className="reply-context-avatar">
+                      <UserIcon size={20} />
+                    </div>
+                    <span className="reply-context-name">{user.name}</span>
                     <span className="reply-context-handle">@{user.username}</span>
                     <span className="reply-context-dot">·</span>
-                    <span className="reply-context-time">{post.timestamp}</span>
+                    <span className="reply-context-time">{formatRelativeTime(post.created_at || post.createdAt)}</span>
                   </div>
                   <p className="reply-context-content">{post.content}</p>
                   {type === 'media' && post.media_url && (
@@ -327,23 +338,35 @@ function PostCard({
                     </div>
                   )}
                 </div>
-              </div>
-            )}
+              )}
 
-            <div className="reply-divider">
-              <span className="reply-divider-line"></span>
-              <span className="reply-divider-text">{isEditMode ? 'Edit Post' : 'Replying'}</span>
-              <span className="reply-divider-line"></span>
+              {/* Thread View - show existing replies */}
+              {threadReplies[post.id] && threadReplies[post.id].length > 0 && (
+                <div className="full-page-thread">
+                  <ThreadView
+                    postId={post.id}
+                    replies={threadReplies[post.id]}
+                    isLoading={loadingThread === post.id}
+                    currentUser={currentUser}
+                    onCollapse={() => {}}
+                    onUpdateReply={onUpdateReply}
+                    onDeleteReply={onDeleteReply}
+                    showAllReplies={showAllReplies[post.id]}
+                    onToggleShowAll={() => onToggleShowAllReplies(post.id)}
+                  />
+                </div>
+              )}
             </div>
 
-            <div className="modal-comment-area">
+            {/* Fixed Composer at Bottom */}
+            <div className="full-page-composer-fixed">
               <div className="comment-input-wrapper">
                 <textarea
                   className="comment-input"
                   placeholder={isEditMode ? "Edit your post..." : "Share your thoughts..."}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  rows={4}
+                  rows={3}
                   autoFocus
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -357,62 +380,51 @@ function PostCard({
                           onReplySubmit(post.id, commentText);
                         }
                         setCommentText('');
-                        setActiveCommentPostId(null);
-                        setIsComposerExpanded(false);
                       }
                     }
                     if (e.key === 'Escape') {
-                      setIsComposerExpanded(false);
+                      setIsComposerFullPage(false);
                       setIsEditMode(false);
                     }
                   }}
                 />
-                <button 
-                  className="minimize-composer-btn"
-                  onClick={() => {
-                    setIsComposerExpanded(false);
-                    setIsEditMode(false);
-                  }}
-                  title="Minimize"
-                >
-                  <MinimizeIcon size={12} strokeWidth="2.5" />
-                </button>
+                
+                {/* Action buttons inside textarea */}
+                <div className="composer-actions">
+                  {!isEditMode && (
+                    <button 
+                      className="comment-media-btn"
+                      title="Add media"
+                      onClick={() => console.log('Media upload clicked')}
+                    >
+                      <ImageIcon size={18} stroke="rgba(220, 8, 188, 0.5)" strokeWidth="1.5" />
+                    </button>
+                  )}
+                  
+                  <button 
+                    className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
+                    disabled={!commentText.trim() || isSaving}
+                    onClick={async () => {
+                      if (commentText.trim()) {
+                        if (isEditMode) {
+                          await onUpdatePost(editingPostId, { content: commentText.trim() });
+                          setEditingPostId(null);
+                          setIsEditMode(false);
+                        } else {
+                          await onReplySubmit(post.id, commentText);
+                        }
+                        setCommentText('');
+                      }
+                    }}
+                  >
+                    {isEditMode ? (
+                      <CheckIcon size={20} stroke="rgba(255, 193, 7, 0.5)" strokeWidth="2" />
+                    ) : (
+                      <ChevronRightIcon size={20} stroke="rgba(26, 231, 132, 0.5)" strokeWidth="2" />
+                    )}
+                  </button>
+                </div>
               </div>
-              
-              {!isEditMode && (
-                <button 
-                  className="comment-media-btn"
-                  title="Add media"
-                  onClick={() => console.log('Media upload clicked')}
-                >
-                  <ImageIcon size={20} strokeWidth="1.5" />
-                </button>
-              )}
-              
-              <button 
-                className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
-                disabled={!commentText.trim() || isSaving}
-                onClick={async () => {
-                  if (commentText.trim()) {
-                    if (isEditMode) {
-                      await onUpdatePost(editingPostId, { content: commentText.trim() });
-                      setEditingPostId(null);
-                      setIsEditMode(false);
-                    } else {
-                      await onReplySubmit(post.id, commentText);
-                    }
-                    setCommentText('');
-                    setActiveCommentPostId(null);
-                    setIsComposerExpanded(false);
-                  }
-                }}
-              >
-                {isEditMode ? (
-                  <CheckIcon size={22} strokeWidth="2.5" />
-                ) : (
-                  <ChevronRightIcon size={22} strokeWidth="2.5" />
-                )}
-              </button>
             </div>
           </div>
         </div>,
