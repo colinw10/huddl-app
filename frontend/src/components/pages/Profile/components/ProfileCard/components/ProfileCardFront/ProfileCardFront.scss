@@ -87,9 +87,9 @@
   }
   
   .ring-progress {
-    stroke: var(--cyan);
-    filter: drop-shadow(0 0 10px rgba(231, 221, 26, 0.8));
-    animation: ringFill 1.5s ease-out 0.5s forwards;
+    stroke: #09e0a7ca;
+    filter: drop-shadow(0 0 10px rgba(26, 231, 132, 0.8));
+    animation: ringFill 1.5s ease-out 0.5s forwards, ringPulse 3s ease-in-out 2s infinite;
   }
 }
 

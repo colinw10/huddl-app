@@ -761,21 +761,21 @@ html:not([data-theme="light"]) {
     }
   }
 
-  // Engagement ring around avatar - more visible in light mode
+  // Engagement ring around avatar - green glow in light mode
   .profile-card-front .avatar-engagement-ring {
     svg {
-      filter: drop-shadow(0 0 12px rgba(220, 8, 188, 0.6)) !important;
+      filter: drop-shadow(0 0 12px rgba(26, 231, 132, 0.7)) !important;
     }
     
     .ring-progress {
-      stroke: #dc08bc !important;
-      filter: drop-shadow(0 0 10px rgba(220, 8, 188, 0.8)) !important;
+      stroke: #1ae784 !important;
+      filter: drop-shadow(0 0 10px rgba(26, 231, 132, 0.9)) !important;
     }
     
     .ring-spark {
-      fill: #dc08bc !important;
+      fill: #1ae784 !important;
       stroke: none !important;
-      filter: drop-shadow(0 0 8px #dc08bc) drop-shadow(0 0 16px rgba(220, 8, 188, 0.8)) !important;
+      filter: drop-shadow(0 0 8px #1ae784) drop-shadow(0 0 16px rgba(26, 231, 132, 0.8)) !important;
     }
   }
 

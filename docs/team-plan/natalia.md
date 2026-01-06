@@ -325,11 +325,13 @@ These are **optional** but great for learning and portfolio building!
 ### Stretch 1: Password Reset Flow
 
 **Backend:**
+
 - Add `POST /api/auth/forgot-password/` endpoint
 - Generate reset token, store expiration time
 - (Mock) send email with reset link
 
 **Frontend:**
+
 - Create ForgotPassword.jsx page
 - Create ResetPassword.jsx page (with token from URL)
 - Add "Forgot password?" link to Login page
@@ -341,11 +343,13 @@ These are **optional** but great for learning and portfolio building!
 ### Stretch 2: Profile Update Endpoint
 
 **Backend:**
+
 - Add `PATCH /api/auth/me/` to update current user's profile
 - Support updating bio, location, website, profile picture
 - Validate file uploads (size, type)
 
 **Frontend:**
+
 - Add updateProfile() to AuthContext
 - Wire up to Pablo's ProfileCard edit functionality
 
@@ -356,11 +360,13 @@ These are **optional** but great for learning and portfolio building!
 ### Stretch 3: Email Verification Flow
 
 **Backend:**
+
 - Generate verification token on signup
 - Add `POST /api/auth/verify-email/` endpoint
 - Mark user as verified in database
 
 **Frontend:**
+
 - Show "Check your email" message after signup
 - Create VerifyEmail.jsx page
 
@@ -403,6 +409,7 @@ Create `docs/features-implemented/AuthenticationSystem.md`:
 4. **The foundation** - If auth breaks, NOTHING works
 
 When employers ask "What did you build?", you can say:
+
 > "I built the authentication system from scratch - backend JWT auth with Django REST Framework, frontend state management with React Context, protected routes, and the user profile system that every other feature depends on."
 
 That's a **strong** answer. 💪

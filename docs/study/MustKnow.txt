@@ -1,101 +1,216 @@
-🎯 CRITICAL FILES FOR INTERVIEWS (20 files - Study These First!)
+🎯 CRITICAL FILES FOR INTERVIEWS (22 files - Study These First!)
 
 ┌─────────────────────────────────────────────────────────┐
-│ 16 DAYS TO MASTER NUMENEON (Jan 4 → Jan 20, 2026)      │
-│ 20 must-know files = ~1.25 files/day                    │
-│ Focus: Frontend flow, backend patterns, data flow       │
+│ NUMENEON INTERVIEW PREP - Updated Jan 6, 2026          │
+│ 22 must-know files + KEY FLOWS between frontend/backend │
+│ Focus: Component architecture, API patterns, data flow  │
 └─────────────────────────────────────────────────────────┘
 
 ═══════════════════════════════════════════════════════════
-FRONTEND (12 files) - Study in this order!
+FRONTEND (14 files) - Study in this order!
 ═══════════════════════════════════════════════════════════
 
-📍 ENTRY LAYER (2 files) - Study Days 1-2
+📍 ENTRY LAYER (2 files)
 ─────────────────────────────────────────────────────────
 1. main.jsx - React app starts, providers wrap everything
+   ↳ Wraps: AuthProvider → PostsProvider → FriendsProvider → 
+     MessageProvider → ThemeProvider → SearchProvider → App
+   
 2. App.jsx - Routes, layout structure, connects all pages
+   ↳ TopBar + SideNav always visible, Routes swap content
 
-📍 INFRASTRUCTURE (3 files) - Study Days 3-4
+📍 INFRASTRUCTURE (3 files)
 ─────────────────────────────────────────────────────────
 3. apiClient.js - Axios config, auth headers, base URL
    ↳ CRITICAL: Intercepts requests, adds JWT token
+   ↳ Base URL: http://127.0.0.1:8000/api
    
 4. AuthContext.jsx - Login/logout, current user state
    ↳ CRITICAL: Guards protected routes, provides user
+   ↳ Stores JWT in localStorage
    
-5. postsService.js - Posts API calls (create, fetch, delete)
-   ↳ PATTERN: Same as friendsService (know one = know both)
+5. postsService.js - Posts API calls (CRUD, likes, replies)
+   ↳ PATTERN: Same structure as friendsService
 
-📍 STATE MANAGEMENT (2 files) - Study Days 5-6
+📍 STATE MANAGEMENT (3 files)
 ─────────────────────────────────────────────────────────
 6. PostsContext.jsx - Posts state, CRUD operations
    ↳ CRITICAL: Manages posts array, calls postsService
+   ↳ Methods: createPost, deletePost, likePost, createReply
    
 7. FriendsContext.jsx - Friends state, requests
    ↳ PATTERN: Same structure as PostsContext
+   ↳ Methods: sendRequest, acceptRequest, removeFriend
+   
+8. SearchContext.jsx - Search modal state (NEW!)
+   ↳ Simple context: isSearchModalOpen, openSearch, closeSearch
 
-📍 UI FLOW (5 files) - Study Days 7-11
+📍 UI FLOW (6 files)
 ─────────────────────────────────────────────────────────
-8. Home.jsx - Main feed page, entry point for posts
-9. TimelineRiverFeed.jsx - Displays posts in 3 columns
-10. TimelineRiverRow.jsx - Individual post rendering
+9.  Home.jsx - Main feed page, entry point for posts
+10. TimelineRiverFeed.jsx - Displays posts in 3 columns
+    ↳ Groups posts by date using groupPostsByDate()
+    
+11. TimelineRiverRow.jsx - Individual post rendering
     ↳ CRITICAL: Uses Vite aliases (@assets, @contexts)
+    ↳ Handles: PostCard, carousel, comments, likes
     
-11. Profile.jsx - User profile page, shows user's posts
-12. ComposerModal.jsx - Create new posts
+12. Profile.jsx - User profile page, shows user's posts
+    ↳ Dynamic route: /profile/:username
+    ↳ Sections: ProfileCard, TimelineRiver, All Posts
+    
+13. ComposerModal.jsx - Create new posts
     ↳ CRITICAL: How posts get created
+    ↳ Supports: text, images, post types (thought/media/milestone)
+
+14. TimelineRiver.jsx - Profile's timeline component
+    ↳ Similar to TimelineRiverFeed but for profile pages
+    ↳ Has expandable comment composer feature
 
 ═══════════════════════════════════════════════════════════
-BACKEND (8 files) - Study Days 12-16
+BACKEND (8 files) - Django REST Framework
 ═══════════════════════════════════════════════════════════
 
-📍 DJANGO CONFIG (2 files) - Study Day 12
+📍 DJANGO CONFIG (2 files)
 ─────────────────────────────────────────────────────────
-13. settings.py - Django settings, REST framework config
-14. urls.py (main) - Routes /api/auth, /api/posts, /api/friends
-    ↳ CRITICAL: How frontend URLs map to backend
+15. numeneon/settings.py - Django settings, REST framework config
+    ↳ CORS, JWT settings, installed apps
+    
+16. numeneon/urls.py - Routes /api/auth, /api/posts, /api/friends
+    ↳ CRITICAL: How frontend URLs map to backend apps
 
-📍 POSTS APP (3 files) - Study Days 13-14
+📍 POSTS APP (3 files)
 ─────────────────────────────────────────────────────────
-15. posts/models.py - Post database structure
+17. posts/models.py - Post, Like database models
     ↳ CRITICAL: Fields, relationships, post types
+    ↳ Post has: author, content, type, parent (for replies)
+    ↳ Like has: user, post (unique together)
     
-16. posts/serializers.py - Convert Post ↔ JSON
+18. posts/serializers.py - Convert Post ↔ JSON
     ↳ PATTERN: Same as friends/serializers.py
+    ↳ Includes nested author data
     
-17. posts/views.py - Post API endpoints (CRUD + likes)
-    ↳ CRITICAL: ViewSet pattern, custom actions
+19. posts/views.py - Post API endpoints (CRUD + likes)
+    ↳ CRITICAL: PostViewSet with custom actions
+    ↳ @action: like, share, replies
 
-📍 AUTH APP (1 file) - Study Day 15
+📍 AUTH & FRIENDS (3 files)
 ─────────────────────────────────────────────────────────
-18. users/views.py - Signup, login, current user
+20. users/views.py - Signup, login, current user
     ↳ CRITICAL: JWT token authentication flow
-
-📍 FRIENDS APP (2 files) - Study Day 16
-─────────────────────────────────────────────────────────
-19. posts/urls.py - Map URLs to views
-20. friends/models.py - Friendship, FriendRequest models
+    ↳ Functions: signup(), email_login()
+    
+21. friends/views.py - Friend operations
+    ↳ Functions: friend_list, pending_requests, send_request
+    ↳ Accept/decline request flow
+    
+22. friends/models.py - Friendship, FriendRequest models
     ↳ PATTERN: Similar to posts/models.py
 
 ═══════════════════════════════════════════════════════════
-EVERYTHING ELSE (~80 files) - Don't stress!
+🔄 KEY FLOWS - FRONTEND ↔ BACKEND
 ═══════════════════════════════════════════════════════════
 
-✅ SCSS Files (13 files) - VISUAL LAYER
-   → You built this, you know it. Quick review only.
-   
-✅ Icon Components (12 category files) - STATIC ASSETS  
-   → Just SVG components. Know import pattern:
-   → import { HeartIcon } from '@assets/icons'
-   
-✅ friendsService.js - SAME PATTERN as postsService.js
-   → API calls. If you know posts, you know friends.
-   
-✅ Remaining UI (ProfileCard, modals, etc.) - YOUR CODE
-   → You built it. Focus on how it USES contexts/services.
+These are the flows you MUST be able to explain in interviews:
+
+📍 FLOW 1: Creating a Post
+─────────────────────────────────────────────────────────
+Frontend:
+  1. User types in ComposerModal textarea
+  2. Clicks "Post" button → handleSubmit()
+  3. PostsContext.createPost(data) called
+  4. postsService.create(data) called
+  5. apiClient.post('/posts/', data) - JWT added automatically
+
+Backend:
+  6. POST /api/posts/ → posts/urls.py router
+  7. PostViewSet.create() in posts/views.py
+  8. PostSerializer validates data
+  9. Post.objects.create() saves to database
+  10. Returns new post as JSON (201 Created)
+
+Frontend (response):
+  11. postsService returns response.data
+  12. PostsContext adds new post to state
+  13. Components re-render with new post
+
+📍 FLOW 2: User Login
+─────────────────────────────────────────────────────────
+Frontend:
+  1. User enters email/password in Login.jsx
+  2. handleSubmit() calls AuthContext.login()
+  3. apiClient.post('/auth/login/', credentials)
+
+Backend:
+  4. POST /api/auth/login/ → users/urls.py
+  5. email_login() in users/views.py
+  6. Validates credentials, generates JWT tokens
+  7. Returns { access: "...", refresh: "...", user: {...} }
+
+Frontend (response):
+  8. AuthContext stores tokens in localStorage
+  9. Sets currentUser state
+  10. Redirects to /home
+
+📍 FLOW 3: Liking a Post
+─────────────────────────────────────────────────────────
+Frontend:
+  1. User clicks heart icon in TimelineRiverRow
+  2. handleLike() calls PostsContext.likePost(id)
+  3. postsService.like(id) called
+  4. apiClient.post(`/posts/${id}/like/`)
+
+Backend:
+  5. POST /api/posts/123/like/ → posts/urls.py
+  6. PostViewSet.like() - @action decorator
+  7. Checks if Like exists for user+post
+  8. If exists: delete (unlike), else: create (like)
+  9. Updates post.likes_count
+  10. Returns updated post JSON
+
+Frontend (response):
+  11. PostsContext updates post in state
+  12. Heart icon toggles filled/outline
+  13. Like count updates
+
+📍 FLOW 4: Loading User Profile
+─────────────────────────────────────────────────────────
+Frontend:
+  1. User clicks on username link
+  2. React Router navigates to /profile/:username
+  3. Profile.jsx mounts, useParams() gets username
+  4. useEffect fetches user data + posts
+  5. postsService.getByUsername(username)
+  6. apiClient.get(`/posts/?username=${username}`)
+
+Backend:
+  7. GET /api/posts/?username=pablo → posts/urls.py
+  8. PostViewSet.get_queryset() filters by username
+  9. Returns user's posts as JSON array
+
+Frontend (response):
+  10. Profile.jsx sets userPosts state
+  11. ProfileCard + TimelineRiver render
+
+📍 FLOW 5: Sending Friend Request
+─────────────────────────────────────────────────────────
+Frontend:
+  1. User clicks "Add Friend" button
+  2. FriendsContext.sendRequest(userId)
+  3. friendsService.sendRequest(userId)
+  4. apiClient.post(`/friends/request/${userId}/`)
+
+Backend:
+  5. POST /api/friends/request/5/ → friends/urls.py
+  6. send_request(request, user_id) in friends/views.py
+  7. Creates FriendRequest(from_user, to_user)
+  8. Returns success message
+
+Frontend (response):
+  9. Button changes to "Request Sent"
 
 ═══════════════════════════════════════════════════════════
-INTERVIEW FOCUS AREAS
+🎤 INTERVIEW FOCUS AREAS
 ═══════════════════════════════════════════════════════════
 
 🎤 "Explain how a post gets created"
@@ -104,28 +219,52 @@ INTERVIEW FOCUS AREAS
    → Backend: POST /api/posts/ → PostViewSet.create()
 
 🎤 "How does authentication work?"
-   → Login.jsx → AuthContext.login() → 
-   → Backend: POST /api/auth/login/ → returns JWT →
-   → apiClient stores token → all requests include it
+   → Login.jsx → apiClient.post('/auth/login/') →
+   → Backend returns JWT → AuthContext stores in localStorage →
+   → apiClient interceptor adds token to all requests
 
 🎤 "What are Vite path aliases?"
    → @assets, @components, @contexts, @services, @utils
    → Cleaner imports: '@assets/icons' vs '../../../../../../assets/icons'
+   → Configured in vite.config.js
 
 🎤 "Walk me through your component architecture"
-   → Context API for state → Services for API →
-   → Components consume contexts → Modular structure
+   → Context API for global state (Auth, Posts, Friends)
+   → Services layer for API calls (separation of concerns)
+   → Components consume contexts via useContext hooks
+   → Modular SCSS with partials (_variables, _mixins, etc.)
+
+🎤 "How do you handle errors?"
+   → apiClient has response interceptor for 401 (unauthorized)
+   → Components use try/catch for API calls
+   → Display error messages in UI
+
+🎤 "Why Context API over Redux?"
+   → Simpler for our scale (3-4 contexts)
+   → Less boilerplate, built into React
+   → Each context has clear domain (auth, posts, friends)
 
 ═══════════════════════════════════════════════════════════
-DAILY STUDY PLAN (16 days)
+📁 FILE ORGANIZATION - KNOW THIS STRUCTURE!
 ═══════════════════════════════════════════════════════════
 
-Days 1-2: Entry files (main.jsx, App.jsx)
-Days 3-4: Infrastructure (apiClient, AuthContext, postsService)
-Days 5-6: State (PostsContext, FriendsContext)
-Days 7-11: UI Flow (Home, Timeline, Profile, Composer)
-Days 12-16: Backend (settings, URLs, models, views, serializers)
-Days 17-20: PRACTICE explaining flows out loud!
+frontend/src/
+├── main.jsx          → Entry point, wraps providers
+├── App.jsx           → Routes + layout
+├── contexts/         → Global state (6 contexts)
+├── services/         → API layer (apiClient + services)
+├── components/
+│   ├── layout/       → TopBar, SideNav (always visible)
+│   ├── pages/        → Route components (Home, Profile, etc.)
+│   └── ui/           → Reusable (ProtectedRoute, ThemeToggle)
+├── assets/icons/     → SVG icon components (12 category files)
+└── styles/           → Global SCSS (_variables, _mixins, etc.)
+
+backend/
+├── numeneon/         → Django project config (settings, urls)
+├── users/            → Auth app (signup, login, profiles)
+├── posts/            → Posts app (CRUD, likes, replies)
+└── friends/          → Friends app (requests, relationships)
 
 ═══════════════════════════════════════════════════════════
 YOU GOT THIS! 🚀
