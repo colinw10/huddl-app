@@ -679,6 +679,20 @@ See `docs/stretch-goals/` for implementation plans.
 - All Posts cards now show profile owner's avatar and username
 - Consistent with timeline cards structure
 
+**Expandable Comment Composer on Profile Pages (Jan 2026):**
+
+- Profile pages (TimelineRiver + All Posts section) now have expandable full-page comment composers
+- Inline composer shows expand button (MaximizeIcon) next to input field
+- Clicking expand opens full-page modal via React Portal (matches feed's PostCard behavior)
+- Full-page view includes:
+  - Original post context (avatar, author name, @handle, timestamp, content, media)
+  - Media images scale to fill modal width (100%) with aspect ratio preserved
+  - Thread replies displayed if any exist
+  - Fixed composer at bottom with media upload button
+- Works for both own profile (`/profile`) and visiting friend profiles (`/profile/:username`)
+- State: `isComposerFullPage` + `setIsComposerFullPage` in both Profile.jsx and TimelineRiver.jsx
+- CSS: `.full-page-composer-overlay`, `.full-page-composer`, `.reply-context-media`
+
 ---
 
 **NEXT:** Read `02-PSEUDOCODE-EXAMPLES.md` for all 11 example templates

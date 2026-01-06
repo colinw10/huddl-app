@@ -1273,6 +1273,11 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
   - `isOwnProfile` flag controls conditional rendering of composer, toggle, edit/delete
   - `profileUser` lookup from friends or post authors
   - **Layout:** ProfileCard → River Timeline (max 12 per type) → All Posts section (chronological)
+  - **NEW (Jan 2026):** All Posts section has expandable full-page comment composer
+    - Inline composer shows expand button (MaximizeIcon) to open full-page view
+    - Full-page composer shows original post context (author, content, media) + thread replies
+    - Media images scale to fill modal width (100%) with aspect ratio preserved
+    - Matches PostCard's full-page composer from the feed
 - `frontend/src/components/pages/Profile/components/ComposerModal/ComposerModal.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/ProfileCard.jsx`
 - `frontend/src/components/pages/Profile/components/ProfileCard/components/ActivityVisualization/ActivityVisualization.jsx`
@@ -1286,6 +1291,10 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
 - `frontend/src/components/pages/Profile/components/TimelineRiver/TimelineRiver.jsx`
   - **Note:** Accepts `isOwnProfile` prop to conditionally show edit/delete buttons
   - Friends Feed headers are clickable → navigate to friend's profile
+  - **NEW (Jan 2026):** Expandable full-page comment composer matching feed behavior
+    - `renderCommentSection()` now includes expand button + full-page portal
+    - Full-page view shows post context, thread replies, and fixed composer at bottom
+    - Works for both own profile and visiting friend profiles
 
 **Other Pages:**
 

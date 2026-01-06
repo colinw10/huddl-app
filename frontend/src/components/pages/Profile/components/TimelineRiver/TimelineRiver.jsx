@@ -20,7 +20,8 @@ import {
   ExpandIcon,
   MilestoneIcon,
   CloseIcon,
-  CheckIcon
+  CheckIcon,
+  MaximizeIcon
 } from '../../../../../assets/icons';
 import DeleteConfirmModal from '../../../Home/components/DeleteConfirmModal/DeleteConfirmModal';
 import MediaLightbox from '../../../Home/components/MediaLightbox/MediaLightbox';
@@ -142,8 +143,9 @@ function TimelineRiver({
   const [deleteModalIsReply, setDeleteModalIsReply] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingPostId, setEditingPostId] = useState(null);
-  const [isComposerExpanded, setIsComposerExpanded] = useState(false);
+  const [isComposerFullPage, setIsComposerFullPage] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // State for media lightbox
   const [expandedMediaPost, setExpandedMediaPost] = useState(null);
@@ -286,7 +288,7 @@ function TimelineRiver({
               setEditingPostId(post.id);
               setCommentText(post.content);
               setIsEditMode(true);
-              setIsComposerExpanded(true);
+              setIsComposerFullPage(true);
             }}
           >
             <EditIcon size={18} stroke="rgba(255,193,7,0.6)" strokeWidth="1.5" />
@@ -375,18 +377,6 @@ function TimelineRiver({
     }
   };
 
-  // Handle deleting a reply
-  const handleDeleteReply = async (replyId, parentPostId) => {
-    const result = await deleteReply(replyId);
-    if (result.success) {
-      // Remove reply from local state
-      setThreadReplies(prev => ({
-        ...prev,
-        [parentPostId]: (prev[parentPostId] || []).filter(reply => reply.id !== replyId)
-      }));
-    }
-  };
-
   // Format relative time for replies
   const formatRelativeTime = (dateString) => {
     if (!dateString) return '';
@@ -409,10 +399,16 @@ function TimelineRiver({
   const renderCommentSection = (post) => {
     if (!post) return null;
     
+    // Get author info for full-page context
+    const postAuthor = post.author || profileUser || {};
+    const authorName = postAuthor.first_name && postAuthor.last_name 
+      ? `${postAuthor.first_name} ${postAuthor.last_name}`
+      : postAuthor.username || 'User';
+    
     return (
       <>
         {/* Inline Comment Composer */}
-        {activeCommentPostId === post.id && (
+        {activeCommentPostId === post.id && !isComposerFullPage && (
           <div className="inline-comment-composer">
             <div className="comment-input-wrapper">
               <textarea
@@ -437,6 +433,13 @@ function TimelineRiver({
                   }
                 }}
               />
+              <button 
+                className="expand-composer-btn"
+                onClick={() => setIsComposerFullPage(true)}
+                title="Expand to full page"
+              >
+                <MaximizeIcon size={12} strokeWidth="2.5" />
+              </button>
             </div>
             <button 
               className="comment-submit-btn"
@@ -446,6 +449,155 @@ function TimelineRiver({
               <ChevronRightIcon size={20} strokeWidth="2.5" />
             </button>
           </div>
+        )}
+        
+        {/* Full Page Composer View */}
+        {activeCommentPostId === post.id && isComposerFullPage && createPortal(
+          <div className="full-page-composer-overlay">
+            <div className="full-page-composer">
+              {/* Header with close button */}
+              <div className="full-page-header">
+                <button 
+                  className="close-btn-glow"
+                  onClick={() => {
+                    setIsComposerFullPage(false);
+                    setIsEditMode(false);
+                    setActiveCommentPostId(null);
+                    setCommentText('');
+                  }}
+                  title="Close"
+                >
+                  <CloseIcon size={20} />
+                </button>
+              </div>
+
+              {/* Scrollable content area */}
+              <div className="full-page-content">
+                {/* Original Post Context */}
+                {!isEditMode && (
+                  <div className="reply-context">
+                    <div className="reply-context-header">
+                      <div className="reply-context-avatar">
+                        <UserIcon size={20} />
+                      </div>
+                      <span className="reply-context-name">{authorName}</span>
+                      <span className="reply-context-handle">@{postAuthor.username}</span>
+                      <span className="reply-context-dot">·</span>
+                      <span className="reply-context-time">{formatRelativeTime(post.created_at)}</span>
+                    </div>
+                    <p className="reply-context-content">{post.content}</p>
+                    {post.type === 'media' && post.media_url && (
+                      <div className="reply-context-media">
+                        <img src={post.media_url} alt="Post media" />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Thread View - show existing replies */}
+                {threadReplies[post.id] && threadReplies[post.id].length > 0 && (
+                  <div className="full-page-thread">
+                    <div className="thread-view">
+                      <div className="thread-replies">
+                        {threadReplies[post.id].map((reply) => (
+                          <div key={reply.id} className="thread-reply">
+                            <div className="thread-connector">
+                              <div className="thread-line-vertical" />
+                            </div>
+                            <div className="reply-card">
+                              <div className="reply-header">
+                                <div className="reply-avatar">
+                                  <UserIcon size={14} />
+                                </div>
+                                <span className="reply-author">{reply.author?.username || 'User'}</span>
+                                <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
+                              </div>
+                              <p className="reply-content">{reply.content}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Fixed Composer at Bottom */}
+              <div className="full-page-composer-fixed">
+                <div className="comment-input-wrapper">
+                  <textarea
+                    className="comment-input"
+                    placeholder={isEditMode ? "Edit your post..." : "Share your thoughts..."}
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    rows={3}
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (commentText.trim()) {
+                          if (isEditMode) {
+                            onUpdatePost(editingPostId, { content: commentText.trim() });
+                            setEditingPostId(null);
+                            setIsEditMode(false);
+                          } else {
+                            handleCommentSubmit(post.id);
+                          }
+                          setCommentText('');
+                        }
+                      }
+                      if (e.key === 'Escape') {
+                        setIsComposerFullPage(false);
+                        setIsEditMode(false);
+                      }
+                    }}
+                  />
+                  
+                  {/* Action buttons inside textarea */}
+                  <div className="composer-actions">
+                    {!isEditMode && (
+                      <button 
+                        className="comment-media-btn"
+                        title="Add media"
+                        onClick={() => console.log('Media upload clicked')}
+                      >
+                        <ImageIcon size={18} stroke="rgba(220, 8, 188, 0.5)" strokeWidth="1.5" />
+                      </button>
+                    )}
+                    
+                    <button 
+                      className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
+                      disabled={!commentText.trim() || isSaving}
+                      onClick={async () => {
+                        if (commentText.trim()) {
+                          setIsSaving(true);
+                          try {
+                            if (isEditMode) {
+                              await onUpdatePost(editingPostId, { content: commentText.trim() });
+                              setEditingPostId(null);
+                              setIsEditMode(false);
+                            } else {
+                              await handleCommentSubmit(post.id);
+                            }
+                            setCommentText('');
+                          } finally {
+                            setIsSaving(false);
+                          }
+                        }
+                      }}
+                    >
+                      {isEditMode ? (
+                        <CheckIcon size={20} stroke="rgba(255, 193, 7, 0.5)" strokeWidth="2" />
+                      ) : (
+                        <ChevronRightIcon size={20} stroke="rgba(26, 231, 132, 0.5)" strokeWidth="2" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
         )}
 
         {/* View Thread Link */}
@@ -1070,7 +1222,7 @@ function TimelineRiver({
             try {
               if (deleteModalIsReply) {
                 // Deleting a reply/comment
-                await deletePost(deleteModalPostId);
+                await deleteReply(deleteModalPostId);
                 // Update thread replies
                 if (editingReplyParentId) {
                   setThreadReplies(prev => ({
@@ -1098,9 +1250,9 @@ function TimelineRiver({
       )}
 
       {/* Edit Modal (Expanded Composer) */}
-      {isComposerExpanded && isEditMode && createPortal(
+      {isComposerFullPage && isEditMode && createPortal(
         <div className="expanded-composer-overlay" onClick={() => {
-          setIsComposerExpanded(false);
+          setIsComposerFullPage(false);
           setIsEditMode(false);
           setEditingPostId(null);
           setCommentText('');
@@ -1114,7 +1266,7 @@ function TimelineRiver({
               <button 
                 className="close-btn-glow"
                 onClick={() => {
-                  setIsComposerExpanded(false);
+                  setIsComposerFullPage(false);
                   setIsEditMode(false);
                   setEditingPostId(null);
                   setCommentText('');
@@ -1140,7 +1292,7 @@ function TimelineRiver({
                   if (commentText.trim() && editingPostId && onUpdatePost) {
                     try {
                       await onUpdatePost(editingPostId, { content: commentText.trim() });
-                      setIsComposerExpanded(false);
+                      setIsComposerFullPage(false);
                       setIsEditMode(false);
                       setEditingPostId(null);
                       setCommentText('');

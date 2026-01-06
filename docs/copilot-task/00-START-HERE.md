@@ -476,6 +476,6 @@ Then **start reading File 01: Context & Strategy** →
 
 ---
 
-**Last Updated:** January 1, 2026  
-**Version:** 1.0 (Initial comprehensive guide)  
+**Last Updated:** January 6, 2026  
+**Version:** 1.1 (Added expandable comment composer on Profile pages)  
 **Maintained By:** Pablo (UI Lead)

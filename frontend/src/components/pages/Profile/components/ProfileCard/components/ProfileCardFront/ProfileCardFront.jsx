@@ -18,17 +18,6 @@ import {
 // Color variants for interactive letters
 const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];
 
-// Helper to get initials from user
-const getInitials = (user) => {
-  if (!user) return '??';
-  const first = user.first_name?.[0] || '';
-  const last = user.last_name?.[0] || '';
-  if (first && last) return `${first}${last}`.toUpperCase();
-  if (first) return first.toUpperCase();
-  if (user.username) return user.username.slice(0, 2).toUpperCase();
-  return '??';
-};
-
 function ProfileCardFront({ setIsFlipped, posts, user, isOwnProfile = true }) {
   // Track which letters have been hovered (for "hover all" replay)
   const hoveredRef = useRef(new Set());

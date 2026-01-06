@@ -99,7 +99,24 @@ numeneon/
 
 ---
 
-## Recent Updates (Jan 2025)
+## Recent Updates (Jan 2026)
+
+### Expandable Full-Page Comment Composer (Jan 2026)
+
+Profile pages now have expandable comment composers that match the feed's behavior:
+
+- **Inline composer** shows expand button (MaximizeIcon) in input wrapper
+- **Clicking expand** opens full-page modal via React Portal
+- **Full-page view** includes:
+  - Original post context (avatar, author name, @handle, timestamp)
+  - Post content and media (images scale to 100% width)
+  - Thread replies if any exist
+  - Fixed composer at bottom with action buttons
+- **Applies to:**
+  - `TimelineRiver.jsx` - `renderCommentSection()` function
+  - `Profile.jsx` - All Posts section inline composers
+- **State:** `isComposerFullPage` / `setIsComposerFullPage`
+- **Works for** both own profile (`/profile`) and friend profiles (`/profile/:username`)
 
 ### Vite Path Aliases (Dec 2024)
 
@@ -444,6 +461,7 @@ Tito configures this file, nesting everyone's providers:
 - [ ] All contexts provide data to Pablo's UI
 - [ ] All API endpoints return data in expected formats
 - [ ] No merge conflicts occur during development
+- [ ] Comment composers expand to full-page view on Profile pages
 
 ---
 

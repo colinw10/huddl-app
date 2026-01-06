@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
 // 🔵 PABLO - UI/Styling | 🟡 NATALIA - API Logic
 // Profile.jsx - User profile page with timeline
@@ -20,7 +21,9 @@ import {
   MaximizeIcon,
   MessageLineIcon,
   GridIcon,
-  PostTriangleIcon
+  PostTriangleIcon,
+  ImageIcon,
+  CheckIcon
 } from '../../../assets/icons';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
@@ -35,14 +38,26 @@ function Profile() {
   const { openMessages } = useMessages();
   const { username: profileUsername } = useParams(); // Get username from URL if viewing someone else
   
-  // Show loading state while auth is loading
-  if (authLoading) {
-    return (
-      <div className="user-profile-page river-profile">
-        <div className="loading-state">Loading profile...</div>
-      </div>
-    );
-  }
+  // ALL useState hooks MUST be called before any early returns (React rules of hooks)
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [showComposer, setShowComposer] = useState(false);
+  const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
+  const [composerText, setComposerText] = useState('');
+  const [viewMode, setViewMode] = useState('timeline'); // 'timeline' or 'feed'
+  const [isPosting, setIsPosting] = useState(false);
+  
+  // State for All Posts section actions
+  const [allPostsDeleteId, setAllPostsDeleteId] = useState(null);
+  const [allPostsEditId, setAllPostsEditId] = useState(null);
+  const [allPostsEditContent, setAllPostsEditContent] = useState('');
+  
+  // State for All Posts inline commenting
+  const [allPostsCommentId, setAllPostsCommentId] = useState(null);
+  const [allPostsCommentText, setAllPostsCommentText] = useState('');
+  const [allPostsComposerFullPage, setAllPostsComposerFullPage] = useState(false);
+  
+  // State for All Posts media lightbox
+  const [allPostsLightboxPost, setAllPostsLightboxPost] = useState(null);
   
   // Determine if viewing own profile or someone else's
   const isOwnProfile = !profileUsername || profileUsername === currentUser?.username;
@@ -76,6 +91,15 @@ function Profile() {
     };
   }, [isOwnProfile, currentUser, friends, posts, profileUsername]);
   
+  // Show loading state while auth is loading
+  if (authLoading) {
+    return (
+      <div className="user-profile-page river-profile">
+        <div className="loading-state">Loading profile...</div>
+      </div>
+    );
+  }
+  
   // Helper to get display name (full name if available, otherwise username)
   const getDisplayName = (user) => {
     if (!user) return 'User';
@@ -94,24 +118,23 @@ function Profile() {
     return '??';
   };
 
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [showComposer, setShowComposer] = useState(false);
-  const [composerType, setComposerType] = useState('thought'); // 'thought' or 'media'
-  const [composerText, setComposerText] = useState('');
-  const [viewMode, setViewMode] = useState('timeline'); // 'timeline' or 'feed'
-  const [isPosting, setIsPosting] = useState(false);
-  
-  // State for All Posts section actions
-  const [allPostsDeleteId, setAllPostsDeleteId] = useState(null);
-  const [allPostsEditId, setAllPostsEditId] = useState(null);
-  const [allPostsEditContent, setAllPostsEditContent] = useState('');
-  
-  // State for All Posts inline commenting
-  const [allPostsCommentId, setAllPostsCommentId] = useState(null);
-  const [allPostsCommentText, setAllPostsCommentText] = useState('');
-  
-  // State for All Posts media lightbox
-  const [allPostsLightboxPost, setAllPostsLightboxPost] = useState(null);
+  // Helper to format relative time
+  const formatRelativeTime = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'now';
+    if (diffMins < 60) return `${diffMins}m`;
+    if (diffHours < 24) return `${diffHours}h`;
+    if (diffDays < 7) return `${diffDays}d`;
+    
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
 
   // HANDLER: Submit from inline composer (Cmd/Ctrl + Enter)
   const handleInlineKeyDown = async (e) => {
@@ -422,7 +445,7 @@ function Profile() {
                     </div>
                     
                     {/* Inline Comment Composer */}
-                    {allPostsCommentId === post.id && (
+                    {allPostsCommentId === post.id && !allPostsComposerFullPage && (
                       <div className="inline-comment-composer">
                         <div className="comment-input-wrapper">
                           <textarea
@@ -451,6 +474,13 @@ function Profile() {
                               }
                             }}
                           />
+                          <button 
+                            className="expand-composer-btn"
+                            onClick={() => setAllPostsComposerFullPage(true)}
+                            title="Expand to full page"
+                          >
+                            <MaximizeIcon size={12} strokeWidth="2.5" />
+                          </button>
                         </div>
                         <button 
                           className="comment-submit-btn"
@@ -466,6 +496,105 @@ function Profile() {
                           <ChevronRightIcon size={20} strokeWidth="2.5" />
                         </button>
                       </div>
+                    )}
+                    
+                    {/* Full Page Composer for All Posts */}
+                    {allPostsCommentId === post.id && allPostsComposerFullPage && createPortal(
+                      <div className="full-page-composer-overlay">
+                        <div className="full-page-composer">
+                          {/* Header with close button */}
+                          <div className="full-page-header">
+                            <button 
+                              className="close-btn-glow"
+                              onClick={() => {
+                                setAllPostsComposerFullPage(false);
+                                setAllPostsCommentId(null);
+                                setAllPostsCommentText('');
+                              }}
+                              title="Close"
+                            >
+                              <CloseIcon size={20} />
+                            </button>
+                          </div>
+
+                          {/* Scrollable content area */}
+                          <div className="full-page-content">
+                            {/* Original Post Context */}
+                            <div className="reply-context">
+                              <div className="reply-context-header">
+                                <div className="reply-context-avatar">
+                                  <UserIcon size={20} />
+                                </div>
+                                <span className="reply-context-name">{getDisplayName(profileUser)}</span>
+                                <span className="reply-context-handle">@{profileUser?.username}</span>
+                                <span className="reply-context-dot">·</span>
+                                <span className="reply-context-time">{formatRelativeTime(post.created_at || post.createdAt)}</span>
+                              </div>
+                              <p className="reply-context-content">{post.content}</p>
+                              {post.media_url && (
+                                <div className="reply-context-media">
+                                  <img src={post.media_url} alt="Post media" />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Fixed Composer at Bottom */}
+                          <div className="full-page-composer-fixed">
+                            <div className="comment-input-wrapper">
+                              <textarea
+                                className="comment-input"
+                                placeholder="Share your thoughts..."
+                                value={allPostsCommentText}
+                                onChange={(e) => setAllPostsCommentText(e.target.value)}
+                                rows={3}
+                                autoFocus
+                                onKeyDown={async (e) => {
+                                  if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    if (allPostsCommentText.trim()) {
+                                      await createReply(post.id, { content: allPostsCommentText.trim(), type: 'thoughts' });
+                                      setAllPostsCommentText('');
+                                      setAllPostsComposerFullPage(false);
+                                      setAllPostsCommentId(null);
+                                    }
+                                  }
+                                  if (e.key === 'Escape') {
+                                    setAllPostsComposerFullPage(false);
+                                  }
+                                }}
+                              />
+                              
+                              {/* Action buttons inside textarea */}
+                              <div className="composer-actions">
+                                <button 
+                                  className="comment-media-btn"
+                                  title="Add media"
+                                  onClick={() => console.log('Media upload clicked')}
+                                >
+                                  <ImageIcon size={18} stroke="rgba(220, 8, 188, 0.5)" strokeWidth="1.5" />
+                                </button>
+                                
+                                <button 
+                                  className="comment-submit-btn"
+                                  disabled={!allPostsCommentText.trim()}
+                                  onClick={async () => {
+                                    if (allPostsCommentText.trim()) {
+                                      await createReply(post.id, { content: allPostsCommentText.trim(), type: 'thoughts' });
+                                      setAllPostsCommentText('');
+                                      setAllPostsComposerFullPage(false);
+                                      setAllPostsCommentId(null);
+                                    }
+                                  }}
+                                >
+                                  <ChevronRightIcon size={20} stroke="rgba(26, 231, 132, 0.5)" strokeWidth="2" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>,
+                      document.body
                     )}
                   </div>
                 );

@@ -20,7 +20,7 @@ import {
 } from '../../../../../assets/icons';
 import './MediaLightbox.scss';
 
-function MediaLightbox({ post, onClose, commentText, setCommentText, threadReplies = {}, onReplySubmit }) {
+function MediaLightbox({ post, onClose, commentText, setCommentText, threadReplies = {} }) {
   const { likePost, sharePost, createReply, updatePost, deletePost } = usePosts();
   const { user: currentUser } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);

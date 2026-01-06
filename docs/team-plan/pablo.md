@@ -91,9 +91,14 @@ import TopBar from "@components/layout/TopBar";
 
 - `frontend/src/components/pages/Profile/` - User profile page (3 files)
   - `Profile.jsx`, `Profile.scss`, `index.js`
+  - **NEW (Jan 2026):** All Posts section has expandable full-page comment composer
+    - Inline composer shows expand button (MaximizeIcon)
+    - Full-page modal shows post context + media + thread + fixed composer
   - `components/ComposerModal/` - Post creation modal (3 files)
   - `components/ProfileCard/` - User profile card with flip animation (5 subcomponents with flip system)
   - `components/TimelineRiver/` - Profile timeline view (3 files)
+    - **NEW (Jan 2026):** `renderCommentSection()` includes expandable full-page composer
+    - Matches feed's PostCard behavior with expand button + portal
 
 ### Other Pages
 
