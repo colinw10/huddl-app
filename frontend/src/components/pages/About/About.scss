@@ -8,6 +8,18 @@
   max-width: 900px;
   margin: 0 auto; // Center in main-content (which already accounts for sidebar)
   
+  /* Large Desktop (1600px and above) - scale up for wide monitors */
+  @media (min-width: 1600px) {
+    max-width: 1100px;
+    padding: 100px 40px 120px;
+  }
+  
+  /* Ultra-wide Desktop (2000px and above) */
+  @media (min-width: 2000px) {
+    max-width: 1300px;
+    padding: 120px 60px 140px;
+  }
+  
   @media (max-width: 1100px) {
     max-width: calc(100% - 48px);
     margin: 0 auto;
@@ -345,6 +357,78 @@
   font-size: 1rem;
   color: rgba(79, 255, 255, 0.6);
   text-align: center;
+}
+
+/* Large Desktop typography scaling */
+@media (min-width: 1600px) {
+  .about-hero {
+    padding: 80px 0 100px;
+    margin-bottom: 80px;
+  }
+  
+  .hero-label {
+    font-size: 0.85rem;
+    letter-spacing: 5px;
+  }
+  
+  .about-grid {
+    max-width: 1100px;
+    gap: 50px 80px;
+  }
+  
+  .grid-item {
+    h2 {
+      font-size: clamp(1.5rem, 1.8vw, 2rem);
+    }
+    
+    p {
+      font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+      line-height: 1.8;
+    }
+  }
+  
+  .hero-sub {
+    font-size: clamp(1.1rem, 1.3vw, 1.4rem);
+  }
+  
+  .quote-text {
+    font-size: clamp(2rem, 2.5vw, 3rem);
+  }
+  
+  .team-member {
+    font-size: clamp(0.9rem, 1vw, 1.1rem);
+  }
+}
+
+@media (min-width: 2000px) {
+  .about-hero {
+    padding: 100px 0 120px;
+    margin-bottom: 100px;
+  }
+  
+  .about-grid {
+    max-width: 1300px;
+    gap: 60px 100px;
+  }
+  
+  .grid-item {
+    h2 {
+      font-size: clamp(1.8rem, 2vw, 2.3rem);
+    }
+    
+    p {
+      font-size: clamp(1rem, 1.2vw, 1.3rem);
+      line-height: 1.9;
+    }
+  }
+  
+  .hero-sub {
+    font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+  }
+  
+  .quote-text {
+    font-size: clamp(2.5rem, 3vw, 3.5rem);
+  }
 }
 
 // Responsive

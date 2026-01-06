@@ -8,7 +8,7 @@ import MessageModal from './MessageModal/MessageModal';
 import SearchModal from './SearchModal/SearchModal';
 import NotificationModal from './NotificationModal/NotificationModal';
 import { ThemeToggle } from '../../ui/ThemeToggle';
-import { useMessages, useAuth, useFriends } from '../../../contexts';
+import { useMessages, useAuth, useFriends, useSearch } from '../../../contexts';
 import { 
   TargetReticleIcon, 
   MessageBubbleIcon, 
@@ -21,10 +21,8 @@ function TopBar() {
   const { isMessageModalOpen, openMessages, closeMessages } = useMessages();
   const { logout, user } = useAuth();
   const { pendingRequests } = useFriends();
+  const { isSearchModalOpen, openSearch, closeSearch } = useSearch();
   const navigate = useNavigate();
-  
-  // 🔵 Local state for search modal
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   
   // 🔵 Local state for notification modal
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -50,7 +48,7 @@ function TopBar() {
           <div 
             className="icon-placeholder icon-search" 
             title="Search"
-            onClick={() => setIsSearchOpen(true)}
+            onClick={openSearch}
             style={{ cursor: 'pointer' }}
           >
             <TargetReticleIcon size={20} />
@@ -107,8 +105,8 @@ function TopBar() {
       
       {/* Search Modal */}
       <SearchModal 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
+        isOpen={isSearchModalOpen} 
+        onClose={closeSearch} 
       />
       
       {/* Notification Modal */}

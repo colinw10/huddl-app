@@ -579,6 +579,52 @@
   text-decoration: none;
 }
 
+/* Large Desktop (1600px and above) - scale up for wide monitors */
+@media (min-width: 1600px) {
+  .login-card {
+    max-width: 560px;
+    padding: 40px 36px;
+  }
+  
+  .login-title {
+    font-size: clamp(28px, 2vw, 36px);
+  }
+  
+  .login-subtitle {
+    font-size: clamp(14px, 1vw, 18px);
+  }
+  
+  .form-input {
+    padding: 14px 20px;
+    font-size: clamp(14px, 1vw, 16px);
+  }
+  
+  .btn-submit {
+    padding: 14px 24px;
+    font-size: clamp(14px, 1vw, 16px);
+  }
+}
+
+/* Ultra-wide Desktop (2000px and above) */
+@media (min-width: 2000px) {
+  .login-card {
+    max-width: 640px;
+    padding: 48px 44px;
+  }
+  
+  .login-title {
+    font-size: clamp(32px, 2.2vw, 42px);
+  }
+  
+  .form-input {
+    padding: 16px 24px;
+  }
+  
+  .btn-submit {
+    padding: 16px 28px;
+  }
+}
+
 /* Tablet and below */
 @media (max-width: 768px) {
   .login-card {

@@ -3,7 +3,7 @@
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useMessages } from '../../../contexts';
+import { useMessages, useSearch } from '../../../contexts';
 import './SideNav.scss';
 import {
   HexHomeIcon,
@@ -20,6 +20,7 @@ function SideNav() {
   const location = useLocation();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 480);
   const { isMessageModalOpen, openMessages } = useMessages();
+  const { openSearch, isSearchModalOpen } = useSearch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,8 +51,8 @@ function SideNav() {
         <span>Home</span>
       </button>
       <button 
-        className={`nav-item ${location.pathname === '/search' ? 'active' : ''}`}
-        onClick={() => handleNavClick('/search')}
+        className={`nav-item ${isSearchModalOpen ? 'active' : ''}`}
+        onClick={openSearch}
         title="Search"
         disabled={isMessageModalOpen}
       >

@@ -756,6 +756,111 @@
 // RESPONSIVE
 // ============================================
 
+/* Large Desktop (1600px and above) - scale up for wide monitors */
+@media (min-width: 1600px) {
+  .friends-header {
+    gap: 20px;
+  }
+  
+  .friends-title {
+    font-size: clamp(3rem, 4vw, 4.5rem);
+    letter-spacing: 4px;
+  }
+  
+  .friends-stats {
+    gap: 40px;
+  }
+  
+  .stat-value {
+    font-size: clamp(1.5rem, 1.8vw, 2rem);
+  }
+  
+  .stat-label {
+    font-size: clamp(0.9rem, 1vw, 1.1rem);
+  }
+  
+  .friends-tabs {
+    gap: 20px;
+  }
+  
+  .tab-btn {
+    padding: 12px 28px;
+    font-size: clamp(0.9rem, 1vw, 1.1rem);
+  }
+  
+  .friends-grid {
+    gap: 20px;
+  }
+  
+  .friend-card {
+    padding: 22px 28px;
+    min-height: 100px;
+    gap: 20px;
+  }
+  
+  .friend-avatar {
+    width: 68px;
+    height: 68px;
+    font-size: 1.5rem;
+  }
+  
+  .friend-name {
+    font-size: clamp(17px, 1.2vw, 20px);
+  }
+  
+  .friend-username {
+    font-size: clamp(13px, 0.9vw, 15px);
+  }
+  
+  .friend-mutual {
+    font-size: clamp(11px, 0.8vw, 13px);
+  }
+}
+
+/* Ultra-wide Desktop (2000px and above) */
+@media (min-width: 2000px) {
+  .friends-title {
+    font-size: clamp(4rem, 4.5vw, 5.5rem);
+    letter-spacing: 5px;
+  }
+  
+  .stat-value {
+    font-size: clamp(1.8rem, 2vw, 2.5rem);
+  }
+  
+  .tab-btn {
+    padding: 14px 32px;
+  }
+  
+  .friends-grid {
+    gap: 24px;
+  }
+  
+  .friend-card {
+    padding: 26px 32px;
+    min-height: 110px;
+    gap: 24px;
+  }
+  
+  .friend-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 1.75rem;
+  }
+  
+  .friend-name {
+    font-size: clamp(18px, 1.3vw, 22px);
+  }
+  
+  .friend-username {
+    font-size: clamp(14px, 1vw, 16px);
+  }
+  
+  .friend-mutual {
+    font-size: clamp(12px, 0.85vw, 14px);
+  }
+}
+
 @media (max-width: 768px) {
   .friends-header {
     margin: 70px auto 24px;

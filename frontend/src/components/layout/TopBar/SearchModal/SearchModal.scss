@@ -511,6 +511,193 @@
 }
 
 /* Responsive */
+
+/* Large Desktop (1600px and above) - scale up for wide monitors */
+@media (min-width: 1600px) {
+  .search-modal {
+    width: 55vw;
+    max-width: 1100px;
+    max-height: 85vh;
+    border-radius: 24px;
+  }
+  
+  .search-header {
+    padding: 2rem 2.5rem;
+    gap: 20px;
+  }
+  
+  .search-input {
+    padding: 18px 56px 18px 60px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+  
+  .search-icon {
+    left: 20px;
+    
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  .search-tabs {
+    gap: 16px;
+    padding: 18px 2.5rem;
+  }
+  
+  .search-tab {
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+  
+  .search-results {
+    padding: 16px 24px;
+  }
+  
+  .result-item {
+    padding: 22px 28px;
+    gap: 22px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .result-avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 1.6rem;
+  }
+  
+  .result-info {
+    gap: 8px;
+  }
+  
+  .result-name {
+    font-size: 20px;
+  }
+  
+  .result-username {
+    font-size: 16px;
+  }
+  
+  .result-bio {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+  
+  .empty-state {
+    padding: 80px 60px;
+  }
+  
+  .empty-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 28px;
+  }
+  
+  .empty-title {
+    font-size: 24px;
+  }
+  
+  .empty-subtitle {
+    font-size: 17px;
+  }
+}
+
+/* Ultra-wide Desktop (2000px and above) */
+@media (min-width: 2000px) {
+  .search-modal {
+    width: 50vw;
+    max-width: 1400px;
+    max-height: 88vh;
+    border-radius: 28px;
+  }
+  
+  .search-header {
+    padding: 2.5rem 3rem;
+    gap: 24px;
+  }
+  
+  .search-input {
+    padding: 22px 64px 22px 72px;
+    font-size: 22px;
+    border-radius: 14px;
+  }
+  
+  .search-icon {
+    left: 24px;
+    
+    svg {
+      width: 34px;
+      height: 34px;
+    }
+  }
+  
+  .search-tabs {
+    gap: 20px;
+    padding: 22px 3rem;
+  }
+  
+  .search-tab {
+    padding: 14px 36px;
+    font-size: 18px;
+    border-radius: 12px;
+  }
+  
+  .search-results {
+    padding: 20px 32px;
+  }
+  
+  .result-item {
+    padding: 28px 36px;
+    gap: 28px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .result-avatar {
+    width: 88px;
+    height: 88px;
+    font-size: 2rem;
+  }
+  
+  .result-info {
+    gap: 10px;
+  }
+  
+  .result-name {
+    font-size: 24px;
+  }
+  
+  .result-username {
+    font-size: 19px;
+  }
+  
+  .result-bio {
+    font-size: 17px;
+    margin-top: 8px;
+  }
+  
+  .empty-state {
+    padding: 120px 80px;
+  }
+  
+  .empty-icon {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 36px;
+  }
+  
+  .empty-title {
+    font-size: 32px;
+  }
+  
+  .empty-subtitle {
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .search-modal-overlay {
     padding-left: 50px;

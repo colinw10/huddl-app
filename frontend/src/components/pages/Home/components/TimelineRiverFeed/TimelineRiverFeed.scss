@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: var(--space-lg);
   width: 100%;
-  max-width: 1150px;
+  max-width: 100%;
   margin: 0 auto;
   padding: var(--space-md) var(--space-md);
   position: relative;
@@ -153,7 +153,7 @@
 
   .timeline-river-section {
     width: 100%;
-    max-width: 1150px;
+    max-width: 100%;
     align-items: center;
   }
 

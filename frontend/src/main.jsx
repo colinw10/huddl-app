@@ -6,13 +6,16 @@ import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext'
 import { PostsProvider } from './contexts/PostsContext'
 import { FriendsProvider } from './contexts/FriendsContext'
+import { SearchProvider } from './contexts/SearchContext'
 
 createRoot(document.getElementById('root')).render(
    <StrictMode>
     <AuthProvider>        {/* Must be first - other contexts may need auth */}
       <PostsProvider>
         <FriendsProvider>
-          <App />         {/* App and all children can now access all contexts */}
+          <SearchProvider>
+            <App />       {/* App and all children can now access all contexts */}
+          </SearchProvider>
         </FriendsProvider>
       </PostsProvider>
     </AuthProvider>

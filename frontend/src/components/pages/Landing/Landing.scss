@@ -97,7 +97,7 @@
 
 .landing-title {
   @include numeneon-title;
-  font-size: 3.5rem;
+  font-size: clamp(2.5rem, 8vw, 5rem); // Match About page hero-title
   margin: 3rem 0 1rem;
   letter-spacing: 1px;
   transform: translateX(10px);    // Optical centering adjustment
@@ -981,11 +981,45 @@
    RESPONSIVE BREAKPOINTS
    
    Breakpoint strategy:
+   - 1600px+: Large desktop - scale UP
    - 768px: Tablet - reduce sizes
    - 480px: Mobile - compact layout
    - 375px: iPhone SE - minimum viable
    - 360px: Small Android - extra compact
    ============================================ */
+
+/* Large Desktop (1600px and above) - scale up for wide monitors */
+@media (min-width: 1600px) {
+  .landing-subtitle {
+    font-size: clamp(1.25rem, 1.5vw, 1.75rem);
+  }
+  
+  .auth-buttons {
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+  
+  .btn-login,
+  .btn-signup,
+  .btn-enter {
+    padding: 0.3rem 3.5rem;
+    font-size: clamp(1rem, 1.1vw, 1.25rem);
+  }
+}
+
+/* Ultra-wide Desktop (2000px and above) */
+@media (min-width: 2000px) {
+  .auth-buttons {
+    gap: 4rem;
+  }
+  
+  .btn-login,
+  .btn-signup,
+  .btn-enter {
+    padding: 0.4rem 4.5rem;
+    font-size: clamp(1.1rem, 1.2vw, 1.5rem);
+  }
+}
 
 /* Tablet (768px and below) */
 @media (max-width: 768px) {

@@ -105,6 +105,34 @@
     opacity: 0.6;
   }
   
+  /* ============================================
+     SMART DECK HEADER - Tablet Adjustments
+     Scale down badges to prevent crowding
+     ============================================ */
+  .smart-deck-header {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  
+  .smart-deck-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .smart-deck-icon-svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .smart-deck-count {
+    font-size: 11px;
+  }
+  
+  .smart-deck-label {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+  
   /* Card sizing for 3-col */
   .timeline-river-row--3-col .river-column .river-post-card {
     width: 320px;
@@ -199,6 +227,55 @@
   
   .timeline-river-row--2-col .river-header {
     margin-bottom: 8px;
+  }
+}
+
+/* ============================================
+   NARROW TABLET - Extra compact badges
+   650-800px - most cramped zone
+   ============================================ */
+
+@media (min-width: 650px) and (max-width: 800px) {
+  /* Even smaller badges to prevent collision */
+  .smart-deck-header {
+    padding: 3px 6px;
+    gap: 3px;
+    margin-bottom: 6px;
+  }
+  
+  .smart-deck-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .smart-deck-icon-svg {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .smart-deck-count {
+    font-size: 10px;
+  }
+  
+  .smart-deck-label {
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+  
+  /* Reduce card overlap to give headers more room */
+  .timeline-river-row--3-col .river-column {
+    margin-left: -100px;
+  }
+  
+  .timeline-river-row--3-col .river-column:nth-child(1) {
+    margin-left: 0;
+  }
+  
+  /* Smaller cards too */
+  .timeline-river-row--3-col .river-column .river-post-card,
+  .timeline-river-row--2-col .river-column .river-post-card {
+    width: 280px;
+    max-width: 280px;
   }
 }
 
