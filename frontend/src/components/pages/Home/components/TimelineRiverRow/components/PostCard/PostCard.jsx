@@ -28,11 +28,9 @@ function PostCard({
   type,
   user,
   currentUser,
-  isActive,
   isSinglePost,
   isShortPost,
   // Actions
-  onCardClick,
   onUserClick,
   onLike,
   onShare,
@@ -67,9 +65,7 @@ function PostCard({
 }) {
   return (
     <div 
-      className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isActive ? 'post--active' : ''} ${isShortPost ? 'post--compact' : ''} fade-in hover-lift`}
-      onClick={() => onCardClick(post.id)}
-      style={{ zIndex: isActive ? 100 : 'auto' }}
+      className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isShortPost ? 'post--compact' : ''} fade-in hover-lift`}
     >
       {/* Header: Avatar + Name + Type Badge */}
       <div className="river-post-header">

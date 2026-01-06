@@ -87,7 +87,6 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   
   // Desktop state
   const [activeColumnType, setActiveColumnType] = useState(null);
-  const [activePostId, setActivePostId] = useState(null);
   const [expandedMediaPost, setExpandedMediaPost] = useState(null);
 
   const [isComposerFullPage, setIsComposerFullPage] = useState(false);
@@ -231,11 +230,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         type={type}
         user={user}
         currentUser={currentUser}
-        isActive={activePostId === post.id}
         isSinglePost={isSinglePost}
         isShortPost={isShortPost}
         // Actions
-        onCardClick={setActivePostId}
         onUserClick={handleUserClick}
         onLike={likePost}
         onShare={sharePost}

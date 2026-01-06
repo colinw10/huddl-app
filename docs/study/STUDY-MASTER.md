@@ -304,11 +304,13 @@ backend/
 ## BACKEND API ENDPOINTS REFERENCE
 
 ### Auth (/api/auth/)
+
 - POST /api/auth/signup/ → Create account
 - POST /api/auth/login/ → Login, returns JWT
 - GET /api/auth/current/ → Get current user
 
 ### Posts (/api/posts/)
+
 - GET /api/posts/ → List feed posts
 - GET /api/posts/?username=xxx → User's posts
 - POST /api/posts/ → Create post
@@ -319,6 +321,7 @@ backend/
 - GET /api/posts/:id/replies/ → Get replies
 
 ### Friends (/api/friends/)
+
 - GET /api/friends/ → List friends
 - GET /api/friends/requests/ → Pending requests
 - POST /api/friends/request/:id/ → Send request
