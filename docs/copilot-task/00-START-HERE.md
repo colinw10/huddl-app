@@ -186,18 +186,61 @@ frontend/src/assets/
     └── misc.jsx       # MusicIcon, MapPinIcon, PostTriangleIcon
 ```
 
+### Vite Path Aliases ✅
+
+To simplify imports and improve developer experience, Vite is configured with path aliases:
+
+```javascript
+// vite.config.js configuration:
+resolve: {
+  alias: {
+    '@': './src',                    // Root source
+    '@assets': './src/assets',       // Icons, images, SVGs
+    '@components': './src/components', // All React components
+    '@contexts': './src/contexts',   // Context providers
+    '@services': './src/services',   // API service layers
+    '@utils': './src/utils',         // Utility functions
+    '@styles': './src/styles',       // Global SCSS files
+  }
+}
+```
+
+**Benefits:**
+
+- No more `../../../../../../../` paths
+- Consistent imports across the codebase
+- Easier refactoring (paths don't break when moving files)
+
+**Examples:**
+
+```jsx
+// OLD (relative paths)
+import { HeartIcon } from "../../../../../../../assets/icons";
+import { useAuth } from "../../../contexts/AuthContext";
+import apiClient from "../../../services/apiClient";
+
+// NEW (path aliases)
+import { HeartIcon } from "@assets/icons";
+import { useAuth } from "@contexts/AuthContext";
+import apiClient from "@services/apiClient";
+```
+
+### SCSS System ✅
+
 **How to use:**
 
 ```jsx
-// Import from barrel (recommended)
-import { HeartIcon, CloseIcon } from "../../assets/icons";
+// Import using Vite path alias (recommended - cleaner imports)
+import { HeartIcon, CloseIcon } from "@assets/icons";
 
 // Or from specific category (tree-shakeable)
-import { HeartIcon } from "../../assets/icons/engagement";
+import { HeartIcon } from "@assets/icons/engagement";
 
 // Usage
 <HeartIcon size={18} className="custom-class" onClick={handleClick} />;
 ```
+
+**Note:** The `@assets` alias replaces long relative paths like `../../assets`
 
 ### Styles System ✅
 

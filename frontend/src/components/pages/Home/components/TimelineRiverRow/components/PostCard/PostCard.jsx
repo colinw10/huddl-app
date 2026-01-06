@@ -20,7 +20,7 @@ import {
   CheckIcon,
   CloseIcon,
   ImageIcon
-} from '../../../../../../../assets/icons';
+} from '@assets/icons';
 import './PostCard.scss';
 
 function PostCard({

@@ -16,19 +16,21 @@
 
 ### Frontend
 
-- **Framework:** React 18+ with Vite
+- **Framework:** React 18+ with Vite 7.2+
 - **Routing:** React Router DOM
 - **Styling:** Vanilla CSS/SCSS with modular architecture
 - **State:** React Context API
 - **HTTP Client:** Axios
+- **Build:** Vite with path aliases (@assets, @components, @contexts, etc.)
 - **Design:** Cyberpunk theme with light/dark mode
 
 ### Backend
 
-- **Framework:** Django 4.x
+- **Framework:** Django 5.2+
 - **API:** Django REST Framework
 - **Database:** SQLite (development)
 - **Auth:** JWT tokens
+- **Package Manager:** pipenv
 
 ---
 
@@ -98,6 +100,32 @@ numeneon/
 ---
 
 ## Recent Updates (Jan 2025)
+
+### Vite Path Aliases (Dec 2024)
+
+Implemented path aliases in `vite.config.js` to simplify imports:
+
+```javascript
+resolve: {
+  alias: {
+    '@': './src',
+    '@assets': './src/assets',
+    '@components': './src/components',
+    '@contexts': './src/contexts',
+    '@services': './src/services',
+    '@utils': './src/utils',
+    '@styles': './src/styles',
+  }
+}
+```
+
+**Benefits:**
+
+- Cleaner imports: `@assets/icons` instead of `../../../../../../../assets/icons`
+- Easier refactoring (paths don't break when moving files)
+- Consistent import patterns across the codebase
+
+**Team should use aliases in all new code!**
 
 ### TimelineRiverRow Modularization
 

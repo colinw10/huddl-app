@@ -77,11 +77,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'numeneon.wsgi.application'
 
 # DATABASE - Connection config
-# Using SQLite for development (switch to PostgreSQL for production)
+# Using PostgreSQL (like pg + Pool in Express)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'numeneon',
+        'USER': '',  # Uses your macOS user by default
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

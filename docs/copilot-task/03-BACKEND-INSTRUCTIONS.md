@@ -26,6 +26,20 @@ Before starting:
 3. Keep `backend/` folder with all files
 4. Apply pseudocode as instructed below
 
+**Note:** This project uses **pipenv** for Python dependency management.
+
+- Dependencies are defined in `Pipfile`
+- Install packages: `pipenv install <package>`
+- Activate virtualenv: `pipenv shell`
+- Run commands: `pipenv run python manage.py <command>`
+
+**Database:** This project uses **PostgreSQL** (not SQLite).
+
+- Ensure PostgreSQL is installed: `brew install postgresql` (macOS)
+- Create the database: `createdb numeneon`
+- settings.py is pre-configured for PostgreSQL on localhost
+- Run migrations: `pipenv run python manage.py migrate`
+
 ---
 
 ## BACKEND FILE LIST BY OWNER
@@ -1171,10 +1185,9 @@ if settings.DEBUG:
 These files are pre-configured and should not be modified:
 
 - `backend/manage.py`
-- `backend/db.sqlite3`
 - `backend/seed_posts.py` - **Populates demo data (see structure below)**
 - `backend/numeneon/__init__.py`
-- `backend/numeneon/settings.py`
+- `backend/numeneon/settings.py` - **Configured for PostgreSQL**
 - `backend/numeneon/asgi.py`
 - `backend/numeneon/wsgi.py`
 

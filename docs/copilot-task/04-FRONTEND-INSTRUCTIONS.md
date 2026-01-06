@@ -30,6 +30,79 @@ Before starting:
 
 ---
 
+## VITE PATH ALIASES (CONFIGURED)
+
+**NUMENEON uses Vite path aliases to simplify imports and improve developer experience.**
+
+Instead of messy relative paths like `../../../../../../../assets/icons`, use clean aliases:
+
+```javascript
+// Configured in vite.config.js:
+resolve: {
+  alias: {
+    '@': './src',                    // Root source directory
+    '@assets': './src/assets',       // Icons, images, SVGs
+    '@components': './src/components', // All React components
+    '@contexts': './src/contexts',   // Context providers
+    '@services': './src/services',   // API service layers
+    '@utils': './src/utils',         // Utility functions
+    '@styles': './src/styles',       // Global SCSS files
+  }
+}
+```
+
+### Import Examples
+
+**Icons:**
+
+```jsx
+// ✅ RECOMMENDED (using alias)
+import { HeartIcon, CloseIcon, CommentIcon } from "@assets/icons";
+
+// ✅ ALSO GOOD (category-specific)
+import { HeartIcon } from "@assets/icons/engagement";
+
+// ❌ AVOID (relative paths - verbose and fragile)
+import { HeartIcon } from "../../../../../../../assets/icons";
+```
+
+**Contexts:**
+
+```jsx
+// ✅ RECOMMENDED
+import { useAuth } from "@contexts/AuthContext";
+import { usePosts } from "@contexts/PostsContext";
+
+// ❌ AVOID
+import { useAuth } from "../../../contexts/AuthContext";
+```
+
+**Services:**
+
+```jsx
+// ✅ RECOMMENDED
+import apiClient from "@services/apiClient";
+import postsService from "@services/postsService";
+
+// ❌ AVOID
+import apiClient from "../../../services/apiClient";
+```
+
+**Components:**
+
+```jsx
+// ✅ RECOMMENDED
+import Login from "@components/pages/Login";
+import TopBar from "@components/layout/TopBar";
+
+// ❌ AVOID
+import Login from "../../pages/Login";
+```
+
+**When writing pseudocode in this file, use path aliases in all import examples!**
+
+---
+
 ## FRONTEND FILE CATEGORIES
 
 ### CATEGORY A: Full Pseudocode (Team Rebuilds)
@@ -125,7 +198,7 @@ Before starting:
 // Hint: Remove tokens: localStorage.removeItem('accessToken')
 
 import { createContext, useState, useEffect, useContext } from "react";
-import apiClient from "../services/apiClient";
+import apiClient from "@services/apiClient"; // Use path alias
 
 export const AuthContext = createContext();
 
@@ -189,7 +262,7 @@ export function useAuth() {
 
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "@contexts/AuthContext";
 import "./Login.scss";
 
 export default function Login() {
@@ -332,7 +405,7 @@ export { default } from "./Login";
 
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "@contexts/AuthContext";
 import "./Signup.scss";
 
 export default function Signup() {
@@ -419,7 +492,7 @@ export { default } from "./Signup";
 // Hint: return children;
 
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "@contexts/AuthContext";
 
 export default function ProtectedRoute({ children }) {
   // Your code here
@@ -535,8 +608,8 @@ export default function ProtectedRoute({ children }) {
 // Hint: For merge: const existingIds = new Set(prev.map(p => p.id));
 
 import { createContext, useState, useEffect, useContext } from "react";
-import postsService from "../services/postsService";
-import { useAuth } from "./AuthContext";
+import postsService from "@services/postsService";
+import { useAuth } from "@contexts/AuthContext";
 
 export const PostsContext = createContext();
 
@@ -689,8 +762,8 @@ export default postsService;
 // Hint: After accept: setFriends(prev => [...prev, newFriend]); setPendingRequests(prev => prev.filter(...))
 
 import { createContext, useState, useEffect, useContext } from "react";
-import friendsService from "../services/friendsService";
-import { useAuth } from "./AuthContext";
+import friendsService from "@services/friendsService";
+import { useAuth } from "@contexts/AuthContext";
 
 export const FriendsContext = createContext();
 
@@ -785,7 +858,7 @@ export default friendsService;
 // Hint: Note: variable is 'pendingRequests' not 'requests'
 
 import { useEffect } from "react";
-import { useFriends } from "../../../contexts/FriendsContext";
+import { useFriends } from "@contexts/FriendsContext";
 import "./Friends.scss";
 
 export default function Friends() {
@@ -1047,7 +1120,7 @@ export function useTheme() {
 // Hint: const { theme, toggleTheme } = useTheme();
 // Hint: {theme === 'dark' ? '☀️' : '🌙'}
 
-import { useTheme } from "../../../contexts/ThemeContext";
+import { useTheme } from "@contexts/ThemeContext";
 import "./ThemeToggle.scss";
 
 export default function ThemeToggle() {

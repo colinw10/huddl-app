@@ -1,45 +1,132 @@
-LET ME COUNT THE CRITICAL FILES:
+🎯 CRITICAL FILES FOR INTERVIEWS (20 files - Study These First!)
 
-🎯 FRONTEND (Must Know)
-Core Flow (8 files)
+┌─────────────────────────────────────────────────────────┐
+│ 16 DAYS TO MASTER NUMENEON (Jan 4 → Jan 20, 2026)      │
+│ 20 must-know files = ~1.25 files/day                    │
+│ Focus: Frontend flow, backend patterns, data flow       │
+└─────────────────────────────────────────────────────────┘
 
-main.jsx - App entry
-App.jsx - Routing
-PostsContext.jsx - Posts state
-postsService.js - Posts API
-apiClient.js - Axios setup
-Home.jsx - Main feed
-TimelineRiverFeed.jsx - Displays posts
-TimelineRiverRow.jsx - Single post
+═══════════════════════════════════════════════════════════
+FRONTEND (12 files) - Study in this order!
+═══════════════════════════════════════════════════════════
 
-Supporting (4 files)
+📍 ENTRY LAYER (2 files) - Study Days 1-2
+─────────────────────────────────────────────────────────
+1. main.jsx - React app starts, providers wrap everything
+2. App.jsx - Routes, layout structure, connects all pages
 
-AuthContext.jsx - Login/logout
-FriendsContext.jsx - Friends state
-Profile.jsx - Profile page
-ComposerModal.jsx - Create posts
+📍 INFRASTRUCTURE (3 files) - Study Days 3-4
+─────────────────────────────────────────────────────────
+3. apiClient.js - Axios config, auth headers, base URL
+   ↳ CRITICAL: Intercepts requests, adds JWT token
+   
+4. AuthContext.jsx - Login/logout, current user state
+   ↳ CRITICAL: Guards protected routes, provides user
+   
+5. postsService.js - Posts API calls (create, fetch, delete)
+   ↳ PATTERN: Same as friendsService (know one = know both)
 
-Total Frontend: 12 files
+📍 STATE MANAGEMENT (2 files) - Study Days 5-6
+─────────────────────────────────────────────────────────
+6. PostsContext.jsx - Posts state, CRUD operations
+   ↳ CRITICAL: Manages posts array, calls postsService
+   
+7. FriendsContext.jsx - Friends state, requests
+   ↳ PATTERN: Same structure as PostsContext
 
-🎯 BACKEND (Must Know)
-Django Core (8 files)
+📍 UI FLOW (5 files) - Study Days 7-11
+─────────────────────────────────────────────────────────
+8. Home.jsx - Main feed page, entry point for posts
+9. TimelineRiverFeed.jsx - Displays posts in 3 columns
+10. TimelineRiverRow.jsx - Individual post rendering
+    ↳ CRITICAL: Uses Vite aliases (@assets, @contexts)
+    
+11. Profile.jsx - User profile page, shows user's posts
+12. ComposerModal.jsx - Create new posts
+    ↳ CRITICAL: How posts get created
 
-settings.py - Config
-urls.py (main) - Route everything
-posts/models.py - Post database model
-posts/views.py - Post API endpoints
-posts/serializers.py - JSON conversion
-posts/urls.py - Post routes
-users/views.py - Auth endpoints
-friends/models.py - Friendships
+═══════════════════════════════════════════════════════════
+BACKEND (8 files) - Study Days 12-16
+═══════════════════════════════════════════════════════════
 
-Total Backend: 8 files
+📍 DJANGO CONFIG (2 files) - Study Day 12
+─────────────────────────────────────────────────────────
+13. settings.py - Django settings, REST framework config
+14. urls.py (main) - Routes /api/auth, /api/posts, /api/friends
+    ↳ CRITICAL: How frontend URLs map to backend
 
-✅ TOTAL MUST-KNOW FILES
-20 files (12 frontend + 8 backend)
-Out of 100+ files, you only need ~20 files deeply.
-The rest are:
+📍 POSTS APP (3 files) - Study Days 13-14
+─────────────────────────────────────────────────────────
+15. posts/models.py - Post database structure
+    ↳ CRITICAL: Fields, relationships, post types
+    
+16. posts/serializers.py - Convert Post ↔ JSON
+    ↳ PATTERN: Same as friends/serializers.py
+    
+17. posts/views.py - Post API endpoints (CRUD + likes)
+    ↳ CRITICAL: ViewSet pattern, custom actions
 
-Styling (SCSS)
-Icons (SVG)
-Similar patterns (friendsService = same as postsService)
+📍 AUTH APP (1 file) - Study Day 15
+─────────────────────────────────────────────────────────
+18. users/views.py - Signup, login, current user
+    ↳ CRITICAL: JWT token authentication flow
+
+📍 FRIENDS APP (2 files) - Study Day 16
+─────────────────────────────────────────────────────────
+19. posts/urls.py - Map URLs to views
+20. friends/models.py - Friendship, FriendRequest models
+    ↳ PATTERN: Similar to posts/models.py
+
+═══════════════════════════════════════════════════════════
+EVERYTHING ELSE (~80 files) - Don't stress!
+═══════════════════════════════════════════════════════════
+
+✅ SCSS Files (13 files) - VISUAL LAYER
+   → You built this, you know it. Quick review only.
+   
+✅ Icon Components (12 category files) - STATIC ASSETS  
+   → Just SVG components. Know import pattern:
+   → import { HeartIcon } from '@assets/icons'
+   
+✅ friendsService.js - SAME PATTERN as postsService.js
+   → API calls. If you know posts, you know friends.
+   
+✅ Remaining UI (ProfileCard, modals, etc.) - YOUR CODE
+   → You built it. Focus on how it USES contexts/services.
+
+═══════════════════════════════════════════════════════════
+INTERVIEW FOCUS AREAS
+═══════════════════════════════════════════════════════════
+
+🎤 "Explain how a post gets created"
+   → ComposerModal → PostsContext.createPost() → 
+   → postsService.create() → apiClient.post() →
+   → Backend: POST /api/posts/ → PostViewSet.create()
+
+🎤 "How does authentication work?"
+   → Login.jsx → AuthContext.login() → 
+   → Backend: POST /api/auth/login/ → returns JWT →
+   → apiClient stores token → all requests include it
+
+🎤 "What are Vite path aliases?"
+   → @assets, @components, @contexts, @services, @utils
+   → Cleaner imports: '@assets/icons' vs '../../../../../../assets/icons'
+
+🎤 "Walk me through your component architecture"
+   → Context API for state → Services for API →
+   → Components consume contexts → Modular structure
+
+═══════════════════════════════════════════════════════════
+DAILY STUDY PLAN (16 days)
+═══════════════════════════════════════════════════════════
+
+Days 1-2: Entry files (main.jsx, App.jsx)
+Days 3-4: Infrastructure (apiClient, AuthContext, postsService)
+Days 5-6: State (PostsContext, FriendsContext)
+Days 7-11: UI Flow (Home, Timeline, Profile, Composer)
+Days 12-16: Backend (settings, URLs, models, views, serializers)
+Days 17-20: PRACTICE explaining flows out loud!
+
+═══════════════════════════════════════════════════════════
+YOU GOT THIS! 🚀
+═══════════════════════════════════════════════════════════

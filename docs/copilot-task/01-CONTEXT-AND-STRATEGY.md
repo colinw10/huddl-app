@@ -21,8 +21,9 @@ I (Pablo) built a complete working prototype of NUMENEON, a cyberpunk-themed soc
 
 **Project Stack:**
 
-- Frontend: React 18+, Vite, React Router DOM, Vanilla CSS/SCSS
-- Backend: Django 4.x, Django REST Framework, SQLite (dev), JWT auth
+- Frontend: React 18+, Vite 7.2+, React Router DOM, Vanilla CSS/SCSS
+- Backend: Django 5.2+, Django REST Framework, PostgreSQL, JWT auth, pipenv
+- Build: Vite with path aliases (@assets, @components, @contexts, etc.)
 - Current state: Fully functional prototype with real API connections
 
 **Team (T-Shirt Sizing):**
@@ -76,15 +77,22 @@ frontend/src/assets/
     └── misc.jsx       # MusicIcon, MapPinIcon, PostTriangleIcon
 ```
 
-**How to import icons (two methods - both work):**
+**How to import icons (using Vite path aliases - recommended):**
 
 ```jsx
-// Method 1: From barrel export (recommended)
-import { HeartIcon, CommentIcon, CloseIcon } from "../../assets/icons";
+// Method 1: From barrel export using alias (cleanest)
+import { HeartIcon, CommentIcon, CloseIcon } from "@assets/icons";
 
-// Method 2: From specific category (tree-shakeable)
-import { HeartIcon } from "../../assets/icons/engagement";
-import { CloseIcon } from "../../assets/icons/actions";
+// Method 2: From specific category using alias (tree-shakeable)
+import { HeartIcon } from "@assets/icons/engagement";
+import { CloseIcon } from "@assets/icons/actions";
+```
+
+**Legacy relative paths still work but are not recommended:**
+
+```jsx
+// OLD (still works but verbose)
+import { HeartIcon } from "../../assets/icons";
 ```
 
 **Icon API (consistent across ALL icons):**
@@ -140,9 +148,30 @@ These files are PROVIDED as-is, not rebuilt:
 
 | File                               | Why Provided                            |
 | ---------------------------------- | --------------------------------------- |
-| `frontend/src/assets/icons.jsx`    | All SVG icons extracted here            |
+| `frontend/src/assets/icons/`       | All SVG icons (modular system)          |
+| `frontend/vite.config.js`          | Build config with path aliases          |
 | `frontend/src/styles/*` (13 files) | Design system (variables, mixins, etc.) |
 | All `.scss` files                  | Styles injected, team writes JSX only   |
+
+**Vite Path Aliases (Configured):**
+
+Path aliases are configured in `vite.config.js` to simplify imports:
+
+```javascript
+resolve: {
+  alias: {
+    '@': path.resolve(__dirname, './src'),
+    '@assets': path.resolve(__dirname, './src/assets'),
+    '@components': path.resolve(__dirname, './src/components'),
+    '@contexts': path.resolve(__dirname, './src/contexts'),
+    '@services': path.resolve(__dirname, './src/services'),
+    '@utils': path.resolve(__dirname, './src/utils'),
+    '@styles': path.resolve(__dirname, './src/styles'),
+  }
+}
+```
+
+Team members should **use these aliases** instead of relative paths for cleaner code.
 
 ---
 
@@ -392,7 +421,7 @@ Tito: ThemeToggle/, main.jsx (provider nesting)
 
 ### CATEGORY 8: SHARED CONFIG (DO NOT TOUCH)
 
-Backend Config: `manage.py`, `db.sqlite3`, `seed_posts.py`, `numeneon/settings.py`, etc.
+Backend Config: `manage.py`, `seed_posts.py`, `numeneon/settings.py`, etc.
 Frontend Config: `eslint.config.js`, `vite.config.js`, `package.json`, `index.html`
 Global Styles: All 13 files in `frontend/src/styles/`
 

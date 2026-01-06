@@ -1089,7 +1089,6 @@ You're building the infrastructure layer - the foundation that everyone else dep
 
 backend/
 ├── manage.py [SHARED]
-├── db.sqlite3 [SHARED]
 ├── seed_posts.py [SHARED]
 │
 ├── numeneon/ [SHARED CONFIG]

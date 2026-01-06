@@ -4,6 +4,8 @@
 
 Your UI is complete and working! Your job is NOT to code - it's to **document** what you built so the team understands how to integrate with it. Add usage comments to your component files explaining what data they expect and how they connect to the backend.
 
+You also configured the **Vite path alias system** to simplify imports across the codebase.
+
 ## What You're Doing
 
 **Adding usage documentation only - NOT modifying implementation!**
@@ -14,6 +16,50 @@ For each of your ~75 component files, add a comment block at the top that explai
 - What data it expects (format, shape)
 - What context/services it consumes
 - Integration points with backend team's work
+
+## Vite Path Aliases (Configured by Pablo)
+
+You configured path aliases in `vite.config.js` to improve developer experience:
+
+```javascript
+resolve: {
+  alias: {
+    '@': path.resolve(__dirname, './src'),
+    '@assets': path.resolve(__dirname, './src/assets'),
+    '@components': path.resolve(__dirname, './src/components'),
+    '@contexts': path.resolve(__dirname, './src/contexts'),
+    '@services': path.resolve(__dirname, './src/services'),
+    '@utils': path.resolve(__dirname, './src/utils'),
+    '@styles': path.resolve(__dirname, './src/styles'),
+  }
+}
+```
+
+**Benefits for the team:**
+
+- No more `../../../../../../../` paths
+- Consistent imports across the codebase
+- Easier refactoring (paths don't break when moving files)
+- Cleaner, more readable code
+
+**Usage examples:**
+
+```jsx
+// Icons
+import { HeartIcon, CloseIcon } from "@assets/icons";
+
+// Contexts
+import { useAuth } from "@contexts/AuthContext";
+import { usePosts } from "@contexts/PostsContext";
+
+// Services
+import apiClient from "@services/apiClient";
+
+// Components
+import TopBar from "@components/layout/TopBar";
+```
+
+**Team should use aliases everywhere!**
 
 ## Your Files (~75 total)
 
@@ -198,6 +244,10 @@ Add this to the top of each JSX component file:
  * - ThreadView.jsx handles inline replies thread display
  * - MobileTabNav.jsx handles mobile category tab switching
  *
+ * Import Pattern (Use Vite Path Aliases):
+ * import { usePosts } from '@contexts/PostsContext';
+ * import { HeartIcon, CommentIcon } from '@assets/icons';
+ *
  * Team Integration:
  * - Colin: Build PostsContext to provide the posts array in above format
  * - Colin: Build postsService to fetch from /api/posts/
@@ -209,7 +259,7 @@ Add this to the top of each JSX component file:
  * backend and contexts that provide data in the format this component expects.
  */
 
-import { usePosts } from "../../../contexts/PostsContext";
+import { usePosts } from "@contexts/PostsContext";
 import { groupPosts } from "../utils/groupPosts";
 import TimelineRiverRow from "../TimelineRiverRow";
 import "./TimelineRiverFeed.scss";

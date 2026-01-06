@@ -1,42 +1,104 @@
-# NUMENEON FRONTEND STUDY PROMPT 2
+# NUMENEON STUDY MASTER PLAN
 
-## WHO I AM
+## 🎯 MISSION: Master 20 Critical Files in 16 Days
+
+**Deadline:** January 20, 2026 (Graduation: Jan 24)  
+**Study Time:** Jan 4 → Jan 20 = 16 days  
+**Goal:** Confidently explain architecture in technical interviews
+
+---
+
+## 👤 WHO I AM
 
 Pablo - UI Lead on NUMENEON (capstone project). 45 years old, career changer, visual-spatial learner with synesthesia. Graduating General Assembly bootcamp January 24th. Need to understand my codebase deeply for technical interviews.
 
-## WHAT WE'RE DOING
+**My Strengths:**
 
-Studying the NUMENEON frontend (React) file by file, then tracing connections between files.
+- Visual/spatial thinking
+- Pattern recognition (synesthesia helps!)
+- UI/UX design background
+- Built the entire frontend
 
-## STUDY METHOD
+**My Challenge:**
 
-### Phase 1: Linear + Mini-Connection
+- ~100 files in codebase
+- Limited time before graduation
+- Need to explain technical decisions clearly
 
-1. Study a file (with inline comments explaining syntax and purpose)
-2. Identify one file it connects to
-3. Note the connection
-4. Stop
+---
+
+## 📚 WHAT WE'RE STUDYING
+
+**Frontend:** React 18 + Vite 7.2 + Context API + Axios  
+**Backend:** Django 5.2 + DRF + JWT Auth + SQLite  
+**Build:** Vite path aliases (@assets, @components, @contexts, etc.)
+
+**Focus:** 20 must-know files (out of 100+ total)
+
+- 12 frontend files
+- 8 backend files
+
+---
+
+## 🎓 STUDY METHOD
+
+### Phase 1: File-by-File Linear Study (Days 1-16)
+
+**Goal:** Exposure, not mastery. "I've seen this. I know what lives here."
+
+**For each file:**
+
+1. Read the file with inline comments (explaining syntax)
+2. Identify ONE connection to another file
+3. Note: "🔗 This connects to [filename]"
+4. Write a 2-3 sentence summary
 5. Move to next file
-6. Repeat
 
-**Goal:** Exposure, not mastery. "I've seen this. I know what lives here. I know one thing it connects to."
+**DO NOT:**
 
-### Phase 2: Multi-File Deep Tracing
+- Try to memorize everything
+- Get stuck on one file for hours
+- Jump around randomly
 
-Open 2-3 related files together. Trace a complete flow:
+### Phase 2: Multi-File Deep Tracing (Days 17-20)
 
-- Where function is DEFINED (file + line number)
-- Where function is IMPORTED (file + line number)
-- Where function is CALLED (file + line number)
+**Goal:** Trace complete flows across 3-4 files
 
-Use color coding:
+**Pick a flow:**
 
-- 🔴 Entry points
-- 🟡 Orchestrators
-- 🟢 Workers
-- 🔵 Utilities
+- "Creating a Post": ComposerModal → PostsContext → postsService → apiClient → Backend
+- "User Login": Login.jsx → AuthContext → Backend → JWT token → apiClient
+- "Loading Feed": Home.jsx → PostsContext → postsService → Backend → TimelineRiverFeed
 
-## HOW TO COMMENT CODE
+**For each trace:**
+
+1. Open 3-4 related files
+2. Identify where function is DEFINED (file + line)
+3. Where it's IMPORTED (file + line)
+4. Where it's CALLED (file + line)
+5. Practice explaining out loud
+
+**Color coding for roles:**
+
+- 🔴 Entry points (user action starts here)
+- 🟡 Orchestrators (manage state, coordinate)
+- 🟢 Workers (do the actual work)
+- 🔵 Utilities (helpers, tools)
+
+---
+
+## 📅 16-DAY STUDY SCHEDULE
+
+### Days 1-2: Entry Layer (2 files)
+
+- ✅ main.jsx - How React app starts
+- ✅ App.jsx - Routing and page structure
+
+**What to know:**
+
+- How providers wrap the app
+- Route definitions
+- Layout structure (TopBar + SideNav + content)
 
 ```javascript
 // 📁 FILE: filename.jsx
@@ -422,4 +484,3 @@ Just finished apiClient.js.
 - POST /api/friends/accept/:id/ → Accept friend request
 - POST /api/friends/reject/:id/ → Reject friend request
 - GET /api/friends/profile/:username/ → Get user profile data
-
