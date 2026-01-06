@@ -1,9 +1,11 @@
 // 🔵 PABLO - UI Component
 // PostCard.jsx - Individual post card with actions
 
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { formatRelativeTime } from '../../../../utils/timeFormatters';
 import ThreadView from '../ThreadView';
+import RepostModal from '../RepostModal/RepostModal';
 import {
   UserIcon,
   HeartDynamicIcon,
@@ -63,9 +65,24 @@ function PostCard({
   onUpdatePost,
   isSaving
 }) {
+  // Heart animation state
+  const [isHeartAnimating, setIsHeartAnimating] = useState(false);
+  
+  // Repost modal state
+  const [showRepostModal, setShowRepostModal] = useState(false);
+  
+  // Type-based heart colors
+  const heartColors = {
+    thoughts: '#4fffff',    // cyan/blue
+    media: '#c9a8ff',       // purple  
+    milestones: '#1ae784'   // green
+  };
+  const heartColor = heartColors[type] || '#4fffff';
+  
   return (
+    <>
     <div 
-      className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isShortPost ? 'post--compact' : ''} fade-in hover-lift`}
+      className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isShortPost ? 'post--compact' : ''} fade-in`}
     >
       {/* Header: Avatar + Name + Type Badge */}
       <div className="river-post-header">
@@ -123,20 +140,17 @@ function PostCard({
       <div className="river-post-actions">
         {/* Likes */}
         <div 
-          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${isHeartAnimating ? 'heart-pulse' : ''}`}
           onClick={async (e) => {
             e.stopPropagation();
+            setIsHeartAnimating(true);
+            setTimeout(() => setIsHeartAnimating(false), 300);
             await onLike(post.id);
           }}
           title={post.is_liked ? 'Unlike' : 'Like'}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', '--heart-color': heartColor }}
         >
-          <HeartDynamicIcon 
-            size={18} 
-            filled={post.is_liked}
-            fillColor="#3b82f6"
-            strokeColor={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"}
-          />
+          <HeartDynamicIcon size={18} filled={post.is_liked} />
           {post.likes_count || 0}
         </div>
         
@@ -154,9 +168,9 @@ function PostCard({
         <button 
           className="river-action-btn" 
           title="Repost"
-          onClick={async (e) => {
+          onClick={(e) => {
             e.stopPropagation();
-            await onShare(post.id);
+            setShowRepostModal(true);
           }}
         >
           <RepostIcon size={20} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
@@ -333,6 +347,37 @@ function PostCard({
                       <img src={post.media_url} alt="Post media" />
                     </div>
                   )}
+                  
+                  {/* Post Actions in expanded view */}
+                  <div className="reply-context-actions">
+                    {/* Like */}
+                    <div 
+                      className={`reply-action-btn ${post.is_liked ? 'is-liked' : ''}`}
+                      onClick={async () => await onLike(post.id)}
+                      style={{ cursor: 'pointer', '--heart-color': heartColor }}
+                    >
+                      <HeartDynamicIcon size={18} filled={post.is_liked} />
+                      <span>{post.likes_count || 0}</span>
+                    </div>
+                    {/* Comment count */}
+                    <div className="reply-action-btn">
+                      <MessageBubbleIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+                      <span>{post.reply_count || 0}</span>
+                    </div>
+                    {/* Share */}
+                    <div 
+                      className="reply-action-btn"
+                      onClick={() => setShowRepostModal(true)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
+                      <span>{post.shares_count || 0}</span>
+                    </div>
+                    {/* Bookmark */}
+                    <div className="reply-action-btn" style={{ cursor: 'pointer' }}>
+                      <BookmarkIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -427,6 +472,19 @@ function PostCard({
         document.body
       )}
     </div>
+    
+    {/* Repost Modal */}
+    {showRepostModal && (
+      <RepostModal
+        post={post}
+        user={user}
+        type={type}
+        onClose={() => setShowRepostModal(false)}
+        onRepost={onShare}
+        onCopyLink={() => {}}
+      />
+    )}
+    </>
   );
 }
 

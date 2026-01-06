@@ -134,12 +134,7 @@ function MediaLightbox({ post, onClose, commentText, setCommentText, threadRepli
               className={`media-action-btn media-action-btn--like ${post.is_liked ? 'media-action-btn--liked' : ''}`}
               onClick={handleLike}
             >
-              <HeartDynamicIcon 
-                size={18} 
-                filled={post.is_liked}
-                fillColor="#3b82f6"
-                strokeColor={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"}
-              />
+              <HeartDynamicIcon size={18} filled={post.is_liked} />
               <span className="action-count">{post.likes_count || 0}</span>
             </button>
             <button className="media-action-btn">

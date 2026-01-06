@@ -93,7 +93,8 @@
 
 .media-lightbox-actions {
   display: flex;
-  gap: var(--space-xs);
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 0 1.25rem 0.75rem;
 }
@@ -103,70 +104,63 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  padding: var(--space-sm);
+  padding: 6px;
   background: transparent;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
+  border: none;
   color: var(--text-muted);
   font-family: var(--font-main);
   font-size: var(--font-size-xs);
   font-weight: 500;
   letter-spacing: 0.3px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 36px;
-  box-sizing: border-box;
+  transition: all 0.25s ease;
+  min-width: auto;
 }
 
 .media-action-btn:hover {
-  background: rgba(0, 212, 255, 0.06);
-  border-color: rgba(0, 212, 255, 0.25);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px currentColor);
   color: #4fffff;
 }
 
 .media-action-btn:nth-child(2):hover {
   color: #1ae784;
-  border-color: rgba(26, 231, 132, 0.25);
-  background: rgba(26, 231, 132, 0.06);
 }
 
 .media-action-btn:nth-child(3):hover {
   color: #c9a8ff;
-  border-color: rgba(167, 131, 255, 0.25);
-  background: rgba(167, 131, 255, 0.06);
 }
 
 .media-action-btn:nth-child(4):hover {
   color: #ffb347;
-  border-color: rgba(255, 179, 71, 0.25);
-  background: rgba(255, 179, 71, 0.06);
 }
 
 .media-action-btn:nth-child(5):hover {
   color: #dc08bc;
-  border-color: rgba(220, 8, 188, 0.25);
-  background: rgba(220, 8, 188, 0.06);
 }
 
 .media-action-btn--like {
   flex: 0 0 auto;
-  padding: 8px 12px;
+  padding: 6px;
 }
 
-/* Liked state - filled blue heart */
+/* Liked state - purple heart for media posts */
 .media-action-btn--liked {
-  color: #3b82f6 !important;
-  border-color: rgba(59, 130, 246, 0.4) !important;
-  background: rgba(59, 130, 246, 0.1) !important;
+  color: #c9a8ff !important;
+  
+  svg path {
+    fill: #c9a8ff !important;
+    stroke: #c9a8ff !important;
+    filter: drop-shadow(0 0 8px rgba(201, 168, 255, 0.6));
+  }
 }
 
 .media-action-btn--liked .action-count {
-  color: #3b82f6 !important;
+  color: #c9a8ff !important;
 }
 
 .media-action-btn--liked:hover {
-  background: rgba(59, 130, 246, 0.15) !important;
-  border-color: rgba(59, 130, 246, 0.5) !important;
+  color: #c9a8ff !important;
 }
 
 .media-action-btn .action-count {

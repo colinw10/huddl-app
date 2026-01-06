@@ -366,6 +366,64 @@
   display: block;
 }
 
+/* Post Actions in expanded view - matches lightbox/post card style */
+.reply-context-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reply-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'sweet-square-pro', sans-serif;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  padding: 6px;
+  transition: all 0.25s ease;
+  
+  &:hover {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px currentColor);
+    color: #4fffff;
+  }
+  
+  /* Comment button hover */
+  &:nth-child(2):hover {
+    color: #c9a8ff;
+  }
+  
+  /* Share button hover */
+  &:nth-child(3):hover {
+    color: #1ae784;
+  }
+  
+  /* Bookmark button hover */
+  &:nth-child(4):hover {
+    color: #ffb347;
+  }
+  
+  &.is-liked {
+    color: var(--heart-color, #4fffff);
+    
+    svg path {
+      fill: var(--heart-color, #4fffff);
+      stroke: var(--heart-color, #4fffff);
+      filter: drop-shadow(0 0 8px var(--heart-color, #4fffff));
+    }
+  }
+  
+  span {
+    font-weight: 500;
+  }
+}
+
 .full-page-thread {
   margin-top: var(--space-xl);
   padding-top: var(--space-xl);

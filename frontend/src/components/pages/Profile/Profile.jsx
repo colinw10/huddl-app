@@ -59,6 +59,9 @@ function Profile() {
   // State for All Posts media lightbox
   const [allPostsLightboxPost, setAllPostsLightboxPost] = useState(null);
   
+  // Heart animation state for All Posts section
+  const [allPostsAnimatingHeartId, setAllPostsAnimatingHeartId] = useState(null);
+  
   // Determine if viewing own profile or someone else's
   const isOwnProfile = !profileUsername || profileUsername === currentUser?.username;
   
@@ -365,11 +368,13 @@ function Profile() {
                     <div className="river-post-actions my-post-actions">
                       {/* Like button */}
                       <div 
-                        className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`} 
+                        className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${allPostsAnimatingHeartId === post.id ? 'heart-pulse' : ''}`} 
                         title={post.is_liked ? 'Unlike' : 'Like'} 
                         style={{ cursor: 'pointer' }}
                         onClick={async (e) => {
                           e.stopPropagation();
+                          setAllPostsAnimatingHeartId(post.id);
+                          setTimeout(() => setAllPostsAnimatingHeartId(null), 300);
                           await likePost(post.id);
                         }}
                       >

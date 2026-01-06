@@ -152,6 +152,9 @@ function TimelineRiver({
 
   // State for mobile category tabs
   const [mobileCategory, setMobileCategory] = useState('thoughts');
+  
+  // Heart animation state - tracks which post ID is animating
+  const [animatingHeartId, setAnimatingHeartId] = useState(null);
 
   // Deck index for carousel - per friend, per type
   const [deckIndices, setDeckIndices] = useState({});
@@ -180,20 +183,17 @@ function TimelineRiver({
       <div className="river-post-actions friend-post-actions">
         {/* Like button */}
         <div 
-          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${animatingHeartId === post.id ? 'heart-pulse' : ''}`}
           onClick={async (e) => {
             e.stopPropagation();
+            setAnimatingHeartId(post.id);
+            setTimeout(() => setAnimatingHeartId(null), 300);
             await likePost(post.id);
           }}
           title={post.is_liked ? 'Unlike' : 'Like'}
           style={{ cursor: 'pointer' }}
         >
-          <HeartDynamicIcon 
-            size={18} 
-            filled={post.is_liked}
-            fillColor="#3b82f6"
-            strokeColor={post.is_liked ? "#3b82f6" : "rgba(201,168,255,0.5)"}
-          />
+          <HeartDynamicIcon size={18} filled={post.is_liked} />
           {post.likes_count || 0}
         </div>
         
@@ -244,9 +244,11 @@ function TimelineRiver({
       <div className="river-post-actions my-post-actions">
         {/* Like button */}
         <div 
-          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''}`}
+          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${animatingHeartId === post.id ? 'heart-pulse' : ''}`}
           onClick={async (e) => {
             e.stopPropagation();
+            setAnimatingHeartId(post.id);
+            setTimeout(() => setAnimatingHeartId(null), 300);
             await likePost(post.id);
           }}
           title={post.is_liked ? 'Unlike' : 'Like'}

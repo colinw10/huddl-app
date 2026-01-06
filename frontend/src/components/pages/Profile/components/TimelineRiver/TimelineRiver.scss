@@ -406,12 +406,17 @@
       }
     }
     
+    /* Heart pulse animation on click */
+    &.heart-pulse svg {
+      animation: heartPulse 0.3s ease-out;
+    }
+    
     &.is-liked {
-      color: #3b82f6;
+      color: var(--heart-color, #c9a8ff);
       svg path {
-        fill: #3b82f6;
-        stroke: #3b82f6;
-        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+        fill: var(--heart-color, #c9a8ff) !important;
+        stroke: var(--heart-color, #c9a8ff) !important;
+        filter: drop-shadow(0 0 8px var(--heart-color, #c9a8ff));
       }
     }
   }
@@ -684,7 +689,7 @@
 }
 
 .friend-post-actions .river-post-likes.is-liked {
-  color: #3b82f6;
+  color: var(--heart-color, #c9a8ff);
 }
 
 .friend-post-actions .river-action-btn {
@@ -771,6 +776,13 @@
     opacity: 1;
     transform: translateX(0) translateY(0);
   }
+}
+
+/* Heart pulse animation for like button */
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
 }
 
 /* River Cards - Shared Styles */
@@ -1006,17 +1018,18 @@
   }
   
   &.is-liked {
-    color: #3b82f6;
+    color: var(--heart-color, #c9a8ff);
     
     svg path {
-      fill: #3b82f6;
-      stroke: #3b82f6;
-      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+      fill: var(--heart-color, #c9a8ff) !important;
+      stroke: var(--heart-color, #c9a8ff) !important;
+      filter: drop-shadow(0 0 8px var(--heart-color, #c9a8ff));
     }
   }
 }
 
 .text-card .river-post-likes {
+  --heart-color: #4fffff; /* cyan for thoughts */
   color: rgba(79, 255, 255, 0.6);
   
   &:hover {
@@ -1029,15 +1042,30 @@
   }
 }
 
-.achievement-card .river-post-likes {
-  color: rgba(26, 231, 132, 0.6);
+.media-card .river-post-likes {
+  --heart-color: #c9a8ff; /* purple for media */
+  color: rgba(201, 168, 255, 0.6);
   
   &:hover {
-    color: #1ae784;
+    color: #c9a8ff;
     
     svg path {
-      stroke: #1ae784;
-      filter: drop-shadow(0 0 6px rgba(26, 231, 132, 0.5));
+      stroke: #c9a8ff;
+      filter: drop-shadow(0 0 6px rgba(201, 168, 255, 0.5));
+    }
+  }
+}
+
+.achievement-card .river-post-likes {
+  --heart-color: #ffd700; /* golden for milestones */
+  color: rgba(255, 215, 0, 0.6);
+  
+  &:hover {
+    color: #ffd700;
+    
+    svg path {
+      stroke: #ffd700;
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
     }
   }
 }
