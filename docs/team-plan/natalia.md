@@ -315,3 +315,94 @@ You're building the authentication system - the foundation that lets users creat
 - [ ] ProtectedRoute blocks access to /home when logged out
 - [ ] ProtectedRoute allows access to /home when logged in
 - [ ] Profile picture uploads work (if implemented)
+
+---
+
+## 🚀 Stretch Goals (If You Finish Early)
+
+These are **optional** but great for learning and portfolio building!
+
+### Stretch 1: Password Reset Flow
+
+**Backend:**
+- Add `POST /api/auth/forgot-password/` endpoint
+- Generate reset token, store expiration time
+- (Mock) send email with reset link
+
+**Frontend:**
+- Create ForgotPassword.jsx page
+- Create ResetPassword.jsx page (with token from URL)
+- Add "Forgot password?" link to Login page
+
+**Why it's valuable:** Every production app needs this. Great interview talking point.
+
+---
+
+### Stretch 2: Profile Update Endpoint
+
+**Backend:**
+- Add `PATCH /api/auth/me/` to update current user's profile
+- Support updating bio, location, website, profile picture
+- Validate file uploads (size, type)
+
+**Frontend:**
+- Add updateProfile() to AuthContext
+- Wire up to Pablo's ProfileCard edit functionality
+
+**Why it's valuable:** Demonstrates PATCH vs PUT, file uploads, partial updates.
+
+---
+
+### Stretch 3: Email Verification Flow
+
+**Backend:**
+- Generate verification token on signup
+- Add `POST /api/auth/verify-email/` endpoint
+- Mark user as verified in database
+
+**Frontend:**
+- Show "Check your email" message after signup
+- Create VerifyEmail.jsx page
+
+**Why it's valuable:** Production-ready auth requires this. Shows attention to security.
+
+---
+
+### Stretch 4: Become the PR Reviewer
+
+Since auth is foundational, you understand data flow better than most:
+
+- Review Colin's Posts PRs - check how he uses User as author
+- Review Crystal's Friends PRs - check how she uses User for relationships
+- Review Tito's apiClient PR - verify JWT token handling
+
+**Why it's valuable:** Code review is a key senior developer skill. Shows leadership.
+
+---
+
+### Stretch 5: Write Auth Documentation
+
+Create `docs/features-implemented/AuthenticationSystem.md`:
+
+- Document all auth endpoints with request/response examples
+- Explain JWT token flow (access + refresh)
+- Show how useAuth() hook works
+- Common troubleshooting (token expired, CORS issues)
+
+**Why it's valuable:** Technical writing is underrated. Makes onboarding easier.
+
+---
+
+## 💡 Why Your Work Matters
+
+**You're not just building login forms.** You're building:
+
+1. **The trust layer** - Every request depends on your JWT tokens
+2. **The identity system** - Colin's posts know WHO posted because of your User model
+3. **The security boundary** - Your ProtectedRoute keeps the app safe
+4. **The foundation** - If auth breaks, NOTHING works
+
+When employers ask "What did you build?", you can say:
+> "I built the authentication system from scratch - backend JWT auth with Django REST Framework, frontend state management with React Context, protected routes, and the user profile system that every other feature depends on."
+
+That's a **strong** answer. 💪
