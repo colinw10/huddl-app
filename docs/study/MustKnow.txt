@@ -51,9 +51,13 @@ FRONTEND (14 files) - Study in this order!
 10. TimelineRiverFeed.jsx - Displays posts in 3 columns
     ↳ Groups posts by date using groupPostsByDate()
     
-11. TimelineRiverRow.jsx - Individual post rendering
+11. TimelineRiverRow.jsx - Post orchestrator component
     ↳ CRITICAL: Uses Vite aliases (@assets, @contexts)
-    ↳ Handles: PostCard, carousel, comments, likes
+    ↳ Modular architecture with subcomponents:
+      - PostCard.jsx - Individual post with actions (like, share, comment, edit, delete)
+      - SmartDeck.jsx - Carousel deck navigation
+      - ThreadView.jsx - Inline replies thread
+      - RepostModal.jsx - Share modal with repost/copy link (Jan 2026)
     
 12. Profile.jsx - User profile page, shows user's posts
     ↳ Dynamic route: /profile/:username

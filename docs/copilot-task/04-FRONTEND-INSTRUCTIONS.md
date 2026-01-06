@@ -1261,6 +1261,7 @@ Keep ALL implementation code intact. Mark as "DO NOT MODIFY".
     - `SmartDeck/` - Carousel deck with prev/next navigation
     - `ThreadView/` - Inline replies thread (Twitter-style)
     - `MobileTabNav/` - Mobile category tab navigation
+    - `RepostModal/` - **NEW (Jan 2026)** Share modal with repost/copy link icons
   - Usernames and avatars are clickable → navigate to user's profile
   - Uses `handleUserClick()` with `useNavigate()` from React Router
   - CSS classes: `.clickable-user` with hover glow effects

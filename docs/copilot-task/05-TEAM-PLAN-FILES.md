@@ -703,9 +703,11 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 | `frontend/src/components/pages/Home/components/TimelineRiverRow/components/SmartDeck/`    | **NEW** Carousel deck with navigation    |
 | `frontend/src/components/pages/Home/components/TimelineRiverRow/components/ThreadView/`   | **NEW** Inline replies thread display    |
 | `frontend/src/components/pages/Home/components/TimelineRiverRow/components/MobileTabNav/` | **NEW** Mobile category tab navigation   |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/RepostModal/`  | **NEW (Jan 2026)** Share modal with repost/copy icons |
 | `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`           | Image viewer modal                       |
 | `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss`          | Lightbox styling                         |
 | `frontend/src/components/pages/Home/components/MediaLightbox/index.js`                    | Export                                   |
+| `frontend/src/components/pages/Home/components/MediaLightbox/styles/*.scss`               | 7 SCSS partials                          |
 
 ### Profile Card System (12 files)
 
@@ -790,7 +792,7 @@ The original monolithic TimelineRiverRow.jsx has been split into focused sub-com
 TimelineRiverRow/
 ├── TimelineRiverRow.jsx      # Main orchestrator
 ├── TimelineRiverRow.scss
-├── styles/                   # SCSS partials
+├── styles/                   # 11 SCSS partials
 └── components/
     ├── index.js              # Barrel export
     ├── PostCard/             # Individual post with all actions
@@ -802,9 +804,12 @@ TimelineRiverRow/
     ├── ThreadView/           # Inline replies thread
     │   ├── ThreadView.jsx
     │   └── ThreadView.scss
-    └── MobileTabNav/         # Mobile category tabs
-        ├── MobileTabNav.jsx
-        └── MobileTabNav.scss
+    ├── MobileTabNav/         # Mobile category tabs
+    │   ├── MobileTabNav.jsx
+    │   └── MobileTabNav.scss
+    └── RepostModal/          # Share modal (Jan 2026)
+        ├── RepostModal.jsx
+        └── RepostModal.scss
 ```
 
 **State (in TimelineRiverRow.jsx - passed to sub-components):**

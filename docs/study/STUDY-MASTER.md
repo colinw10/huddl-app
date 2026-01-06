@@ -187,7 +187,13 @@ frontend/src/
 │   │   ├── Home/ (main feed)
 │   │   │   └── components/
 │   │   │       ├── TimelineRiverFeed/ (post groups)
-│   │   │       ├── TimelineRiverRow/ (single post)
+│   │   │       ├── TimelineRiverRow/ (post orchestrator)
+│   │   │       │   └── components/
+│   │   │       │       ├── PostCard/ (individual post)
+│   │   │       │       ├── SmartDeck/ (carousel)
+│   │   │       │       ├── ThreadView/ (replies)
+│   │   │       │       ├── MobileTabNav/ (mobile tabs)
+│   │   │       │       └── RepostModal/ (share modal)
 │   │   │       ├── DeleteConfirmModal/
 │   │   │       └── MediaLightbox/
 │   │   │

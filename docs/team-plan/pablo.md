@@ -76,16 +76,17 @@ import TopBar from "@components/layout/TopBar";
   - `utils/groupPosts.js` - Utility for organizing posts by user
   - `utils/timeFormatters.js` - **NEW** Relative time formatting utilities
   - `components/DeleteConfirmModal/` - Confirmation dialog (3 files)
-  - `components/MediaLightbox/` - Image viewer modal (2 files + 7 SCSS partials)
+  - `components/MediaLightbox/` - Image viewer modal (2 files + 7 SCSS partials in styles/ folder)
   - `components/TimelineRiverFeed/` - Main feed container (3 files)
   - `components/TimelineRiverRow/` - **REFACTORED (Jan 2025)** Modular architecture:
     - `TimelineRiverRow.jsx` - Main orchestrator component
     - `TimelineRiverRow.scss` - Main styles
-    - `styles/` - SCSS partials
+    - `styles/` - 11 SCSS partials (_base, _carousel, _composer, _desktop-stack-nav, _light-mode, _post-actions, _post-card, _post-media, _responsive, _smart-deck, _thread)
     - `components/PostCard/` - Individual post rendering with actions
     - `components/SmartDeck/` - Carousel deck with navigation
     - `components/ThreadView/` - Inline replies thread (Twitter-style)
     - `components/MobileTabNav/` - Mobile category tab navigation
+    - `components/RepostModal/` - **NEW (Jan 2026)** Share modal with repost/copy link icons
 
 ### Profile Page System
 

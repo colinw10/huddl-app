@@ -207,18 +207,19 @@ frontend/src/components/pages/Home/
 │   │   ├── TimelineRiverRow.jsx (main orchestrator)
 │   │   ├── TimelineRiverRow.scss
 │   │   ├── index.js
-│   │   ├── styles/ (SCSS partials)
+│   │   ├── styles/ (11 SCSS partials)
 │   │   └── components/
-│   │       ├── PostCard/ (individual post rendering)
+│   │       ├── PostCard/ (individual post with actions)
 │   │       ├── SmartDeck/ (carousel deck navigation)
 │   │       ├── ThreadView/ (inline replies thread)
 │   │       ├── MobileTabNav/ (mobile category tabs)
+│   │       ├── RepostModal/ (share modal - Jan 2026)
 │   │       └── index.js (barrel export)
-│   └── MediaLightbox/ (9 files) ← PABLO
+│   └── MediaLightbox/ (10 files) ← PABLO
 │       ├── MediaLightbox.jsx
 │       ├── MediaLightbox.scss
 │       ├── index.js
-│       └── partials/ (6 SCSS partials)
+│       └── styles/ (7 SCSS partials)
 ```
 
 **Profile System (9 files):**
