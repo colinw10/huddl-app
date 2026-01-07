@@ -684,30 +684,30 @@ You're rebuilding the most complex UI components in NUMENEON - the Timeline Rive
 
 ### Timeline System (Refactored Jan 2025 - Modular Architecture)
 
-| File                                                                                      | Description                              |
-| ----------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `frontend/src/components/pages/Home/Home.jsx`                                             | Home page wrapper                        |
-| `frontend/src/components/pages/Home/Home.scss`                                            | Home styling                             |
-| `frontend/src/components/pages/Home/index.js`                                             | Export                                   |
-| `frontend/src/components/pages/Home/utils/groupPosts.js`                                  | Post grouping algorithm                  |
-| `frontend/src/components/pages/Home/utils/timeFormatters.js`                              | **NEW** Relative time formatting         |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`   | Main feed container                      |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss`  | Feed styling                             |
-| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js`                | Export                                   |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`     | Main orchestrator (uses sub-components)  |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss`    | Row styling                              |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js`                 | Export                                   |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/*.scss`            | SCSS partials                            |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/index.js`      | **NEW** Barrel export for sub-components |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/PostCard/`     | **NEW** Individual post card rendering   |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/SmartDeck/`    | **NEW** Carousel deck with navigation    |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/ThreadView/`   | **NEW** Inline replies thread display    |
-| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/MobileTabNav/` | **NEW** Mobile category tab navigation   |
+| File                                                                                      | Description                                           |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `frontend/src/components/pages/Home/Home.jsx`                                             | Home page wrapper                                     |
+| `frontend/src/components/pages/Home/Home.scss`                                            | Home styling                                          |
+| `frontend/src/components/pages/Home/index.js`                                             | Export                                                |
+| `frontend/src/components/pages/Home/utils/groupPosts.js`                                  | Post grouping algorithm                               |
+| `frontend/src/components/pages/Home/utils/timeFormatters.js`                              | **NEW** Relative time formatting                      |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.jsx`   | Main feed container                                   |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/TimelineRiverFeed.scss`  | Feed styling                                          |
+| `frontend/src/components/pages/Home/components/TimelineRiverFeed/index.js`                | Export                                                |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx`     | Main orchestrator (uses sub-components)               |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.scss`    | Row styling                                           |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/index.js`                 | Export                                                |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/*.scss`            | SCSS partials                                         |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/index.js`      | **NEW** Barrel export for sub-components              |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/PostCard/`     | **NEW** Individual post card rendering                |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/SmartDeck/`    | **NEW** Carousel deck with navigation                 |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/ThreadView/`   | **NEW** Inline replies thread display                 |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/MobileTabNav/` | **NEW** Mobile category tab navigation                |
 | `frontend/src/components/pages/Home/components/TimelineRiverRow/components/RepostModal/`  | **NEW (Jan 2026)** Share modal with repost/copy icons |
-| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`           | Image viewer modal                       |
-| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss`          | Lightbox styling                         |
-| `frontend/src/components/pages/Home/components/MediaLightbox/index.js`                    | Export                                   |
-| `frontend/src/components/pages/Home/components/MediaLightbox/styles/*.scss`               | 7 SCSS partials                          |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.jsx`           | Image viewer modal                                    |
+| `frontend/src/components/pages/Home/components/MediaLightbox/MediaLightbox.scss`          | Lightbox styling                                      |
+| `frontend/src/components/pages/Home/components/MediaLightbox/index.js`                    | Export                                                |
+| `frontend/src/components/pages/Home/components/MediaLightbox/styles/*.scss`               | 7 SCSS partials                                       |
 
 ### Profile Card System (12 files)
 

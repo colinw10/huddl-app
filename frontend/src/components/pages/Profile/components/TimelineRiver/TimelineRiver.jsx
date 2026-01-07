@@ -6,26 +6,14 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import './TimelineRiver.scss';
 import {
-  HeartDynamicIcon,
-  MessageBubbleIcon,
-  RepostIcon,
-  BookmarkIcon,
-  EditIcon,
-  TrashIcon,
-  MessageLineIcon,
-  UserIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ImageIcon,
-  ExpandIcon,
-  MilestoneIcon,
   CloseIcon,
   CheckIcon,
-  MaximizeIcon
+  EditIcon,
 } from '../../../../../assets/icons';
 import DeleteConfirmModal from '../../../Home/components/DeleteConfirmModal/DeleteConfirmModal';
 import MediaLightbox from '../../../Home/components/MediaLightbox/MediaLightbox';
 import { usePosts, useMessages, useAuth } from '../../../../../contexts';
+import { RiverPostActions, RiverSmartDeck, RiverComposer, RiverThread, RiverTimelineView, RiverFeedView } from './components';
 
 // Helper to format dates nicely
 const formatDate = (dateString) => {
@@ -163,155 +151,29 @@ function TimelineRiver({
     return deckIndices[`${username}-${type}`] || 0;
   };
 
-  const nextCard = (username, type, total) => {
-    if (total <= 1) return;
-    const key = `${username}-${type}`;
-    setDeckIndices(prev => ({ ...prev, [key]: ((prev[key] || 0) + 1) % total }));
+  // Handler for SmartDeck index changes
+  const handleDeckIndexChange = (key, index) => {
+    setDeckIndices(prev => ({ ...prev, [key]: index }));
   };
 
-  const prevCard = (username, type, total) => {
-    if (total <= 1) return;
-    const key = `${username}-${type}`;
-    setDeckIndices(prev => ({ ...prev, [key]: (prev[key] || 0) === 0 ? total - 1 : (prev[key] || 0) - 1 }));
+  // Handler for like with animation
+  const handleLike = async (postId) => {
+    setAnimatingHeartId(postId);
+    setTimeout(() => setAnimatingHeartId(null), 300);
+    await likePost(postId);
   };
 
-  // 🔵 Render action buttons for friend feed cards
-  const renderFriendPostActions = (post) => {
-    if (!post) return null;
-    
-    return (
-      <div className="river-post-actions friend-post-actions">
-        {/* Like button */}
-        <div 
-          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${animatingHeartId === post.id ? 'heart-pulse' : ''}`}
-          onClick={async (e) => {
-            e.stopPropagation();
-            setAnimatingHeartId(post.id);
-            setTimeout(() => setAnimatingHeartId(null), 300);
-            await likePost(post.id);
-          }}
-          title={post.is_liked ? 'Unlike' : 'Like'}
-          style={{ cursor: 'pointer' }}
-        >
-          <HeartDynamicIcon size={18} filled={post.is_liked} />
-          {post.likes_count || 0}
-        </div>
-        
-        {/* Comment button */}
-        <button 
-          className={`river-action-btn ${post.reply_count > 0 ? 'has-replies' : ''}`}
-          title="Comment"
-          onClick={() => handleCommentClick(post.id)}
-        >
-          <MessageBubbleIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
-          {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
-        </button>
-        
-        {/* Share/Repost button */}
-        <button className="river-action-btn" title="Repost">
-          <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" />
-        </button>
-        
-        {/* Message button */}
-        <button 
-          className="river-action-btn river-action-btn--message" 
-          title={`Message ${post.author?.username || 'user'}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            openMessages({
-              id: post.author?.id,
-              username: post.author?.username,
-              displayName: post.author?.username,
-            });
-          }}
-        >
-          <MessageLineIcon size={18} stroke="rgba(0,212,255,0.5)" />
-        </button>
-        
-        {/* Bookmark button */}
-        <button className="river-action-btn" title="Bookmark">
-          <BookmarkIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
-        </button>
-      </div>
-    );
+  // Handler for edit button
+  const handleEdit = (post) => {
+    setEditingPostId(post.id);
+    setCommentText(post.content);
+    setIsEditMode(true);
+    setIsComposerFullPage(true);
   };
 
-  // 🟢 Render action buttons for profile timeline posts
-  const renderMyPostActions = (post) => {
-    if (!post) return null;
-    
-    return (
-      <div className="river-post-actions my-post-actions">
-        {/* Like button */}
-        <div 
-          className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${animatingHeartId === post.id ? 'heart-pulse' : ''}`}
-          onClick={async (e) => {
-            e.stopPropagation();
-            setAnimatingHeartId(post.id);
-            setTimeout(() => setAnimatingHeartId(null), 300);
-            await likePost(post.id);
-          }}
-          title={post.is_liked ? 'Unlike' : 'Like'}
-          style={{ cursor: 'pointer' }}
-        >
-          <HeartDynamicIcon size={18} filled={post.is_liked} />
-          {post.likes_count || 0}
-        </div>
-        
-        {/* Comment button */}
-        <button 
-          className={`river-action-btn ${post.reply_count > 0 ? 'has-replies' : ''}`}
-          title="Comment"
-          onClick={() => handleCommentClick(post.id)}
-        >
-          <MessageBubbleIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
-          {post.reply_count > 0 && <span className="reply-count">{post.reply_count}</span>}
-        </button>
-        
-        {/* Share/Repost button */}
-        <button className="river-action-btn" title="Share">
-          <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" />
-        </button>
-        
-        {/* Save/Bookmark button - ONLY on other user's profile */}
-        {!isOwnProfile && (
-          <button className="river-action-btn river-action-btn--save" title="Save Post">
-            <BookmarkIcon size={18} stroke="rgba(167,131,255,0.6)" strokeWidth="1.5" />
-          </button>
-        )}
-        
-        {/* Edit button - ONLY on own profile */}
-        {isOwnProfile && (
-          <button 
-            className="river-action-btn river-action-btn--edit" 
-            title="Edit"
-            onClick={(e) => {
-              e.stopPropagation();
-              setEditingPostId(post.id);
-              setCommentText(post.content);
-              setIsEditMode(true);
-              setIsComposerFullPage(true);
-            }}
-          >
-            <EditIcon size={18} stroke="rgba(255,193,7,0.6)" strokeWidth="1.5" />
-          </button>
-        )}
-        
-        {/* Delete button - ONLY on own profile */}
-        {isOwnProfile && (
-          <button 
-            className="river-action-btn river-action-btn--delete" 
-            title="Delete"
-            onClick={(e) => {
-              e.stopPropagation();
-              setDeleteModalPostId(post.id);
-            }}
-          >
-            <TrashIcon size={18} stroke="rgba(255,82,82,0.6)" strokeWidth="1.5" />
-          </button>
-        )}
-      </div>
-    );
+  // Handler for delete button
+  const handleDelete = (postId) => {
+    setDeleteModalPostId(postId);
   };
 
   const handleCommentClick = (postId) => {
@@ -397,817 +259,132 @@ function TimelineRiver({
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  // Render inline comment composer and thread for a post
+  // Render comment section using extracted components
   const renderCommentSection = (post) => {
     if (!post) return null;
     
-    // Get author info for full-page context
-    const postAuthor = post.author || profileUser || {};
-    const authorName = postAuthor.first_name && postAuthor.last_name 
-      ? `${postAuthor.first_name} ${postAuthor.last_name}`
-      : postAuthor.username || 'User';
-    
     return (
       <>
-        {/* Inline Comment Composer */}
-        {activeCommentPostId === post.id && !isComposerFullPage && (
-          <div className="inline-comment-composer">
-            <div className="comment-input-wrapper">
-              <textarea
-                className="comment-input"
-                placeholder="Write a comment..."
-                value={commentText}
-                onChange={(e) => {
-                  setCommentText(e.target.value);
-                  e.target.style.height = 'auto';
-                  e.target.style.height = e.target.scrollHeight + 'px';
-                }}
-                rows={1}
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleCommentSubmit(post.id);
-                  }
-                  if (e.key === 'Escape') {
-                    setActiveCommentPostId(null);
-                    setCommentText('');
-                  }
-                }}
-              />
-              <button 
-                className="expand-composer-btn"
-                onClick={() => setIsComposerFullPage(true)}
-                title="Expand to full page"
-              >
-                <MaximizeIcon size={12} strokeWidth="2.5" />
-              </button>
-            </div>
-            <button 
-              className="comment-submit-btn"
-              disabled={!commentText.trim()}
-              onClick={() => handleCommentSubmit(post.id)}
-            >
-              <ChevronRightIcon size={20} strokeWidth="2.5" />
-            </button>
-          </div>
-        )}
-        
-        {/* Full Page Composer View */}
-        {activeCommentPostId === post.id && isComposerFullPage && createPortal(
-          <div className="full-page-composer-overlay">
-            <div className="full-page-composer">
-              {/* Header with close button */}
-              <div className="full-page-header">
-                <button 
-                  className="close-btn-glow"
-                  onClick={() => {
-                    setIsComposerFullPage(false);
-                    setIsEditMode(false);
-                    setActiveCommentPostId(null);
-                    setCommentText('');
-                  }}
-                  title="Close"
-                >
-                  <CloseIcon size={20} />
-                </button>
-              </div>
+        {/* Composer (inline + full-page) */}
+        <RiverComposer
+          post={post}
+          isOpen={activeCommentPostId === post.id}
+          isFullPage={isComposerFullPage}
+          isEditMode={isEditMode}
+          commentText={commentText}
+          setCommentText={setCommentText}
+          threadReplies={threadReplies[post.id] || []}
+          onSubmit={() => handleCommentSubmit(post.id)}
+          onClose={() => {
+            setIsComposerFullPage(false);
+            setIsEditMode(false);
+            setActiveCommentPostId(null);
+            setCommentText('');
+          }}
+          onExpand={() => setIsComposerFullPage(true)}
+          onSaveEdit={async () => {
+            if (commentText.trim() && editingPostId && onUpdatePost) {
+              setIsSaving(true);
+              try {
+                await onUpdatePost(editingPostId, { content: commentText.trim() });
+                setIsComposerFullPage(false);
+                setIsEditMode(false);
+                setEditingPostId(null);
+                setCommentText('');
+              } finally {
+                setIsSaving(false);
+              }
+            }
+          }}
+          formatRelativeTime={formatRelativeTime}
+          isSaving={isSaving}
+        />
 
-              {/* Scrollable content area */}
-              <div className="full-page-content">
-                {/* Original Post Context */}
-                {!isEditMode && (
-                  <div className="reply-context">
-                    <div className="reply-context-header">
-                      <div className="reply-context-avatar">
-                        <UserIcon size={20} />
-                      </div>
-                      <span className="reply-context-name">{authorName}</span>
-                      <span className="reply-context-handle">@{postAuthor.username}</span>
-                      <span className="reply-context-dot">·</span>
-                      <span className="reply-context-time">{formatRelativeTime(post.created_at)}</span>
-                    </div>
-                    <p className="reply-context-content">{post.content}</p>
-                    {post.type === 'media' && post.media_url && (
-                      <div className="reply-context-media">
-                        <img src={post.media_url} alt="Post media" />
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Thread View - show existing replies */}
-                {threadReplies[post.id] && threadReplies[post.id].length > 0 && (
-                  <div className="full-page-thread">
-                    <div className="thread-view">
-                      <div className="thread-replies">
-                        {threadReplies[post.id].map((reply) => (
-                          <div key={reply.id} className="thread-reply">
-                            <div className="thread-connector">
-                              <div className="thread-line-vertical" />
-                            </div>
-                            <div className="reply-card">
-                              <div className="reply-header">
-                                <div className="reply-avatar">
-                                  <UserIcon size={14} />
-                                </div>
-                                <span className="reply-author">{reply.author?.username || 'User'}</span>
-                                <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
-                              </div>
-                              <p className="reply-content">{reply.content}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Fixed Composer at Bottom */}
-              <div className="full-page-composer-fixed">
-                <div className="comment-input-wrapper">
-                  <textarea
-                    className="comment-input"
-                    placeholder={isEditMode ? "Edit your post..." : "Share your thoughts..."}
-                    value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
-                    rows={3}
-                    autoFocus
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        if (commentText.trim()) {
-                          if (isEditMode) {
-                            onUpdatePost(editingPostId, { content: commentText.trim() });
-                            setEditingPostId(null);
-                            setIsEditMode(false);
-                          } else {
-                            handleCommentSubmit(post.id);
-                          }
-                          setCommentText('');
-                        }
-                      }
-                      if (e.key === 'Escape') {
-                        setIsComposerFullPage(false);
-                        setIsEditMode(false);
-                      }
-                    }}
-                  />
-                  
-                  {/* Action buttons inside textarea */}
-                  <div className="composer-actions">
-                    {!isEditMode && (
-                      <button 
-                        className="comment-media-btn"
-                        title="Add media"
-                        onClick={() => console.log('Media upload clicked')}
-                      >
-                        <ImageIcon size={18} stroke="rgba(220, 8, 188, 0.5)" strokeWidth="1.5" />
-                      </button>
-                    )}
-                    
-                    <button 
-                      className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
-                      disabled={!commentText.trim() || isSaving}
-                      onClick={async () => {
-                        if (commentText.trim()) {
-                          setIsSaving(true);
-                          try {
-                            if (isEditMode) {
-                              await onUpdatePost(editingPostId, { content: commentText.trim() });
-                              setEditingPostId(null);
-                              setIsEditMode(false);
-                            } else {
-                              await handleCommentSubmit(post.id);
-                            }
-                            setCommentText('');
-                          } finally {
-                            setIsSaving(false);
-                          }
-                        }
-                      }}
-                    >
-                      {isEditMode ? (
-                        <CheckIcon size={20} stroke="rgba(255, 193, 7, 0.5)" strokeWidth="2" />
-                      ) : (
-                        <ChevronRightIcon size={20} stroke="rgba(26, 231, 132, 0.5)" strokeWidth="2" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>,
-          document.body
-        )}
-
-        {/* View Thread Link */}
-        {post.reply_count > 0 && expandedThreadId !== post.id && (
-          <button 
-            className="view-thread-btn"
-            onClick={() => toggleThread(post.id)}
-          >
-            <span className="thread-line" />
-            View {post.reply_count} {post.reply_count === 1 ? 'reply' : 'replies'}
-          </button>
-        )}
-
-        {/* Thread Replies */}
-        {expandedThreadId === post.id && (
-          <div className="thread-view">
-            <button 
-              className="collapse-thread-btn"
-              onClick={() => setExpandedThreadId(null)}
-            >
-              Hide replies
-            </button>
-            
-            {loadingThread === post.id ? (
-              <div className="thread-loading">Loading replies...</div>
-            ) : (
-              <div className="thread-replies">
-                {(() => {
-                  const allReplies = threadReplies[post.id] || [];
-                  const visibleReplies = showAllReplies[post.id] ? allReplies : allReplies.slice(0, 3);
-                  const hasMore = allReplies.length > 3;
-                  
-                  return (
-                    <>
-                      {visibleReplies.map((reply) => (
-                        <div key={reply.id} className="thread-reply">
-                          <div className="thread-connector">
-                            <div className="thread-line-vertical" />
-                          </div>
-                          <div className="reply-card">
-                            <div className="reply-header">
-                              <div className="reply-avatar">
-                                <UserIcon size={14} />
-                              </div>
-                              <span className="reply-author">{reply.author?.username || 'User'}</span>
-                              <span className="reply-time">{formatRelativeTime(reply.created_at)}</span>
-                              {/* Edit/Delete for reply owner */}
-                              {currentUser && reply.author?.id === currentUser.id && (
-                                <div className="reply-actions">
-                                  <button 
-                                    className="reply-action-btn"
-                                    title="Edit"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingReplyId(reply.id);
-                                      setEditingReplyContent(reply.content);
-                                      setEditingReplyParentId(post.id);
-                                    }}
-                                  >
-                                    <EditIcon size={14} />
-                                  </button>
-                                  <button 
-                                    className="reply-action-btn reply-action-btn--delete"
-                                    title="Delete"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setDeleteModalPostId(reply.id);
-                                      setDeleteModalIsReply(true);
-                                      setEditingReplyParentId(post.id);
-                                    }}
-                                  >
-                                    <TrashIcon size={14} />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                            {/* Reply content - edit mode or display */}
-                            {editingReplyId === reply.id ? (
-                              <div className="reply-edit-form">
-                                <textarea
-                                  className="reply-edit-input"
-                                  value={editingReplyContent}
-                                  onChange={(e) => setEditingReplyContent(e.target.value)}
-                                  autoFocus
-                                />
-                                <div className="reply-edit-actions">
-                                  <button 
-                                    className="reply-edit-btn reply-edit-btn--cancel"
-                                    onClick={() => {
-                                      setEditingReplyId(null);
-                                      setEditingReplyContent('');
-                                    }}
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button 
-                                    className="reply-edit-btn reply-edit-btn--save"
-                                    onClick={() => handleEditReply(reply.id, post.id)}
-                                    disabled={!editingReplyContent.trim()}
-                                  >
-                                    Save
-                                  </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <p className="reply-content">{reply.content}</p>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                      {hasMore && !showAllReplies[post.id] && (
-                        <button 
-                          className="show-more-replies-btn"
-                          onClick={() => setShowAllReplies(prev => ({ ...prev, [post.id]: true }))}
-                        >
-                          Show {allReplies.length - 3} more replies
-                        </button>
-                      )}
-                    </>
-                  );
-                })()}
-              </div>
-            )}
-          </div>
-        )}
+        {/* Thread view (collapsed/expanded replies) */}
+        <RiverThread
+          post={post}
+          isExpanded={expandedThreadId === post.id}
+          replies={threadReplies[post.id] || []}
+          isLoading={loadingThread === post.id}
+          showAllReplies={showAllReplies[post.id]}
+          currentUserId={currentUser?.id}
+          editingReplyId={editingReplyId}
+          editingReplyContent={editingReplyContent}
+          formatRelativeTime={formatRelativeTime}
+          onToggleThread={toggleThread}
+          onShowMore={(postId) => setShowAllReplies(prev => ({ ...prev, [postId]: true }))}
+          onEditStart={(replyId, content, parentId) => {
+            setEditingReplyId(replyId);
+            setEditingReplyContent(content);
+            setEditingReplyParentId(parentId);
+          }}
+          onEditChange={setEditingReplyContent}
+          onEditSave={handleEditReply}
+          onEditCancel={() => {
+            setEditingReplyId(null);
+            setEditingReplyContent('');
+          }}
+          onDelete={(replyId, parentId) => {
+            setDeleteModalPostId(replyId);
+            setDeleteModalIsReply(true);
+            setEditingReplyParentId(parentId);
+          }}
+        />
       </>
+    );
+  };
+
+  // Render action buttons using extracted component
+  const renderPostActions = (post, isFriendView = false) => {
+    if (!post) return null;
+    
+    return (
+      <RiverPostActions
+        post={post}
+        isOwnProfile={!isFriendView && isOwnProfile}
+        animatingHeartId={animatingHeartId}
+        onLike={handleLike}
+        onComment={handleCommentClick}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onMessage={openMessages}
+      />
     );
   };
 
   return (
     <div className="timeline-river">
-      {/* Mobile Category Tabs - visible only on mobile, only for My Timeline */}
-      {viewMode === 'timeline' && (
-        <div className="mobile-category-tabs">
-          <button 
-            className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
-            onClick={() => setMobileCategory('thoughts')}
-          >
-            <MessageBubbleIcon size={18} />
-            <span>Thoughts</span>
-          </button>
-          <button 
-            className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
-            onClick={() => setMobileCategory('media')}
-          >
-            <ImageIcon size={18} />
-            <span>Media</span>
-          </button>
-          <button 
-            className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
-            onClick={() => setMobileCategory('milestones')}
-          >
-            <MilestoneIcon size={18} />
-            <span>Milestones</span>
-          </button>
-        </div>
-      )}
-
-      {/* River Column Labels - only for My Timeline */}
-      {viewMode === 'timeline' && (
-        <div className="river-labels">
-          <div className="river-label left-label">
-            <MessageBubbleIcon size={20} />
-            <span>Thoughts</span>
-          </div>
-          <div className="river-label center-label">
-            <ImageIcon size={20} />
-            <span>Media</span>
-          </div>
-          <div className="river-label right-label">
-            <MilestoneIcon size={20} />
-            <span>Milestones</span>
-          </div>
-        </div>
-      )}
-
       {/* MY TIMELINE MODE - User's own posts */}
-      {viewMode === 'timeline' && (() => {
-        // Split posts: first 12 for carousel, rest displayed as full river
-        const CAROUSEL_LIMIT = 12;
-        const carouselThoughts = textPosts.slice(0, CAROUSEL_LIMIT);
-        const riverThoughts = textPosts.slice(CAROUSEL_LIMIT);
-        const carouselMedia = mediaPosts.slice(0, CAROUSEL_LIMIT);
-        const riverMedia = mediaPosts.slice(CAROUSEL_LIMIT);
-        const carouselMilestones = achievementPosts.slice(0, CAROUSEL_LIMIT);
-        const riverMilestones = achievementPosts.slice(CAROUSEL_LIMIT);
-        const hasRiverPosts = riverThoughts.length > 0 || riverMedia.length > 0 || riverMilestones.length > 0;
-
-        return (
-          <>
-            {/* CAROUSEL SECTION - First 12 posts per category with carousel nav */}
-            <div className={`river-streams mobile-show-${mobileCategory}`}>
-              {/* Thoughts Column */}
-              <div className="river-column left-stream" data-category="thoughts">
-                <div className="river-column-label mobile-only">
-                  <MessageBubbleIcon size={18} />
-                  <span>Thoughts</span>
-                </div>
-                {carouselThoughts.length > 0 ? (
-                  <>
-                    <div className="river-card text-card">
-                      {/* User header inside card */}
-                      <div className="river-card-author">
-                        <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
-                        <span className="friend-name">{profileUser?.username || 'User'}</span>
-                      </div>
-                      <div className="river-card-content">
-                        <p className="river-post-text">{carouselThoughts[getDeckIndex('me', 'thoughts')]?.content}</p>
-                        <span className="river-timestamp">{formatDate(carouselThoughts[getDeckIndex('me', 'thoughts')]?.created_at)}</span>
-                      </div>
-                      {renderMyPostActions(carouselThoughts[getDeckIndex('me', 'thoughts')])}
-                      {renderCommentSection(carouselThoughts[getDeckIndex('me', 'thoughts')])}
-                    </div>
-                    {carouselThoughts.length > 1 && (
-                      <div className="smart-deck-nav">
-                        <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'thoughts', carouselThoughts.length)}>
-                          <ChevronLeftIcon size={16} />
-                        </button>
-                        <div className="smart-deck-dots">
-                          {carouselThoughts.map((_, idx) => (
-                            <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-thoughts']: idx}))} />
-                          ))}
-                        </div>
-                        <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'thoughts', carouselThoughts.length)}>
-                          <ChevronRightIcon size={16} />
-                        </button>
-                      </div>
-                    )}
-                  </>
-                ) : <div className="empty-column">No thoughts yet</div>}
-              </div>
-
-              {/* Media Column */}
-              <div className="river-column center-stream" data-category="media">
-                <div className="river-column-label mobile-only">
-                  <ImageIcon size={18} />
-                  <span>Media</span>
-                </div>
-                {carouselMedia.length > 0 ? (
-                  <>
-                    <div className="river-card media-card">
-                      {/* User header inside card */}
-                      <div className="river-card-author">
-                        <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
-                        <span className="friend-name">{profileUser?.username || 'User'}</span>
-                      </div>
-                      <div 
-                        className="river-card-media clickable"
-                        onClick={() => carouselMedia[getDeckIndex('me', 'media')]?.media_url && setExpandedMediaPost(carouselMedia[getDeckIndex('me', 'media')])}
-                        style={{ cursor: carouselMedia[getDeckIndex('me', 'media')]?.media_url ? 'pointer' : 'default' }}
-                      >
-                        {carouselMedia[getDeckIndex('me', 'media')]?.media_url ? (
-                          <>
-                            <img src={carouselMedia[getDeckIndex('me', 'media')].media_url} alt="" className="media-image" />
-                            <div className="media-expand-hint">
-                              <ExpandIcon size={20} />
-                            </div>
-                          </>
-                        ) : (
-                          <div className="media-placeholder">
-                            <ImageIcon size={40} strokeWidth="1.5" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="river-card-content">
-                        <p className="river-post-text">{carouselMedia[getDeckIndex('me', 'media')]?.content}</p>
-                        <span className="river-timestamp">{formatDate(carouselMedia[getDeckIndex('me', 'media')]?.created_at)}</span>
-                      </div>
-                      {renderMyPostActions(carouselMedia[getDeckIndex('me', 'media')])}
-                      {renderCommentSection(carouselMedia[getDeckIndex('me', 'media')])}
-                    </div>
-                    {carouselMedia.length > 1 && (
-                      <div className="smart-deck-nav">
-                        <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'media', carouselMedia.length)}>
-                          <ChevronLeftIcon size={16} />
-                        </button>
-                        <div className="smart-deck-dots">
-                          {carouselMedia.map((_, idx) => (
-                            <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-media']: idx}))} />
-                          ))}
-                        </div>
-                        <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'media', carouselMedia.length)}>
-                          <ChevronRightIcon size={16} />
-                        </button>
-                      </div>
-                    )}
-                  </>
-                ) : <div className="empty-column">No media yet</div>}
-              </div>
-
-              {/* Milestones Column */}
-              <div className="river-column right-stream" data-category="milestones">
-                <div className="river-column-label mobile-only">
-                  <MilestoneIcon size={18} />
-                  <span>Milestones</span>
-                </div>
-                {carouselMilestones.length > 0 ? (
-                  <>
-                    <div className="river-card achievement-card">
-                      {/* User header inside card */}
-                      <div className="river-card-author">
-                        <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
-                        <span className="friend-name">{profileUser?.username || 'User'}</span>
-                      </div>
-                      <div className="achievement-badge">
-                        <MilestoneIcon size={24} />
-                      </div>
-                      <div className="river-card-content">
-                        <p className="river-post-text">{carouselMilestones[getDeckIndex('me', 'milestones')]?.content}</p>
-                        <span className="river-timestamp">{formatDate(carouselMilestones[getDeckIndex('me', 'milestones')]?.created_at)}</span>
-                      </div>
-                      {renderMyPostActions(carouselMilestones[getDeckIndex('me', 'milestones')])}
-                      {renderCommentSection(carouselMilestones[getDeckIndex('me', 'milestones')])}
-                    </div>
-                    {carouselMilestones.length > 1 && (
-                      <div className="smart-deck-nav">
-                        <button className="smart-deck-nav-btn" onClick={() => prevCard('me', 'milestones', carouselMilestones.length)}>
-                          <ChevronLeftIcon size={16} />
-                        </button>
-                        <div className="smart-deck-dots">
-                          {carouselMilestones.map((_, idx) => (
-                            <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex('me', 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, ['me-milestones']: idx}))} />
-                          ))}
-                        </div>
-                        <button className="smart-deck-nav-btn" onClick={() => nextCard('me', 'milestones', carouselMilestones.length)}>
-                          <ChevronRightIcon size={16} />
-                        </button>
-                      </div>
-                    )}
-                  </>
-                ) : <div className="empty-column">No milestones yet</div>}
-              </div>
-            </div>
-
-            {/* RIVER CONTINUATION - All remaining posts (after first 12) as ROWS */}
-            {hasRiverPosts && (
-              <div className="river-continuation">
-                {/* Each row shows one card from each category at the same index */}
-                {Array.from({ length: Math.max(riverThoughts.length, riverMedia.length, riverMilestones.length) }).map((_, rowIndex) => (
-                  <div key={rowIndex} className="river-streams">
-                    {/* Thoughts Column */}
-                    <div className="river-column left-stream">
-                      {riverThoughts[rowIndex] && (
-                        <div className="river-card text-card">
-                          {/* User header inside card */}
-                          <div className="river-card-author">
-                            <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
-                            <span className="friend-name">{profileUser?.username || 'User'}</span>
-                          </div>
-                          <div className="river-card-content">
-                            <p className="river-post-text">{riverThoughts[rowIndex].content}</p>
-                            <span className="river-timestamp">{formatDate(riverThoughts[rowIndex].created_at)}</span>
-                          </div>
-                          {renderMyPostActions(riverThoughts[rowIndex])}
-                          {renderCommentSection(riverThoughts[rowIndex])}
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Media Column */}
-                    <div className="river-column center-stream">
-                      {riverMedia[rowIndex] && (
-                        <div className="river-card media-card">
-                          {/* User header inside card */}
-                          <div className="river-card-author">
-                            <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
-                            <span className="friend-name">{profileUser?.username || 'User'}</span>
-                          </div>
-                          <div 
-                            className="river-card-media clickable"
-                            onClick={() => riverMedia[rowIndex].media_url && setExpandedMediaPost(riverMedia[rowIndex])}
-                            style={{ cursor: riverMedia[rowIndex].media_url ? 'pointer' : 'default' }}
-                          >
-                            {riverMedia[rowIndex].media_url ? (
-                              <>
-                                <img src={riverMedia[rowIndex].media_url} alt="" className="media-image" />
-                                <div className="media-expand-hint">
-                                  <ExpandIcon size={20} />
-                                </div>
-                              </>
-                            ) : (
-                              <div className="media-placeholder">
-                                <ImageIcon size={40} strokeWidth="1.5" />
-                              </div>
-                            )}
-                          </div>
-                          <div className="river-card-content">
-                            <p className="river-post-text">{riverMedia[rowIndex].content}</p>
-                            <span className="river-timestamp">{formatDate(riverMedia[rowIndex].created_at)}</span>
-                          </div>
-                          {renderMyPostActions(riverMedia[rowIndex])}
-                          {renderCommentSection(riverMedia[rowIndex])}
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Milestones Column */}
-                    <div className="river-column right-stream">
-                      {riverMilestones[rowIndex] && (
-                        <div className="river-card achievement-card">
-                          {/* User header inside card */}
-                          <div className="river-card-author">
-                            <div className="friend-avatar">{profileUser ? getInitials(profileUser) : '??'}</div>
-                            <span className="friend-name">{profileUser?.username || 'User'}</span>
-                          </div>
-                          <div className="achievement-badge">
-                            <MilestoneIcon size={24} />
-                          </div>
-                          <div className="river-card-content">
-                            <p className="river-post-text">{riverMilestones[rowIndex].content}</p>
-                            <span className="river-timestamp">{formatDate(riverMilestones[rowIndex].created_at)}</span>
-                          </div>
-                          {renderMyPostActions(riverMilestones[rowIndex])}
-                          {renderCommentSection(riverMilestones[rowIndex])}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        );
-      })()}
+      {viewMode === 'timeline' && (
+        <RiverTimelineView
+          textPosts={textPosts}
+          mediaPosts={mediaPosts}
+          achievementPosts={achievementPosts}
+          profileUser={profileUser}
+          mobileCategory={mobileCategory}
+          setMobileCategory={setMobileCategory}
+          getDeckIndex={getDeckIndex}
+          handleDeckIndexChange={handleDeckIndexChange}
+          setExpandedMediaPost={setExpandedMediaPost}
+          renderPostActions={renderPostActions}
+          renderCommentSection={renderCommentSection}
+          formatDate={formatDate}
+        />
+      )}
 
       {/* FRIENDS FEED MODE - Each friend in their own row */}
       {viewMode === 'feed' && (
-        <div className="friends-feed-rows">
-          {/* Mobile Category Tabs for Friends Feed */}
-          <div className="mobile-category-tabs friends-feed-tabs">
-            <button 
-              className={`mobile-category-tab ${mobileCategory === 'thoughts' ? 'active' : ''}`}
-              onClick={() => setMobileCategory('thoughts')}
-            >
-              <MessageBubbleIcon size={18} />
-              <span>Thoughts</span>
-            </button>
-            <button 
-              className={`mobile-category-tab ${mobileCategory === 'media' ? 'active' : ''}`}
-              onClick={() => setMobileCategory('media')}
-            >
-              <ImageIcon size={18} />
-              <span>Media</span>
-            </button>
-            <button 
-              className={`mobile-category-tab ${mobileCategory === 'milestones' ? 'active' : ''}`}
-              onClick={() => setMobileCategory('milestones')}
-            >
-              <MilestoneIcon size={18} />
-              <span>Milestones</span>
-            </button>
-          </div>
-
-          {/* Column Labels for Friends Feed - desktop only */}
-          <div className="river-labels friends-feed-labels">
-            <div className="river-label left-label">
-              <MessageBubbleIcon size={20} />
-              <span>Thoughts</span>
-            </div>
-            <div className="river-label center-label">
-              <ImageIcon size={20} />
-              <span>Media</span>
-            </div>
-            <div className="river-label right-label">
-              <MilestoneIcon size={20} />
-              <span>Milestones</span>
-            </div>
-          </div>
-
-          {friendsGrouped.map((friend) => (
-            <div key={friend.username} className="friend-row">
-              <div className={`river-streams mobile-show-${mobileCategory}`}>
-                <div className="river-column left-stream" data-category="thoughts">
-                  {friend.thoughts.length > 0 ? (
-                    <>
-                      <div className="river-card text-card">
-                        {/* User header inside card - matches Home feed */}
-                        <div 
-                          className="river-card-author clickable-friend"
-                          onClick={() => navigate(`/profile/${friend.username}`)}
-                          title={`View ${friend.username}'s profile`}
-                        >
-                          <div className="friend-avatar">{friend.avatar}</div>
-                          <span className="friend-name">{friend.username}</span>
-                        </div>
-                        <div className="river-card-content">
-                          <p className="river-post-text">{friend.thoughts[getDeckIndex(friend.username, 'thoughts')]?.content}</p>
-                          <span className="river-timestamp">{formatDate(friend.thoughts[getDeckIndex(friend.username, 'thoughts')]?.created_at)}</span>
-                        </div>
-                        {/* Action buttons for friend's thought */}
-                        {renderFriendPostActions(friend.thoughts[getDeckIndex(friend.username, 'thoughts')])}
-                        {/* Comment section */}
-                        {renderCommentSection(friend.thoughts[getDeckIndex(friend.username, 'thoughts')])}
-                      </div>
-                      {friend.thoughts.length > 1 && (
-                        <div className="smart-deck-nav">
-                          <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'thoughts', friend.thoughts.length)}>
-                            <ChevronLeftIcon size={16} />
-                          </button>
-                          <div className="smart-deck-dots">
-                            {friend.thoughts.map((_, idx) => (
-                              <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'thoughts') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-thoughts`]: idx}))} />
-                            ))}
-                          </div>
-                          <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'thoughts', friend.thoughts.length)}>
-                            <ChevronRightIcon size={16} />
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  ) : <div className="empty-column">No thoughts</div>}
-                </div>
-                <div className="river-column center-stream">
-                  {friend.media.length > 0 ? (
-                    <>
-                      <div className="river-card media-card">
-                        {/* User header inside card - matches Home feed */}
-                        <div 
-                          className="river-card-author clickable-friend"
-                          onClick={() => navigate(`/profile/${friend.username}`)}
-                          title={`View ${friend.username}'s profile`}
-                        >
-                          <div className="friend-avatar">{friend.avatar}</div>
-                          <span className="friend-name">{friend.username}</span>
-                        </div>
-                        <div className="river-card-media">
-                          {friend.media[getDeckIndex(friend.username, 'media')]?.media_url ? (
-                            <img src={friend.media[getDeckIndex(friend.username, 'media')].media_url} alt="" className="media-image" />
-                          ) : (
-                            <div className="media-placeholder">
-                              <ImageIcon size={40} strokeWidth="1.5" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="river-card-content">
-                          <p className="river-post-text">{friend.media[getDeckIndex(friend.username, 'media')]?.content}</p>
-                          <span className="river-timestamp">{formatDate(friend.media[getDeckIndex(friend.username, 'media')]?.created_at)}</span>
-                        </div>
-                        {/* Action buttons for friend's media */}
-                        {renderFriendPostActions(friend.media[getDeckIndex(friend.username, 'media')])}
-                        {/* Comment section */}
-                        {renderCommentSection(friend.media[getDeckIndex(friend.username, 'media')])}
-                      </div>
-                      {friend.media.length > 1 && (
-                        <div className="smart-deck-nav">
-                          <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'media', friend.media.length)}>
-                            <ChevronLeftIcon size={16} />
-                          </button>
-                          <div className="smart-deck-dots">
-                            {friend.media.map((_, idx) => (
-                              <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'media') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-media`]: idx}))} />
-                            ))}
-                          </div>
-                          <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'media', friend.media.length)}>
-                            <ChevronRightIcon size={16} />
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  ) : <div className="empty-column">No media</div>}
-                </div>
-                <div className="river-column right-stream">
-                  {friend.milestones.length > 0 ? (
-                    <>
-                      <div className="river-card achievement-card">
-                        {/* User header inside card - matches Home feed */}
-                        <div 
-                          className="river-card-author clickable-friend"
-                          onClick={() => navigate(`/profile/${friend.username}`)}
-                          title={`View ${friend.username}'s profile`}
-                        >
-                          <div className="friend-avatar">{friend.avatar}</div>
-                          <span className="friend-name">{friend.username}</span>
-                        </div>
-                        <div className="achievement-badge">
-                          <MilestoneIcon size={24} />
-                        </div>
-                        <div className="river-card-content">
-                          <p className="river-post-text">{friend.milestones[getDeckIndex(friend.username, 'milestones')]?.content}</p>
-                          <span className="river-timestamp">{formatDate(friend.milestones[getDeckIndex(friend.username, 'milestones')]?.created_at)}</span>
-                        </div>
-                        {/* Action buttons for friend's milestone */}
-                        {renderFriendPostActions(friend.milestones[getDeckIndex(friend.username, 'milestones')])}
-                        {/* Comment section */}
-                        {renderCommentSection(friend.milestones[getDeckIndex(friend.username, 'milestones')])}
-                      </div>
-                      {friend.milestones.length > 1 && (
-                        <div className="smart-deck-nav">
-                          <button className="smart-deck-nav-btn" onClick={() => prevCard(friend.username, 'milestones', friend.milestones.length)}>
-                            <ChevronLeftIcon size={16} />
-                          </button>
-                          <div className="smart-deck-dots">
-                            {friend.milestones.map((_, idx) => (
-                              <span key={idx} className={`smart-deck-dot ${idx === getDeckIndex(friend.username, 'milestones') ? 'smart-deck-dot--active' : ''}`} onClick={() => setDeckIndices(prev => ({...prev, [`${friend.username}-milestones`]: idx}))} />
-                            ))}
-                          </div>
-                          <button className="smart-deck-nav-btn" onClick={() => nextCard(friend.username, 'milestones', friend.milestones.length)}>
-                            <ChevronRightIcon size={16} />
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  ) : <div className="empty-column">No milestones</div>}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <RiverFeedView
+          friendsGrouped={friendsGrouped}
+          mobileCategory={mobileCategory}
+          setMobileCategory={setMobileCategory}
+          getDeckIndex={getDeckIndex}
+          handleDeckIndexChange={handleDeckIndexChange}
+          navigate={navigate}
+          renderPostActions={renderPostActions}
+          renderCommentSection={renderCommentSection}
+          formatDate={formatDate}
+        />
       )}
 
       {/* Delete Confirmation Modal */}

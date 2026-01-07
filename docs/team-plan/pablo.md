@@ -81,7 +81,7 @@ import TopBar from "@components/layout/TopBar";
   - `components/TimelineRiverRow/` - **REFACTORED (Jan 2025)** Modular architecture:
     - `TimelineRiverRow.jsx` - Main orchestrator component
     - `TimelineRiverRow.scss` - Main styles
-    - `styles/` - 11 SCSS partials (_base, _carousel, _composer, _desktop-stack-nav, _light-mode, _post-actions, _post-card, _post-media, _responsive, _smart-deck, _thread)
+    - `styles/` - 11 SCSS partials (\_base, \_carousel, \_composer, \_desktop-stack-nav, \_light-mode, \_post-actions, \_post-card, \_post-media, \_responsive, \_smart-deck, \_thread)
     - `components/PostCard/` - Individual post rendering with actions
     - `components/SmartDeck/` - Carousel deck with navigation
     - `components/ThreadView/` - Inline replies thread (Twitter-style)
