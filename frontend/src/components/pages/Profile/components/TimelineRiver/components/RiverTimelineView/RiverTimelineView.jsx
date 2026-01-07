@@ -9,6 +9,7 @@ import {
   MilestoneIcon,
 } from '@assets/icons';
 import RiverSmartDeck from '../RiverSmartDeck';
+import './RiverTimelineView.scss';
 
 const CAROUSEL_LIMIT = 12;
 
