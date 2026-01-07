@@ -8,6 +8,7 @@
  * 
  * 🔗 CONNECTION: Used by TimelineRiver.jsx for both friend and own posts
  */
+import './RiverPostActions.scss';
 import {
   HeartDynamicIcon,
   MessageBubbleIcon,

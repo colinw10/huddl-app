@@ -8,6 +8,7 @@
  * 🔗 CONNECTION: Used by TimelineRiver.jsx for commenting on posts
  */
 import { createPortal } from 'react-dom';
+import './RiverComposer.scss';
 import {
   ChevronRightIcon,
   MaximizeIcon,

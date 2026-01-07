@@ -7,6 +7,7 @@
  * 🔗 CONNECTION: Used by TimelineRiver.jsx for carousel navigation
  */
 import { ChevronLeftIcon, ChevronRightIcon } from '@assets/icons';
+import './RiverSmartDeck.scss';
 
 const RiverSmartDeck = ({
   items,           // Array of posts to navigate

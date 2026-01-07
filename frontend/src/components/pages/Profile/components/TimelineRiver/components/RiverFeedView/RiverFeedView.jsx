@@ -2,6 +2,7 @@
 // RiverFeedView.jsx - Feed mode view for friends' posts
 
 import React from 'react';
+import './RiverFeedView.scss';
 import {
   MessageBubbleIcon,
   ImageIcon,
