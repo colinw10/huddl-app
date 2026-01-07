@@ -3,8 +3,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePosts, useFriends, useMessages } from '../../../../contexts';
-import { TargetReticleIcon, CloseIcon, MessageBubbleIcon } from '../../../../assets/icons';
+import { usePosts, useFriends, useMessages } from '@contexts';
+import { TargetReticleIcon, CloseIcon, MessageBubbleIcon } from '@assets/icons';
 import './SearchModal.scss';
 
 // Helper to get initials from name

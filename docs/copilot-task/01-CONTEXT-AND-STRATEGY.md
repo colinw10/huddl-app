@@ -28,13 +28,15 @@ I (Pablo) built a complete working prototype of NUMENEON, a cyberpunk-themed soc
 
 **Team (T-Shirt Sizing):**
 
-| Person      | Size | Files | Focus Area                                             |
-| ----------- | ---- | ----- | ------------------------------------------------------ |
-| **Pablo**   | XL   | 29    | Complex UI: Timeline, ProfileCard, Carousel, Analytics |
-| **Natalia** | L    | 19    | Auth system + Migration management                     |
-| **Colin**   | M    | 15    | Posts CRUD + ComposerModal + DeleteConfirmModal        |
-| **Crystal** | M    | 12    | Friends system + Friends page                          |
-| **Tito**    | S    | 6     | Infrastructure: apiClient, Theme, main.jsx             |
+| Person      | Size | Files | Focus Area                                             | Rebuild Type |
+| ----------- | ---- | ----- | ------------------------------------------------------ | ------------ |
+| **Pablo**   | XL   | ~35   | Complex UI: Timeline, ProfileCard, Carousel, Analytics | Full pseudocode |
+| **Natalia** | L    | 19    | Auth system + Migration management                     | Full pseudocode |
+| **Colin**   | M    | 15    | Posts CRUD + ComposerModal + DeleteConfirmModal        | Full pseudocode |
+| **Crystal** | M    | 12    | Friends system + Friends page                          | Full pseudocode |
+| **Tito**    | S    | 6     | Infrastructure: apiClient, Theme, main.jsx             | Full pseudocode |
+
+**CRITICAL: Everyone rebuilds from pseudocode** (including Pablo). This ensures legitimate git history for all team members. Pablo has an advantage since he wrote the original, but he still types and commits code.
 
 ---
 
@@ -160,6 +162,7 @@ Path aliases are configured in `vite.config.js` to simplify imports:
 ```javascript
 resolve: {
   alias: {
+    // Root aliases
     '@': path.resolve(__dirname, './src'),
     '@assets': path.resolve(__dirname, './src/assets'),
     '@components': path.resolve(__dirname, './src/components'),
@@ -167,11 +170,32 @@ resolve: {
     '@services': path.resolve(__dirname, './src/services'),
     '@utils': path.resolve(__dirname, './src/utils'),
     '@styles': path.resolve(__dirname, './src/styles'),
+    
+    // Component type aliases
+    '@layout': path.resolve(__dirname, './src/components/layout'),
+    '@pages': path.resolve(__dirname, './src/components/pages'),
+    '@ui': path.resolve(__dirname, './src/components/ui'),
+    
+    // Page-specific aliases (most commonly imported)
+    '@Home': path.resolve(__dirname, './src/components/pages/Home'),
+    '@Profile': path.resolve(__dirname, './src/components/pages/Profile'),
   }
 }
 ```
 
 Team members should **use these aliases** instead of relative paths for cleaner code.
+
+**Import examples:**
+```jsx
+// Icons
+import { HeartIcon, CloseIcon } from '@assets/icons';
+
+// Contexts  
+import { useAuth } from '@contexts/AuthContext';
+
+// Cross-page imports
+import TimelineRiver from '@Profile/components/TimelineRiver';
+```
 
 ---
 
@@ -186,54 +210,55 @@ Team members should **use these aliases** instead of relative paths for cleaner 
 
 ## FILE CATEGORIES & ASSIGNMENTS
 
-### CATEGORY 1: PABLO (XL - 29 files)
+### CATEGORY 1: PABLO (XL - ~35 JSX files)
 
 **Rebuilds these complex UI components from pseudocode:**
 
-**Timeline System (20 files):**
+*Note: SCSS files are PROVIDED (not rebuilt). Count only includes JSX files.*
+
+**Timeline System (Home page):**
 
 ```
 frontend/src/components/pages/Home/
-├── Home.jsx, Home.scss, index.js (3)
+├── Home.jsx, index.js (2 JSX)
 ├── utils/
 │   ├── groupPosts.js (post grouping algorithm)
 │   └── timeFormatters.js (relative time formatting)
 ├── components/
-│   ├── TimelineRiverFeed/ (3 files)
-│   │   ├── TimelineRiverFeed.jsx
-│   │   ├── TimelineRiverFeed.scss
-│   │   └── index.js
+│   ├── TimelineRiverFeed/ (2 JSX: .jsx + index.js)
 │   ├── TimelineRiverRow/ (MODULAR - refactored Jan 2025)
-│   │   ├── TimelineRiverRow.jsx (main orchestrator)
-│   │   ├── TimelineRiverRow.scss
-│   │   ├── index.js
-│   │   ├── styles/ (11 SCSS partials)
+│   │   ├── TimelineRiverRow.jsx, index.js (2 JSX)
 │   │   └── components/
-│   │       ├── PostCard/ (individual post with actions)
-│   │       ├── SmartDeck/ (carousel deck navigation)
-│   │       ├── ThreadView/ (inline replies thread)
-│   │       ├── MobileTabNav/ (mobile category tabs)
-│   │       ├── RepostModal/ (share modal - Jan 2026)
+│   │       ├── PostCard/ (2 JSX)
+│   │       ├── SmartDeck/ (2 JSX)
+│   │       ├── ThreadView/ (2 JSX)
+│   │       ├── MobileTabNav/ (2 JSX)
+│   │       ├── RepostModal/ (2 JSX - Jan 2026)
 │   │       └── index.js (barrel export)
-│   └── MediaLightbox/ (10 files) ← PABLO
-│       ├── MediaLightbox.jsx
-│       ├── MediaLightbox.scss
-│       ├── index.js
-│       └── styles/ (7 SCSS partials)
+│   └── MediaLightbox/ (2 JSX)
 ```
 
-**Profile System (9 files):**
+**Profile System:**
 
 ```
-frontend/src/components/pages/Profile/components/
-├── ProfileCard/
-│   ├── ProfileCard.jsx
-│   ├── ProfileCard.scss
-│   ├── index.js
-│   └── components/
-│       ├── ProfileCardFront.jsx
-│       ├── ProfileCardBack.jsx
-│       └── ActivityVisualization/ (all files)
+frontend/src/components/pages/Profile/
+├── Profile.jsx, index.js (2 JSX)
+├── components/
+│   ├── ComposerModal/ (2 JSX)
+│   ├── ProfileCard/ (2 JSX + subcomponents)
+│   │   ├── ProfileCardFront.jsx
+│   │   ├── ProfileCardBack.jsx
+│   │   └── ActivityVisualization/ (2 JSX)
+│   └── TimelineRiver/ (NEW MODULAR - Jan 2026)
+│       ├── TimelineRiver.jsx, index.js (2 JSX)
+│       └── components/
+│           ├── RiverSmartDeck/ (2 JSX)
+│           ├── RiverPostActions/ (2 JSX)
+│           ├── RiverFeedView/ (2 JSX)
+│           ├── RiverComposer/ (2 JSX)
+│           ├── RiverTimelineView/ (2 JSX)
+│           ├── RiverThread/ (2 JSX)
+│           └── index.js (barrel export)
 ```
 
 **Key Complexity:**
@@ -318,9 +343,14 @@ frontend/src/components/pages/Profile/components/
 
 ---
 
-### CATEGORY 6: PROVIDED (Not Rebuilt)
+### CATEGORY 6: PROVIDED (SCSS + Config - Not Rebuilt)
 
-**Layout Components (Pablo's - styles injected, not rebuilt):**
+**SCSS files for ALL components** (team writes JSX only):
+- All `.scss` files are provided complete
+- SCSS partials (`_*.scss`) provided complete
+- Design system (`frontend/src/styles/`) provided complete
+
+**Layout Components (Pablo rebuilds JSX, SCSS provided):**
 
 - All files in `frontend/src/components/layout/TopBar/` (TopBar, MessageModal, NotificationModal, SearchModal)
 - All files in `frontend/src/components/layout/SideNav/`
@@ -350,14 +380,16 @@ frontend/src/components/pages/Profile/components/
 ## FILE COUNT SUMMARY
 
 ```
-XL Pablo:    █████████████████████████████  29 files (complex animations, charts)
-L  Natalia:  ███████████████████            19 files (auth foundation)
-M  Colin:    ███████████████                15 files (posts + modals)
-M  Crystal:  ████████████                   12 files (friends system)
-S  Tito:     ██████                          6 files (infrastructure)
-                                           ───
-                                            81 files rebuilt by team
+XL Pablo:    ███████████████████████████████████  ~35 JSX files (complex animations, charts)
+L  Natalia:  ███████████████████                  19 files (auth foundation)
+M  Colin:    ███████████████                      15 files (posts + modals)
+M  Crystal:  ████████████                         12 files (friends system)
+S  Tito:     ██████                                6 files (infrastructure)
+                                                 ───
+                                                  ~87 files rebuilt by team
 ```
+
+**Note:** SCSS files are PROVIDED (not counted). Pablo's count reflects JSX files only.
 
 ---
 

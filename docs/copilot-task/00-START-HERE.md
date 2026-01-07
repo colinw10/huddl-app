@@ -28,7 +28,38 @@ This is a **complete instruction set** for rebuilding the Numeneon app as a team
 
 ---
 
-## 📚 The 5 Instruction Files (Read In Order)
+## � CRITICAL: What Goes in Shell Branches vs Stays Here
+
+**This `docs/copilot-task/` folder is PLANNING DOCUMENTATION ONLY.**
+
+It does NOT go into the shell branches. The shell branches contain:
+- Pseudocode files (team rebuilds these)
+- SCSS styles (provided, not rebuilt)
+- SVG icons (provided, not rebuilt)
+- Config files (vite.config.js, package.json, etc.)
+
+This folder stays in Pablo's original branch as reference for creating the shells.
+
+---
+## 🚨 CRITICAL: What Goes in Shell Branches
+
+**This `docs/copilot-task/` folder is PLANNING DOCUMENTATION ONLY.**
+
+It does **NOT** go into the shell branches. Keep it in Pablo's original/planning branch.
+
+**Shell branches contain:**
+- Pseudocode files (`.jsx`, `.py` with TODO comments)
+- SCSS styles (provided complete, not rebuilt)
+- SVG icons (provided complete, not rebuilt)
+- Config files (vite.config.js, package.json, etc.)
+
+**Shell branches do NOT contain:**
+- `docs/copilot-task/` folder
+- `docs/team-plan/` folder (team gets individual `.md` files via other means)
+- Any planning/strategy documentation
+
+---
+## �📚 The 5 Instruction Files (Read In Order)
 
 ### **File 1: [01-CONTEXT-AND-STRATEGY.md](./01-CONTEXT-AND-STRATEGY.md)**
 
@@ -411,7 +442,7 @@ And I'll:
 - `natalia.md` - Auth tasks (19 files)
 - `colin.md` - Posts tasks (15 files)
 - `crystal.md` - Friends tasks (12 files)
-- `pablo.md` - UI tasks (29 files)
+- `pablo.md` - UI tasks (~35 files)
 - `tito.md` - Infrastructure tasks (6 files)
 - `team-structure.md` - Team overview
 
@@ -436,8 +467,8 @@ And I'll:
 
 ## ❓ Common Questions
 
-**Q: Why are Pablo's UI files staying intact?**  
-A: They're too complex to reproduce from pseudocode (canvas rendering, complex state). He'll still rebuild his assigned contexts/services for git history.
+**Q: Does Pablo rebuild his files too?**  
+A: YES! Everyone rebuilds from pseudocode, including Pablo. This ensures legitimate git history for all team members. Pablo has an advantage since he wrote the original, but he still types and commits code like everyone else.
 
 **Q: Do I rebuild the .scss files?**  
 A: NO. Styles are provided. You only write JSX/Python logic.

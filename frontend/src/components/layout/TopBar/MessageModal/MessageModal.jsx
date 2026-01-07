@@ -8,8 +8,8 @@
 // 4. Shows real messages from context state
 
 import { useState, useRef, useEffect } from 'react';
-import { MinimizeIcon, MaximizeIcon, CloseIcon, ChevronLeftIcon, ChevronRightIcon, MessageBubbleIcon } from '../../../../assets/icons';
-import { useMessages } from '../../../../contexts/MessageContext';
+import { MinimizeIcon, MaximizeIcon, CloseIcon, ChevronLeftIcon, ChevronRightIcon, MessageBubbleIcon } from '@assets/icons';
+import { useMessages } from '@contexts/MessageContext';
 import './MessageModal.scss';
 
 // 🔵 Helper: Format relative time (e.g., "2m", "1h", "3d")

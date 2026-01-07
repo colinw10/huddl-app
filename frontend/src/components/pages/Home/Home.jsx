@@ -4,9 +4,9 @@
 import { useState } from 'react';
 import './Home.scss';
 import TimelineRiverFeed from './components/TimelineRiverFeed';
-import ComposerModal from '../Profile/components/ComposerModal/ComposerModal';
-import { usePosts, useFriends } from '../../../contexts';
-import { UserIcon, PostTriangleIcon, MaximizeIcon } from '../../../assets/icons';
+import ComposerModal from '@Profile/components/ComposerModal/ComposerModal';
+import { usePosts, useFriends } from '@contexts';
+import { UserIcon, PostTriangleIcon, MaximizeIcon } from '@assets/icons';
 
 function Home() {
   // Get real data from contexts

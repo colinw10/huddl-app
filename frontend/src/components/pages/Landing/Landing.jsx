@@ -3,7 +3,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useMemo, useState, useRef } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
 import './Landing.scss';
 
 // Golden ratio - the most aesthetically pleasing irrational number

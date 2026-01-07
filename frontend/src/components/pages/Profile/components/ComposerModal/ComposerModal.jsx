@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import './ComposerModal.scss';
-import { useAuth, usePosts } from '../../../../../contexts';
+import { useAuth, usePosts } from '@contexts';
 import {
   MinimizeIcon,
   MaximizeIcon,
@@ -15,7 +15,7 @@ import {
   FlagIcon,
   EmojiIcon,
   MapPinIcon
-} from '../../../../../assets/icons';
+} from '@assets/icons';
 
 function ComposerModal({ showComposer, setShowComposer, composerType, setComposerType }) {
   const { user } = useAuth();

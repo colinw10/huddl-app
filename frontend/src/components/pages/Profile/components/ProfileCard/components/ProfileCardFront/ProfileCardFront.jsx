@@ -13,7 +13,7 @@ import {
   CheckIcon,
   MoreHorizontalIcon,
   ActivityIcon
-} from '../../../../../../../assets/icons';
+} from '@assets/icons';
 
 // Color variants for interactive letters
 const colorVariants = ['magenta', 'cyan', 'aqua', 'purple', 'blue'];

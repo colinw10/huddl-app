@@ -2,20 +2,23 @@
 
 ## Your Mission
 
-Your UI is complete and working! Your job is NOT to code - it's to **document** what you built so the team understands how to integrate with it. Add usage comments to your component files explaining what data they expect and how they connect to the backend.
+You're rebuilding the complex UI system from pseudocode - the same as everyone else on the team. This ensures legitimate git history showing your contributions.
+
+**Your advantage:** You wrote the original, so rebuilding from your own pseudocode is faster. But you still type and commit code like everyone else.
 
 You also configured the **Vite path alias system** to simplify imports across the codebase.
 
 ## What You're Doing
 
-**Adding usage documentation only - NOT modifying implementation!**
+**Rebuilding ALL your JSX files from pseudocode.**
 
-For each of your ~75 component files, add a comment block at the top that explains:
+SCSS files are PROVIDED (not rebuilt) - you only write JSX logic.
 
-- What the component does
-- What data it expects (format, shape)
-- What context/services it consumes
-- Integration points with backend team's work
+For each component:
+1. Read the pseudocode TODO comments
+2. Implement the logic
+3. Commit with descriptive messages
+4. Create PR showing your contribution
 
 ## Vite Path Aliases (Configured by Pablo)
 
@@ -24,6 +27,7 @@ You configured path aliases in `vite.config.js` to improve developer experience:
 ```javascript
 resolve: {
   alias: {
+    // Root aliases
     '@': path.resolve(__dirname, './src'),
     '@assets': path.resolve(__dirname, './src/assets'),
     '@components': path.resolve(__dirname, './src/components'),
@@ -31,6 +35,15 @@ resolve: {
     '@services': path.resolve(__dirname, './src/services'),
     '@utils': path.resolve(__dirname, './src/utils'),
     '@styles': path.resolve(__dirname, './src/styles'),
+    
+    // Component type aliases
+    '@layout': path.resolve(__dirname, './src/components/layout'),
+    '@pages': path.resolve(__dirname, './src/components/pages'),
+    '@ui': path.resolve(__dirname, './src/components/ui'),
+    
+    // Page-specific aliases
+    '@Home': path.resolve(__dirname, './src/components/pages/Home'),
+    '@Profile': path.resolve(__dirname, './src/components/pages/Profile'),
   }
 }
 ```
@@ -61,7 +74,9 @@ import TopBar from "@components/layout/TopBar";
 
 **Team should use aliases everywhere!**
 
-## Your Files (~75 total)
+## Your Files (~35 JSX files)
+
+*Note: SCSS files are PROVIDED. Count only includes JSX files you rebuild.*
 
 ### Entry & Layout
 
@@ -97,9 +112,14 @@ import TopBar from "@components/layout/TopBar";
     - Full-page modal shows post context + media + thread + fixed composer
   - `components/ComposerModal/` - Post creation modal (3 files)
   - `components/ProfileCard/` - User profile card with flip animation (5 subcomponents with flip system)
-  - `components/TimelineRiver/` - Profile timeline view (3 files)
-    - **NEW (Jan 2026):** `renderCommentSection()` includes expandable full-page composer
-    - Matches feed's PostCard behavior with expand button + portal
+  - `components/TimelineRiver/` - Profile timeline view (MODULAR - Jan 2026):
+    - `TimelineRiver.jsx`, `index.js` - Main component
+    - `components/RiverSmartDeck/` - Carousel deck navigation
+    - `components/RiverPostActions/` - Action buttons (like, share, comment)
+    - `components/RiverFeedView/` - Friends feed rows
+    - `components/RiverComposer/` - Expandable full-page composer
+    - `components/RiverTimelineView/` - River cards display
+    - `components/RiverThread/` - Inline thread replies
 
 ### Other Pages
 
@@ -109,75 +129,80 @@ import TopBar from "@components/layout/TopBar";
 
 ### Contexts
 
-- `frontend/src/contexts/MessageContext.jsx` - Message system state (already built)
+- `frontend/src/contexts/MessageContext.jsx` - Message system state
 
-### Assets
+### Assets (PROVIDED - Not rebuilt)
 
+- `frontend/src/assets/icons/` - SVG icon system (provided complete)
 - `frontend/src/assets/huddl-logo.svg` - Logo file
 
-### Design System (DO NOT TOUCH - REFERENCE ONLY)
+### Design System (PROVIDED - Not rebuilt)
 
-- `frontend/src/styles/` - All 13 global SCSS files
-  - `main.scss` - Entry point
-  - `_variables.scss` - CSS custom properties for colors, spacing, etc.
-  - `_mixins.scss` - Reusable styles (glass-card, neon-glow, etc.)
-  - `_animations.scss` - Keyframes and transitions
-  - `_buttons.scss` - Button component styles
-  - `_blobs.scss` - Animated background decorations
-  - And more...
+- `frontend/src/styles/` - All 13 global SCSS files (provided complete)
 
 ---
 
-## Usage Comment Template
+## Pseudocode Format
 
-Add this to the top of each JSX component file:
+Your JSX files will have detailed pseudocode like this:
 
 ```javascript
-/**
- * COMPONENT USAGE (For Team Reference)
- *
- * Purpose: [Brief description of what this component does]
- *
- * Data Requirements:
- * - Consumes: [Which context/service it uses - e.g., "PostsContext via usePosts() hook"]
- * - Expects: [What data format it needs - e.g., "posts array from context"]
- * - Uses: [Any utilities or helper functions]
- *
- * Expected Data Format:
- * [Show the exact shape of data this component expects, e.g.:
- *  {
- *    id: number,
- *    author: { username: string, profile_picture: string },
- *    content: string,
- *    ...
- *  }
- * ]
- *
- * Integration Points:
- * - Used by: [What component renders this - e.g., "Home.jsx"]
- * - Renders: [What child components this renders - e.g., "TimelineRiverRow"]
- * - Calls: [What functions it calls - e.g., "PostsContext.createPost()"]
- *
- * Team Integration:
- * - [Name]: [What they need to build to support this component]
- * - [Name]: [What they need to ensure about data format]
- *
- * DO NOT MODIFY THIS FILE
- * This is Pablo's complete UI implementation. Your job is to build the
- * backend and contexts that provide data in the format this component expects.
- */
+// TODO: Create TimelineRiverFeed - main feed container
+//
+// This component displays all posts in a 3-column "river" layout:
+// - Left column: 'thoughts' posts (text-only)
+// - Center column: 'media' posts (with images)
+// - Right column: 'milestones' posts (achievements)
+//
+// State you need:
+// - posts: Array from PostsContext
+// - groupedPosts: Result of groupPosts() utility
+//
+// Integration points:
+// - Consumes: PostsContext via usePosts()
+// - Uses: groupPosts.js utility
+// - Renders: TimelineRiverRow for each user group
+//
+// Expected data format from PostsContext:
+// {
+//   id: number,
+//   author: { id, username, profile_picture },
+//   type: 'thoughts' | 'media' | 'milestones',
+//   content: string,
+//   media_url: string | null,
+//   likes_count: number,
+//   reply_count: number,
+//   shares_count: number,
+//   is_liked: boolean
+// }
+//
+// Think about:
+// - How does groupPosts() organize posts by user?
+// - What happens when posts array is empty?
+// - How do you handle loading states?
+
+import { usePosts } from '@contexts/PostsContext';
+import { groupPosts } from '../utils/groupPosts';
+import TimelineRiverRow from '../TimelineRiverRow';
+import './TimelineRiverFeed.scss';
+
+function TimelineRiverFeed() {
+  // Your implementation here
+}
+
+export default TimelineRiverFeed;
 ```
 
 ---
 
-## Key Integration Points to Document
+## Key Integration Points
 
 ### For Home/Timeline Components
 
 **What Colin needs to know:**
 
 - TimelineRiverFeed expects posts array with specific format
-- Posts must have `type` field ('thought', 'media', 'milestone') for column placement
+- Posts must have `type` field ('thoughts', 'media', 'milestones') for column placement
 - Posts must include nested author object (username, profile_picture)
 - ComposerModal calls PostsContext.createPost() to add new posts
 
@@ -193,7 +218,7 @@ Add this to the top of each JSX component file:
 
 **What Crystal needs to know:**
 
-- (Crystal is building this page herself - no documentation needed from you)
+- (Crystal is building this page herself)
 
 ### For TopBar/Nav Components
 
@@ -201,8 +226,8 @@ Add this to the top of each JSX component file:
 
 - TopBar uses AuthContext.logout() for logout button
 - TopBar uses ThemeContext.toggleTheme() for theme switch
-- MessageModal uses MessageContext for messages (mock data for now)
-- NotificationModal will use FriendsContext for friend requests (mock data for now)
+- MessageModal uses MessageContext for messages
+- NotificationModal will use FriendsContext for friend requests
 
 ---
 
@@ -277,18 +302,18 @@ import "./TimelineRiverFeed.scss";
 
 ## Your Task Checklist
 
-- [ ] Add usage comments to all Home page components
-- [ ] Add usage comments to all Profile page components
-- [ ] Add usage comments to TopBar and SideNav components
-- [ ] Add usage comments to About, Landing, NotFound pages
-- [ ] Add usage comments to App.jsx
-- [ ] Document MessageContext.jsx integration points
-- [ ] Keep ALL implementation code unchanged
-- [ ] Focus on data format expectations and integration points
+- [ ] Rebuild all Home page JSX components from pseudocode
+- [ ] Rebuild all Profile page JSX components from pseudocode
+- [ ] Rebuild TopBar and SideNav JSX from pseudocode
+- [ ] Rebuild About, Landing, NotFound page JSX from pseudocode
+- [ ] Rebuild App.jsx from pseudocode
+- [ ] Rebuild MessageContext.jsx from pseudocode
+- [ ] Create meaningful commits showing your progress
+- [ ] Create PR with your contributions
 
 ---
 
-## Design System Documentation
+## Design System (PROVIDED - Reference for Implementation)
 
 Your global styles are the team's design foundation. Make sure they know:
 

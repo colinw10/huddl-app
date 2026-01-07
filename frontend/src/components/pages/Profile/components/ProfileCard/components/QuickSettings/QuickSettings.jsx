@@ -2,7 +2,7 @@
 // 🔵 PABLO - UI/Styling
 
 import './QuickSettings.scss';
-import { ShieldIcon, AppearanceIcon, EditIcon, BookmarkIcon, DocumentIcon, MusicIcon } from '../../../../../../../assets/icons';
+import { ShieldIcon, AppearanceIcon, EditIcon, BookmarkIcon, DocumentIcon, MusicIcon } from '@assets/icons';
 
 function QuickSettings() {
   return (

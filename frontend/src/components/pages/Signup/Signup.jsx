@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.scss';
-import { BackArrowGradientIcon, EyeIcon, EyeOffIcon } from '../../../assets/icons';
+import { BackArrowGradientIcon, EyeIcon, EyeOffIcon } from '@assets/icons';
 // BackButton styles now in main.scss
 
 function Signup() {

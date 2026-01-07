@@ -7,7 +7,7 @@ import {
   ThoughtBubbleIcon,
   ImageIcon,
   StarIcon
-} from '../../../../../../../assets/icons';
+} from '@assets/icons';
 import './SmartDeck.scss';
 
 const typeConfig = {

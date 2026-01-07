@@ -2,13 +2,17 @@
 
 ## Project Overview
 
-**NUMENEON** (formerly HUDDL) is a cyberpunk-themed social media application with a React frontend and Django backend. Pablo built a complete working prototype. Now the 5-person bootcamp team will **rebuild** portions of the codebase as a learning exercise.
+**NUMENEON** (formerly HUDDL) is a cyberpunk-themed social media application with a React frontend and Django backend. Pablo built a complete working prototype. Now the 5-person bootcamp team will **rebuild it from pseudocode shells** to learn architecture and create legitimate git history.
 
-**Why rebuild instead of build from scratch?**
+**Why rebuild from pseudocode?**
 
-- Pablo's UI is sophisticated (75+ files with advanced animations, 3D effects, glassmorphic styling)
-- Learning value is in architecture, backend, and state management
-- Team focuses on rebuilding backend + context layer while Pablo's UI stays intact
+- **Git history matters** - everyone needs PR records showing their contributions
+- **Learning value** - team learns architecture, state management, and full-stack patterns
+- **Realistic scope** - SCSS styles are provided, team writes JSX/Python logic only
+- **No overlap** - each person owns distinct files (zero merge conflicts)
+- **AI-assisted** - Pseudocode is detailed enough for AI to help generate accurate code
+
+**CRITICAL:** Everyone rebuilds from pseudocode (including Pablo). This ensures legitimate git history for all team members.
 
 ---
 
@@ -36,13 +40,13 @@
 
 ## Team Roles & T-Shirt Sizing
 
-| Person      | Size | Strengths                               | Focus Areas                             |
-| ----------- | ---- | --------------------------------------- | --------------------------------------- |
-| **Pablo**   | XL   | UI/UX, visual design, artist background | Documentation only (UI pre-built)       |
-| **Natalia** | L    | Backend + Frontend, migrations          | Auth system (backend + frontend)        |
-| **Colin**   | M    | Backend + Frontend, team lead           | Posts system (backend + context)        |
-| **Crystal** | M    | Backend + Frontend                      | Friends system (backend + context + UI) |
-| **Tito**    | S    | Infrastructure                          | API client, theme system, app entry     |
+| Person      | Size | Strengths                               | Focus Areas                             | Rebuild Type |
+| ----------- | ---- | --------------------------------------- | --------------------------------------- | ------------ |
+| **Pablo**   | XL   | UI/UX, visual design, artist background | Complex UI (Timeline, ProfileCard, etc) | Full pseudocode |
+| **Natalia** | L    | Backend + Frontend, migrations          | Auth system (backend + frontend)        | Full pseudocode |
+| **Colin**   | M    | Backend + Frontend, team lead           | Posts system (backend + context)        | Full pseudocode |
+| **Crystal** | M    | Backend + Frontend                      | Friends system (backend + context + UI) | Full pseudocode |
+| **Tito**    | S    | Infrastructure                          | API client, theme system, app entry     | Full pseudocode |
 
 **T-shirt sizing = complexity × file count**, not hours. Everyone works at their own pace.
 
@@ -125,6 +129,7 @@ Implemented path aliases in `vite.config.js` to simplify imports:
 ```javascript
 resolve: {
   alias: {
+    // Root aliases
     '@': './src',
     '@assets': './src/assets',
     '@components': './src/components',
@@ -132,6 +137,15 @@ resolve: {
     '@services': './src/services',
     '@utils': './src/utils',
     '@styles': './src/styles',
+    
+    // Component type aliases
+    '@layout': './src/components/layout',
+    '@pages': './src/components/pages',
+    '@ui': './src/components/ui',
+    
+    // Page-specific aliases
+    '@Home': './src/components/pages/Home',
+    '@Profile': './src/components/pages/Profile',
   }
 }
 ```
@@ -183,14 +197,16 @@ The monolithic `TimelineRiverRow.jsx` has been refactored into focused sub-compo
 
 ### Frontend Files
 
-| Category             | Owner   | File Count | Purpose                          |
-| -------------------- | ------- | ---------- | -------------------------------- |
-| Contexts             | N/C/C/T | 4          | State management layers          |
-| Services             | N/C/C/T | 4          | API call wrappers                |
-| Login/Signup         | Natalia | 8          | Auth UI                          |
-| Friends page         | Crystal | 3          | Friends management UI            |
-| Theme/Infrastructure | Tito    | 4          | API client, theme toggle         |
-| Pablo's UI           | Pablo   | ~75        | Complete UI (documentation only) |
+| Category             | Owner   | File Count | Purpose                          | Rebuild Type    |
+| -------------------- | ------- | ---------- | -------------------------------- | --------------- |
+| Contexts             | N/C/C/T | 4          | State management layers          | Full pseudocode |
+| Services             | N/C/C/T | 4          | API call wrappers                | Full pseudocode |
+| Login/Signup         | Natalia | 8          | Auth UI                          | Full pseudocode |
+| Friends page         | Crystal | 3          | Friends management UI            | Full pseudocode |
+| Theme/Infrastructure | Tito    | 4          | API client, theme toggle         | Full pseudocode |
+| Pablo's UI           | Pablo   | ~35        | Complex UI components            | Full pseudocode |
+
+*Note: SCSS files are PROVIDED (not rebuilt). Counts only include JSX files.*
 
 ---
 

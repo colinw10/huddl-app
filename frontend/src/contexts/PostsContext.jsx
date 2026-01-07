@@ -11,7 +11,7 @@
  * =============================================================================
  */
 import React, { createContext, useContext, useState, useEffect} from 'react';
-import postsService from '../services/postsService';
+import postsService from '@services/postsService';
 import { useAuth } from './AuthContext';
 
 // Create the context object - this is what components will consume

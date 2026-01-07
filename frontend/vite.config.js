@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      // Root aliases
       "@": path.resolve(__dirname, "./src"),
       "@assets": path.resolve(__dirname, "./src/assets"),
       "@components": path.resolve(__dirname, "./src/components"),
@@ -14,6 +15,15 @@ export default defineConfig({
       "@services": path.resolve(__dirname, "./src/services"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@styles": path.resolve(__dirname, "./src/styles"),
+
+      // Component type aliases
+      "@layout": path.resolve(__dirname, "./src/components/layout"),
+      "@pages": path.resolve(__dirname, "./src/components/pages"),
+      "@ui": path.resolve(__dirname, "./src/components/ui"),
+
+      // Page-specific aliases (most commonly imported)
+      "@Home": path.resolve(__dirname, "./src/components/pages/Home"),
+      "@Profile": path.resolve(__dirname, "./src/components/pages/Profile"),
     },
   },
   css: {

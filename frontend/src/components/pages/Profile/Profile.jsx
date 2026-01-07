@@ -24,12 +24,12 @@ import {
   PostTriangleIcon,
   ImageIcon,
   CheckIcon
-} from '../../../assets/icons';
+} from '@assets/icons';
 import ProfileCard from './components/ProfileCard';
 import ComposerModal from './components/ComposerModal';
 import TimelineRiver from './components/TimelineRiver';
-import MediaLightbox from '../Home/components/MediaLightbox/MediaLightbox';
-import { usePosts, useAuth, useFriends, useMessages } from '../../../contexts';
+import MediaLightbox from '@Home/components/MediaLightbox/MediaLightbox';
+import { usePosts, useAuth, useFriends, useMessages } from '@contexts';
 
 function Profile() {
   const { posts, deletePost, updatePost, createPost, likePost, createReply } = usePosts();

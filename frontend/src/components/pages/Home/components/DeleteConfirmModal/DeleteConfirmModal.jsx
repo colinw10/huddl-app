@@ -1,7 +1,7 @@
 // DeleteConfirmModal.jsx - Styled delete confirmation modal
 
 import { createPortal } from 'react-dom';
-import { ShatterIcon } from '../../../../../assets/icons';
+import { ShatterIcon } from '@assets/icons';
 import './DeleteConfirmModal.scss';
 
 function DeleteConfirmModal({ isOpen, onClose, onConfirm, isDeleting, title = "Delete Post?", message = "This can't be undone." }) {

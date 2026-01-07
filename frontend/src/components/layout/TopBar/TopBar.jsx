@@ -8,14 +8,14 @@ import MessageModal from './MessageModal/MessageModal';
 import SearchModal from './SearchModal/SearchModal';
 import NotificationModal from './NotificationModal/NotificationModal';
 import { ThemeToggle } from '../../ui/ThemeToggle';
-import { useMessages, useAuth, useFriends, useSearch } from '../../../contexts';
+import { useMessages, useAuth, useFriends, useSearch } from '@contexts';
 import { 
   TargetReticleIcon, 
   MessageBubbleIcon, 
   BroadcastIcon, 
   LogoutIcon, 
   LoginIcon 
-} from '../../../assets/icons';
+} from '@assets/icons';
 
 function TopBar() {
   const { isMessageModalOpen, openMessages, closeMessages } = useMessages();

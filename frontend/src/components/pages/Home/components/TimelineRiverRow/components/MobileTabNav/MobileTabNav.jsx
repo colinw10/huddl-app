@@ -5,7 +5,7 @@ import {
   MessageBubbleIcon,
   ImageIcon,
   MilestoneIcon
-} from '../../../../../../../assets/icons';
+} from '@assets/icons';
 import './MobileTabNav.scss';
 
 const tabConfig = {

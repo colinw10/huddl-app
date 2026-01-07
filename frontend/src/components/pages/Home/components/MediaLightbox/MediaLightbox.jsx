@@ -3,8 +3,8 @@
 
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { usePosts } from '../../../../../contexts/PostsContext';
-import { useAuth } from '../../../../../contexts/AuthContext';
+import { usePosts } from '@contexts/PostsContext';
+import { useAuth } from '@contexts/AuthContext';
 import { 
   MinimizeIcon, 
   MaximizeIcon, 
@@ -17,7 +17,7 @@ import {
   ChevronRightIcon,
   EditIcon,
   TrashIcon
-} from '../../../../../assets/icons';
+} from '@assets/icons';
 import './MediaLightbox.scss';
 
 function MediaLightbox({ post, onClose, commentText, setCommentText, threadReplies = {} }) {

@@ -9,7 +9,7 @@ import {
   TrashIcon,
   CheckIcon,
   CloseIcon
-} from '../../../../../../../assets/icons';
+} from '@assets/icons';
 import './ThreadView.scss';
 
 function ThreadView({

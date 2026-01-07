@@ -3,7 +3,7 @@
 
 import { groupPostsByUserAndDay, sortGroupedPosts } from '../../utils/groupPosts';
 import TimelineRiverRow from '../TimelineRiverRow';
-import { MessageBubbleIcon, ClockIcon } from '../../../../../assets/icons';
+import { MessageBubbleIcon, ClockIcon } from '@assets/icons';
 import './TimelineRiverFeed.scss';
 
 function TimelineRiverFeed({ posts, activeCommentPostId, setActiveCommentPostId, commentText, setCommentText, onDeletePost, onUpdatePost }) {

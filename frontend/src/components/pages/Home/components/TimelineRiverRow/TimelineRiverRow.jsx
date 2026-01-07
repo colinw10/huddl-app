@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import './TimelineRiverRow.scss';
 import MediaLightbox from '../MediaLightbox/MediaLightbox';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
-import { useAuth, usePosts, useMessages } from '../../../../../contexts';
-import { ChevronLeftIcon, ChevronRightIcon } from '../../../../../assets/icons';
+import { useAuth, usePosts, useMessages } from '@contexts';
+import { ChevronLeftIcon, ChevronRightIcon } from '@assets/icons';
 
 // Extracted components
 import { PostCard, SmartDeck, MobileTabNav } from './components';

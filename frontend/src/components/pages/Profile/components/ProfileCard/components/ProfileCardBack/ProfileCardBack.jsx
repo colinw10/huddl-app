@@ -5,7 +5,7 @@ import './ProfileCardBack.scss';
 import ActivityVisualization from '../ActivityVisualization';
 import PostTypeBreakdown from '../PostTypeBreakdown';
 import QuickSettings from '../QuickSettings';
-import { EnsoIcon, EyeIcon, BoltIcon, HeartIcon, BarChartIcon } from '../../../../../../../assets/icons';
+import { EnsoIcon, EyeIcon, BoltIcon, HeartIcon, BarChartIcon } from '@assets/icons';
 
 function ProfileCardBack({ 
   setIsFlipped, 

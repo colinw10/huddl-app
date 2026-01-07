@@ -40,13 +40,23 @@ Instead of messy relative paths like `../../../../../../../assets/icons`, use cl
 // Configured in vite.config.js:
 resolve: {
   alias: {
-    '@': './src',                    // Root source directory
-    '@assets': './src/assets',       // Icons, images, SVGs
-    '@components': './src/components', // All React components
-    '@contexts': './src/contexts',   // Context providers
-    '@services': './src/services',   // API service layers
-    '@utils': './src/utils',         // Utility functions
-    '@styles': './src/styles',       // Global SCSS files
+    // Root aliases
+    '@': './src',
+    '@assets': './src/assets',
+    '@components': './src/components',
+    '@contexts': './src/contexts',
+    '@services': './src/services',
+    '@utils': './src/utils',
+    '@styles': './src/styles',
+    
+    // Component type aliases
+    '@layout': './src/components/layout',
+    '@pages': './src/components/pages',
+    '@ui': './src/components/ui',
+    
+    // Page-specific aliases (most commonly imported)
+    '@Home': './src/components/pages/Home',
+    '@Profile': './src/components/pages/Profile',
   }
 }
 ```
@@ -105,20 +115,18 @@ import Login from "../../pages/Login";
 
 ## FRONTEND FILE CATEGORIES
 
-### CATEGORY A: Full Pseudocode (Team Rebuilds)
+**ALL frontend JSX files become pseudocode** (including Pablo's). Everyone rebuilds from pseudocode.
 
-- Contexts: AuthContext, PostsContext, FriendsContext, ThemeContext
-- Services: apiClient.js, postsService.js, friendsService.js
-- Simple UI: Login, Signup, Friends, ProtectedRoute, ThemeToggle
-- Entry: main.jsx
-- Collaborative: contexts/index.js
+**SCSS files are PROVIDED** - team writes JSX only.
 
-### CATEGORY B: Usage Comments Only (Pablo's UI - Keep Intact)
+### Files by Owner:
 
-- All ~75 component files in Pablo's domain
-- Add USAGE comment block at top
-- Keep ALL implementation code intact
-- Mark as "DO NOT MODIFY"
+- **Natalia:** AuthContext, Login, Signup, ProtectedRoute (8 files)
+- **Colin:** PostsContext, postsService, ComposerModal, DeleteConfirmModal (8 files)
+- **Crystal:** FriendsContext, friendsService, Friends page (5 files)
+- **Tito:** apiClient, ThemeContext, ThemeToggle, main.jsx (6 files)
+- **Pablo:** Timeline system, ProfileCard, MediaLightbox, Layout (~35 JSX files)
+- **Collaborative:** contexts/index.js (everyone adds their export)
 
 ---
 

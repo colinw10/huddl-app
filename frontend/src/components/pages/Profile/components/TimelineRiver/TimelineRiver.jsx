@@ -9,10 +9,10 @@ import {
   CloseIcon,
   CheckIcon,
   EditIcon,
-} from '../../../../../assets/icons';
-import DeleteConfirmModal from '../../../Home/components/DeleteConfirmModal/DeleteConfirmModal';
-import MediaLightbox from '../../../Home/components/MediaLightbox/MediaLightbox';
-import { usePosts, useMessages, useAuth } from '../../../../../contexts';
+} from '@assets/icons';
+import DeleteConfirmModal from '@Home/components/DeleteConfirmModal/DeleteConfirmModal';
+import MediaLightbox from '@Home/components/MediaLightbox/MediaLightbox';
+import { usePosts, useMessages, useAuth } from '@contexts';
 import { RiverPostActions, RiverSmartDeck, RiverComposer, RiverThread, RiverTimelineView, RiverFeedView } from './components';
 
 // Helper to format dates nicely

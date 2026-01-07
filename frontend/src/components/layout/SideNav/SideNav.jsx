@@ -3,7 +3,7 @@
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useMessages, useSearch } from '../../../contexts';
+import { useMessages, useSearch } from '@contexts';
 import './SideNav.scss';
 import {
   HexHomeIcon,
@@ -13,7 +13,7 @@ import {
   NetworkIcon,
   HexProfileIcon,
   CircuitInfoIcon
-} from '../../../assets/icons';
+} from '@assets/icons';
 
 function SideNav() {
   const navigate = useNavigate();

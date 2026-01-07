@@ -12,7 +12,7 @@
  */
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import friendsService from '../services/friendsService';
+import friendsService from '@services/friendsService';
 import { useAuth } from './AuthContext';
 
 const FriendsContext = createContext(null);

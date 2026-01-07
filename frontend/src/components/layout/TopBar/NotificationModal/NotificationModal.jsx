@@ -3,7 +3,7 @@
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFriends } from '../../../../contexts';
+import { useFriends } from '@contexts';
 import './NotificationModal.scss';
 
 function NotificationModal({ isOpen, onClose }) {

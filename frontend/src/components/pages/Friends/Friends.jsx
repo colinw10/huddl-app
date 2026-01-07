@@ -3,9 +3,9 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFriends, useMessages } from '../../../contexts';
-import DeleteConfirmModal from '../Home/components/DeleteConfirmModal/DeleteConfirmModal';
-import { MessageBubbleIcon, UnlinkIcon, PlusIcon } from '../../../assets/icons';
+import { useFriends, useMessages } from '@contexts';
+import DeleteConfirmModal from '@Home/components/DeleteConfirmModal/DeleteConfirmModal';
+import { MessageBubbleIcon, UnlinkIcon, PlusIcon } from '@assets/icons';
 import './Friends.scss';
 
 // Helper function to assign color variants to cards

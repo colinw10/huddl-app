@@ -3,9 +3,9 @@
 
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
 import './Login.scss';
-import { BackArrowGradientIcon, EyeIcon, EyeOffIcon } from '../../../assets/icons';
+import { BackArrowGradientIcon, EyeIcon, EyeOffIcon } from '@assets/icons';
 // BackButton styles now in main.scss
 
 function Login() {
