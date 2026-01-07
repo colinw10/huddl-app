@@ -530,8 +530,8 @@ export { default } from "./Login";
 //
 // ICON CATEGORIES (browse these files to find what you need):
 // ├── navigation.jsx  → TargetReticleIcon, ChevronLeftIcon, BackIcon, FlipIcon, LoginIcon, LogoutIcon
-// ├── user.jsx        → UserIcon, GlobeIcon, LockIcon, FriendsIcon, HexProfileIcon
-// ├── engagement.jsx  → HeartIcon, HeartFilledIcon, HeartDynamicIcon, CommentIcon, ShareIcon, BookmarkIcon
+// ├── user.jsx        → UserIcon, GlobeIcon, LockIcon, FriendsIcon, HexProfileIcon, VisibilityIcon (smart)
+// ├── engagement.jsx  → HeartIcon, HeartFilledIcon, HeartDynamicIcon (smart), CommentIcon, ShareIcon, BookmarkIcon
 // ├── actions.jsx     → EditIcon, TrashIcon, CloseIcon, PlusIcon, CheckIcon, SendIcon, ShatterIcon
 // ├── media.jsx       → ImageIcon, ExpandIcon, MaximizeIcon, MinimizeIcon
 // ├── ui.jsx          → SettingsIcon, EyeIcon, EyeOffIcon, MoreIcon, GridIcon, ClockIcon
@@ -540,6 +540,10 @@ export { default } from "./Login";
 // ├── profile.jsx     → LocationIcon, LinkIcon, CalendarIcon, StarIcon, MilestoneIcon
 // ├── messaging.jsx   → MessageBubbleIcon, MessageLineIcon, EmojiIcon, ThoughtBubbleIcon
 // └── misc.jsx        → MusicIcon, MapPinIcon, PostTriangleIcon
+//
+// SMART ICONS (conditional rendering based on props):
+// - VisibilityIcon: Automatically shows LockIcon/GlobeIcon/FriendsIcon based on visibility prop
+// - HeartDynamicIcon: Toggles between filled/outline based on filled prop
 //
 // HOW TO IMPORT:
 // Method 1 - From barrel export (recommended):

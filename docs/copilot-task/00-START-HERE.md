@@ -33,6 +33,7 @@ This is a **complete instruction set** for rebuilding the Numeneon app as a team
 **This `docs/copilot-task/` folder is PLANNING DOCUMENTATION ONLY.**
 
 It does NOT go into the shell branches. The shell branches contain:
+
 - Pseudocode files (team rebuilds these)
 - SCSS styles (provided, not rebuilt)
 - SVG icons (provided, not rebuilt)
@@ -41,6 +42,7 @@ It does NOT go into the shell branches. The shell branches contain:
 This folder stays in Pablo's original branch as reference for creating the shells.
 
 ---
+
 ## 🚨 CRITICAL: What Goes in Shell Branches
 
 **This `docs/copilot-task/` folder is PLANNING DOCUMENTATION ONLY.**
@@ -48,17 +50,20 @@ This folder stays in Pablo's original branch as reference for creating the shell
 It does **NOT** go into the shell branches. Keep it in Pablo's original/planning branch.
 
 **Shell branches contain:**
+
 - Pseudocode files (`.jsx`, `.py` with TODO comments)
 - SCSS styles (provided complete, not rebuilt)
 - SVG icons (provided complete, not rebuilt)
 - Config files (vite.config.js, package.json, etc.)
 
 **Shell branches do NOT contain:**
+
 - `docs/copilot-task/` folder
 - `docs/team-plan/` folder (team gets individual `.md` files via other means)
 - Any planning/strategy documentation
 
 ---
+
 ## �📚 The 5 Instruction Files (Read In Order)
 
 ### **File 1: [01-CONTEXT-AND-STRATEGY.md](./01-CONTEXT-AND-STRATEGY.md)**
@@ -205,7 +210,7 @@ frontend/src/assets/
 └── icons/             # Modular system (12 category files)
     ├── index.js       # Main aggregator
     ├── navigation.jsx # TargetReticleIcon, BackIcon, FlipIcon, etc.
-    ├── user.jsx       # UserIcon, GlobeIcon, LockIcon, etc.
+    ├── user.jsx       # UserIcon, GlobeIcon, LockIcon, VisibilityIcon (smart), etc.
     ├── engagement.jsx # HeartIcon, CommentIcon, ShareIcon, etc.
     ├── actions.jsx    # EditIcon, TrashIcon, CloseIcon, etc.
     ├── media.jsx      # ImageIcon, ExpandIcon, etc.

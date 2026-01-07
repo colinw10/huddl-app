@@ -40,8 +40,8 @@
 
 ## Team Roles & T-Shirt Sizing
 
-| Person      | Size | Strengths                               | Focus Areas                             | Rebuild Type |
-| ----------- | ---- | --------------------------------------- | --------------------------------------- | ------------ |
+| Person      | Size | Strengths                               | Focus Areas                             | Rebuild Type    |
+| ----------- | ---- | --------------------------------------- | --------------------------------------- | --------------- |
 | **Pablo**   | XL   | UI/UX, visual design, artist background | Complex UI (Timeline, ProfileCard, etc) | Full pseudocode |
 | **Natalia** | L    | Backend + Frontend, migrations          | Auth system (backend + frontend)        | Full pseudocode |
 | **Colin**   | M    | Backend + Frontend, team lead           | Posts system (backend + context)        | Full pseudocode |
@@ -137,12 +137,12 @@ resolve: {
     '@services': './src/services',
     '@utils': './src/utils',
     '@styles': './src/styles',
-    
+
     // Component type aliases
     '@layout': './src/components/layout',
     '@pages': './src/components/pages',
     '@ui': './src/components/ui',
-    
+
     // Page-specific aliases
     '@Home': './src/components/pages/Home',
     '@Profile': './src/components/pages/Profile',
@@ -197,16 +197,16 @@ The monolithic `TimelineRiverRow.jsx` has been refactored into focused sub-compo
 
 ### Frontend Files
 
-| Category             | Owner   | File Count | Purpose                          | Rebuild Type    |
-| -------------------- | ------- | ---------- | -------------------------------- | --------------- |
-| Contexts             | N/C/C/T | 4          | State management layers          | Full pseudocode |
-| Services             | N/C/C/T | 4          | API call wrappers                | Full pseudocode |
-| Login/Signup         | Natalia | 8          | Auth UI                          | Full pseudocode |
-| Friends page         | Crystal | 3          | Friends management UI            | Full pseudocode |
-| Theme/Infrastructure | Tito    | 4          | API client, theme toggle         | Full pseudocode |
-| Pablo's UI           | Pablo   | ~35        | Complex UI components            | Full pseudocode |
+| Category             | Owner   | File Count | Purpose                  | Rebuild Type    |
+| -------------------- | ------- | ---------- | ------------------------ | --------------- |
+| Contexts             | N/C/C/T | 4          | State management layers  | Full pseudocode |
+| Services             | N/C/C/T | 4          | API call wrappers        | Full pseudocode |
+| Login/Signup         | Natalia | 8          | Auth UI                  | Full pseudocode |
+| Friends page         | Crystal | 3          | Friends management UI    | Full pseudocode |
+| Theme/Infrastructure | Tito    | 4          | API client, theme toggle | Full pseudocode |
+| Pablo's UI           | Pablo   | ~35        | Complex UI components    | Full pseudocode |
 
-*Note: SCSS files are PROVIDED (not rebuilt). Counts only include JSX files.*
+_Note: SCSS files are PROVIDED (not rebuilt). Counts only include JSX files._
 
 ---
 

@@ -28,8 +28,8 @@ I (Pablo) built a complete working prototype of NUMENEON, a cyberpunk-themed soc
 
 **Team (T-Shirt Sizing):**
 
-| Person      | Size | Files | Focus Area                                             | Rebuild Type |
-| ----------- | ---- | ----- | ------------------------------------------------------ | ------------ |
+| Person      | Size | Files | Focus Area                                             | Rebuild Type    |
+| ----------- | ---- | ----- | ------------------------------------------------------ | --------------- |
 | **Pablo**   | XL   | ~35   | Complex UI: Timeline, ProfileCard, Carousel, Analytics | Full pseudocode |
 | **Natalia** | L    | 19    | Auth system + Migration management                     | Full pseudocode |
 | **Colin**   | M    | 15    | Posts CRUD + ComposerModal + DeleteConfirmModal        | Full pseudocode |
@@ -67,7 +67,7 @@ frontend/src/assets/
 └── icons/
     ├── index.js       # Aggregates all category exports
     ├── navigation.jsx # Target, arrows, back, flip, login/logout
-    ├── user.jsx       # UserIcon, GlobeIcon, LockIcon, FriendsIcon
+    ├── user.jsx       # UserIcon, GlobeIcon, LockIcon, FriendsIcon, VisibilityIcon (smart)
     ├── engagement.jsx # HeartIcon, CommentIcon, ShareIcon, BookmarkIcon
     ├── actions.jsx    # EditIcon, TrashIcon, CloseIcon, PlusIcon, SendIcon
     ├── media.jsx      # ImageIcon, ExpandIcon, MaximizeIcon, MinimizeIcon
@@ -170,12 +170,12 @@ resolve: {
     '@services': path.resolve(__dirname, './src/services'),
     '@utils': path.resolve(__dirname, './src/utils'),
     '@styles': path.resolve(__dirname, './src/styles'),
-    
+
     // Component type aliases
     '@layout': path.resolve(__dirname, './src/components/layout'),
     '@pages': path.resolve(__dirname, './src/components/pages'),
     '@ui': path.resolve(__dirname, './src/components/ui'),
-    
+
     // Page-specific aliases (most commonly imported)
     '@Home': path.resolve(__dirname, './src/components/pages/Home'),
     '@Profile': path.resolve(__dirname, './src/components/pages/Profile'),
@@ -186,15 +186,16 @@ resolve: {
 Team members should **use these aliases** instead of relative paths for cleaner code.
 
 **Import examples:**
+
 ```jsx
 // Icons
-import { HeartIcon, CloseIcon } from '@assets/icons';
+import { HeartIcon, CloseIcon } from "@assets/icons";
 
-// Contexts  
-import { useAuth } from '@contexts/AuthContext';
+// Contexts
+import { useAuth } from "@contexts/AuthContext";
 
 // Cross-page imports
-import TimelineRiver from '@Profile/components/TimelineRiver';
+import TimelineRiver from "@Profile/components/TimelineRiver";
 ```
 
 ---
@@ -214,7 +215,7 @@ import TimelineRiver from '@Profile/components/TimelineRiver';
 
 **Rebuilds these complex UI components from pseudocode:**
 
-*Note: SCSS files are PROVIDED (not rebuilt). Count only includes JSX files.*
+_Note: SCSS files are PROVIDED (not rebuilt). Count only includes JSX files._
 
 **Timeline System (Home page):**
 
@@ -346,6 +347,7 @@ frontend/src/components/pages/Profile/
 ### CATEGORY 6: PROVIDED (SCSS + Config - Not Rebuilt)
 
 **SCSS files for ALL components** (team writes JSX only):
+
 - All `.scss` files are provided complete
 - SCSS partials (`_*.scss`) provided complete
 - Design system (`frontend/src/styles/`) provided complete

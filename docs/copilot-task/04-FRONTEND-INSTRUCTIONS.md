@@ -48,12 +48,12 @@ resolve: {
     '@services': './src/services',
     '@utils': './src/utils',
     '@styles': './src/styles',
-    
+
     // Component type aliases
     '@layout': './src/components/layout',
     '@pages': './src/components/pages',
     '@ui': './src/components/ui',
-    
+
     // Page-specific aliases (most commonly imported)
     '@Home': './src/components/pages/Home',
     '@Profile': './src/components/pages/Profile',

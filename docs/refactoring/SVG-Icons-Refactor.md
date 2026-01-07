@@ -97,6 +97,8 @@ export const HeartIcon = ({ size = 18, className = "", ...props }) => (
 
 Some icons have additional props for dynamic behavior:
 
+**HeartDynamicIcon - Toggles between filled/outline:**
+
 ```jsx
 // HeartDynamicIcon - toggles between filled/outline
 export const HeartDynamicIcon = ({
@@ -116,6 +118,26 @@ export const HeartDynamicIcon = ({
   </svg>
 );
 ```
+
+**VisibilityIcon - Smart component for privacy states (Jan 2026):**
+
+```jsx
+// VisibilityIcon - Automatically shows correct icon based on visibility
+export const VisibilityIcon = ({
+  visibility = "public",
+  size = 20,
+  className = "",
+  ...props
+}) => {
+  if (visibility === "private") return <LockIcon size={size} {...props} />;
+  if (visibility === "public") return <GlobeIcon size={size} {...props} />;
+  return <FriendsIcon size={size} {...props} />; // friends-only
+};
+```
+
+**Usage:** `<VisibilityIcon visibility={post.visibility} size={20} />`
+
+This pattern keeps conditional icon logic centralized and reusable.
 
 ---
 
@@ -227,9 +249,9 @@ Total:            1,198 lines (same icons, better organized)
 
 **Navigation:** TargetReticleIcon, BroadcastIcon, LogoutIcon, LoginIcon, ChevronLeftIcon, ChevronRightIcon, BackIcon, FlipIcon
 
-**User:** UserIcon, GlobeIcon, LockIcon, FriendsIcon, HexProfileIcon
+**User:** UserIcon, GlobeIcon, LockIcon, FriendsIcon, HexProfileIcon, **VisibilityIcon (smart)** ← Jan 2026
 
-**Engagement:** HeartIcon, HeartFilledIcon, HeartDynamicIcon, CommentIcon, ShareIcon, BookmarkIcon, RepostIcon
+**Engagement:** HeartIcon, HeartFilledIcon, **HeartDynamicIcon (smart)**, CommentIcon, ShareIcon, BookmarkIcon, RepostIcon
 
 **Actions:** EditIcon, TrashIcon, CloseIcon, PlusIcon, CheckIcon, SendIcon, ShatterIcon, UnlinkIcon
 

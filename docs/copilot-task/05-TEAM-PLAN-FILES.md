@@ -824,7 +824,7 @@ TimelineRiverRow/
 
 **Sub-Component Responsibilities:**
 
-- **PostCard.jsx**: Renders a single post card with all action buttons (like, share, comment, edit, delete), media display, visibility icons
+- **PostCard.jsx**: Renders a single post card with all action buttons (like, share, comment, edit, delete), media display, VisibilityIcon (smart component)
 - **SmartDeck.jsx**: Carousel container with prev/next navigation when 3+ posts, shows current index
 - **ThreadView.jsx**: Twitter-style inline replies thread, fetches and displays replies
 - **MobileTabNav.jsx**: Tab buttons for switching between thoughts/media/milestones on mobile
@@ -837,7 +837,7 @@ TimelineRiverRow/
 **Icons Used (import from icons.jsx):**
 
 - UserIcon, HeartIcon, HeartFilledIcon, CommentIcon, ShareIcon
-- EditIcon, TrashIcon, ExpandIcon, GlobeIcon, LockIcon, FriendsIcon
+- EditIcon, TrashIcon, ExpandIcon, VisibilityIcon (smart - replaces GlobeIcon/LockIcon/FriendsIcon inline logic)
 - ChevronLeftIcon, ChevronRightIcon
 
 ---

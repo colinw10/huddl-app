@@ -15,6 +15,7 @@ You also configured the **Vite path alias system** to simplify imports across th
 SCSS files are PROVIDED (not rebuilt) - you only write JSX logic.
 
 For each component:
+
 1. Read the pseudocode TODO comments
 2. Implement the logic
 3. Commit with descriptive messages
@@ -35,12 +36,12 @@ resolve: {
     '@services': path.resolve(__dirname, './src/services'),
     '@utils': path.resolve(__dirname, './src/utils'),
     '@styles': path.resolve(__dirname, './src/styles'),
-    
+
     // Component type aliases
     '@layout': path.resolve(__dirname, './src/components/layout'),
     '@pages': path.resolve(__dirname, './src/components/pages'),
     '@ui': path.resolve(__dirname, './src/components/ui'),
-    
+
     // Page-specific aliases
     '@Home': path.resolve(__dirname, './src/components/pages/Home'),
     '@Profile': path.resolve(__dirname, './src/components/pages/Profile'),
@@ -76,7 +77,7 @@ import TopBar from "@components/layout/TopBar";
 
 ## Your Files (~35 JSX files)
 
-*Note: SCSS files are PROVIDED. Count only includes JSX files you rebuild.*
+_Note: SCSS files are PROVIDED. Count only includes JSX files you rebuild._
 
 ### Entry & Layout
 
@@ -181,10 +182,10 @@ Your JSX files will have detailed pseudocode like this:
 // - What happens when posts array is empty?
 // - How do you handle loading states?
 
-import { usePosts } from '@contexts/PostsContext';
-import { groupPosts } from '../utils/groupPosts';
-import TimelineRiverRow from '../TimelineRiverRow';
-import './TimelineRiverFeed.scss';
+import { usePosts } from "@contexts/PostsContext";
+import { groupPosts } from "../utils/groupPosts";
+import TimelineRiverRow from "../TimelineRiverRow";
+import "./TimelineRiverFeed.scss";
 
 function TimelineRiverFeed() {
   // Your implementation here

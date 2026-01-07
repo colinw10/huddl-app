@@ -76,3 +76,17 @@ export const HexProfileIcon = ({ size = 24, className = '', ...props }) => (
     <path d="M7 18c0-2.5 2.2-4 5-4s5 1.5 5 4"/>
   </svg>
 );
+
+/** Smart Visibility Icon - switches between Lock/Globe/Friends based on visibility prop */
+export const VisibilityIcon = ({ visibility = 'public', size = 20, className = '', ...props }) => {
+  if (visibility === 'private') {
+    return <LockIcon size={size} className={className} {...props} />;
+  }
+  
+  if (visibility === 'public') {
+    return <GlobeIcon size={size} className={className} {...props} />;
+  }
+  
+  // Default to friends/connections
+  return <FriendsIcon size={size} className={className} {...props} />;
+};
