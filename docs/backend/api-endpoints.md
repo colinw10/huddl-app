@@ -1,7 +1,8 @@
 # Numeneon API Endpoints
 
-> **Last Updated:** January 8, 2026  
+> **Last Updated:** January 9, 2026  
 > **Total Endpoints:** 13
+> **Database:** PostgreSQL (migrated from SQLite Jan 6, 2026)
 
 ---
 

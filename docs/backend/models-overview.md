@@ -1,7 +1,8 @@
 # Numeneon Backend Models Overview
 
-> **Last Updated:** January 8, 2026  
+> **Last Updated:** January 9, 2026  
 > **Total Models:** 6 (5 custom + 1 Django built-in)
+> **Database:** PostgreSQL (migrated from SQLite Jan 6, 2026)
 
 ---
 
