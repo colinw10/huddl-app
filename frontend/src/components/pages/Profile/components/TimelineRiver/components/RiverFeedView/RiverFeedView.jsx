@@ -284,21 +284,21 @@ function RiverFeedView({
                       <div className={`river-label left-label${mostRecentType === 'thoughts' ? ' river-label--recent' : ''}`}>
                         <MessageBubbleIcon size={20} />
                         <span>Thoughts</span>
-                        <span className="river-label-count">{thoughtsPosition}/{thoughtsInRow}</span>
+                        <span className="river-label-count">{thoughtsInRow}</span>
                       </div>
                     )}
                     {hasMedia && (
                       <div className={`river-label center-label${mostRecentType === 'media' ? ' river-label--recent' : ''}`}>
                         <ImageIcon size={20} />
                         <span>Media</span>
-                        <span className="river-label-count">{mediaPosition}/{mediaInRow}</span>
+                        <span className="river-label-count">{mediaInRow}</span>
                       </div>
                     )}
                     {hasMilestones && (
                       <div className={`river-label right-label${mostRecentType === 'milestones' ? ' river-label--recent' : ''}`}>
                         <MilestoneIcon size={20} />
                         <span>Milestones</span>
-                        <span className="river-label-count">{milestonesPosition}/{milestonesInRow}</span>
+                        <span className="river-label-count">{milestonesInRow}</span>
                       </div>
                     )}
                   </div>

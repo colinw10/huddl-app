@@ -221,25 +221,19 @@
   right: var(--space-md);
   font-size: 12px;
   font-weight: 500;
-  opacity: 0.8;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  opacity: 0.7;
 }
 
 /* Type-specific count colors */
 .left-label .river-label-count {
-  background: rgba(77, 171, 247, 0.2);
   color: rgba(77, 171, 247, 1);
 }
 
 .center-label .river-label-count {
-  background: rgba(233, 78, 200, 0.2);
   color: rgba(233, 78, 200, 1);
 }
 
 .right-label .river-label-count {
-  background: rgba(255, 215, 0, 0.2);
   color: rgba(255, 215, 0, 1);
 }
 

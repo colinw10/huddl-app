@@ -332,6 +332,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
               
               {currentTabPosts.length > 1 && (
                 <div className="mobile-card-controls">
+                  <span className="mobile-nav-position">
+                    {currentTabIndex + 1}/{currentTabPosts.length}
+                  </span>
                   <button 
                     className="mobile-nav-btn mobile-nav-btn--prev"
                     onClick={() => setMobileCardIndex(prev => ({

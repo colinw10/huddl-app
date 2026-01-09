@@ -215,3 +215,38 @@
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.6),
               0 0 25px rgba(255, 215, 0, 0.3);
 }
+
+/* ============================================
+   POSITION INDICATOR
+   Shows X/Y position centered above carousel dots
+   ============================================ */
+
+/* Base styles - always show position indicator */
+.timeline-river .smart-deck-nav {
+  flex-wrap: wrap;
+}
+
+.timeline-river .smart-deck-nav-position {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-main);
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  order: -1; /* Place above the nav buttons */
+}
+
+/* Type-specific colors for position indicator */
+.left-stream .smart-deck-nav-position {
+  color: rgba(77, 171, 247, 0.8);
+}
+
+.center-stream .smart-deck-nav-position {
+  color: rgba(233, 78, 200, 0.8);
+}
+
+.right-stream .smart-deck-nav-position {
+  color: rgba(255, 215, 0, 0.8);
+}

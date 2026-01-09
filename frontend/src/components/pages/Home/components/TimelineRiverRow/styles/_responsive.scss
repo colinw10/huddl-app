@@ -499,15 +499,13 @@
 }
 
 .mobile-tab-count {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2px 6px;
-  border-radius: 10px;
   font-size: 10px;
   font-weight: 600;
+  opacity: 0.7;
 }
 
 .mobile-tab--active .mobile-tab-count {
-  background: rgba(255, 255, 255, 0.15);
+  opacity: 1;
 }
 
 /* Card Display Area */
@@ -533,7 +531,19 @@
   gap: var(--space-md);
   padding: 12px 0;
   background: transparent;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+}
+
+/* Position indicator above buttons */
+.mobile-nav-position {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
+  order: -1;
 }
 
 /* Chamfered nav buttons (matching Profile page style) */
@@ -594,6 +604,18 @@
 }
 
 /* Type-specific nav button colors */
+.timeline-river-row-wrapper--mobile:has(.mobile-tab--thoughts.mobile-tab--active) .mobile-nav-position {
+  color: rgba(79, 255, 255, 0.7);
+}
+
+.timeline-river-row-wrapper--mobile:has(.mobile-tab--media.mobile-tab--active) .mobile-nav-position {
+  color: rgba(201, 168, 255, 0.7);
+}
+
+.timeline-river-row-wrapper--mobile:has(.mobile-tab--milestones.mobile-tab--active) .mobile-nav-position {
+  color: rgba(26, 231, 132, 0.7);
+}
+
 .timeline-river-row-wrapper--mobile:has(.mobile-tab--thoughts.mobile-tab--active) .mobile-nav-btn {
   color: rgba(79, 255, 255, 0.4);
   
@@ -818,10 +840,6 @@
       stroke: #16a34a;
       filter: none;
     }
-  }
-  
-  .mobile-tab-count {
-    background: rgba(0, 0, 0, 0.06);
   }
   
   /* Chamfered nav buttons - light mode */

@@ -268,14 +268,17 @@ function RiverTimelineView({
         <div className={`river-label left-label${mostRecentType === 'thoughts' ? ' river-label--recent' : ''}`}>
           <MessageBubbleIcon size={20} />
           <span>Thoughts</span>
+          <span className="river-label-count">{textPosts?.length || 0}</span>
         </div>
         <div className={`river-label center-label${mostRecentType === 'media' ? ' river-label--recent' : ''}`}>
           <ImageIcon size={20} />
           <span>Media</span>
+          <span className="river-label-count">{mediaPosts?.length || 0}</span>
         </div>
         <div className={`river-label right-label${mostRecentType === 'milestones' ? ' river-label--recent' : ''}`}>
           <MilestoneIcon size={20} />
           <span>Milestones</span>
+          <span className="river-label-count">{achievementPosts?.length || 0}</span>
         </div>
       </div>
 

@@ -40,15 +40,11 @@ function SmartDeck({
 
   return (
     <div className={`smart-deck smart-deck--${type}${isRecentType ? ' smart-deck--recent' : ''}`}>
-      {/* Deck Header with centered label and position on right */}
+      {/* Deck Header - icon, label and count */}
       <div className="smart-deck-header">
         <span className="smart-deck-icon">{typeIcons[type]}</span>
         <span className="smart-deck-label">{config.label}</span>
-        
-        {/* Card position indicator */}
-        <span className="smart-deck-position">
-          {currentIndex + 1}/{totalCards}
-        </span>
+        <span className="smart-deck-count">{totalCards}</span>
       </div>
       
       {/* Current card */}
@@ -59,6 +55,10 @@ function SmartDeck({
       {/* Navigation for multiple cards */}
       {totalCards > 1 && (
         <div className="smart-deck-nav">
+          {/* Position indicator - shown above nav on mobile */}
+          <span className="smart-deck-nav-position">
+            {currentIndex + 1}/{totalCards}
+          </span>
           <button 
             className="smart-deck-nav-btn"
             onClick={(e) => {

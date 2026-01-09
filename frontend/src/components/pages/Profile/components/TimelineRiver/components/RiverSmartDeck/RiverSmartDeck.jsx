@@ -36,6 +36,10 @@ const RiverSmartDeck = ({
 
   return (
     <div className="smart-deck-nav">
+      {/* Position indicator - shown above nav on mobile */}
+      <span className="smart-deck-nav-position">
+        {currentIndex + 1}/{total}
+      </span>
       <button className="smart-deck-nav-btn" onClick={handlePrev}>
         <ChevronLeftIcon size={16} />
       </button>
