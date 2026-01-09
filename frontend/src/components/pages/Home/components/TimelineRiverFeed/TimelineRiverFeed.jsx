@@ -1,7 +1,7 @@
 // 🔵 PABLO - UI/Styling | 🟢 COLIN + 🟠 TITO - Posts Data Logic
 // TimelineRiverFeed.jsx - Main timeline feed with 3-column river layout
 
-import { groupPostsByUserAndDay, sortGroupedPosts } from '../../utils/groupPosts';
+import { groupPostsByUserAndDay, sortGroupedPosts } from '@components/pages/Home/utils/groupPosts';
 import TimelineRiverRow from '../TimelineRiverRow';
 import { MessageBubbleIcon, ClockIcon } from '@assets/icons';
 import './TimelineRiverFeed.scss';

@@ -89,8 +89,11 @@
 - Like/comment/share actions
 - Vite path aliases (@assets, @contexts)
 - Carousel for multiple posts
+- PostCard, ThreadView, RepostModal all use `@components/pages/Home/utils/timeFormatters`
 
 **Interview Question:** "Walk me through your main feed feature"
+
+**Pro Tip:** Notice how ALL files now use path aliases - no more `../../../../` patterns!
 
 ---
 

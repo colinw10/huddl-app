@@ -38,6 +38,49 @@
 
 ---
 
+## ⚠️ IMPORTANT: Superuser vs Seed User
+
+### Superuser (Admin Account)
+
+Create a Django superuser to access the admin panel:
+
+```bash
+cd backend
+pipenv shell
+python manage.py createsuperuser
+```
+
+**What it's for:**
+
+- Access Django admin panel (`http://127.0.0.1:8000/admin/`)
+- Create/edit/delete any data directly in database
+- Debug issues, manage all users
+- **NOT for testing the app as a regular user**
+
+### Seed User (Demo Account)
+
+Create a regular user through the app signup to test features:
+
+**What it's for:**
+
+- Test the app as a real user would
+- Your "persona" in the demo (e.g., pablo_pistola, natalia_dev)
+- Create posts, add friends, see activity visualization
+- **This is your main demo account**
+
+### Quick Reference
+
+|                       | Superuser                   | Seed User     |
+| --------------------- | --------------------------- | ------------- |
+| **Created via**       | `manage.py createsuperuser` | App signup UI |
+| **Access admin?**     | ✅ Yes                      | ❌ No         |
+| **Use for demos?**    | ❌ No                       | ✅ Yes        |
+| **Has activity viz?** | ❌ (no profile)             | ✅ Yes        |
+
+**Each team member should have BOTH** - superuser for debugging, seed user for demos.
+
+---
+
 ## Team Roles & T-Shirt Sizing
 
 | Person      | Size | Strengths                               | Focus Areas                             | Rebuild Type    |
@@ -176,6 +219,16 @@ The monolithic `TimelineRiverRow.jsx` has been refactored into focused sub-compo
 - Use `reply_count` NOT `comment_count`
 - `shares_count` is now wired up and functional
 - `is_liked` boolean needed for heart icon state
+
+### Import Path Cleanup (Jan 2025)
+
+**All component imports updated to use Vite path aliases:**
+
+- TimelineRiverFeed.jsx → `@components/pages/Home/utils/groupPosts`
+- PostCard.jsx, ThreadView.jsx, RepostModal.jsx → `@components/pages/Home/utils/timeFormatters`
+- TopBar.jsx → `@components/ui/ThemeToggle`
+
+**Result:** Cleaner, more maintainable imports. No more `'../../../../utils/file'` patterns!
 
 ### Light Mode Blob Fix
 

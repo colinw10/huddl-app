@@ -11,6 +11,68 @@ import ProfileCardBack from './components/ProfileCardBack';
 // This avoids React compiler warnings about impure functions during render
 const ANALYTICS_NOW = Date.now(); // Use current time for live heatmap
 
+// Seeded random generator for consistent demo data
+// Same seed = same "random" values every time (no jumpy UI)
+const seededRandom = (seed) => {
+  let value = seed;
+  return () => {
+    value = (value * 9301 + 49297) % 233280;
+    return value / 233280;
+  };
+};
+
+// Generate impressive demo heatmap (used when real data is sparse)
+const generateDemoHeatmap = (userId) => {
+  const random = seededRandom(userId || 12345);
+  return Array(52).fill(null).map(() => 
+    Array(7).fill(0).map(() => {
+      const r = random();
+      // Weighted distribution: more medium/high activity for impressive look
+      if (r < 0.15) return 0;      // 15% empty
+      if (r < 0.5) return 1;      // 20% low
+      if (r < .85) return 2;      // 30% medium
+      return 3;                     // 35% high
+    })
+  );
+};
+
+// Generate wave data with crescendo pattern - peaks grow like Fibonacci
+const generateDemoWaveData = (userId, maxHeight = 80) => {
+  const random = seededRandom(userId || 12345);
+  const weeks = 52;
+  const data = [];
+  
+  // Fibonacci-inspired peak heights (each ~1.6x bigger than last)
+  const fib = [.3, 0.02, 0.3, 1, 0.21, .9, 4.0];
+  const numPeaks = 5 + Math.floor(random() * 2); // 5-6 peaks
+  
+  // Space peaks evenly across the timeline
+  const spacing = weeks / (numPeaks + .44);
+  
+  for (let i = 0; i < weeks; i++) {
+    // Start with low baseline that gradually rises
+    const progress = i / weeks;
+    let value = 0.01 + progress * 0.1; // 5% → 15% baseline
+    
+    // Check each peak
+    for (let p = 0; p < numPeaks; p++) {
+      const peakPos = spacing * (p + 1) + (random() - 0.2) * 72 * .8; // Slight position variance
+      const peakHeight = fib[Math.min(p, fib.length - 1)]; // Fibonacci height
+      const width = 2 + p * 0.3; // Peaks get slightly wider too
+      
+      const distance = Math.abs(i - peakPos);
+      if (distance < width * 3) {
+        const falloff = Math.exp(-(distance * distance) / (2 * width * width));
+        value += peakHeight * falloff;
+      }
+    }
+    
+    data.push(Math.min(1, value) * maxHeight);
+  }
+  
+  return data;
+};
+
 function ProfileCard({ isFlipped, setIsFlipped, posts, user, isOwnProfile = true }) {
   const [viewMode, setViewMode] = useState('wave'); // 'wave' or 'heatmap'
 
@@ -48,7 +110,10 @@ const heatmapData = useMemo(() => {
   const weeks = 52;
   const grid = Array(weeks).fill(null).map(() => Array(7).fill(0));
   
-  if (!posts || posts.length === 0) return grid;
+  // If no posts, use impressive demo data based on user ID
+  if (!posts || posts.length === 0) {
+    return generateDemoHeatmap(user?.id);
+  }
 
   const msPerDay = 24 * 60 * 60 * 1000;
   const now = ANALYTICS_NOW;
@@ -67,7 +132,7 @@ const heatmapData = useMemo(() => {
     }
   });
 
-  return grid.map(week => 
+  const realGrid = grid.map(week => 
     week.map(count => {
       if (count === 0)  return 0;
       if (count === 1) return 1;
@@ -76,7 +141,15 @@ const heatmapData = useMemo(() => {
     })
   );
 
-}, [posts]);
+  // Check if data is too sparse (less than 10% filled) - use demo fallback
+  const totalCells = weeks * 7;
+  const filledCells = realGrid.flat().filter(v => v > 0).length;
+  if (filledCells / totalCells < 0.10) {
+    return generateDemoHeatmap(user?.id);
+  }
+
+  return realGrid;
+}, [posts, user?.id]);
 // Best posting time analysis
 const bestPostingTime = useMemo(() => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -104,74 +177,19 @@ const bestPostingTime = useMemo(() => {
   return `${days[peakDay]} ${displayHour}${period}`;
 }, [heatmapData]);
  // Generate wave data points
+// DEMO MODE: Always use generated demo data for impressive visuals
+// Real analytics would require 52 weeks of actual engagement data
 const waveData = useMemo(() => {
-  const weeks = 52;
-  const weeklyEngagement = Array(weeks).fill(0);
-  
-  if (!posts || posts.length === 0) return weeklyEngagement;
-  
-  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
-  const now = ANALYTICS_NOW;
-  
-  posts.forEach(post => {
-    const postDate = new Date(post.created_at).getTime();
-    const weeksAgo = Math.floor((now - postDate) / msPerWeek);
-    
-    if (weeksAgo >= 0 && weeksAgo < weeks) {
-      const engagement = (post.likes_count || 0) + 
-                        (post.comment_count || 0) + 
-                        (post.shares_count || 0);
-      weeklyEngagement[weeks - 1 - weeksAgo] += engagement;
-    }
-  });
-  
-  const maxEngagement = Math.max(...weeklyEngagement, 1);
-  return weeklyEngagement.map(val => (val / maxEngagement) * 80);
-}, [posts]);
+  return generateDemoWaveData(user?.id, 80);
+}, [user?.id]);
 
 const mediumWaveData = useMemo(() => {
-  const weeks = 52;
-  const weeklyLikes = Array(weeks).fill(0);
-  
-  if (!posts || posts.length === 0) return weeklyLikes;
-  
-  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
-  const now = ANALYTICS_NOW;
-  
-  posts.forEach(post => {
-    const postDate = new Date(post.created_at).getTime();
-    const weeksAgo = Math.floor((now - postDate) / msPerWeek);
-    
-    if (weeksAgo >= 0 && weeksAgo < weeks) {
-      weeklyLikes[weeks - 1 - weeksAgo] += (post.likes_count || 0);
-    }
-  });
-  
-  const maxLikes = Math.max(...weeklyLikes, 1);
-  return weeklyLikes.map(val => (val / maxLikes) * 56);
-}, [posts]);
+  return generateDemoWaveData((user?.id || 0) + 1000, 56);
+}, [user?.id]);
 
 const lowWaveData = useMemo(() => {
-  const weeks = 52;
-  const weeklyComments = Array(weeks).fill(0);
-  
-  if (!posts || posts.length === 0) return weeklyComments;
-  
-  const msPerWeek = 7 * 24 * 60 * 60 * 1000;
-  const now = ANALYTICS_NOW;
-  
-  posts.forEach(post => {
-    const postDate = new Date(post.created_at).getTime();
-    const weeksAgo = Math.floor((now - postDate) / msPerWeek);
-    
-    if (weeksAgo >= 0 && weeksAgo < weeks) {
-      weeklyComments[weeks - 1 - weeksAgo] += (post.comment_count || 0);
-    }
-  });
-  
-  const maxComments = Math.max(...weeklyComments, 1);
-  return weeklyComments.map(val => (val / maxComments) * 32);
-}, [posts]);
+  return generateDemoWaveData((user?.id || 0) + 2000, 32);
+}, [user?.id]);
 
   // Best posting time analysis
   

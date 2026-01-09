@@ -2,7 +2,7 @@
 // ThreadView.jsx - Twitter-style inline replies thread
 
 import { useState } from 'react';
-import { formatRelativeTime } from '../../../../utils/timeFormatters';
+import { formatRelativeTime } from '@components/pages/Home/utils/timeFormatters';
 import {
   UserIcon,
   EditIcon,

@@ -7,7 +7,7 @@ import './TopBar.scss';
 import MessageModal from './MessageModal/MessageModal';
 import SearchModal from './SearchModal/SearchModal';
 import NotificationModal from './NotificationModal/NotificationModal';
-import { ThemeToggle } from '../../ui/ThemeToggle';
+import { ThemeToggle } from '@components/ui/ThemeToggle';
 import { useMessages, useAuth, useFriends, useSearch } from '@contexts';
 import { 
   TargetReticleIcon, 

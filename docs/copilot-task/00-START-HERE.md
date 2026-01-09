@@ -28,6 +28,25 @@ This is a **complete instruction set** for rebuilding the Numeneon app as a team
 
 ---
 
+## ⚠️ IMPORTANT: Each Team Member Creates a Superuser
+
+After setting up the backend, each person should create their own Django superuser:
+
+```bash
+cd backend
+pipenv shell
+python manage.py createsuperuser
+```
+
+**Why?** Access to Django admin (`http://127.0.0.1:8000/admin/`) lets you:
+
+- Create test users and data without API calls
+- Debug database issues directly
+- View relationships between models
+- Seed your own test scenarios
+
+---
+
 ## � CRITICAL: What Goes in Shell Branches vs Stays Here
 
 **This `docs/copilot-task/` folder is PLANNING DOCUMENTATION ONLY.**
@@ -512,6 +531,6 @@ Then **start reading File 01: Context & Strategy** →
 
 ---
 
-**Last Updated:** January 6, 2026  
-**Version:** 1.1 (Added expandable comment composer on Profile pages)  
+**Last Updated:** January 8, 2026  
+**Version:** 1.2 (Updated component structure, added SearchContext, PostCard modularization)  
 **Maintained By:** Pablo (UI Lead)

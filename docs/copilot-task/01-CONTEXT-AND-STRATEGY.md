@@ -590,6 +590,10 @@ See `docs/stretch-goals/` for implementation plans.
 - Fixed typo: `oderId` → `orderId` across groupPosts.js, TimelineRiverFeed.jsx
 - Wired up `sharePost()` function to Repost button (was imported but unused)
 - Fixed light mode blobs: Disabled `mix-blend-mode: screen` for light theme (was causing white-out)
+- **Updated all imports to use Vite path aliases:**
+  - TimelineRiverFeed.jsx, PostCard.jsx, ThreadView.jsx, RepostModal.jsx now use `@components` and `@assets`
+  - TopBar.jsx uses `@components/ui/ThemeToggle`
+  - No more relative paths like `'../../../../utils/file'`
 
 **Profile Privacy Controls (Dec 2024):**
 

@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { formatRelativeTime } from '../../../../utils/timeFormatters';
+import { formatRelativeTime } from '@components/pages/Home/utils/timeFormatters';
 import ThreadView from '../ThreadView';
 import RepostModal from '../RepostModal/RepostModal';
 import {
@@ -17,7 +17,6 @@ import {
   EditIcon,
   TrashIcon,
   MaximizeIcon,
-  MinimizeIcon,
   ChevronRightIcon,
   CheckIcon,
   CloseIcon,
