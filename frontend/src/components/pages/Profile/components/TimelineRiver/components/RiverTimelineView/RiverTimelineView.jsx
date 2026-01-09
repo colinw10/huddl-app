@@ -1,5 +1,9 @@
 // 🔵 PABLO - UI/Styling
 // RiverTimelineView.jsx - Timeline mode view for own profile posts
+// 
+// ROW-CHUNKING DESIGN: Posts are grouped into rows of max 12 per category.
+// Newest posts appear in the FIRST row (top), older posts flow to subsequent rows.
+// This prevents feed clutter from prolific users and maintains chronological clarity.
 
 import React from 'react';
 import {
@@ -12,6 +16,73 @@ import RiverSmartDeck from '../RiverSmartDeck';
 import './RiverTimelineView.scss';
 
 const CAROUSEL_LIMIT = 12;
+
+/**
+ * Chunk posts into rows of max CAROUSEL_LIMIT (12)
+ * Posts are assumed to be sorted newest-first from the API
+ * 
+ * Example: 15 posts → [[posts 0-2 (newest 3)], [posts 3-14 (older 12)]]
+ * Row 0 (top): 3 newest posts
+ * Row 1 (bottom): 12 older posts
+ */
+const chunkPostsIntoRows = (posts) => {
+  if (!posts || posts.length === 0) return [];
+  if (posts.length <= CAROUSEL_LIMIT) return [posts];
+  
+  const rows = [];
+  const totalPosts = posts.length;
+  const remainder = totalPosts % CAROUSEL_LIMIT;
+  
+  // First row gets the remainder (newest posts) if there is one
+  // Otherwise first row gets full 12
+  if (remainder > 0) {
+    rows.push(posts.slice(0, remainder));
+    // Remaining posts chunked into groups of 12
+    for (let i = remainder; i < totalPosts; i += CAROUSEL_LIMIT) {
+      rows.push(posts.slice(i, i + CAROUSEL_LIMIT));
+    }
+  } else {
+    // All rows have exactly 12
+    for (let i = 0; i < totalPosts; i += CAROUSEL_LIMIT) {
+      rows.push(posts.slice(i, i + CAROUSEL_LIMIT));
+    }
+  }
+  
+  return rows;
+};
+
+/**
+ * Calculate how many rows we need based on the category with most posts
+ */
+const calculateRowCount = (textRows, mediaRows, achievementRows) => {
+  return Math.max(textRows.length, mediaRows.length, achievementRows.length);
+};
+
+/**
+ * Determine which category has the most recent post
+ */
+const getMostRecentType = (textPosts, mediaPosts, achievementPosts) => {
+  const getLatestTimestamp = (posts) => {
+    if (!posts || posts.length === 0) return 0;
+    return Math.max(...posts.map(p => new Date(p.created_at || 0).getTime()));
+  };
+  
+  const timestamps = {
+    thoughts: getLatestTimestamp(textPosts),
+    media: getLatestTimestamp(mediaPosts),
+    milestones: getLatestTimestamp(achievementPosts)
+  };
+  
+  let mostRecent = null;
+  let maxTime = 0;
+  for (const [type, time] of Object.entries(timestamps)) {
+    if (time > maxTime) {
+      maxTime = time;
+      mostRecent = type;
+    }
+  }
+  return mostRecent;
+};
 
 function RiverTimelineView({
   textPosts,
@@ -27,16 +98,143 @@ function RiverTimelineView({
   renderCommentSection,
   formatDate,
 }) {
-  // Split posts into carousel (first 12) and river continuation (rest)
-  const carouselText = textPosts.slice(0, CAROUSEL_LIMIT);
-  const carouselMedia = mediaPosts.slice(0, CAROUSEL_LIMIT);
-  const carouselAchievements = achievementPosts.slice(0, CAROUSEL_LIMIT);
+  // Chunk each category into rows
+  const textRows = chunkPostsIntoRows(textPosts);
+  const mediaRows = chunkPostsIntoRows(mediaPosts);
+  const achievementRows = chunkPostsIntoRows(achievementPosts);
   
-  const riverText = textPosts.slice(CAROUSEL_LIMIT);
-  const riverMedia = mediaPosts.slice(CAROUSEL_LIMIT);
-  const riverAchievements = achievementPosts.slice(CAROUSEL_LIMIT);
+  // Total number of rows needed
+  const rowCount = calculateRowCount(textRows, mediaRows, achievementRows);
   
-  const hasRiverContinuation = riverText.length > 0 || riverMedia.length > 0 || riverAchievements.length > 0;
+  // Determine which category is most recent
+  const mostRecentType = getMostRecentType(textPosts, mediaPosts, achievementPosts);
+
+  // Debug logging
+  console.log('RiverTimelineView Debug:', {
+    textPosts: textPosts?.length,
+    textRows: textRows.map(r => r.length),
+    mediaRows: mediaRows.map(r => r.length),
+    achievementRows: achievementRows.map(r => r.length),
+    rowCount,
+    mostRecentType,
+  });
+
+  // Helper to render a thoughts column for a specific row
+  const renderThoughtsColumn = (rowIndex) => {
+    const posts = textRows[rowIndex];
+    const deckKey = `${profileUser?.username || 'me'}-thoughts-row${rowIndex}`;
+    
+    if (!posts || posts.length === 0) {
+      return <div className="empty-column">{rowIndex === 0 ? 'No thoughts yet' : ''}</div>;
+    }
+    
+    const currentIndex = getDeckIndex(profileUser?.username || 'me', `thoughts-row${rowIndex}`);
+    const currentPost = posts[currentIndex] || posts[0];
+    
+    return (
+      <>
+        <div className="river-card text-card">
+          <div className="river-card-content">
+            <p className="river-post-text">{currentPost?.content}</p>
+            <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
+          </div>
+          {renderPostActions(currentPost)}
+          {renderCommentSection(currentPost)}
+        </div>
+        <RiverSmartDeck
+          items={posts}
+          deckKey={deckKey}
+          currentIndex={currentIndex}
+          onIndexChange={(key, idx) => handleDeckIndexChange(key, idx)}
+        />
+      </>
+    );
+  };
+
+  // Helper to render a media column for a specific row
+  const renderMediaColumn = (rowIndex) => {
+    const posts = mediaRows[rowIndex];
+    const deckKey = `${profileUser?.username || 'me'}-media-row${rowIndex}`;
+    
+    if (!posts || posts.length === 0) {
+      return <div className="empty-column">{rowIndex === 0 ? 'No media yet' : ''}</div>;
+    }
+    
+    const currentIndex = getDeckIndex(profileUser?.username || 'me', `media-row${rowIndex}`);
+    const currentPost = posts[currentIndex] || posts[0];
+    
+    return (
+      <>
+        <div className="river-card media-card">
+          <div 
+            className="river-card-media" 
+            onClick={() => setExpandedMediaPost(currentPost)}
+            title="Click to expand"
+          >
+            {currentPost?.media_url ? (
+              <>
+                <img src={currentPost.media_url} alt="" className="media-image" />
+                <div className="media-expand-hint">
+                  <ExpandIcon size={20} />
+                </div>
+              </>
+            ) : (
+              <div className="media-placeholder">
+                <ImageIcon size={40} strokeWidth="1.5" />
+              </div>
+            )}
+          </div>
+          <div className="river-card-content">
+            <p className="river-post-text">{currentPost?.content}</p>
+            <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
+          </div>
+          {renderPostActions(currentPost)}
+          {renderCommentSection(currentPost)}
+        </div>
+        <RiverSmartDeck
+          items={posts}
+          deckKey={deckKey}
+          currentIndex={currentIndex}
+          onIndexChange={(key, idx) => handleDeckIndexChange(key, idx)}
+        />
+      </>
+    );
+  };
+
+  // Helper to render a milestones column for a specific row
+  const renderMilestonesColumn = (rowIndex) => {
+    const posts = achievementRows[rowIndex];
+    const deckKey = `${profileUser?.username || 'me'}-milestones-row${rowIndex}`;
+    
+    if (!posts || posts.length === 0) {
+      return <div className="empty-column">{rowIndex === 0 ? 'No milestones yet' : ''}</div>;
+    }
+    
+    const currentIndex = getDeckIndex(profileUser?.username || 'me', `milestones-row${rowIndex}`);
+    const currentPost = posts[currentIndex] || posts[0];
+    
+    return (
+      <>
+        <div className="river-card achievement-card">
+          <div className="achievement-badge">
+            <MilestoneIcon size={24} />
+          </div>
+          <div className="river-card-content">
+            <p className="river-post-text">{currentPost?.content}</p>
+            <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
+          </div>
+          {renderPostActions(currentPost)}
+          {renderCommentSection(currentPost)}
+        </div>
+        <RiverSmartDeck
+          items={posts}
+          deckKey={deckKey}
+          currentIndex={currentIndex}
+          onIndexChange={(key, idx) => handleDeckIndexChange(key, idx)}
+        />
+      </>
+    );
+  };
 
   return (
     <>
@@ -67,186 +265,39 @@ function RiverTimelineView({
 
       {/* River Column Labels - desktop only */}
       <div className="river-labels">
-        <div className="river-label left-label">
+        <div className={`river-label left-label${mostRecentType === 'thoughts' ? ' river-label--recent' : ''}`}>
           <MessageBubbleIcon size={20} />
           <span>Thoughts</span>
         </div>
-        <div className="river-label center-label">
+        <div className={`river-label center-label${mostRecentType === 'media' ? ' river-label--recent' : ''}`}>
           <ImageIcon size={20} />
           <span>Media</span>
         </div>
-        <div className="river-label right-label">
+        <div className={`river-label right-label${mostRecentType === 'milestones' ? ' river-label--recent' : ''}`}>
           <MilestoneIcon size={20} />
           <span>Milestones</span>
         </div>
       </div>
 
-      {/* Three Column River - Carousel Section */}
-      <div className={`river-streams mobile-show-${mobileCategory}`}>
-        {/* Left Stream - Thoughts */}
-        <div className="river-column left-stream" data-category="thoughts">
-          {carouselText.length > 0 ? (
-            <>
-              <div className="river-card text-card">
-                <div className="river-card-content">
-                  <p className="river-post-text">{carouselText[getDeckIndex(profileUser?.username || 'me', 'thoughts')]?.content}</p>
-                  <span className="river-timestamp">{formatDate(carouselText[getDeckIndex(profileUser?.username || 'me', 'thoughts')]?.created_at)}</span>
-                </div>
-                {renderPostActions(carouselText[getDeckIndex(profileUser?.username || 'me', 'thoughts')])}
-                {renderCommentSection(carouselText[getDeckIndex(profileUser?.username || 'me', 'thoughts')])}
-              </div>
-              <RiverSmartDeck
-                items={carouselText}
-                deckKey={`${profileUser?.username || 'me'}-thoughts`}
-                currentIndex={getDeckIndex(profileUser?.username || 'me', 'thoughts')}
-                onIndexChange={handleDeckIndexChange}
-              />
-            </>
-          ) : (
-            <div className="empty-column">No thoughts yet</div>
-          )}
-        </div>
-        
-        {/* Center Stream - Media */}
-        <div className="river-column center-stream" data-category="media">
-          {carouselMedia.length > 0 ? (
-            <>
-              <div className="river-card media-card">
-                <div 
-                  className="river-card-media" 
-                  onClick={() => setExpandedMediaPost(carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')])}
-                  title="Click to expand"
-                >
-                  {carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')]?.media_url ? (
-                    <>
-                      <img src={carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')].media_url} alt="" className="media-image" />
-                      <div className="media-expand-hint">
-                        <ExpandIcon size={20} />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="media-placeholder">
-                      <ImageIcon size={40} strokeWidth="1.5" />
-                    </div>
-                  )}
-                </div>
-                <div className="river-card-content">
-                  <p className="river-post-text">{carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')]?.content}</p>
-                  <span className="river-timestamp">{formatDate(carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')]?.created_at)}</span>
-                </div>
-                {renderPostActions(carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')])}
-                {renderCommentSection(carouselMedia[getDeckIndex(profileUser?.username || 'me', 'media')])}
-              </div>
-              <RiverSmartDeck
-                items={carouselMedia}
-                deckKey={`${profileUser?.username || 'me'}-media`}
-                currentIndex={getDeckIndex(profileUser?.username || 'me', 'media')}
-                onIndexChange={handleDeckIndexChange}
-              />
-            </>
-          ) : (
-            <div className="empty-column">No media yet</div>
-          )}
-        </div>
-        
-        {/* Right Stream - Milestones */}
-        <div className="river-column right-stream" data-category="milestones">
-          {carouselAchievements.length > 0 ? (
-            <>
-              <div className="river-card achievement-card">
-                <div className="achievement-badge">
-                  <MilestoneIcon size={24} />
-                </div>
-                <div className="river-card-content">
-                  <p className="river-post-text">{carouselAchievements[getDeckIndex(profileUser?.username || 'me', 'milestones')]?.content}</p>
-                  <span className="river-timestamp">{formatDate(carouselAchievements[getDeckIndex(profileUser?.username || 'me', 'milestones')]?.created_at)}</span>
-                </div>
-                {renderPostActions(carouselAchievements[getDeckIndex(profileUser?.username || 'me', 'milestones')])}
-                {renderCommentSection(carouselAchievements[getDeckIndex(profileUser?.username || 'me', 'milestones')])}
-              </div>
-              <RiverSmartDeck
-                items={carouselAchievements}
-                deckKey={`${profileUser?.username || 'me'}-milestones`}
-                currentIndex={getDeckIndex(profileUser?.username || 'me', 'milestones')}
-                onIndexChange={handleDeckIndexChange}
-              />
-            </>
-          ) : (
-            <div className="empty-column">No milestones yet</div>
-          )}
-        </div>
-      </div>
-
-      {/* River Continuation - Posts beyond first 12 */}
-      {hasRiverContinuation && (
-        <div className="river-continuation">
-          <h3 className="continuation-header">More Posts</h3>
-          <div className={`river-streams mobile-show-${mobileCategory}`}>
-            {/* Left Stream - More Thoughts */}
-            <div className="river-column left-stream" data-category="thoughts">
-              {riverText.map((post) => (
-                <div key={post.id} className="river-card text-card">
-                  <div className="river-card-content">
-                    <p className="river-post-text">{post.content}</p>
-                    <span className="river-timestamp">{formatDate(post.created_at)}</span>
-                  </div>
-                  {renderPostActions(post)}
-                  {renderCommentSection(post)}
-                </div>
-              ))}
-            </div>
-            
-            {/* Center Stream - More Media */}
-            <div className="river-column center-stream" data-category="media">
-              {riverMedia.map((post) => (
-                <div key={post.id} className="river-card media-card">
-                  <div 
-                    className="river-card-media"
-                    onClick={() => setExpandedMediaPost(post)}
-                    title="Click to expand"
-                  >
-                    {post.media_url ? (
-                      <>
-                        <img src={post.media_url} alt="" className="media-image" />
-                        <div className="media-expand-hint">
-                          <ExpandIcon size={20} />
-                        </div>
-                      </>
-                    ) : (
-                      <div className="media-placeholder">
-                        <ImageIcon size={40} strokeWidth="1.5" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="river-card-content">
-                    <p className="river-post-text">{post.content}</p>
-                    <span className="river-timestamp">{formatDate(post.created_at)}</span>
-                  </div>
-                  {renderPostActions(post)}
-                  {renderCommentSection(post)}
-                </div>
-              ))}
-            </div>
-            
-            {/* Right Stream - More Milestones */}
-            <div className="river-column right-stream" data-category="milestones">
-              {riverAchievements.map((post) => (
-                <div key={post.id} className="river-card achievement-card">
-                  <div className="achievement-badge">
-                    <MilestoneIcon size={24} />
-                  </div>
-                  <div className="river-card-content">
-                    <p className="river-post-text">{post.content}</p>
-                    <span className="river-timestamp">{formatDate(post.created_at)}</span>
-                  </div>
-                  {renderPostActions(post)}
-                  {renderCommentSection(post)}
-                </div>
-              ))}
-            </div>
+      {/* Render all rows - newest posts in first row (top) */}
+      {Array.from({ length: rowCount }, (_, rowIndex) => (
+        <div key={rowIndex} className={`river-streams river-row-${rowIndex} mobile-show-${mobileCategory}`}>
+          {/* Left Stream - Thoughts */}
+          <div className="river-column left-stream" data-category="thoughts">
+            {renderThoughtsColumn(rowIndex)}
+          </div>
+          
+          {/* Center Stream - Media */}
+          <div className="river-column center-stream" data-category="media">
+            {renderMediaColumn(rowIndex)}
+          </div>
+          
+          {/* Right Stream - Milestones */}
+          <div className="river-column right-stream" data-category="milestones">
+            {renderMilestonesColumn(rowIndex)}
           </div>
         </div>
-      )}
+      ))}
     </>
   );
 }

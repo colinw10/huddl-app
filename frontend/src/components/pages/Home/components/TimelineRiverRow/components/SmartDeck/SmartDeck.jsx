@@ -40,18 +40,15 @@ function SmartDeck({
 
   return (
     <div className={`smart-deck smart-deck--${type}${isRecentType ? ' smart-deck--recent' : ''}`}>
-      {/* Deck Header with count and navigation */}
+      {/* Deck Header with centered label and position on right */}
       <div className="smart-deck-header">
         <span className="smart-deck-icon">{typeIcons[type]}</span>
-        <span className="smart-deck-count">{totalCards}</span>
         <span className="smart-deck-label">{config.label}</span>
         
         {/* Card position indicator */}
-        {totalCards > 1 && (
-          <span className="smart-deck-position">
-            {currentIndex + 1}/{totalCards}
-          </span>
-        )}
+        <span className="smart-deck-position">
+          {currentIndex + 1}/{totalCards}
+        </span>
       </div>
       
       {/* Current card */}

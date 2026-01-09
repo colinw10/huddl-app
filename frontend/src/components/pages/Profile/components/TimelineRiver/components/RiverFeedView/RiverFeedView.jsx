@@ -1,5 +1,9 @@
 // 🔵 PABLO - UI/Styling
 // RiverFeedView.jsx - Feed mode view for friends' posts
+//
+// ROW-CHUNKING DESIGN: Each friend's posts are chunked into rows of max 12.
+// If a friend has 15 thoughts, they get 2 rows: [3 newest] then [12 older].
+// This prevents prolific users from dominating the feed with scattered posts.
 
 import React from 'react';
 import './RiverFeedView.scss';
@@ -9,6 +13,60 @@ import {
   MilestoneIcon,
 } from '@assets/icons';
 import RiverSmartDeck from '../RiverSmartDeck';
+
+const CAROUSEL_LIMIT = 12;
+
+/**
+ * Chunk posts into rows of max CAROUSEL_LIMIT (12)
+ * Newest posts in first chunk, older in subsequent chunks
+ */
+const chunkPostsIntoRows = (posts) => {
+  if (!posts || posts.length === 0) return [];
+  if (posts.length <= CAROUSEL_LIMIT) return [posts];
+  
+  const rows = [];
+  const totalPosts = posts.length;
+  const remainder = totalPosts % CAROUSEL_LIMIT;
+  
+  if (remainder > 0) {
+    rows.push(posts.slice(0, remainder));
+    for (let i = remainder; i < totalPosts; i += CAROUSEL_LIMIT) {
+      rows.push(posts.slice(i, i + CAROUSEL_LIMIT));
+    }
+  } else {
+    for (let i = 0; i < totalPosts; i += CAROUSEL_LIMIT) {
+      rows.push(posts.slice(i, i + CAROUSEL_LIMIT));
+    }
+  }
+  
+  return rows;
+};
+
+/**
+ * Determine which category has the most recent post within a row
+ */
+const getMostRecentTypeForRow = (thoughtsRow, mediaRow, milestonesRow) => {
+  const getLatestTimestamp = (posts) => {
+    if (!posts || posts.length === 0) return 0;
+    return Math.max(...posts.map(p => new Date(p.created_at || 0).getTime()));
+  };
+  
+  const timestamps = {
+    thoughts: getLatestTimestamp(thoughtsRow),
+    media: getLatestTimestamp(mediaRow),
+    milestones: getLatestTimestamp(milestonesRow)
+  };
+  
+  let mostRecent = null;
+  let maxTime = 0;
+  for (const [type, time] of Object.entries(timestamps)) {
+    if (time > maxTime) {
+      maxTime = time;
+      mostRecent = type;
+    }
+  }
+  return mostRecent;
+};
 
 function RiverFeedView({
   friendsGrouped,
@@ -21,6 +79,149 @@ function RiverFeedView({
   renderCommentSection,
   formatDate,
 }) {
+  
+  // Pre-process friends to chunk their posts into rows
+  const friendsWithRows = friendsGrouped.map(friend => ({
+    ...friend,
+    thoughtRows: chunkPostsIntoRows(friend.thoughts),
+    mediaRows: chunkPostsIntoRows(friend.media),
+    milestoneRows: chunkPostsIntoRows(friend.milestones),
+    rowCount: Math.max(
+      chunkPostsIntoRows(friend.thoughts).length,
+      chunkPostsIntoRows(friend.media).length,
+      chunkPostsIntoRows(friend.milestones).length
+    )
+  }));
+
+  // Render a thought column for a friend at a specific row
+  const renderFriendThoughts = (friend, rowIndex) => {
+    const posts = friend.thoughtRows[rowIndex];
+    const deckKey = `${friend.username}-thoughts-row${rowIndex}`;
+    
+    if (!posts || posts.length === 0) {
+      return null; // Don't render empty columns
+    }
+    
+    const currentIndex = getDeckIndex(friend.username, `thoughts-row${rowIndex}`);
+    const currentPost = posts[currentIndex] || posts[0];
+    
+    return (
+      <div className="river-column-wrapper">
+        <div className="river-card text-card">
+          <div 
+            className="river-card-author clickable-friend"
+            onClick={() => navigate(`/profile/${friend.username}`)}
+            title={`View ${friend.username}'s profile`}
+          >
+            <div className="friend-avatar">{friend.avatar}</div>
+            <span className="friend-name">{friend.username}</span>
+          </div>
+          <div className="river-card-content">
+            <p className="river-post-text">{currentPost?.content}</p>
+            <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
+          </div>
+          {renderPostActions(currentPost, true)}
+          {renderCommentSection(currentPost)}
+        </div>
+        <RiverSmartDeck
+          items={posts}
+          deckKey={deckKey}
+          currentIndex={currentIndex}
+          onIndexChange={handleDeckIndexChange}
+        />
+      </div>
+    );
+  };
+
+  // Render a media column for a friend at a specific row
+  const renderFriendMedia = (friend, rowIndex) => {
+    const posts = friend.mediaRows[rowIndex];
+    const deckKey = `${friend.username}-media-row${rowIndex}`;
+    
+    if (!posts || posts.length === 0) {
+      return null; // Don't render empty columns
+    }
+    
+    const currentIndex = getDeckIndex(friend.username, `media-row${rowIndex}`);
+    const currentPost = posts[currentIndex] || posts[0];
+    
+    return (
+      <div className="river-column-wrapper">
+        <div className="river-card media-card">
+          <div 
+            className="river-card-author clickable-friend"
+            onClick={() => navigate(`/profile/${friend.username}`)}
+            title={`View ${friend.username}'s profile`}
+          >
+            <div className="friend-avatar">{friend.avatar}</div>
+            <span className="friend-name">{friend.username}</span>
+          </div>
+          <div className="river-card-media">
+            {currentPost?.media_url ? (
+              <img src={currentPost.media_url} alt="" className="media-image" />
+            ) : (
+              <div className="media-placeholder">
+                <ImageIcon size={40} strokeWidth="1.5" />
+              </div>
+            )}
+          </div>
+          <div className="river-card-content">
+            <p className="river-post-text">{currentPost?.content}</p>
+            <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
+          </div>
+          {renderPostActions(currentPost, true)}
+          {renderCommentSection(currentPost)}
+        </div>
+        <RiverSmartDeck
+          items={posts}
+          deckKey={deckKey}
+          currentIndex={currentIndex}
+          onIndexChange={handleDeckIndexChange}
+        />
+      </div>
+    );
+  };
+
+  // Render a milestone column for a friend at a specific row
+  const renderFriendMilestones = (friend, rowIndex) => {
+    const posts = friend.milestoneRows[rowIndex];
+    const deckKey = `${friend.username}-milestones-row${rowIndex}`;
+    
+    if (!posts || posts.length === 0) {
+      return null; // Don't render empty columns
+    }
+    
+    const currentIndex = getDeckIndex(friend.username, `milestones-row${rowIndex}`);
+    const currentPost = posts[currentIndex] || posts[0];
+    
+    return (
+      <div className="river-column-wrapper">
+        <div className="river-card achievement-card">
+          <div 
+            className="river-card-author clickable-friend"
+            onClick={() => navigate(`/profile/${friend.username}`)}
+            title={`View ${friend.username}'s profile`}
+          >
+            <div className="friend-avatar">{friend.avatar}</div>
+            <span className="friend-name">{friend.username}</span>
+          </div>
+          <div className="river-card-content">
+            <p className="river-post-text">{currentPost?.content}</p>
+            <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
+          </div>
+          {renderPostActions(currentPost, true)}
+          {renderCommentSection(currentPost)}
+        </div>
+        <RiverSmartDeck
+          items={posts}
+          deckKey={deckKey}
+          currentIndex={currentIndex}
+          onIndexChange={handleDeckIndexChange}
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="friends-feed-rows">
       {/* Mobile Category Tabs for Friends Feed */}
@@ -48,138 +249,88 @@ function RiverFeedView({
         </button>
       </div>
 
-      {/* Column Labels for Friends Feed - desktop only */}
-      <div className="river-labels friends-feed-labels">
-        <div className="river-label left-label">
-          <MessageBubbleIcon size={20} />
-          <span>Thoughts</span>
-        </div>
-        <div className="river-label center-label">
-          <ImageIcon size={20} />
-          <span>Media</span>
-        </div>
-        <div className="river-label right-label">
-          <MilestoneIcon size={20} />
-          <span>Milestones</span>
-        </div>
-      </div>
-
-      {friendsGrouped.map((friend) => (
-        <div key={friend.username} className="friend-row">
-          <div className={`river-streams mobile-show-${mobileCategory}`}>
-            {/* Left Stream - Thoughts */}
-            <div className="river-column left-stream" data-category="thoughts">
-              {friend.thoughts.length > 0 ? (
-                <>
-                  <div className="river-card text-card">
-                    {/* User header inside card - matches Home feed */}
-                    <div 
-                      className="river-card-author clickable-friend"
-                      onClick={() => navigate(`/profile/${friend.username}`)}
-                      title={`View ${friend.username}'s profile`}
-                    >
-                      <div className="friend-avatar">{friend.avatar}</div>
-                      <span className="friend-name">{friend.username}</span>
-                    </div>
-                    <div className="river-card-content">
-                      <p className="river-post-text">{friend.thoughts[getDeckIndex(friend.username, 'thoughts')]?.content}</p>
-                      <span className="river-timestamp">{formatDate(friend.thoughts[getDeckIndex(friend.username, 'thoughts')]?.created_at)}</span>
-                    </div>
-                    {/* Action buttons for friend's thought */}
-                    {renderPostActions(friend.thoughts[getDeckIndex(friend.username, 'thoughts')], true)}
-                    {/* Comment section */}
-                    {renderCommentSection(friend.thoughts[getDeckIndex(friend.username, 'thoughts')])}
+      {/* Render each friend's rows */}
+      {friendsWithRows.map((friend) => {
+        return (
+          <div key={friend.username} className="friend-row-group">
+            {Array.from({ length: friend.rowCount }, (_, rowIndex) => {
+              // Calculate column count for this specific row
+              const hasThoughts = friend.thoughtRows[rowIndex]?.length > 0;
+              const hasMedia = friend.mediaRows[rowIndex]?.length > 0;
+              const hasMilestones = friend.milestoneRows[rowIndex]?.length > 0;
+              const columnCount = [hasThoughts, hasMedia, hasMilestones].filter(Boolean).length;
+              
+              // Get counts and positions for THIS row
+              const thoughtsInRow = friend.thoughtRows[rowIndex]?.length || 0;
+              const mediaInRow = friend.mediaRows[rowIndex]?.length || 0;
+              const milestonesInRow = friend.milestoneRows[rowIndex]?.length || 0;
+              
+              const thoughtsPosition = getDeckIndex(friend.username, `thoughts-row${rowIndex}`) + 1;
+              const mediaPosition = getDeckIndex(friend.username, `media-row${rowIndex}`) + 1;
+              const milestonesPosition = getDeckIndex(friend.username, `milestones-row${rowIndex}`) + 1;
+              
+              // Determine which category is most recent in this row
+              const mostRecentType = getMostRecentTypeForRow(
+                friend.thoughtRows[rowIndex],
+                friend.mediaRows[rowIndex],
+                friend.milestoneRows[rowIndex]
+              );
+              
+              return (
+                <div key={`${friend.username}-row-${rowIndex}`} className="friend-row">
+                  {/* River Column Labels for THIS row */}
+                  <div className={`river-labels river-labels--${columnCount}-col`}>
+                    {hasThoughts && (
+                      <div className={`river-label left-label${mostRecentType === 'thoughts' ? ' river-label--recent' : ''}`}>
+                        <MessageBubbleIcon size={20} />
+                        <span>Thoughts</span>
+                        <span className="river-label-count">{thoughtsPosition}/{thoughtsInRow}</span>
+                      </div>
+                    )}
+                    {hasMedia && (
+                      <div className={`river-label center-label${mostRecentType === 'media' ? ' river-label--recent' : ''}`}>
+                        <ImageIcon size={20} />
+                        <span>Media</span>
+                        <span className="river-label-count">{mediaPosition}/{mediaInRow}</span>
+                      </div>
+                    )}
+                    {hasMilestones && (
+                      <div className={`river-label right-label${mostRecentType === 'milestones' ? ' river-label--recent' : ''}`}>
+                        <MilestoneIcon size={20} />
+                        <span>Milestones</span>
+                        <span className="river-label-count">{milestonesPosition}/{milestonesInRow}</span>
+                      </div>
+                    )}
                   </div>
-                  <RiverSmartDeck
-                    items={friend.thoughts}
-                    deckKey={`${friend.username}-thoughts`}
-                    currentIndex={getDeckIndex(friend.username, 'thoughts')}
-                    onIndexChange={handleDeckIndexChange}
-                  />
-                </>
-              ) : <div className="empty-column">No thoughts</div>}
-            </div>
+                  
+                  <div className={`river-streams river-streams--${columnCount}-col mobile-show-${mobileCategory}`}>
+                    {/* Left Stream - Thoughts */}
+                    {hasThoughts && (
+                      <div className="river-column left-stream" data-category="thoughts">
+                        {renderFriendThoughts(friend, rowIndex)}
+                      </div>
+                    )}
 
-            {/* Center Stream - Media */}
-            <div className="river-column center-stream" data-category="media">
-              {friend.media.length > 0 ? (
-                <>
-                  <div className="river-card media-card">
-                    {/* User header inside card - matches Home feed */}
-                    <div 
-                      className="river-card-author clickable-friend"
-                      onClick={() => navigate(`/profile/${friend.username}`)}
-                      title={`View ${friend.username}'s profile`}
-                    >
-                      <div className="friend-avatar">{friend.avatar}</div>
-                      <span className="friend-name">{friend.username}</span>
-                    </div>
-                    <div className="river-card-media">
-                      {friend.media[getDeckIndex(friend.username, 'media')]?.media_url ? (
-                        <img src={friend.media[getDeckIndex(friend.username, 'media')].media_url} alt="" className="media-image" />
-                      ) : (
-                        <div className="media-placeholder">
-                          <ImageIcon size={40} strokeWidth="1.5" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="river-card-content">
-                      <p className="river-post-text">{friend.media[getDeckIndex(friend.username, 'media')]?.content}</p>
-                      <span className="river-timestamp">{formatDate(friend.media[getDeckIndex(friend.username, 'media')]?.created_at)}</span>
-                    </div>
-                    {/* Action buttons for friend's media */}
-                    {renderPostActions(friend.media[getDeckIndex(friend.username, 'media')], true)}
-                    {/* Comment section */}
-                    {renderCommentSection(friend.media[getDeckIndex(friend.username, 'media')])}
-                  </div>
-                  <RiverSmartDeck
-                    items={friend.media}
-                    deckKey={`${friend.username}-media`}
-                    currentIndex={getDeckIndex(friend.username, 'media')}
-                    onIndexChange={handleDeckIndexChange}
-                  />
-                </>
-              ) : <div className="empty-column">No media</div>}
-            </div>
+                    {/* Center Stream - Media */}
+                    {hasMedia && (
+                      <div className="river-column center-stream" data-category="media">
+                        {renderFriendMedia(friend, rowIndex)}
+                      </div>
+                    )}
 
-            {/* Right Stream - Milestones */}
-            <div className="river-column right-stream" data-category="milestones">
-              {friend.milestones.length > 0 ? (
-                <>
-                  <div className="river-card achievement-card">
-                    {/* User header inside card - matches Home feed */}
-                    <div 
-                      className="river-card-author clickable-friend"
-                      onClick={() => navigate(`/profile/${friend.username}`)}
-                      title={`View ${friend.username}'s profile`}
-                    >
-                      <div className="friend-avatar">{friend.avatar}</div>
-                      <span className="friend-name">{friend.username}</span>
-                    </div>
-                    <div className="achievement-badge">
-                      <MilestoneIcon size={24} />
-                    </div>
-                    <div className="river-card-content">
-                      <p className="river-post-text">{friend.milestones[getDeckIndex(friend.username, 'milestones')]?.content}</p>
-                      <span className="river-timestamp">{formatDate(friend.milestones[getDeckIndex(friend.username, 'milestones')]?.created_at)}</span>
-                    </div>
-                    {/* Action buttons for friend's milestone */}
-                    {renderPostActions(friend.milestones[getDeckIndex(friend.username, 'milestones')], true)}
-                    {/* Comment section */}
-                    {renderCommentSection(friend.milestones[getDeckIndex(friend.username, 'milestones')])}
+                    {/* Right Stream - Milestones */}
+                    {hasMilestones && (
+                      <div className="river-column right-stream" data-category="milestones">
+                        {renderFriendMilestones(friend, rowIndex)}
+                      </div>
+                    )}
                   </div>
-                  <RiverSmartDeck
-                    items={friend.milestones}
-                    deckKey={`${friend.username}-milestones`}
-                    currentIndex={getDeckIndex(friend.username, 'milestones')}
-                    onIndexChange={handleDeckIndexChange}
-                  />
-                </>
-              ) : <div className="empty-column">No milestones</div>}
-            </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
