@@ -62,6 +62,7 @@ This loads Pablo's **exact database** including:
 All users have password `test123`.
 
 **What's included:**
+
 - All posts (thoughts, media, milestones) with exact content
 - Media posts with the same image URLs
 - Engagement data (likes, comments, shares) for ProfileCard analytics
