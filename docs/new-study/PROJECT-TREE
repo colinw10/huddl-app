@@ -1,0 +1,379 @@
+tree -I 'node_modules|__pycache__|.git' --dirsfirst
+.
+├── backend
+│   ├── friends
+│   │   ├── migrations
+│   │   │   ├── __init__.py
+│   │   │   └── 0001_initial.py
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── numeneon
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── posts
+│   │   ├── migrations
+│   │   │   ├── __init__.py
+│   │   │   ├── 0001_initial.py
+│   │   │   ├── 0002_post_parent.py
+│   │   │   ├── 0003_post_comment_count_post_likes_count_and_more.py
+│   │   │   └── 0004_like.py
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── users
+│   │   ├── management
+│   │   │   ├── commands
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── create_test_user.py
+│   │   │   └── __init__.py
+│   │   ├── migrations
+│   │   │   ├── __init__.py
+│   │   │   └── 0001_initial.py
+│   │   ├── __init__.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── backup.json
+│   ├── db.sqlite3
+│   ├── manage.py
+│   ├── Pipfile
+│   ├── Pipfile.lock
+│   └── seed_posts.py
+├── docs
+│   ├── ARCHIVE
+│   │   ├── copilot-task-long.txt
+│   │   ├── ProfileCard-Flip-System.txt
+│   │   ├── prompt.md
+│   │   ├── README.md
+│   │   └── STUDY-MASTER.md
+│   ├── backend
+│   │   ├── api-endpoints.md
+│   │   ├── erd-prompt.md
+│   │   ├── models-overview.md
+│   │   └── README.md
+│   ├── copilot-task
+│   │   ├── 00-START-HERE.md
+│   │   ├── 01-CONTEXT-AND-STRATEGY.md
+│   │   ├── 02-PSEUDOCODE-EXAMPLES.md
+│   │   ├── 03-BACKEND-INSTRUCTIONS.md
+│   │   ├── 04-FRONTEND-INSTRUCTIONS.md
+│   │   └── 05-TEAM-PLAN-FILES.md
+│   ├── dev-sessions
+│   │   ├── 2024-12-23-profile-navigation.md
+│   │   └── README.md
+│   ├── features
+│   │   ├── activity-visualization
+│   │   │   ├── current-status.md
+│   │   │   ├── overview.md
+│   │   │   ├── README.md
+│   │   │   └── technical-consensus.md
+│   │   ├── PresentationTalkingPoints.md
+│   │   ├── ProfileCardFeatures.md
+│   │   ├── ProfileCardFlipSystem.md
+│   │   ├── RiverTimeline.md
+│   │   ├── RiverTimelineDesign.md
+│   │   ├── RiverTimelinePitches.md
+│   │   └── VisualIdentitySystem.md
+│   ├── features-implemented
+│   │   ├── EngagementAnalytics.md
+│   │   ├── MessagingSystem.md
+│   │   ├── MobileCategoryTabs.md
+│   │   ├── ProfilePrivacyControls.md
+│   │   ├── SearchModal.md
+│   │   ├── TimelineCarousel.md
+│   │   └── UserNavigation.md
+│   ├── new-study
+│   │   ├── PROJECT-ARCHITECTURE.md
+│   │   └── STUDY-PLAN.md
+│   ├── pablo-plan
+│   │   └── CONTEXT-FOR-NEW-CHAT.md
+│   ├── refactoring
+│   │   ├── DOCUMENTATION-UPDATE-SUMMARY.md
+│   │   ├── SVG-Icons-Refactor.md
+│   │   └── VisibilityIcon-Refactor.md
+│   ├── stretch-goals
+│   │   ├── AdvancedAnalytics.md
+│   │   ├── EngagementRing.md
+│   │   ├── MySpaceEasterEgg.md
+│   │   ├── Posts.md
+│   │   └── README.md
+│   ├── team-plan
+│   │   ├── colin.md
+│   │   ├── crystal.md
+│   │   ├── natalia.md
+│   │   ├── pablo.md
+│   │   ├── team-structure.md
+│   │   └── tito.md
+│   ├── trello-board
+│   │   ├── colin.md
+│   │   ├── crystal.md
+│   │   ├── natalia.md
+│   │   ├── pablo.md
+│   │   ├── stretch-goals.md
+│   │   ├── tito.md
+│   │   └── user-stories.md
+│   └── wireframe-prompt
+│       └── NUMENEON-WIREFRAME-GUIDE.md
+├── frontend
+│   ├── public
+│   │   └── vite.svg
+│   ├── src
+│   │   ├── assets
+│   │   │   ├── icons
+│   │   │   │   ├── actions.jsx
+│   │   │   │   ├── analytics.jsx
+│   │   │   │   ├── engagement.jsx
+│   │   │   │   ├── index.js
+│   │   │   │   ├── media.jsx
+│   │   │   │   ├── messaging.jsx
+│   │   │   │   ├── misc.jsx
+│   │   │   │   ├── navigation.jsx
+│   │   │   │   ├── profile.jsx
+│   │   │   │   ├── sidenav.jsx
+│   │   │   │   ├── ui.jsx
+│   │   │   │   └── user.jsx
+│   │   │   └── icons.jsx
+│   │   ├── components
+│   │   │   ├── layout
+│   │   │   │   ├── SideNav
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── SideNav.jsx
+│   │   │   │   │   └── SideNav.scss
+│   │   │   │   └── TopBar
+│   │   │   │       ├── MessageModal
+│   │   │   │       │   ├── styles
+│   │   │   │       │   │   ├── _animations.scss
+│   │   │   │       │   │   ├── _chat.scss
+│   │   │   │       │   │   ├── _composer.scss
+│   │   │   │       │   │   ├── _conversations.scss
+│   │   │   │       │   │   ├── _header.scss
+│   │   │   │       │   │   ├── _light-mode.scss
+│   │   │   │       │   │   ├── _overlay.scss
+│   │   │   │       │   │   └── _responsive.scss
+│   │   │   │       │   ├── MessageModal.jsx
+│   │   │   │       │   └── MessageModal.scss
+│   │   │   │       ├── NotificationModal
+│   │   │   │       │   ├── index.js
+│   │   │   │       │   ├── NotificationModal.jsx
+│   │   │   │       │   └── NotificationModal.scss
+│   │   │   │       ├── SearchModal
+│   │   │   │       │   ├── index.js
+│   │   │   │       │   ├── SearchModal.jsx
+│   │   │   │       │   └── SearchModal.scss
+│   │   │   │       ├── index.js
+│   │   │   │       ├── TopBar.jsx
+│   │   │   │       └── TopBar.scss
+│   │   │   ├── pages
+│   │   │   │   ├── About
+│   │   │   │   │   ├── About.jsx
+│   │   │   │   │   ├── About.scss
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── Friends
+│   │   │   │   │   ├── Friends.jsx
+│   │   │   │   │   ├── Friends.scss
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── Home
+│   │   │   │   │   ├── components
+│   │   │   │   │   │   ├── DeleteConfirmModal
+│   │   │   │   │   │   │   ├── DeleteConfirmModal.jsx
+│   │   │   │   │   │   │   └── DeleteConfirmModal.scss
+│   │   │   │   │   │   ├── MediaLightbox
+│   │   │   │   │   │   │   ├── styles
+│   │   │   │   │   │   │   │   ├── _animations.scss
+│   │   │   │   │   │   │   │   ├── _comments.scss
+│   │   │   │   │   │   │   │   ├── _image.scss
+│   │   │   │   │   │   │   │   ├── _info-panel.scss
+│   │   │   │   │   │   │   │   ├── _light-mode.scss
+│   │   │   │   │   │   │   │   ├── _overlay.scss
+│   │   │   │   │   │   │   │   └── _responsive.scss
+│   │   │   │   │   │   │   ├── MediaLightbox.jsx
+│   │   │   │   │   │   │   └── MediaLightbox.scss
+│   │   │   │   │   │   ├── TimelineRiverFeed
+│   │   │   │   │   │   │   ├── index.js
+│   │   │   │   │   │   │   ├── TimelineRiverFeed.jsx
+│   │   │   │   │   │   │   └── TimelineRiverFeed.scss
+│   │   │   │   │   │   └── TimelineRiverRow
+│   │   │   │   │   │       ├── components
+│   │   │   │   │   │       │   ├── MobileTabNav
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── MobileTabNav.jsx
+│   │   │   │   │   │       │   │   └── MobileTabNav.scss
+│   │   │   │   │   │       │   ├── PostCard
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── PostCard.jsx
+│   │   │   │   │   │       │   │   └── PostCard.scss
+│   │   │   │   │   │       │   ├── RepostModal
+│   │   │   │   │   │       │   │   ├── RepostModal.jsx
+│   │   │   │   │   │       │   │   └── RepostModal.scss
+│   │   │   │   │   │       │   ├── SmartDeck
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── SmartDeck.jsx
+│   │   │   │   │   │       │   │   └── SmartDeck.scss
+│   │   │   │   │   │       │   ├── ThreadView
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── ThreadView.jsx
+│   │   │   │   │   │       │   │   └── ThreadView.scss
+│   │   │   │   │   │       │   └── index.js
+│   │   │   │   │   │       ├── styles
+│   │   │   │   │   │       │   ├── _base.scss
+│   │   │   │   │   │       │   ├── _carousel.scss
+│   │   │   │   │   │       │   ├── _composer.scss
+│   │   │   │   │   │       │   ├── _desktop-stack-nav.scss
+│   │   │   │   │   │       │   ├── _light-mode.scss
+│   │   │   │   │   │       │   ├── _post-actions.scss
+│   │   │   │   │   │       │   ├── _post-card.scss
+│   │   │   │   │   │       │   ├── _post-media.scss
+│   │   │   │   │   │       │   ├── _responsive.scss
+│   │   │   │   │   │       │   ├── _smart-deck.scss
+│   │   │   │   │   │       │   └── _thread.scss
+│   │   │   │   │   │       ├── index.js
+│   │   │   │   │   │       ├── TimelineRiverRow.jsx
+│   │   │   │   │   │       └── TimelineRiverRow.scss
+│   │   │   │   │   ├── utils
+│   │   │   │   │   │   ├── groupPosts.js
+│   │   │   │   │   │   └── timeFormatters.js
+│   │   │   │   │   ├── Home.jsx
+│   │   │   │   │   ├── Home.scss
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── Landing
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── Landing.jsx
+│   │   │   │   │   └── Landing.scss
+│   │   │   │   ├── Login
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── Login.jsx
+│   │   │   │   │   └── Login.scss
+│   │   │   │   ├── NotFound
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── NotFound.jsx
+│   │   │   │   │   └── NotFound.scss
+│   │   │   │   ├── Profile
+│   │   │   │   │   ├── components
+│   │   │   │   │   │   ├── ComposerModal
+│   │   │   │   │   │   │   ├── ComposerModal.jsx
+│   │   │   │   │   │   │   ├── ComposerModal.scss
+│   │   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   ├── ProfileCard
+│   │   │   │   │   │   │   ├── components
+│   │   │   │   │   │   │   │   ├── ActivityVisualization
+│   │   │   │   │   │   │   │   │   ├── ActivityVisualization.jsx
+│   │   │   │   │   │   │   │   │   ├── ActivityVisualization.scss
+│   │   │   │   │   │   │   │   │   └── index.js
+│   │   │   │   │   │   │   │   ├── PostTypeBreakdown
+│   │   │   │   │   │   │   │   │   ├── index.js
+│   │   │   │   │   │   │   │   │   ├── PostTypeBreakdown.jsx
+│   │   │   │   │   │   │   │   │   └── PostTypeBreakdown.scss
+│   │   │   │   │   │   │   │   ├── ProfileCardBack
+│   │   │   │   │   │   │   │   │   ├── index.js
+│   │   │   │   │   │   │   │   │   ├── ProfileCardBack.jsx
+│   │   │   │   │   │   │   │   │   └── ProfileCardBack.scss
+│   │   │   │   │   │   │   │   ├── ProfileCardFront
+│   │   │   │   │   │   │   │   │   ├── index.js
+│   │   │   │   │   │   │   │   │   ├── ProfileCardFront.jsx
+│   │   │   │   │   │   │   │   │   └── ProfileCardFront.scss
+│   │   │   │   │   │   │   │   └── QuickSettings
+│   │   │   │   │   │   │   │       ├── index.js
+│   │   │   │   │   │   │   │       ├── QuickSettings.jsx
+│   │   │   │   │   │   │   │       └── QuickSettings.scss
+│   │   │   │   │   │   │   ├── index.js
+│   │   │   │   │   │   │   ├── ProfileCard.jsx
+│   │   │   │   │   │   │   └── ProfileCard.scss
+│   │   │   │   │   │   └── TimelineRiver
+│   │   │   │   │   │       ├── components
+│   │   │   │   │   │       │   ├── RiverComposer
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── RiverComposer.jsx
+│   │   │   │   │   │       │   │   └── RiverComposer.scss
+│   │   │   │   │   │       │   ├── RiverFeedView
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── RiverFeedView.jsx
+│   │   │   │   │   │       │   │   └── RiverFeedView.scss
+│   │   │   │   │   │       │   ├── RiverPostActions
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── RiverPostActions.jsx
+│   │   │   │   │   │       │   │   └── RiverPostActions.scss
+│   │   │   │   │   │       │   ├── RiverSmartDeck
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── RiverSmartDeck.jsx
+│   │   │   │   │   │       │   │   └── RiverSmartDeck.scss
+│   │   │   │   │   │       │   ├── RiverThread
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   └── RiverThread.jsx
+│   │   │   │   │   │       │   ├── RiverTimelineView
+│   │   │   │   │   │       │   │   ├── index.js
+│   │   │   │   │   │       │   │   ├── RiverTimelineView.jsx
+│   │   │   │   │   │       │   │   └── RiverTimelineView.scss
+│   │   │   │   │   │       │   └── index.js
+│   │   │   │   │   │       ├── _light-mode.scss
+│   │   │   │   │   │       ├── index.js
+│   │   │   │   │   │       ├── TimelineRiver.jsx
+│   │   │   │   │   │       └── TimelineRiver.scss
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── Profile.jsx
+│   │   │   │   │   └── Profile.scss
+│   │   │   │   └── Signup
+│   │   │   │       ├── index.js
+│   │   │   │       ├── Signup.jsx
+│   │   │   │       └── Signup.scss
+│   │   │   └── ui
+│   │   │       ├── ThemeToggle
+│   │   │       │   ├── index.js
+│   │   │       │   ├── ThemeToggle.jsx
+│   │   │       │   └── ThemeToggle.scss
+│   │   │       └── ProtectedRoute.jsx
+│   │   ├── contexts
+│   │   │   ├── AuthContext.jsx
+│   │   │   ├── FriendsContext.jsx
+│   │   │   ├── index.js
+│   │   │   ├── MessageContext.jsx
+│   │   │   ├── PostsContext.jsx
+│   │   │   ├── SearchContext.jsx
+│   │   │   └── ThemeContext.jsx
+│   │   ├── services
+│   │   │   ├── apiClient.js
+│   │   │   ├── friendsService.js
+│   │   │   └── postsService.js
+│   │   ├── styles
+│   │   │   ├── _animations.scss
+│   │   │   ├── _blobs.scss
+│   │   │   ├── _buttons.scss
+│   │   │   ├── _cards.scss
+│   │   │   ├── _layout.scss
+│   │   │   ├── _light-mode.scss
+│   │   │   ├── _mixins.scss
+│   │   │   ├── _reset.scss
+│   │   │   ├── _theme.scss
+│   │   │   ├── _typography.scss
+│   │   │   ├── _utilities.scss
+│   │   │   ├── _variables.scss
+│   │   │   └── main.scss
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── jsconfig.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.js
+├── BACKEND_README.md
+├── BACKEND_SETUP.md
+├── Makefile
+├── package-lock.json
+└── README.md
+
+84 directories, 292 files

@@ -33,12 +33,41 @@ Before starting:
 - Activate virtualenv: `pipenv shell`
 - Run commands: `pipenv run python manage.py <command>`
 
-**Database:** This project uses **PostgreSQL** (not SQLite).
+**Database:** This project uses **PostgreSQL**.
 
 - Ensure PostgreSQL is installed: `brew install postgresql` (macOS)
 - Create the database: `createdb numeneon`
 - settings.py is pre-configured for PostgreSQL on localhost
 - Run migrations: `pipenv run python manage.py migrate`
+
+**⚠️ IMPORTANT: Load the Data Fixture for Consistent Demo Data**
+
+After migrations, load Pablo's database fixture so everyone has IDENTICAL data:
+
+```bash
+pipenv run python manage.py loaddata posts_and_users.json
+```
+
+This loads Pablo's **exact database** including:
+
+| Username       | Name           | Email            |
+| -------------- | -------------- | ---------------- |
+| `pabloPistola` | Pablo Cordero  | pablo@test.com   |
+| `titod`        | Tito Del Valle | tito@test.com    |
+| `arthurb`      | Arthur Brown   | arthur@test.com  |
+| `nataliap`     | Natalia Perez  | natalia@test.com |
+| `colinw`       | Colin Wang     | colin@test.com   |
+| `crystalr`     | Crystal Rivera | crystal@test.com |
+
+All users have password `test123`.
+
+**What's included:**
+- All posts (thoughts, media, milestones) with exact content
+- Media posts with the same image URLs
+- Engagement data (likes, comments, shares) for ProfileCard analytics
+- Wave chart, heatmap, and post breakdown will look identical
+
+**Your screens will be PIXEL-PERFECT matches to Pablo's demo!**
 
 ---
 

@@ -28,9 +28,11 @@ This is a **complete instruction set** for rebuilding the Numeneon app as a team
 
 ---
 
-## ⚠️ IMPORTANT: Each Team Member Creates a Superuser
+## ⚠️ IMPORTANT: Database Setup After Migrations
 
-After setting up the backend, each person should create their own Django superuser:
+After running migrations, do these steps so everyone has identical data:
+
+### Step 1: Create a Superuser (for Django Admin access)
 
 ```bash
 cd backend
@@ -38,12 +40,25 @@ pipenv shell
 python manage.py createsuperuser
 ```
 
-**Why?** Access to Django admin (`http://127.0.0.1:8000/admin/`) lets you:
+### Step 2: Load the Data Fixture (REQUIRED for matching screens)
 
-- Create test users and data without API calls
-- Debug database issues directly
-- View relationships between models
-- Seed your own test scenarios
+```bash
+python manage.py loaddata posts_and_users.json
+```
+
+This loads Pablo's **exact database** including:
+
+- **6 test users** (password: `test123`): `pabloPistola`, `titod`, `arthurb`, `nataliap`, `colinw`, `crystalr`
+- **All posts** with images, content, and engagement data
+- **Exact media URLs** for consistent screenshots
+
+**Your app will look IDENTICAL to Pablo's demo!**
+
+**Why load the fixture?**
+
+- ProfileCard analytics (wave chart, heatmap) need real post data
+- Carousel arrows only appear with 3+ posts per type
+- Everyone's screens will be pixel-perfect matches for demos
 
 ---
 
