@@ -17,7 +17,9 @@ Background: 3rd-degree black belt in Okinawan Goju Ryu karate, former profession
 A cyberpunk-themed social media platform built with **Django REST Framework (backend)** and **React + Vite (frontend)** with JWT authentication.
 
 ### Unique Feature: River Timeline
+
 A 3-column feed layout where:
+
 - **Left column:** 'thoughts' posts (text-only)
 - **Center column:** 'media' posts (with images)
 - **Right column:** 'milestones' posts (achievements)
@@ -28,13 +30,13 @@ Posts are grouped by user + date into "rows" - each user gets their own horizont
 
 ## Team Structure
 
-| Name | Role | Task Size | Responsibilities |
-|------|------|-----------|------------------|
-| **Colin** | Repo Czar / Backend Lead | M | Posts system (models, views, serializers, PostsContext, postsService) |
-| **Natalia** | Auth + Migrations | L | User/Profile models, auth endpoints, AuthContext, Login/Signup pages, ProtectedRoute, ALL database migrations |
-| **Crystal** | Friends System | M | Friendship model, friends API, FriendsContext, Friends page UI |
-| **Tito** | Infrastructure | S | apiClient.js (axios + JWT), ThemeContext, ThemeToggle, main.jsx (provider wrapping) |
-| **Pablo (me)** | UI Lead | XL | All UI components, design system, App.jsx, routing, rebuilding JSX from pseudocode |
+| Name           | Role                     | Task Size | Responsibilities                                                                                              |
+| -------------- | ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------- |
+| **Colin**      | Repo Czar / Backend Lead | M         | Posts system (models, views, serializers, PostsContext, postsService)                                         |
+| **Natalia**    | Auth + Migrations        | L         | User/Profile models, auth endpoints, AuthContext, Login/Signup pages, ProtectedRoute, ALL database migrations |
+| **Crystal**    | Friends System           | M         | Friendship model, friends API, FriendsContext, Friends page UI                                                |
+| **Tito**       | Infrastructure           | S         | apiClient.js (axios + JWT), ThemeContext, ThemeToggle, main.jsx (provider wrapping)                           |
+| **Pablo (me)** | UI Lead                  | XL        | All UI components, design system, App.jsx, routing, rebuilding JSX from pseudocode                            |
 
 ---
 
@@ -53,13 +55,16 @@ Colin's repo has both `main` and `dev` branches. The team workflow:
 9. When sprint done, Colin merges `dev` → `main`
 
 **Before starting next feature:**
+
 ```
 git checkout dev
 git pull origin dev
 ```
+
 This syncs local dev with Colin's dev (which now has everyone's merged work).
 
 **Key points:**
+
 - Never work directly in `dev` - it's just for syncing and branching
 - Feature branches keep everyone's work separate
 - Colin merges one PR at a time, handles conflicts during merge
@@ -70,6 +75,7 @@ This syncs local dev with Colin's dev (which now has everyone's merged work).
 ## Project Architecture
 
 ### Frontend Structure
+
 ```
 frontend/src/
 ├── main.jsx                    # Entry point, wraps all providers
@@ -111,6 +117,7 @@ frontend/src/
 ```
 
 ### Backend Structure
+
 ```
 backend/
 ├── numeneon/
@@ -138,6 +145,7 @@ backend/
 ## Post Data Format (Critical for Colin)
 
 Pablo's UI expects this exact format:
+
 ```javascript
 {
   id: number,
@@ -180,11 +188,21 @@ Pablo's UI expects this exact format:
 ## Provider Nesting Order (main.jsx)
 
 ```jsx
-<ThemeProvider>        {/* Tito - outermost */}
-  <AuthProvider>       {/* Natalia */}
-    <PostsProvider>    {/* Colin */}
-      <FriendsProvider> {/* Crystal */}
-        <MessageProvider> {/* Pablo */}
+<ThemeProvider>
+  {" "}
+  {/* Tito - outermost */}
+  <AuthProvider>
+    {" "}
+    {/* Natalia */}
+    <PostsProvider>
+      {" "}
+      {/* Colin */}
+      <FriendsProvider>
+        {" "}
+        {/* Crystal */}
+        <MessageProvider>
+          {" "}
+          {/* Pablo */}
           <App />
         </MessageProvider>
       </FriendsProvider>
@@ -198,6 +216,7 @@ Pablo's UI expects this exact format:
 ## My Study Plan
 
 18 must-know files over 2 weeks:
+
 - **Week 1:** Frontend (main.jsx, App.jsx, apiClient, contexts, services, Home, TimelineRiverFeed, TimelineRiverRow, PostCard, Profile, ComposerModal)
 - **Week 2:** Backend (settings.py, urls.py, posts/models, posts/views, posts/serializers, users/views) + review
 
@@ -217,6 +236,7 @@ Pablo's UI expects this exact format:
 ## What I Need Help With
 
 This chat is primarily for:
+
 1. **Git flow questions** - coordinating team, explaining commands, troubleshooting
 2. **Team coordination** - helping me communicate with teammates
 3. **Studying my codebase** - understanding what AI helped me build

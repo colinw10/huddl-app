@@ -8,13 +8,15 @@ import MessageModal from './MessageModal/MessageModal';
 import SearchModal from './SearchModal/SearchModal';
 import NotificationModal from './NotificationModal/NotificationModal';
 import { ThemeToggle } from '@components/ui/ThemeToggle';
-import { useMessages, useAuth, useFriends, useSearch } from '@contexts';
+import { useMessages, useAuth, useFriends, useSearch, useSideNav } from '@contexts';
 import { 
   TargetReticleIcon, 
   MessageBubbleIcon, 
   BroadcastIcon, 
   LogoutIcon, 
-  LoginIcon 
+  LoginIcon,
+  HamburgerIcon,
+  CloseIcon 
 } from '@assets/icons';
 
 function TopBar() {
@@ -22,6 +24,7 @@ function TopBar() {
   const { logout, user } = useAuth();
   const { pendingRequests } = useFriends();
   const { isSearchModalOpen, openSearch, closeSearch } = useSearch();
+  const { isOpen: isSideNavOpen, toggleNav, isMobile } = useSideNav();
   const navigate = useNavigate();
   
   // 🔵 Local state for notification modal
@@ -35,6 +38,16 @@ function TopBar() {
   return (
     <>
       <div className="top-bar">
+        {/* 🔵 Hamburger menu button - mobile only */}
+        {isMobile && (
+          <button 
+            className="hamburger-btn"
+            onClick={toggleNav}
+            aria-label={isSideNavOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isSideNavOpen ? <CloseIcon size={24} /> : <HamburgerIcon size={24} />}
+          </button>
+        )}
         <div 
           className="top-bar-logo" 
           onClick={() => navigate('/')}

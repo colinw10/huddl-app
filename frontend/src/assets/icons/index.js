@@ -20,6 +20,7 @@ export {
   ChevronRightIcon,
   BackIcon,
   FlipIcon,
+  HamburgerIcon,
 } from "./navigation";
 
 // User & Profile
