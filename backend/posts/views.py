@@ -1,5 +1,6 @@
 # 🟢 COLIN - Posts Backend Lead
 # views.py - API endpoints for posts (using ViewSet approach)
+# The PostViewSet class is the blueprint for handling requests to /posts
 
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action

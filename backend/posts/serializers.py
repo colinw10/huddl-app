@@ -22,7 +22,7 @@ class PostSerializer(serializers.ModelSerializer):
         queryset=Post.objects.all(),
         source='parent',
         required=False,
-        allow_null=True,
+        allow_null=True,  
         write_only=True
     )
     

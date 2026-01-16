@@ -2,17 +2,12 @@
  * =============================================================================
  * AUTH CONTEXT
  * =============================================================================
- *
  * File: frontend/src/contexts/AuthContext.jsx
  * Assigned to: PABLO
  * Responsibility: Global authentication state management
- *
  * Status: IMPLEMENTED ✅
  * =============================================================================
- */
-
-// 📁 FILE: AuthContext.jsx
-// ⬆️ RECEIVES: nothing - this is a provider that GIVES data to others
+ */// ⬆️ RECEIVES: nothing - this is a provider that GIVES data to others
 // ⬇️ SENDS: user, isLoading, isAuthenticated, login(), signup(), logout(), updateProfile()
 
 

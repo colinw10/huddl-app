@@ -1,14 +1,16 @@
 // 🔵 PABLO - UI Component
 // PostCard.jsx - Individual post card with actions
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { formatRelativeTime } from '@components/pages/Home/utils/timeFormatters';
 import ThreadView from '../ThreadView';
 import RepostModal from '../RepostModal/RepostModal';
+import ReactionPicker from '../ReactionPicker';
 import {
   UserIcon,
   HeartDynamicIcon,
+  BoltDynamicIcon,
   MessageBubbleIcon,
   RepostIcon,
   BookmarkIcon,
@@ -72,6 +74,12 @@ function PostCard({
   // Repost modal state
   const [showRepostModal, setShowRepostModal] = useState(false);
   
+  // Reaction picker state (long-press)
+  const [showReactionPicker, setShowReactionPicker] = useState(false);
+  const [reactionType, setReactionType] = useState(post.reaction_type || 'like'); // 'like' or 'emphasis'
+  const longPressTimer = useRef(null);
+  const LONG_PRESS_DURATION = 400; // ms
+  
   // Type-based heart colors
   const heartColors = {
     thoughts: '#31fcfcff',    // cyan/blue
@@ -79,6 +87,56 @@ function PostCard({
     milestones: '#0ce77dff'   // green
   };
   const heartColor = heartColors[type] || '#2fcefaff';
+  
+  // Long-press handlers for reaction picker
+  const handleReactionMouseDown = (e) => {
+    e.stopPropagation();
+    longPressTimer.current = setTimeout(() => {
+      setShowReactionPicker(true);
+    }, LONG_PRESS_DURATION);
+  };
+  
+  const handleReactionMouseUp = async (e) => {
+    e.stopPropagation();
+    // If timer still running, it was a quick tap - do regular like
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+      
+      // Only trigger like if picker isn't showing
+      if (!showReactionPicker) {
+        setIsHeartAnimating(true);
+        setTimeout(() => setIsHeartAnimating(false), 300);
+        await onLike(post.id);
+      }
+    }
+  };
+  
+  const handleReactionMouseLeave = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+  
+  const handleReactionSelect = async (selectedReaction) => {
+    setShowReactionPicker(false);
+    setReactionType(selectedReaction); // Update which icon to show
+    setIsHeartAnimating(true);
+    setTimeout(() => setIsHeartAnimating(false), 300);
+    
+    // Only call onLike if not already liked (to add the reaction)
+    // If already liked with same reaction, this will unlike
+    // If already liked with different reaction, just change the icon (don't toggle)
+    if (!post.is_liked) {
+      await onLike(post.id);
+    }
+    // TODO: When backend supports reaction types, pass selectedReaction to API
+    console.log('Reaction:', selectedReaction, 'on post:', post.id);
+  };
+  
+  // Determine current reaction state
+  const currentReaction = post.is_liked ? reactionType : null;
   
   return (
     <>
@@ -127,21 +185,34 @@ function PostCard({
       <p className="river-post-content">{post.content}</p>
 
       {/* Post Actions */} 
-      <div className="river-post-actions">
-        {/* Likes */}
+      <div className={`river-post-actions ${showReactionPicker ? 'picker-open' : ''}`}>
+        {/* Likes - with long-press reaction picker */}
         <div 
           className={`river-post-likes ${post.is_liked ? 'is-liked' : ''} ${isHeartAnimating ? 'heart-pulse' : ''}`}
-          onClick={async (e) => {
-            e.stopPropagation(); // stop propagation means the click event won't bubble up to parent elements
-            setIsHeartAnimating(true);
-            setTimeout(() => setIsHeartAnimating(false), 300);
-            await onLike(post.id);
-          }}
-          title={post.is_liked ? 'Unlike' : 'Like'}
-          style={{ cursor: 'pointer', '--heart-color': heartColor }}
+          onMouseDown={handleReactionMouseDown}
+          onMouseUp={handleReactionMouseUp}
+          onMouseLeave={handleReactionMouseLeave}
+          onTouchStart={handleReactionMouseDown}
+          onTouchEnd={handleReactionMouseUp}
+          title={post.is_liked ? 'Unlike (hold for more)' : 'Like (hold for more)'}
+          style={{ cursor: 'pointer', '--heart-color': heartColor, position: 'relative' }}
         >
-          <HeartDynamicIcon size={18} filled={post.is_liked} />
+          {/* Show heart or bolt based on reaction type */}
+          {reactionType === 'emphasis' ? (
+            <BoltDynamicIcon size={18} filled={post.is_liked} fillColor={heartColor} />
+          ) : (
+            <HeartDynamicIcon size={18} filled={post.is_liked} />
+          )}
           {post.likes_count || 0}
+          
+          {/* Reaction Picker Popup - shows to the right */}
+          <ReactionPicker
+            isOpen={showReactionPicker}
+            onSelect={handleReactionSelect}
+            onClose={() => setShowReactionPicker(false)}
+            reactionColor={heartColor}
+            currentReaction={currentReaction}
+          />
         </div>
         
         {/* Comment */}

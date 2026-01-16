@@ -42,6 +42,7 @@ export {
   ShareIcon,
   BookmarkIcon,
   RepostIcon,
+  BoltDynamicIcon,
 } from "./engagement";
 
 // Actions
