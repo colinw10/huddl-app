@@ -8,7 +8,8 @@ import './TimelineRiverRow.scss';
 import MediaLightbox from '../MediaLightbox/MediaLightbox';
 import DeleteConfirmModal from '../DeleteConfirmModal/DeleteConfirmModal';
 import { useAuth, usePosts, useMessages } from '@contexts';
-import { ChevronLeftIcon, ChevronRightIcon } from '@assets/icons';
+import { ChevronLeftIcon, ChevronRightIcon, EditIcon, CheckIcon, CloseIcon } from '@assets/icons';
+import { createPortal } from 'react-dom';
 
 // Extracted components
 import { PostCard, SmartDeck, MobileTabNav } from './components';
@@ -65,9 +66,10 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
   
   const mostRecentType = getMostRecentType();
   
-  // State for edit mode
+  // State for edit mode (dedicated edit modal, separate from comment composer)
   const [editingPostId, setEditingPostId] = useState(null);
-  const [isSaving] = useState(false);
+  const [editingPostContent, setEditingPostContent] = useState('');
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
   
   // State for delete modal
   const [deleteModalPostId, setDeleteModalPostId] = useState(null);
@@ -152,7 +154,8 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         [postId]: [...(prev[postId] || []), result.data]
       }));
       setCommentText('');
-      setActiveCommentPostId(null);
+      // Don't close the expanded view - user should see their new reply
+      // setActiveCommentPostId(null);
       setExpandedThreadId(postId);
       return true;
     }
@@ -203,13 +206,26 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
     setShowAllReplies(prev => ({ ...prev, [postId]: !prev[postId] }));
   };
   
-  // Handle edit post
+  // Handle edit post - opens dedicated edit modal (separate from comment composer)
   const handleEditPost = (post) => {
     setEditingPostId(post.id);
+    setEditingPostContent(post.content);
+  };
+
+  // Handle card click - opens expanded view with comments
+  const handleCardClick = async (post) => {
+    // Set active comment post to show full-page composer
     setActiveCommentPostId(post.id);
-    setCommentText(post.content);
-    setIsEditMode(true);
     setIsComposerFullPage(true);
+    // Fetch replies if not already loaded
+    if (!threadReplies[post.id]) {
+      setLoadingThread(post.id);
+      const result = await fetchReplies(post.id);
+      if (result.success) {
+        setThreadReplies(prev => ({ ...prev, [post.id]: result.data }));
+      }
+      setLoadingThread(null);
+    }
   };
   
   // Render a post card with all necessary props
@@ -241,6 +257,7 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         onEdit={handleEditPost}
         onDelete={(id) => setDeleteModalPostId(id)}
         onExpandMedia={handleExpandMedia}
+        onCardClick={handleCardClick}
         // Thread props
         onToggleThread={toggleThread}
         expandedThreadId={expandedThreadId}
@@ -256,15 +273,9 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         commentText={commentText}
         setCommentText={setCommentText}
         setActiveCommentPostId={setActiveCommentPostId}
-
         isComposerFullPage={isComposerFullPage}
         setIsComposerFullPage={setIsComposerFullPage}
-        isEditMode={isEditMode}
-        setIsEditMode={setIsEditMode}
-        editingPostId={editingPostId}
-        setEditingPostId={setEditingPostId}
-        onUpdatePost={onUpdatePost}
-        isSaving={isSaving}
+        isSaving={false}
       />
     );
   };
@@ -485,6 +496,65 @@ function TimelineRiverRow({ rowData, onCommentClick, activeCommentPostId, commen
         }}
         isDeleting={isDeleting}
       />
+
+      {/* Edit Modal - Dedicated editor (same as Profile page) */}
+      {editingPostId && createPortal(
+        <div className="expanded-composer-overlay" onClick={() => {
+          setEditingPostId(null);
+          setEditingPostContent('');
+        }}>
+          <div className="expanded-composer-modal edit-mode" onClick={(e) => e.stopPropagation()}>
+            <div className="expanded-composer-header">
+              <h3>
+                <EditIcon size={20} />
+                Edit Post
+              </h3>
+              <button 
+                className="close-btn-glow"
+                onClick={() => {
+                  setEditingPostId(null);
+                  setEditingPostContent('');
+                }}
+              >
+                <CloseIcon size={24} />
+              </button>
+            </div>
+            <div className="expanded-composer-body">
+              <textarea
+                className="composer-textarea"
+                placeholder="Edit your post..."
+                value={editingPostContent}
+                onChange={(e) => setEditingPostContent(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="expanded-composer-footer">
+              <button 
+                className="submit-btn icon-btn"
+                disabled={!editingPostContent.trim() || isSavingEdit}
+                onClick={async () => {
+                  if (editingPostContent.trim() && editingPostId && onUpdatePost) {
+                    setIsSavingEdit(true);
+                    try {
+                      await onUpdatePost(editingPostId, { content: editingPostContent.trim() });
+                      setEditingPostId(null);
+                      setEditingPostContent('');
+                    } catch (error) {
+                      console.error('Failed to update post:', error);
+                    } finally {
+                      setIsSavingEdit(false);
+                    }
+                  }
+                }}
+                title="Save"
+              >
+                <CheckIcon size={24} strokeWidth="2.5" />
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

@@ -78,7 +78,21 @@ function RiverFeedView({
   renderPostActions,
   renderCommentSection,
   formatDate,
+  onCardClick,
 }) {
+  
+  // Handle card click - don't trigger on interactive elements
+  const handleCardClick = (e, post) => {
+    if (e.target.closest('button') || 
+        e.target.closest('.river-post-actions') ||
+        e.target.closest('.river-card-media') ||
+        e.target.closest('.river-card-author') ||
+        e.target.closest('.inline-comment-composer') ||
+        e.target.closest('.thread-view')) {
+      return;
+    }
+    onCardClick?.(post);
+  };
   
   // Pre-process friends to chunk their posts into rows
   const friendsWithRows = friendsGrouped.map(friend => ({
@@ -107,7 +121,11 @@ function RiverFeedView({
     
     return (
       <div className="river-column-wrapper">
-        <div className="river-card text-card">
+        <div 
+          className="river-card text-card"
+          onClick={(e) => handleCardClick(e, currentPost)}
+          style={{ cursor: 'pointer' }}
+        >
           <div 
             className="river-card-author clickable-friend"
             onClick={() => navigate(`/profile/${friend.username}`)}
@@ -147,7 +165,11 @@ function RiverFeedView({
     
     return (
       <div className="river-column-wrapper">
-        <div className="river-card media-card">
+        <div 
+          className="river-card media-card"
+          onClick={(e) => handleCardClick(e, currentPost)}
+          style={{ cursor: 'pointer' }}
+        >
           <div 
             className="river-card-author clickable-friend"
             onClick={() => navigate(`/profile/${friend.username}`)}
@@ -196,7 +218,11 @@ function RiverFeedView({
     
     return (
       <div className="river-column-wrapper">
-        <div className="river-card achievement-card">
+        <div 
+          className="river-card achievement-card"
+          onClick={(e) => handleCardClick(e, currentPost)}
+          style={{ cursor: 'pointer' }}
+        >
           <div 
             className="river-card-author clickable-friend"
             onClick={() => navigate(`/profile/${friend.username}`)}

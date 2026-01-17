@@ -171,6 +171,22 @@ function TimelineRiver({
     setIsComposerFullPage(true);
   };
 
+  // Handler for card click - opens expanded view with comments
+  const handleCardClick = async (post) => {
+    setActiveCommentPostId(post.id);
+    setIsComposerFullPage(true);
+    setIsEditMode(false);
+    // Fetch replies if not already loaded
+    if (!threadReplies[post.id]) {
+      setLoadingThread(post.id);
+      const result = await fetchReplies(post.id);
+      if (result.success) {
+        setThreadReplies(prev => ({ ...prev, [post.id]: result.data }));
+      }
+      setLoadingThread(null);
+    }
+  };
+
   // Handler for delete button
   const handleDelete = (postId) => {
     setDeleteModalPostId(postId);
@@ -303,6 +319,7 @@ function TimelineRiver({
         {/* Thread view (collapsed/expanded replies) */}
         <RiverThread
           post={post}
+          postType={post.type}
           isExpanded={expandedThreadId === post.id}
           replies={threadReplies[post.id] || []}
           isLoading={loadingThread === post.id}
@@ -369,6 +386,7 @@ function TimelineRiver({
           renderPostActions={renderPostActions}
           renderCommentSection={renderCommentSection}
           formatDate={formatDate}
+          onCardClick={handleCardClick}
         />
       )}
 
@@ -384,6 +402,7 @@ function TimelineRiver({
           renderPostActions={renderPostActions}
           renderCommentSection={renderCommentSection}
           formatDate={formatDate}
+          onCardClick={handleCardClick}
         />
       )}
 

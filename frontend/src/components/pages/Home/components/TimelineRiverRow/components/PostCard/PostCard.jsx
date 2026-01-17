@@ -44,6 +44,7 @@ function PostCard({
   onEdit,
   onDelete,
   onExpandMedia,
+  onCardClick,
   // Thread props
   onToggleThread,
   expandedThreadId,
@@ -61,11 +62,6 @@ function PostCard({
   setActiveCommentPostId,
   isComposerFullPage,
   setIsComposerFullPage,
-  isEditMode,
-  setIsEditMode,
-  editingPostId,
-  setEditingPostId,
-  onUpdatePost,
   isSaving
 }) {
   // Heart animation state
@@ -137,11 +133,28 @@ function PostCard({
   
   // Determine current reaction state
   const currentReaction = post.is_liked ? reactionType : null;
+
+  // Handle card click - opens expanded view
+  const handleCardClick = (e) => {
+    // Don't trigger if clicking on interactive elements
+    if (e.target.closest('button') || 
+        e.target.closest('.river-avatar') || 
+        e.target.closest('.river-author') ||
+        e.target.closest('.river-post-actions') ||
+        e.target.closest('.river-post-media') ||
+        e.target.closest('.inline-comment-composer') ||
+        e.target.closest('.thread-view')) {
+      return;
+    }
+    onCardClick?.(post);
+  };
   
   return (
     <>
     <div 
       className={`river-post-card post--${type} ${isSinglePost ? 'post--single' : ''} ${isShortPost ? 'post--compact' : ''} fade-in`}
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
     >
       {/* Header: Avatar + Name + Type Badge */}
       <div className="river-post-header">
@@ -356,6 +369,7 @@ function PostCard({
       {expandedThreadId === post.id && (
         <ThreadView
           postId={post.id}
+          postType={type}
           replies={threadReplies[post.id]}
           isLoading={loadingThread === post.id}
           currentUser={currentUser}
@@ -378,7 +392,6 @@ function PostCard({
                 className="close-btn-glow"
                 onClick={() => {
                   setIsComposerFullPage(false);
-                  setIsEditMode(false);
                   setActiveCommentPostId(null);
                   setCommentText('');
                 }}
@@ -391,62 +404,30 @@ function PostCard({
             {/* Scrollable content area */}
             <div className="full-page-content">
               {/* Original Post Context */}
-              {!isEditMode && (
-                <div className="reply-context">
-                  <div className="reply-context-header">
-                    <div className="reply-context-avatar">
-                      <UserIcon size={20} />
-                    </div>
-                    <span className="reply-context-name">{user.name}</span>
-                    <span className="reply-context-handle">@{user.username}</span>
-                    <span className="reply-context-dot">·</span>
-                    <span className="reply-context-time">{formatRelativeTime(post.created_at || post.createdAt)}</span>
+              <div className="reply-context">
+                <div className="reply-context-header">
+                  <div className="reply-context-avatar">
+                    <UserIcon size={20} />
                   </div>
-                  <p className="reply-context-content">{post.content}</p>
+                  <span className="reply-context-name">{user.name}</span>
+                  <span className="reply-context-handle">@{user.username}</span>
+                  <span className="reply-context-dot">·</span>
+                  <span className="reply-context-time">{formatRelativeTime(post.created_at || post.createdAt)}</span>
+                </div>
+                <p className="reply-context-content">{post.content}</p>
                   {type === 'media' && post.media_url && (
                     <div className="reply-context-media">
                       <img src={post.media_url} alt="Post media" />
                     </div>
                   )}
-                  
-                  {/* Post Actions in expanded view */}
-                  <div className="reply-context-actions">
-                    {/* Like */}
-                    <div 
-                      className={`reply-action-btn ${post.is_liked ? 'is-liked' : ''}`}
-                      onClick={async () => await onLike(post.id)}
-                      style={{ cursor: 'pointer', '--heart-color': heartColor }}
-                    >
-                      <HeartDynamicIcon size={18} filled={post.is_liked} />
-                      <span>{post.likes_count || 0}</span>
-                    </div>
-                    {/* Comment count */}
-                    <div className="reply-action-btn">
-                      <MessageBubbleIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
-                      <span>{post.reply_count || 0}</span>
-                    </div>
-                    {/* Share */}
-                    <div 
-                      className="reply-action-btn"
-                      onClick={() => setShowRepostModal(true)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <RepostIcon size={18} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
-                      <span>{post.shares_count || 0}</span>
-                    </div>
-                    {/* Bookmark */}
-                    <div className="reply-action-btn" style={{ cursor: 'pointer' }}>
-                      <BookmarkIcon size={18} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
-                    </div>
-                  </div>
                 </div>
-              )}
 
               {/* Thread View - show existing replies */}
               {threadReplies[post.id] && threadReplies[post.id].length > 0 && (
                 <div className="full-page-thread">
                   <ThreadView
                     postId={post.id}
+                    postType={type}
                     replies={threadReplies[post.id]}
                     isLoading={loadingThread === post.id}
                     currentUser={currentUser}
@@ -460,12 +441,44 @@ function PostCard({
               )}
             </div>
 
-            {/* Fixed Composer at Bottom */}
+            {/* Fixed Bottom Area - Actions + Composer */}
             <div className="full-page-composer-fixed">
+              {/* Post Actions */}
+              <div className="full-page-actions">
+                {/* Like */}
+                <div 
+                  className={`reply-action-btn ${post.is_liked ? 'is-liked' : ''}`}
+                  onClick={async () => await onLike(post.id)}
+                  style={{ cursor: 'pointer', '--heart-color': heartColor }}
+                >
+                  <HeartDynamicIcon size={20} filled={post.is_liked} />
+                  <span>{post.likes_count || 0}</span>
+                </div>
+                {/* Comment count */}
+                <div className="reply-action-btn">
+                  <MessageBubbleIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+                  <span>{post.reply_count || 0}</span>
+                </div>
+                {/* Share */}
+                <div 
+                  className="reply-action-btn"
+                  onClick={() => setShowRepostModal(true)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <RepostIcon size={20} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
+                  <span>{post.shares_count || 0}</span>
+                </div>
+                {/* Bookmark */}
+                <div className="reply-action-btn" style={{ cursor: 'pointer' }}>
+                  <BookmarkIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+                </div>
+              </div>
+
+              {/* Composer */}
               <div className="comment-input-wrapper">
                 <textarea
                   className="comment-input"
-                  placeholder={isEditMode ? "Edit your post..." : "Share your thoughts..."}
+                  placeholder="Share your thoughts..."
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   rows={3}
@@ -474,56 +487,37 @@ function PostCard({
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
                       if (commentText.trim()) {
-                        if (isEditMode) {
-                          onUpdatePost(editingPostId, { content: commentText.trim() });
-                          setEditingPostId(null);
-                          setIsEditMode(false);
-                        } else {
-                          onReplySubmit(post.id, commentText);
-                        }
+                        onReplySubmit(post.id, commentText);
                         setCommentText('');
                       }
                     }
                     if (e.key === 'Escape') {
                       setIsComposerFullPage(false);
-                      setIsEditMode(false);
                     }
                   }}
                 />
                 
                 {/* Action buttons inside textarea */}
                 <div className="composer-actions">
-                  {!isEditMode && (
-                    <button 
-                      className="comment-media-btn"
-                      title="Add media"
-                      onClick={() => console.log('Media upload clicked')}
-                    >
-                      <ImageIcon size={18} stroke="rgba(220, 8, 188, 0.5)" strokeWidth="1.5" />
-                    </button>
-                  )}
+                  <button 
+                    className="comment-media-btn"
+                    title="Add media"
+                    onClick={() => console.log('Media upload clicked')}
+                  >
+                    <ImageIcon size={18} stroke="rgba(220, 8, 188, 0.5)" strokeWidth="1.5" />
+                  </button>
                   
                   <button 
-                    className={`comment-submit-btn ${isEditMode ? 'edit-submit-btn' : ''}`}
+                    className="comment-submit-btn"
                     disabled={!commentText.trim() || isSaving}
                     onClick={async () => {
                       if (commentText.trim()) {
-                        if (isEditMode) {
-                          await onUpdatePost(editingPostId, { content: commentText.trim() });
-                          setEditingPostId(null);
-                          setIsEditMode(false);
-                        } else {
-                          await onReplySubmit(post.id, commentText);
-                        }
+                        await onReplySubmit(post.id, commentText);
                         setCommentText('');
                       }
                     }}
                   >
-                    {isEditMode ? (
-                      <CheckIcon size={20} stroke="rgba(255, 193, 7, 0.5)" strokeWidth="2" />
-                    ) : (
-                      <ChevronRightIcon size={20} stroke="rgba(26, 231, 132, 0.5)" strokeWidth="2" />
-                    )}
+                    <ChevronRightIcon size={20} stroke="rgba(26, 231, 132, 0.5)" strokeWidth="2" />
                   </button>
                 </div>
               </div>

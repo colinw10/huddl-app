@@ -97,7 +97,19 @@ function RiverTimelineView({
   renderPostActions,
   renderCommentSection,
   formatDate,
+  onCardClick,
 }) {
+  // Handle card click - don't trigger on interactive elements
+  const handleCardClick = (e, post) => {
+    if (e.target.closest('button') || 
+        e.target.closest('.river-post-actions') ||
+        e.target.closest('.river-card-media') ||
+        e.target.closest('.inline-comment-composer') ||
+        e.target.closest('.thread-view')) {
+      return;
+    }
+    onCardClick?.(post);
+  };
   // Chunk each category into rows
   const textRows = chunkPostsIntoRows(textPosts);
   const mediaRows = chunkPostsIntoRows(mediaPosts);
@@ -133,7 +145,11 @@ function RiverTimelineView({
     
     return (
       <>
-        <div className="river-card text-card">
+        <div 
+          className="river-card text-card"
+          onClick={(e) => handleCardClick(e, currentPost)}
+          style={{ cursor: 'pointer' }}
+        >
           <div className="river-card-content">
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
@@ -165,7 +181,11 @@ function RiverTimelineView({
     
     return (
       <>
-        <div className="river-card media-card">
+        <div 
+          className="river-card media-card"
+          onClick={(e) => handleCardClick(e, currentPost)}
+          style={{ cursor: 'pointer' }}
+        >
           <div 
             className="river-card-media" 
             onClick={() => setExpandedMediaPost(currentPost)}
@@ -215,7 +235,11 @@ function RiverTimelineView({
     
     return (
       <>
-        <div className="river-card achievement-card">
+        <div 
+          className="river-card achievement-card"
+          onClick={(e) => handleCardClick(e, currentPost)}
+          style={{ cursor: 'pointer' }}
+        >
           <div className="achievement-badge">
             <MilestoneIcon size={24} />
           </div>
