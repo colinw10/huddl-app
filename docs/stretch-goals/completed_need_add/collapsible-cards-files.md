@@ -272,7 +272,108 @@ if (isCollapsed) {
 | `SmartDeck.jsx`           | JSX  | ✅ Done    |
 | `styles/_base.scss`       | SCSS | ✅ Done    |
 | `styles/_smart-deck.scss` | SCSS | ✅ Done    |
-| `RiverTimelineView.jsx`   | JSX  | 🔲 Pending |
-| `RiverFeedView.jsx`       | JSX  | 🔲 Pending |
-| `RiverTimelineView.scss`  | SCSS | 🔲 Pending |
-| `RiverFeedView.scss`      | SCSS | 🔲 Pending |
+| `RiverTimelineView.jsx`   | JSX  | ✅ Done    |
+| `RiverFeedView.jsx`       | JSX  | ✅ Done    |
+| `RiverTimelineView.scss`  | SCSS | ✅ Done    |
+| `RiverFeedView.scss`      | SCSS | ✅ Done    |
+
+---
+
+## Commit 5bf7ccc - All Files Changed (Jan 17, 2026)
+
+### Key Changes Summary
+
+1. **Removed `_variables.scss` from TimelineRiverRow** - DELETED (was redundant)
+   - Only ONE `_variables.scss` now exists: `frontend/src/styles/_variables.scss`
+   - The deleted file was at: `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_variables.scss`
+
+2. **Fixed Home feed card widths** - Cards now fill their column widths properly for 2 and 3 categories
+
+3. **Per-friend collapsed state** - Each friend row in RiverFeedView has independent collapse state
+
+---
+
+### HOME PAGE - TimelineRiverRow (Main Component)
+
+| File | Purpose |
+|------|---------|
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/TimelineRiverRow.jsx` | Main row component - manages `collapsedDecks` state, tabs row, content row |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/components/SmartDeck/SmartDeck.jsx` | SmartDeckContent component - renders card + navigation |
+
+### HOME PAGE - Styles
+
+| File | Purpose |
+|------|---------|
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_base.scss` | **Core layout** - tabs row, content row, flex/grid rules, `.post--compact` (width constraints removed) |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_smart-deck.scss` | **Card deck styles** - `.smart-deck-content`, `.smart-deck-card-container`, nav buttons, type-specific colors |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_responsive.scss` | **Desktop grid rules** - `.timeline-river-row--expanded-3 .timeline-river-row__content` grid layout |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_post-card.scss` | Card styling - chamfered corners, hover effects |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_post-media.scss` | Media image display - max-height increased to 500px |
+| `frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_composer.scss` | Comment composer styles |
+
+### PROFILE PAGE - TimelineRiver
+
+| File | Purpose |
+|------|---------|
+| `frontend/src/components/pages/Profile/components/TimelineRiver/TimelineRiver.jsx` | Parent component - manages view mode, deck indices |
+| `frontend/src/components/pages/Profile/components/TimelineRiver/TimelineRiver.scss` | Main timeline styles, imports shared styles from Home |
+| `frontend/src/components/pages/Profile/Profile.scss` | Profile page container styles |
+
+### PROFILE PAGE - Sub-components
+
+| File | Purpose |
+|------|---------|
+| `frontend/src/components/pages/Profile/components/TimelineRiver/components/RiverTimelineView/RiverTimelineView.jsx` | User's own posts view - collapsible decks |
+| `frontend/src/components/pages/Profile/components/TimelineRiver/components/RiverTimelineView/RiverTimelineView.scss` | Timeline view specific styles |
+| `frontend/src/components/pages/Profile/components/TimelineRiver/components/RiverFeedView/RiverFeedView.jsx` | **Friends feed** - per-friend collapsed state using `friendCollapsedDecks` Map |
+| `frontend/src/components/pages/Profile/components/TimelineRiver/components/RiverFeedView/RiverFeedView.scss` | Friends feed styles - `.river-labels`, column layouts |
+| `frontend/src/components/pages/Profile/components/TimelineRiver/components/RiverPostActions/RiverPostActions.jsx` | Post action buttons |
+| `frontend/src/components/pages/Profile/components/TimelineRiver/components/RiverComposer/RiverComposer.jsx` | Comment composer component |
+
+### DOCUMENTATION
+
+| File | Purpose |
+|------|---------|
+| `docs/stretch-goals/CollapsibleCards.md` | Feature specification |
+| `docs/stretch-goals/README.md` | Index |
+| `docs/stretch-goals/completed_need_add/collapsible-cards-files.md` | This file - implementation reference |
+
+---
+
+## Where To Look For What
+
+### Card Width Issues (why cards don't fill columns)
+1. **First check:** `_base.scss` - look for `.post--compact`, `.post--single` width rules
+2. **Then check:** `_responsive.scss` - grid template columns for different screen sizes
+3. **Then check:** `_smart-deck.scss` - `.smart-deck-content`, `.smart-deck-card-container` width
+
+### Tab/Header Styling
+- `_base.scss` - `.deck-tab`, `.deck-tab--thoughts`, `.deck-tab--media`, `.deck-tab--milestones`
+
+### Carousel Navigation (dots, arrows)
+- `_smart-deck.scss` - `.smart-deck-nav`, `.smart-deck-nav-btn`, `.smart-deck-dot`
+
+### Collapse/Expand Behavior
+- **Home:** `TimelineRiverRow.jsx` - `collapsedDecks` state, `handleCollapseDeck`, `handleExpandDeck`
+- **Profile Friends:** `RiverFeedView.jsx` - `friendCollapsedDecks` Map (per-friend state)
+
+### Type-Specific Colors
+- `_smart-deck.scss` - `.smart-deck-content--thoughts`, `.smart-deck-content--media`, `.smart-deck-content--milestones`
+- `_base.scss` - `.deck-tab--thoughts`, `.deck-tab--media`, `.deck-tab--milestones`
+
+---
+
+## IMPORTANT: Variables Location
+
+**There is now only ONE `_variables.scss`:**
+```
+frontend/src/styles/_variables.scss
+```
+
+The file that was previously at:
+```
+frontend/src/components/pages/Home/components/TimelineRiverRow/styles/_variables.scss
+```
+**HAS BEEN DELETED** - it was redundant and causing confusion.
+
+All CSS variables are defined in the global `_variables.scss` and available throughout the app.
