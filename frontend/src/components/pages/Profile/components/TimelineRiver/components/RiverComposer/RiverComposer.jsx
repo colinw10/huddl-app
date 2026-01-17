@@ -16,10 +16,15 @@ import {
   ImageIcon,
   CheckIcon,
   UserIcon,
+  HeartDynamicIcon,
+  MessageBubbleIcon,
+  RepostIcon,
+  BookmarkIcon,
 } from '@assets/icons';
 
 const RiverComposer = ({
   post,
+  postType = 'thoughts',
   isOpen,
   isFullPage,
   isEditMode = false,
@@ -30,10 +35,19 @@ const RiverComposer = ({
   onClose,
   onExpand,
   onSaveEdit,
+  onLike,
   formatRelativeTime,
   isSaving = false,
 }) => {
   if (!isOpen || !post) return null;
+
+  // Type-based heart colors
+  const heartColors = {
+    thoughts: '#31fcfcff',
+    media: '#ad7afeff',
+    milestones: '#ffd700ff'
+  };
+  const heartColor = heartColors[postType] || '#2fcefaff';
 
   // Get author info for full-page context
   const postAuthor = post.author || {};
@@ -169,6 +183,36 @@ const RiverComposer = ({
 
         {/* Fixed Composer at Bottom */}
         <div className="full-page-composer-fixed">
+          {/* Post Actions - only show when not in edit mode */}
+          {!isEditMode && (
+            <div className="full-page-actions">
+              {/* Like */}
+              <div 
+                className={`reply-action-btn ${post.is_liked ? 'is-liked' : ''}`}
+                onClick={() => onLike?.(post.id)}
+                style={{ cursor: 'pointer', '--heart-color': heartColor }}
+              >
+                <HeartDynamicIcon size={20} filled={post.is_liked} />
+                <span>{post.likes_count || 0}</span>
+              </div>
+              {/* Comment count */}
+              <div className="reply-action-btn">
+                <MessageBubbleIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+                <span>{post.reply_count || 0}</span>
+              </div>
+              {/* Share */}
+              <div className="reply-action-btn" style={{ cursor: 'pointer' }}>
+                <RepostIcon size={20} stroke="rgba(79,255,255,0.5)" strokeWidth="1.5" />
+                <span>{post.shares_count || 0}</span>
+              </div>
+              {/* Bookmark */}
+              <div className="reply-action-btn" style={{ cursor: 'pointer' }}>
+                <BookmarkIcon size={20} stroke="rgba(201,168,255,0.5)" strokeWidth="1.5" />
+              </div>
+            </div>
+          )}
+
+          {/* Composer */}
           <div className="comment-input-wrapper">
             <textarea
               className="comment-input"

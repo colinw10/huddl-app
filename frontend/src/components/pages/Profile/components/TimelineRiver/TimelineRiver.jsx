@@ -1,7 +1,7 @@
 // 🔵 PABLO - UI/Styling | 🟡 NATALIA - User Posts Data
 // TimelineRiver.jsx - Profile timeline showing user's posts in river format
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import './TimelineRiver.scss';
@@ -31,6 +31,30 @@ const formatDate = (dateString) => {
   if (diffDays < 7) return `${diffDays}d ago`;
   
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
+
+// Helper to determine which category has the most recent post
+const getMostRecentType = (textPosts, mediaPosts, achievementPosts) => {
+  const getLatestTimestamp = (posts) => {
+    if (!posts || posts.length === 0) return 0;
+    return Math.max(...posts.map(p => new Date(p.created_at || 0).getTime()));
+  };
+  
+  const timestamps = {
+    thoughts: getLatestTimestamp(textPosts),
+    media: getLatestTimestamp(mediaPosts),
+    milestones: getLatestTimestamp(achievementPosts)
+  };
+  
+  let mostRecent = 'thoughts'; // fallback default
+  let maxTime = 0;
+  for (const [type, time] of Object.entries(timestamps)) {
+    if (time > maxTime) {
+      maxTime = time;
+      mostRecent = type;
+    }
+  }
+  return mostRecent;
 };
 
 function TimelineRiver({ 
@@ -138,14 +162,60 @@ function TimelineRiver({
   // State for media lightbox
   const [expandedMediaPost, setExpandedMediaPost] = useState(null);
 
-  // State for mobile category tabs
+  // State for mobile category tabs - initialized to most recent post type
   const [mobileCategory, setMobileCategory] = useState('thoughts');
+  const [hasInitializedMobileCategory, setHasInitializedMobileCategory] = useState(false);
+  
+  // Initialize mobile category to most recent post type (only once on mount/data load)
+  useEffect(() => {
+    if (!hasInitializedMobileCategory) {
+      // For timeline view (own profile)
+      if (viewMode === 'timeline') {
+        const mostRecent = getMostRecentType(textPosts, mediaPosts, achievementPosts);
+        if (mostRecent) {
+          setMobileCategory(mostRecent);
+          setHasInitializedMobileCategory(true);
+        }
+      }
+      // For feed view (friends)
+      else if (viewMode === 'feed') {
+        const allFeedPosts = [...(feedTextPosts || []), ...(feedMediaPosts || []), ...(feedAchievementPosts || [])];
+        if (allFeedPosts.length > 0) {
+          // Find the most recent post across all friends
+          const feedThoughts = feedTextPosts || [];
+          const feedMedia = feedMediaPosts || [];
+          const feedMilestones = feedAchievementPosts || [];
+          const mostRecent = getMostRecentType(feedThoughts, feedMedia, feedMilestones);
+          if (mostRecent) {
+            setMobileCategory(mostRecent);
+            setHasInitializedMobileCategory(true);
+          }
+        }
+      }
+    }
+  }, [viewMode, textPosts, mediaPosts, achievementPosts, feedTextPosts, feedMediaPosts, feedAchievementPosts, hasInitializedMobileCategory]);
   
   // Heart animation state - tracks which post ID is animating
   const [animatingHeartId, setAnimatingHeartId] = useState(null);
 
   // Deck index for carousel - per friend, per type
   const [deckIndices, setDeckIndices] = useState({});
+  
+  // Collapsed decks state (pill collapse system)
+  const [collapsedDecks, setCollapsedDecks] = useState(new Set());
+  
+  // Collapse/expand deck handlers
+  const handleCollapseDeck = (type) => {
+    setCollapsedDecks(prev => new Set([...prev, type]));
+  };
+  
+  const handleExpandDeck = (type) => {
+    setCollapsedDecks(prev => {
+      const next = new Set(prev);
+      next.delete(type);
+      return next;
+    });
+  };
 
   const getDeckIndex = (username, type) => {
     return deckIndices[`${username}-${type}`] || 0;
@@ -276,7 +346,7 @@ function TimelineRiver({
   };
 
   // Render comment section using extracted components
-  const renderCommentSection = (post) => {
+  const renderCommentSection = (post, postType = 'thoughts') => {
     if (!post) return null;
     
     return (
@@ -284,6 +354,7 @@ function TimelineRiver({
         {/* Composer (inline + full-page) */}
         <RiverComposer
           post={post}
+          postType={postType}
           isOpen={activeCommentPostId === post.id}
           isFullPage={isComposerFullPage}
           isEditMode={isEditMode}
@@ -312,6 +383,7 @@ function TimelineRiver({
               }
             }
           }}
+          onLike={handleLike}
           formatRelativeTime={formatRelativeTime}
           isSaving={isSaving}
         />
@@ -352,12 +424,13 @@ function TimelineRiver({
   };
 
   // Render action buttons using extracted component
-  const renderPostActions = (post, isFriendView = false) => {
+  const renderPostActions = (post, isFriendView = false, postType = 'thoughts') => {
     if (!post) return null;
     
     return (
       <RiverPostActions
         post={post}
+        postType={postType}
         isOwnProfile={!isFriendView && isOwnProfile}
         animatingHeartId={animatingHeartId}
         onLike={handleLike}
@@ -387,6 +460,9 @@ function TimelineRiver({
           renderCommentSection={renderCommentSection}
           formatDate={formatDate}
           onCardClick={handleCardClick}
+          collapsedDecks={collapsedDecks}
+          onCollapseDeck={handleCollapseDeck}
+          onExpandDeck={handleExpandDeck}
         />
       )}
 
@@ -403,6 +479,9 @@ function TimelineRiver({
           renderCommentSection={renderCommentSection}
           formatDate={formatDate}
           onCardClick={handleCardClick}
+          collapsedDecks={collapsedDecks}
+          onCollapseDeck={handleCollapseDeck}
+          onExpandDeck={handleExpandDeck}
         />
       )}
 

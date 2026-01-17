@@ -81,6 +81,14 @@ const getMostRecentType = (textPosts, mediaPosts, achievementPosts) => {
       mostRecent = type;
     }
   }
+  
+  // Fallback: if no timestamps found, return first non-empty category
+  if (!mostRecent) {
+    if (textPosts && textPosts.length > 0) return 'thoughts';
+    if (mediaPosts && mediaPosts.length > 0) return 'media';
+    if (achievementPosts && achievementPosts.length > 0) return 'milestones';
+  }
+  
   return mostRecent;
 };
 
@@ -98,6 +106,9 @@ function RiverTimelineView({
   renderCommentSection,
   formatDate,
   onCardClick,
+  collapsedDecks = new Set(),
+  onCollapseDeck,
+  onExpandDeck,
 }) {
   // Handle card click - don't trigger on interactive elements
   const handleCardClick = (e, post) => {
@@ -154,8 +165,8 @@ function RiverTimelineView({
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
           </div>
-          {renderPostActions(currentPost)}
-          {renderCommentSection(currentPost)}
+          {renderPostActions(currentPost, false, 'thoughts')}
+          {renderCommentSection(currentPost, 'thoughts')}
         </div>
         <RiverSmartDeck
           items={posts}
@@ -208,8 +219,8 @@ function RiverTimelineView({
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
           </div>
-          {renderPostActions(currentPost)}
-          {renderCommentSection(currentPost)}
+          {renderPostActions(currentPost, false, 'media')}
+          {renderCommentSection(currentPost, 'media')}
         </div>
         <RiverSmartDeck
           items={posts}
@@ -247,8 +258,8 @@ function RiverTimelineView({
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
           </div>
-          {renderPostActions(currentPost)}
-          {renderCommentSection(currentPost)}
+          {renderPostActions(currentPost, false, 'milestones')}
+          {renderCommentSection(currentPost, 'milestones')}
         </div>
         <RiverSmartDeck
           items={posts}
@@ -287,44 +298,68 @@ function RiverTimelineView({
         </button>
       </div>
 
-      {/* River Column Labels - desktop only */}
+      {/* River Column Labels - desktop only, all same size, collapsed greyed out, non-recent dimmed */}
       <div className="river-labels">
-        <div className={`river-label left-label${mostRecentType === 'thoughts' ? ' river-label--recent' : ''}`}>
+        <button 
+          className={`river-label river-label--thoughts${collapsedDecks.has('thoughts') ? ' river-label--collapsed' : ''}${mostRecentType && mostRecentType !== 'thoughts' ? ' river-label--not-recent' : ''}`}
+          onClick={() => collapsedDecks.has('thoughts') ? onExpandDeck?.('thoughts') : onCollapseDeck?.('thoughts')}
+        >
           <MessageBubbleIcon size={20} />
           <span>Thoughts</span>
           <span className="river-label-count">{textPosts?.length || 0}</span>
-        </div>
-        <div className={`river-label center-label${mostRecentType === 'media' ? ' river-label--recent' : ''}`}>
+          <span className="river-label-collapse-icon">{collapsedDecks.has('thoughts') ? '+' : '−'}</span>
+        </button>
+        <button 
+          className={`river-label river-label--media${collapsedDecks.has('media') ? ' river-label--collapsed' : ''}${mostRecentType && mostRecentType !== 'media' ? ' river-label--not-recent' : ''}`}
+          onClick={() => collapsedDecks.has('media') ? onExpandDeck?.('media') : onCollapseDeck?.('media')}
+        >
           <ImageIcon size={20} />
           <span>Media</span>
           <span className="river-label-count">{mediaPosts?.length || 0}</span>
-        </div>
-        <div className={`river-label right-label${mostRecentType === 'milestones' ? ' river-label--recent' : ''}`}>
+          <span className="river-label-collapse-icon">{collapsedDecks.has('media') ? '+' : '−'}</span>
+        </button>
+        <button 
+          className={`river-label river-label--milestones${collapsedDecks.has('milestones') ? ' river-label--collapsed' : ''}${mostRecentType && mostRecentType !== 'milestones' ? ' river-label--not-recent' : ''}`}
+          onClick={() => collapsedDecks.has('milestones') ? onExpandDeck?.('milestones') : onCollapseDeck?.('milestones')}
+        >
           <MilestoneIcon size={20} />
           <span>Milestones</span>
           <span className="river-label-count">{achievementPosts?.length || 0}</span>
-        </div>
+          <span className="river-label-collapse-icon">{collapsedDecks.has('milestones') ? '+' : '−'}</span>
+        </button>
       </div>
 
       {/* Render all rows - newest posts in first row (top) */}
-      {Array.from({ length: rowCount }, (_, rowIndex) => (
-        <div key={rowIndex} className={`river-streams river-row-${rowIndex} mobile-show-${mobileCategory}`}>
-          {/* Left Stream - Thoughts */}
-          <div className="river-column left-stream" data-category="thoughts">
-            {renderThoughtsColumn(rowIndex)}
+      {Array.from({ length: rowCount }, (_, rowIndex) => {
+        const expandedCount = 3 - collapsedDecks.size;
+        return (
+          <div 
+            key={rowIndex} 
+            className={`river-streams river-row-${rowIndex} mobile-show-${mobileCategory} river-streams--expanded-${expandedCount}`}
+          >
+            {/* Left Stream - Thoughts */}
+            {!collapsedDecks.has('thoughts') && (
+              <div className="river-column left-stream" data-category="thoughts">
+                {renderThoughtsColumn(rowIndex)}
+              </div>
+            )}
+            
+            {/* Center Stream - Media */}
+            {!collapsedDecks.has('media') && (
+              <div className="river-column center-stream" data-category="media">
+                {renderMediaColumn(rowIndex)}
+              </div>
+            )}
+            
+            {/* Right Stream - Milestones */}
+            {!collapsedDecks.has('milestones') && (
+              <div className="river-column right-stream" data-category="milestones">
+                {renderMilestonesColumn(rowIndex)}
+              </div>
+            )}
           </div>
-          
-          {/* Center Stream - Media */}
-          <div className="river-column center-stream" data-category="media">
-            {renderMediaColumn(rowIndex)}
-          </div>
-          
-          {/* Right Stream - Milestones */}
-          <div className="river-column right-stream" data-category="milestones">
-            {renderMilestonesColumn(rowIndex)}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </>
   );
 }

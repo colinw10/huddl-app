@@ -4,8 +4,10 @@
 // ROW-CHUNKING DESIGN: Each friend's posts are chunked into rows of max 12.
 // If a friend has 15 thoughts, they get 2 rows: [3 newest] then [12 older].
 // This prevents prolific users from dominating the feed with scattered posts.
+//
+// PER-FRIEND COLLAPSE: Each friend row has its own collapsed state (not global)
 
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import './RiverFeedView.scss';
 import {
   MessageBubbleIcon,
@@ -65,6 +67,14 @@ const getMostRecentTypeForRow = (thoughtsRow, mediaRow, milestonesRow) => {
       mostRecent = type;
     }
   }
+  
+  // Fallback: if no timestamps found, return first non-empty category
+  if (!mostRecent) {
+    if (thoughtsRow && thoughtsRow.length > 0) return 'thoughts';
+    if (mediaRow && mediaRow.length > 0) return 'media';
+    if (milestonesRow && milestonesRow.length > 0) return 'milestones';
+  }
+  
   return mostRecent;
 };
 
@@ -79,7 +89,42 @@ function RiverFeedView({
   renderCommentSection,
   formatDate,
   onCardClick,
+  // Note: We ignore the global collapsedDecks - each friend row manages its own
 }) {
+  // Per-friend collapsed state: Map of "username-rowIndex" -> Set of collapsed types
+  const [friendCollapsedDecks, setFriendCollapsedDecks] = useState(new Map());
+  
+  // Get collapsed set for a specific friend row
+  const getCollapsedForRow = useCallback((username, rowIndex) => {
+    const key = `${username}-row${rowIndex}`;
+    return friendCollapsedDecks.get(key) || new Set();
+  }, [friendCollapsedDecks]);
+  
+  // Collapse a category for a specific friend row
+  const handleCollapseForRow = useCallback((username, rowIndex, type) => {
+    const key = `${username}-row${rowIndex}`;
+    setFriendCollapsedDecks(prev => {
+      const newMap = new Map(prev);
+      const currentSet = newMap.get(key) || new Set();
+      const newSet = new Set(currentSet);
+      newSet.add(type);
+      newMap.set(key, newSet);
+      return newMap;
+    });
+  }, []);
+  
+  // Expand a category for a specific friend row
+  const handleExpandForRow = useCallback((username, rowIndex, type) => {
+    const key = `${username}-row${rowIndex}`;
+    setFriendCollapsedDecks(prev => {
+      const newMap = new Map(prev);
+      const currentSet = newMap.get(key) || new Set();
+      const newSet = new Set(currentSet);
+      newSet.delete(type);
+      newMap.set(key, newSet);
+      return newMap;
+    });
+  }, []);
   
   // Handle card click - don't trigger on interactive elements
   const handleCardClick = (e, post) => {
@@ -138,8 +183,8 @@ function RiverFeedView({
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
           </div>
-          {renderPostActions(currentPost, true)}
-          {renderCommentSection(currentPost)}
+          {renderPostActions(currentPost, true, 'thoughts')}
+          {renderCommentSection(currentPost, 'thoughts')}
         </div>
         <RiverSmartDeck
           items={posts}
@@ -191,8 +236,8 @@ function RiverFeedView({
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
           </div>
-          {renderPostActions(currentPost, true)}
-          {renderCommentSection(currentPost)}
+          {renderPostActions(currentPost, true, 'media')}
+          {renderCommentSection(currentPost, 'media')}
         </div>
         <RiverSmartDeck
           items={posts}
@@ -235,8 +280,8 @@ function RiverFeedView({
             <p className="river-post-text">{currentPost?.content}</p>
             <span className="river-timestamp">{formatDate(currentPost?.created_at)}</span>
           </div>
-          {renderPostActions(currentPost, true)}
-          {renderCommentSection(currentPost)}
+          {renderPostActions(currentPost, true, 'milestones')}
+          {renderCommentSection(currentPost, 'milestones')}
         </div>
         <RiverSmartDeck
           items={posts}
@@ -280,11 +325,19 @@ function RiverFeedView({
         return (
           <div key={friend.username} className="friend-row-group">
             {Array.from({ length: friend.rowCount }, (_, rowIndex) => {
-              // Calculate column count for this specific row
-              const hasThoughts = friend.thoughtRows[rowIndex]?.length > 0;
-              const hasMedia = friend.mediaRows[rowIndex]?.length > 0;
-              const hasMilestones = friend.milestoneRows[rowIndex]?.length > 0;
-              const columnCount = [hasThoughts, hasMedia, hasMilestones].filter(Boolean).length;
+              // Get collapsed state for THIS specific friend row
+              const rowCollapsed = getCollapsedForRow(friend.username, rowIndex);
+              
+              // Calculate column count for this specific row (respecting per-friend collapsed state)
+              const hasThoughts = friend.thoughtRows[rowIndex]?.length > 0 && !rowCollapsed.has('thoughts');
+              const hasMedia = friend.mediaRows[rowIndex]?.length > 0 && !rowCollapsed.has('media');
+              const hasMilestones = friend.milestoneRows[rowIndex]?.length > 0 && !rowCollapsed.has('milestones');
+              const expandedCount = [hasThoughts, hasMedia, hasMilestones].filter(Boolean).length;
+              
+              // Original counts for display (before collapse filtering)
+              const originalHasThoughts = friend.thoughtRows[rowIndex]?.length > 0;
+              const originalHasMedia = friend.mediaRows[rowIndex]?.length > 0;
+              const originalHasMilestones = friend.milestoneRows[rowIndex]?.length > 0;
               
               // Get counts and positions for THIS row
               const thoughtsInRow = friend.thoughtRows[rowIndex]?.length || 0;
@@ -302,34 +355,56 @@ function RiverFeedView({
                 friend.milestoneRows[rowIndex]
               );
               
+              // Debug logging
+              console.log('RiverFeedView mostRecentType:', {
+                friend: friend.username,
+                rowIndex,
+                thoughtsInRow,
+                mediaInRow,
+                milestonesInRow,
+                mostRecentType,
+              });
+              
               return (
                 <div key={`${friend.username}-row-${rowIndex}`} className="friend-row">
-                  {/* River Column Labels for THIS row */}
-                  <div className={`river-labels river-labels--${columnCount}-col`}>
-                    {hasThoughts && (
-                      <div className={`river-label left-label${mostRecentType === 'thoughts' ? ' river-label--recent' : ''}`}>
-                        <MessageBubbleIcon size={20} />
-                        <span>Thoughts</span>
-                        <span className="river-label-count">{thoughtsInRow}</span>
-                      </div>
-                    )}
-                    {hasMedia && (
-                      <div className={`river-label center-label${mostRecentType === 'media' ? ' river-label--recent' : ''}`}>
-                        <ImageIcon size={20} />
-                        <span>Media</span>
-                        <span className="river-label-count">{mediaInRow}</span>
-                      </div>
-                    )}
-                    {hasMilestones && (
-                      <div className={`river-label right-label${mostRecentType === 'milestones' ? ' river-label--recent' : ''}`}>
-                        <MilestoneIcon size={20} />
-                        <span>Milestones</span>
-                        <span className="river-label-count">{milestonesInRow}</span>
-                      </div>
-                    )}
+                  {/* River Column Labels - all same size, collapsed greyed out, non-recent dimmed */}
+                  <div className="river-labels">
+                    <button 
+                      className={`river-label river-label--thoughts${rowCollapsed.has('thoughts') ? ' river-label--collapsed' : ''}${mostRecentType && mostRecentType !== 'thoughts' ? ' river-label--not-recent' : ''}`}
+                      onClick={() => rowCollapsed.has('thoughts') 
+                        ? handleExpandForRow(friend.username, rowIndex, 'thoughts') 
+                        : handleCollapseForRow(friend.username, rowIndex, 'thoughts')}
+                    >
+                      <MessageBubbleIcon size={20} />
+                      <span>Thoughts</span>
+                      <span className="river-label-count">{thoughtsInRow}</span>
+                      <span className="river-label-collapse-icon">{rowCollapsed.has('thoughts') ? '+' : '−'}</span>
+                    </button>
+                    <button 
+                      className={`river-label river-label--media${rowCollapsed.has('media') ? ' river-label--collapsed' : ''}${mostRecentType && mostRecentType !== 'media' ? ' river-label--not-recent' : ''}`}
+                      onClick={() => rowCollapsed.has('media') 
+                        ? handleExpandForRow(friend.username, rowIndex, 'media') 
+                        : handleCollapseForRow(friend.username, rowIndex, 'media')}
+                    >
+                      <ImageIcon size={20} />
+                      <span>Media</span>
+                      <span className="river-label-count">{mediaInRow}</span>
+                      <span className="river-label-collapse-icon">{rowCollapsed.has('media') ? '+' : '−'}</span>
+                    </button>
+                    <button 
+                      className={`river-label river-label--milestones${rowCollapsed.has('milestones') ? ' river-label--collapsed' : ''}${mostRecentType && mostRecentType !== 'milestones' ? ' river-label--not-recent' : ''}`}
+                      onClick={() => rowCollapsed.has('milestones') 
+                        ? handleExpandForRow(friend.username, rowIndex, 'milestones') 
+                        : handleCollapseForRow(friend.username, rowIndex, 'milestones')}
+                    >
+                      <MilestoneIcon size={20} />
+                      <span>Milestones</span>
+                      <span className="river-label-count">{milestonesInRow}</span>
+                      <span className="river-label-collapse-icon">{rowCollapsed.has('milestones') ? '+' : '−'}</span>
+                    </button>
                   </div>
                   
-                  <div className={`river-streams river-streams--${columnCount}-col mobile-show-${mobileCategory}`}>
+                  <div className={`river-streams river-streams--expanded-${expandedCount} mobile-show-${mobileCategory}`}>
                     {/* Left Stream - Thoughts */}
                     {hasThoughts && (
                       <div className="river-column left-stream" data-category="thoughts">

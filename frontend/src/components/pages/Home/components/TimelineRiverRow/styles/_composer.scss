@@ -466,12 +466,12 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: 8px;
+    transition: all 0.25s ease;
+    padding: 6px;
     
     &:hover {
-      background: rgba(255, 255, 255, 0.05);
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 8px currentColor);
     }
     
     /* Like button hover */
@@ -506,6 +506,11 @@
     
     span {
       font-weight: 500;
+    }
+    
+    svg {
+      width: 18px;
+      height: 18px;
     }
   }
 }

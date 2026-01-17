@@ -9,6 +9,7 @@ This folder contains documentation for features planned for future development p
 | File                                                         | Priority | Status      | Description                              |
 | ------------------------------------------------------------ | -------- | ----------- | ---------------------------------------- |
 | [Posts.md](Posts.md)                                         | HIGH     | Partial     | Social features (some completed ✅)      |
+| [CollapsibleCards.md](CollapsibleCards.md)                   | MEDIUM   | 📋 Spec     | Pill collapse system for card focus      |
 | [EngagementRing.md](EngagementRing.md)                       | LOW      | Placeholder | Profile avatar progress ring             |
 | [AdvancedAnalytics.md](AdvancedAnalytics.md)                 | LOW      | Future      | HUDDL Score, virality, best posting time |
 | [ProfileCardFeatures.md](../features/ProfileCardFeatures.md) | MEDIUM   | Partial     | ProfileCard analytics & stats            |
