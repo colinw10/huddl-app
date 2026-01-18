@@ -71,7 +71,7 @@ function TimelineRiver({
   profileUser // The user whose profile we're viewing
 }) {
   // Get likePost and reply functions from context
-  const { posts: allPosts, likePost, createReply, fetchReplies, updatePost: updateReply, deletePost: deleteReply } = usePosts();
+  const { posts: allPosts, likePost, createReply, fetchReplies, updatePost: updateReply, deletePost: deleteReply, collapsedDecks, collapseDeck, expandDeck } = usePosts();
   const { openMessages } = useMessages(); // For DM button on friend posts
   const { user: currentUser } = useAuth(); // For checking if user owns a comment
   const navigate = useNavigate(); // For navigating to user profiles
@@ -201,21 +201,8 @@ function TimelineRiver({
   // Deck index for carousel - per friend, per type
   const [deckIndices, setDeckIndices] = useState({});
   
-  // Collapsed decks state (pill collapse system)
-  const [collapsedDecks, setCollapsedDecks] = useState(new Set());
-  
-  // Collapse/expand deck handlers
-  const handleCollapseDeck = (type) => {
-    setCollapsedDecks(prev => new Set([...prev, type]));
-  };
-  
-  const handleExpandDeck = (type) => {
-    setCollapsedDecks(prev => {
-      const next = new Set(prev);
-      next.delete(type);
-      return next;
-    });
-  };
+  // Collapsed decks state - now from context (shared across pages)
+  // Handlers: collapseDeck, expandDeck from usePosts()
 
   const getDeckIndex = (username, type) => {
     return deckIndices[`${username}-${type}`] || 0;
@@ -461,8 +448,8 @@ function TimelineRiver({
           formatDate={formatDate}
           onCardClick={handleCardClick}
           collapsedDecks={collapsedDecks}
-          onCollapseDeck={handleCollapseDeck}
-          onExpandDeck={handleExpandDeck}
+          onCollapseDeck={collapseDeck}
+          onExpandDeck={expandDeck}
         />
       )}
 
@@ -480,8 +467,8 @@ function TimelineRiver({
           formatDate={formatDate}
           onCardClick={handleCardClick}
           collapsedDecks={collapsedDecks}
-          onCollapseDeck={handleCollapseDeck}
-          onExpandDeck={handleExpandDeck}
+          onCollapseDeck={collapseDeck}
+          onExpandDeck={expandDeck}
         />
       )}
 

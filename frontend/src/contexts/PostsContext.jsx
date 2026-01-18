@@ -24,6 +24,38 @@ export const PostsProvider = ({ children }) => {
   const [posts, setPosts] = useState([]); // Array of post objects
   const [isLoading, setIsLoading] = useState(false);// True while fetching
   const [error, setError] = useState(null); // Error message if something fails
+  
+  // COLLAPSED DECKS - shared across Home and Profile pages
+  // Set of category types that are currently collapsed: 'thoughts', 'media', 'milestones'
+  // Persisted to localStorage so it survives page refresh
+  const [collapsedDecks, setCollapsedDecks] = useState(() => {
+    // Initialize from localStorage
+    try {
+      const saved = localStorage.getItem('collapsedDecks');
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
+  
+  // Save to localStorage whenever collapsedDecks changes
+  useEffect(() => {
+    localStorage.setItem('collapsedDecks', JSON.stringify([...collapsedDecks]));
+  }, [collapsedDecks]);
+  
+  // Collapse a deck category
+  const collapseDeck = (type) => {
+    setCollapsedDecks(prev => new Set([...prev, type]));
+  };
+  
+  // Expand a deck category
+  const expandDeck = (type) => {
+    setCollapsedDecks(prev => {
+      const next = new Set(prev);
+      next.delete(type);
+      return next;
+    });
+  };
 
   // FETCH WHEN USER LOGS IN (and auth is done loading)
   useEffect(() => {
@@ -70,10 +102,17 @@ export const PostsProvider = ({ children }) => {
   };
 
    // CREATE POST
-   const createPost = async (content) => {
+   const createPost = async (postData) => {
     try {
-      const newPost = await postsService.create(content);// Returns new post with id
+      const newPost = await postsService.create(postData);// Returns new post with id
       setPosts(prev => [newPost, ...prev]);// Add to top of list (spread previous posts after)
+      
+      // Auto-expand the category that was just posted to
+      const postType = postData.type || newPost.type;
+      if (postType) {
+        expandDeck(postType);
+      }
+      
       return {success: true };
     } catch (err) {
       return {
@@ -186,6 +225,7 @@ return (
     posts,
     isLoading,
     error,
+    collapsedDecks,
      // Actions
      fetchPosts,
      fetchPostsByUsername,
@@ -196,6 +236,8 @@ return (
      createReply,
      likePost,
      sharePost,
+     collapseDeck,
+     expandDeck,
   }}
   >
   {children}

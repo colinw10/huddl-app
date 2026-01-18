@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  // useEfffect is triggered only when a user mounts the component, this happens when a user loads the app. UseEffect gets the data from localStorage and checks if the user is authenticated
   // Check if user is logged in on mount
   useEffect(() => {
     const checkAuth = async () => {
