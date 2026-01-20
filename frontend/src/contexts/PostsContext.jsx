@@ -14,10 +14,11 @@ import React, { createContext, useContext, useState, useEffect} from 'react';
 import postsService from '@services/postsService';
 import { useAuth } from './AuthContext';
 
-// Create the context object - this is what components will consume
+// Create the context object - this is what components will consume(empty container that will hold the global posts state)
 const PostsContext = createContext(null);
 
 export const PostsProvider = ({ children }) => {
+  // All the STATE and functions are defined here
   const { user, isLoading: authLoading, isAuthenticated } = useAuth(); // Get auth state
   
   // STATE - the "source of truth" for all posts data
