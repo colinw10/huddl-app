@@ -37,4 +37,8 @@ urlpatterns = [
     path('api/friends/', include('friends.urls')),
     # What: Creates route: http://127.0.0.1:8000/api/friends/
     # Does: Forwards ALL requests starting with /api/friends/ to friends/urls.py
+
+    path('api/messages/', include('messages_app.urls')),
+    # What: Creates route: http://127.0.0.1:8000/api/messages/
+    # Does: Forwards ALL requests starting with /api/messages/ to messages_app/urls.py
 ]

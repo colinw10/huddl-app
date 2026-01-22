@@ -46,6 +46,7 @@
   justify-content: center;
   gap: var(--space-sm);
   padding: 8px 12px;
+  padding-right: 36px; /* Space for collapse icon */
   background: var(--bg-glass);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
@@ -56,6 +57,7 @@
   letter-spacing: 0.08em;
   color: inherit;
   transition: all 0.3s ease;
+  position: relative; /* For absolute positioned collapse icon */
 }
 
 .river-label-count {

@@ -10,6 +10,37 @@ I need your help connecting my messaging backend API to my React frontend. **Rea
 
 ---
 
+### ANSWERS TO YOUR QUESTIONS (READ FIRST)
+
+**Q: Are you starting fresh?**
+**A: NO.** Backend is DONE. All files exist on my `main` branch:
+
+- `backend/messages_app/models.py` ✅ EXISTS
+- `backend/messages_app/views.py` ✅ EXISTS
+- `backend/messages_app/serializers.py` ✅ EXISTS
+- `backend/messages_app/urls.py` ✅ EXISTS
+- Migrations are done. Model is in the database.
+
+**Q: What's your current state?**
+**A:** `MessageContext.jsx` currently has **MOCK DATA** (hardcoded fake conversations). I need to:
+
+1. Remove the mock data
+2. Add API calls to fetch real conversations from the backend
+3. Update `sendMessage` to POST to the real API
+
+**Q: Is the Message model new?**
+**A: NO.** The Message model already exists in `backend/messages_app/models.py`. It has:
+
+- `sender` (FK to User)
+- `receiver` (FK to User)
+- `content` (TextField)
+- `is_read` (BooleanField)
+- `created_at` (DateTimeField)
+
+**BOTTOM LINE:** Backend = done. Frontend context has mock data. I need to swap mock → real API.
+
+---
+
 ### PROJECT STRUCTURE
 
 ```
@@ -38,15 +69,17 @@ backend/
 ### IMPORT ALIASES (vite.config.js)
 
 My project uses these aliases. USE THEM in imports:
+
 - `@contexts` → `./src/contexts`
 - `@services` → `./src/services`
 - `@components` → `./src/components`
 - `@assets` → `./src/assets`
 
 Example imports:
+
 ```javascript
-import { useAuth } from '@contexts';           // NOT './AuthContext'
-import messagesService from '@services/messagesService';
+import { useAuth } from "@contexts"; // NOT './AuthContext'
+import messagesService from "@services/messagesService";
 ```
 
 ---
@@ -54,10 +87,11 @@ import messagesService from '@services/messagesService';
 ### CONTEXTS BARREL EXPORT (contexts/index.js)
 
 Current exports:
+
 ```javascript
 export { AuthProvider, useAuth } from "./AuthContext";
 export { ThemeProvider, useTheme } from "./ThemeContext";
-export { MessageProvider, useMessages } from "./MessageContext";  // ← This one needs updating
+export { MessageProvider, useMessages } from "./MessageContext"; // ← This one needs updating
 export { PostsProvider, usePosts } from "./PostsContext";
 export { FriendsProvider, useFriends } from "./FriendsContext";
 export { SearchProvider, useSearch } from "./SearchContext";
@@ -105,6 +139,7 @@ I have step-by-step files in `docs/messaging-system/`:
 ### START HERE
 
 Read `STEP-1-DATA-SHAPES.md` and explain to me:
+
 1. What properties in my mock data won't exist in API data?
 2. What properties in API data are named differently?
 3. Which components might break and why?

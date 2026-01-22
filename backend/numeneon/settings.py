@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'users',
     'posts',
     'friends',
+    'messages_app',
 ]
 
 # MIDDLEWARE - Request/response pipeline (exactly like Express app.use() chain)
