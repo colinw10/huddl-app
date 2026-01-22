@@ -21,7 +21,9 @@ const messagesService = {
 
   // GET /api/messages/conversation/?user_id=X - Get messages with specific user
   getConversation: async (userId) => {
-    const response = await apiClient.get(`/messages/conversation/?user_id=${userId}`);
+    const response = await apiClient.get(
+      `/messages/conversation/?user_id=${userId}`,
+    );
     return response.data;
   },
 
@@ -42,7 +44,9 @@ const messagesService = {
 
   // PATCH /api/messages/read_all/?user_id=X - Mark all from user as read
   markAllAsRead: async (userId) => {
-    const response = await apiClient.patch(`/messages/read_all/?user_id=${userId}`);
+    const response = await apiClient.patch(
+      `/messages/read_all/?user_id=${userId}`,
+    );
     return response.data;
   },
 };
@@ -57,12 +61,13 @@ export default messagesService;
 After creating, check that this import works in any file:
 
 ```javascript
-import messagesService from '@services/messagesService';
+import messagesService from "@services/messagesService";
 ```
 
 If `@services` alias doesn't work, use relative path:
+
 ```javascript
-import messagesService from './messagesService';
+import messagesService from "./messagesService";
 ```
 
 ---
@@ -73,9 +78,12 @@ You can test in browser console:
 
 ```javascript
 // In browser dev tools after logging in:
-const response = await fetch('http://localhost:8000/api/messages/conversations/', {
-  headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
-});
+const response = await fetch(
+  "http://localhost:8000/api/messages/conversations/",
+  {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  },
+);
 const data = await response.json();
 console.log(data);
 ```
