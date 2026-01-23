@@ -104,7 +104,7 @@ export const sortGroupedPosts = (grouped) => {
       .split("T")[0];
 
     rows.push({
-      date: mostRecentDate, // Show most recent post date
+      date: mostRecentDate, // // ← when this user last posted
       orderId,
       data: userData,
       mostRecentTimestamp,
@@ -112,7 +112,7 @@ export const sortGroupedPosts = (grouped) => {
   });
 
   // Sort by most recent timestamp (newest first)
-  rows.sort((a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp);
-
+  rows.sort((a, b) => b.mostRecentTimestamp - a.mostRecentTimestamp);// ← newest first
+ // ↑ b minus a = descending order
   return rows;
 };
